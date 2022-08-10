@@ -1,4 +1,4 @@
-package deberes.semana1.practica2;
+package semana1.practica2;
 
 public class Persona {
 

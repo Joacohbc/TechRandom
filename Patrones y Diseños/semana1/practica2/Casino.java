@@ -1,9 +1,10 @@
-package deberes.semana1.practica2;
+package semana1.practica2;
 
 import java.util.LinkedList;
-import deberes.semana1.practica2.juegos.Juego;
-import deberes.semana1.practica2.juegos.JuegoMesa;
-import deberes.semana1.practica2.juegos.JuegoSlot;
+
+import semana1.practica2.juegos.Juego;
+import semana1.practica2.juegos.JuegoMesa;
+import semana1.practica2.juegos.JuegoSlot;
 
 public class Casino {
 

@@ -1,8 +1,8 @@
-package deberes.semana1.practica2;
+package semana1.practica2;
 
-import deberes.semana1.practica2.Persona.EstadoPersona;
+import semana1.practica2.Persona.EstadoPersona;
 
-public class Main {
+public class Main{
     
     public static void main(String[] args) {
 
