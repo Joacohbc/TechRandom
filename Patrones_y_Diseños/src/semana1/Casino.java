@@ -11,7 +11,7 @@ public class Casino {
     // Atributos //
     private String nombre;
     private Persona responsable;
-    private LinkedList<Juego> juegos = new LinkedList<Juego>();
+    private LinkedList<Juego> juegos;
 
     // Instancia unica de la clase //
 
@@ -24,6 +24,9 @@ public class Casino {
     // Constructores //
 
     private Casino() {
+        nombre = "";
+        responsable = null;
+        juegos = new LinkedList<Juego>();
     }
 
     // Metodos //
@@ -44,10 +47,16 @@ public class Casino {
         this.responsable = responsable;
     }
 
-    public void addJuegoSlot(JuegoSlot slot) {
+    private void checkMaxJuegos(){
         if (juegos.size() >= 10) {
             throw new CasinoError("La lista de juegos puede contener un maximo de 10 juegos");
         }
+    }
+
+    public void addJuegoSlot(JuegoSlot slot) {
+
+        // Checkeo el maximo de juego del Casino
+        checkMaxJuegos();
 
         int contador = 0;
         for (Juego j : juegos) {
@@ -57,17 +66,16 @@ public class Casino {
         }
 
         if (contador >= 8) {
-            throw new CasinoError("La lista de juegos puede contener un maximo de 8 juegos slot");
+            throw new CasinoError("La lista de juegos puede contener un maximo de 8 juegos de slot");
         }
 
         juegos.add(slot);
     }
 
-
     public void addJuegoMesa(JuegoMesa mesa) {
-        if (juegos.size() >= 10) {
-            throw new CasinoError("La lista de juegos puede contener un maximo de 10 juegos");
-        }
+
+        // Checkeo el maximo de juego del Casino
+        checkMaxJuegos();
 
         int contador = 0;
         for (Juego j : juegos) {
@@ -77,7 +85,7 @@ public class Casino {
         }
 
         if (contador >= 2) {
-            throw new CasinoError("La lista de juegos puede contener un maximo de 8 juegos slot");
+            throw new CasinoError("La lista de juegos puede contener un maximo de 2 juegos de mesa");
         }
 
         juegos.add(mesa);

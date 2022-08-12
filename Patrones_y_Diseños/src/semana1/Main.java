@@ -6,6 +6,7 @@ public class Main{
     
     public static void main(String[] args) {
 
+        // * Entregable 1
         System.out.println("Inicio: "+ Casino.getIntance());
 
         Casino casino = Casino.getIntance();
@@ -14,6 +15,6 @@ public class Main{
         
         System.out.println("Fin:" + Casino.getIntance());
 
-        // TODO: Agregar Juegos al casino y probar lo que dice la letra
+        // TODO: Agregar Juegos al casino
     }
 }

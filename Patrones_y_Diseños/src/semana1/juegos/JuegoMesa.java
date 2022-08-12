@@ -1,7 +1,8 @@
 package semana1.juegos;
 
 
-public class JuegoMesa extends Juego {    
+public class JuegoMesa extends Juego {  
+    
         // Atributos // 
     
         private int OcupacionM2;

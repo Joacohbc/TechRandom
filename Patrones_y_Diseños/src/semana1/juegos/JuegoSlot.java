@@ -10,6 +10,7 @@ public class JuegoSlot extends Juego {
 
         @Override
         public String toString() {
+            // Retonar la primera Mayuscual y el resto minuscula
             return name().charAt(0) + name().substring(1).toLowerCase();
         }
     }
