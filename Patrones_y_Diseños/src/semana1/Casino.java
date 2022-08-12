@@ -24,8 +24,6 @@ public class Casino {
     // Constructores //
 
     private Casino() {
-        nombre = "";
-        responsable = null;
         juegos = new LinkedList<Juego>();
     }
 
@@ -47,13 +45,13 @@ public class Casino {
         this.responsable = responsable;
     }
 
-    private void checkMaxJuegos(){
+    private void checkMaxJuegos() throws CasinoError {
         if (juegos.size() >= 10) {
             throw new CasinoError("La lista de juegos puede contener un maximo de 10 juegos");
         }
     }
 
-    public void addJuegoSlot(JuegoSlot slot) {
+    public void addJuegoSlot(JuegoSlot slot) throws CasinoError {
 
         // Checkeo el maximo de juego del Casino
         checkMaxJuegos();
@@ -72,7 +70,7 @@ public class Casino {
         juegos.add(slot);
     }
 
-    public void addJuegoMesa(JuegoMesa mesa) {
+    public void addJuegoMesa(JuegoMesa mesa) throws CasinoError {
 
         // Checkeo el maximo de juego del Casino
         checkMaxJuegos();
@@ -94,6 +92,6 @@ public class Casino {
 
     @Override
     public String toString() {
-        return "Casino [nombre=" + nombre + ", responsable=" + responsable + "]";
+        return String.format("Casino [\nnombre=%s,\nresponsable=%s,\njuegos=%s\n]\n", nombre,responsable,juegos);
     }
 }

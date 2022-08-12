@@ -41,6 +41,6 @@ public class JuegoMesa extends Juego {
 
         @Override
         public String toString() {
-            return String.format("JuegoMesa [\n\tNombre = %s\n\tOcupacion en m2 = %d\n\tMinimo de Jugadores=%d\n\tMaximo de Jugadores=%d\n]", getNombre(), OcupacionM2, minJugadores, maxJugadoores);
+            return String.format("JuegoMesa [Nombre = %sOcupacion en m2 = %dMinimo de Jugadores=%dMaximo de Jugadores=%d]", getNombre(), OcupacionM2, minJugadores, maxJugadoores);
         }
 }

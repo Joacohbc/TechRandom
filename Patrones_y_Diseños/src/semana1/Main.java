@@ -1,6 +1,7 @@
 package semana1;
 
 import semana1.Persona.EstadoPersona;
+import semana1.juegos.JuegoMesa;
 
 public class Main{
     
@@ -13,7 +14,7 @@ public class Main{
         casino.setNombre("The Vega's Big Show");
         casino.setResponsable(new Persona("12345678", "Juan Martin Perez", EstadoPersona.ACTIVO));
         
-        System.out.println("Fin:" + Casino.getIntance());
+        System.out.println("Fin: " + Casino.getIntance());
 
         // TODO: Agregar Juegos al casino
     }
