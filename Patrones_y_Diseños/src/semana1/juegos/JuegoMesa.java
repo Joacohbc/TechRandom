@@ -1,4 +1,5 @@
-package semana1.practica2.juegos;
+package semana1.juegos;
+
 
 public class JuegoMesa extends Juego {    
         // Atributos // 

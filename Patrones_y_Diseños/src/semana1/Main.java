@@ -1,6 +1,6 @@
-package semana1.practica2;
+package semana1;
 
-import semana1.practica2.Persona.EstadoPersona;
+import semana1.Persona.EstadoPersona;
 
 public class Main{
     

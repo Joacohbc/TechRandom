@@ -1,4 +1,4 @@
-package semana1.practica2.juegos;
+package semana1.juegos;
 
 public abstract class Juego {
 

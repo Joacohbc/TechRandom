@@ -1,4 +1,5 @@
-package semana1.practica2;
+package semana1;
+
 
 public class Persona {
 
