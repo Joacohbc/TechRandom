@@ -1,6 +1,6 @@
-# TechRandom Repository
+# TechRandom - LTI - Git Repository
 
-![UTEC](./images/UTEC_Icon.png)
+![UTEC](./images/UTEC_Icon.jpg)
 
 Repostiorio del Grupo *TechRandom* de LTI Durazno A.
 
