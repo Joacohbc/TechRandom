@@ -51,7 +51,7 @@ public class Casino {
         }
     }
 
-    public void addJuegoSlot(JuegoSlot slot) throws CasinoError {
+    public void addJuego(JuegoSlot slot) throws CasinoError {
 
         // Checkeo el maximo de juego del Casino
         checkMaxJuegos();
@@ -61,16 +61,16 @@ public class Casino {
             if (j instanceof JuegoSlot) {
                 contador++;
             }
-        }
-
-        if (contador >= 8) {
-            throw new CasinoError("La lista de juegos puede contener un maximo de 8 juegos de slot");
+            
+            if (contador >= 8) {
+                throw new CasinoError("La lista de juegos puede contener un maximo de 8 juegos de slot");
+            }
         }
 
         juegos.add(slot);
     }
 
-    public void addJuegoMesa(JuegoMesa mesa) throws CasinoError {
+    public void addJuego(JuegoMesa mesa) throws CasinoError {
 
         // Checkeo el maximo de juego del Casino
         checkMaxJuegos();
@@ -80,18 +80,30 @@ public class Casino {
             if (j instanceof JuegoMesa) {
                 contador++;
             }
-        }
-
-        if (contador >= 2) {
-            throw new CasinoError("La lista de juegos puede contener un maximo de 2 juegos de mesa");
+            
+            if (contador >= 2) {
+                throw new CasinoError("La lista de juegos puede contener un maximo de 2 juegos de mesa");
+            }
         }
 
         juegos.add(mesa);
     }
-
+    
+    public void clearJuegos() {
+    	juegos.clear();
+    }
 
     @Override
     public String toString() {
-        return String.format("Casino [\nnombre=%s,\nresponsable=%s,\njuegos=%s\n]\n", nombre,responsable,juegos);
+    	if(!juegos.isEmpty()) {
+        	String s = "";
+        	for (Juego juego : juegos) {
+    			s += "\n\t\t" + juego.toString() + ",";
+    		}
+            return String.format("Casino [\n\tnombre = %s,\n\tresponsable = %s,\n\tjuegos = [%s\n\t]\n]", nombre,responsable,s);
+    	}else {
+            return String.format("Casino [\n\tnombre = %s,\n\tresponsable = %s,\n\tjuegos = []\n]", nombre,responsable);
+    	}
+    	
     }
 }

@@ -54,6 +54,6 @@ public class Persona {
 
     @Override
     public String toString() {
-        return String.format("Persona [ci=%s,nombre=%s,estado=%s]", ci,nombre,estado);
+        return String.format("Persona [ ci = %s, nombre = %s, estado = %s ]", ci,nombre,estado);
     }
 }

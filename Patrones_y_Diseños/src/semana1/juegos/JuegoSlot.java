@@ -41,6 +41,9 @@ public class JuegoSlot extends Juego {
 
     @Override
     public String toString() {
-        return String.format("JuegoSlot [Nombre=%sMecanica=%s]", getNombre(), mecanica.toString());
+    	if(mecanica == null) {
+    		return String.format("JuegoSlot [ nombre = %s, mecanica = %s ]", getNombre(), null);
+    	}
+        return String.format("JuegoSlot [ nombre = %s, mecanica = %s ]", getNombre(), mecanica.toString());
     }
 }
