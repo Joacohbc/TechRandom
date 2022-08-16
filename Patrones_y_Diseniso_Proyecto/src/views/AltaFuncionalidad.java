@@ -10,11 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class AltaRoles extends JFrame {
+public class AltaFuncionalidad extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtNombreRol;
-	private JTextField txtDescRol;
+	private JTextField txtNombreFunc;
+	private JTextField txtDescFunc;
 
 	/**
 	 * Launch the application.
@@ -23,7 +23,7 @@ public class AltaRoles extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AltaRoles frame = new AltaRoles();
+					AltaFuncionalidad frame = new AltaFuncionalidad();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -35,8 +35,8 @@ public class AltaRoles extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AltaRoles() {
-		setTitle("Alta Rol");
+	public AltaFuncionalidad() {
+		setTitle("Alta Funcionalidad");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -48,27 +48,27 @@ public class AltaRoles extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		JLabel lblNombreRol = new JLabel("Nombre Rol");
-		lblNombreRol.setBounds(20, 44, 96, 14);
-		panel.add(lblNombreRol);
+		JLabel lblNombreFunc = new JLabel("Nombre Funcionalidad");
+		lblNombreFunc.setBounds(3, 45, 165, 14);
+		panel.add(lblNombreFunc);
 		
-		JLabel lblDescRol = new JLabel("Descripción");
-		lblDescRol.setBounds(20, 85, 96, 14);
-		panel.add(lblDescRol);
+		JLabel lblDescFunc = new JLabel("Descripción");
+		lblDescFunc.setBounds(3, 93, 165, 14);
+		panel.add(lblDescFunc);
 		
-		txtNombreRol = new JTextField();
-		txtNombreRol.setBounds(126, 38, 183, 20);
-		panel.add(txtNombreRol);
-		txtNombreRol.setColumns(10);
+		txtNombreFunc = new JTextField();
+		txtNombreFunc.setBounds(178, 39, 215, 20);
+		panel.add(txtNombreFunc);
+		txtNombreFunc.setColumns(10);
 		
-		txtDescRol = new JTextField();
-		txtDescRol.setBounds(126, 79, 183, 20);
-		panel.add(txtDescRol);
-		txtDescRol.setColumns(10);
+		txtDescFunc = new JTextField();
+		txtDescFunc.setBounds(178, 87, 215, 20);
+		panel.add(txtDescFunc);
+		txtDescFunc.setColumns(10);
 		
-		JButton btnCrearRol = new JButton("Crear");
-		btnCrearRol.setBounds(149, 160, 89, 23);
-		panel.add(btnCrearRol);
+		JButton btnAltaFunc = new JButton("Crear");
+		btnAltaFunc.setBounds(215, 205, 89, 23);
+		panel.add(btnAltaFunc);
 	}
 
 }
