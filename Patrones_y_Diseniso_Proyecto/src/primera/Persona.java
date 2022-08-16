@@ -15,16 +15,9 @@ public class Persona {
 	private String mail;
 	private LinkedList<Rol> roles;
 	
-
-	
-	
-
-	
 	public Persona() {
 		super();
 	}
-
-
 
 	public Persona(String documento, String apellido1, String apellido2, String nombre1, String nombre2,
 			LocalDate fechaNacimiento, String clave, String mail, LinkedList<Rol> roles) {
@@ -39,12 +32,7 @@ public class Persona {
 		this.mail = mail;
 		this.roles = roles;
 	}
-	
-	
-	
-	
-	
-	
+
 	public String getDocumento() {
 		return documento;
 	}
@@ -99,7 +87,6 @@ public class Persona {
 	public void setRoles(LinkedList<Rol> roles) {
 		this.roles = roles;
 	}
-
 
 
 	@Override

@@ -7,15 +7,9 @@ public class Rol {
 	private String descripcion;
 	private LinkedList<Funcionalidad> funcionalidades;
 	
-
-	
-	
 	public Rol() {
 		super();
 	}
-
-
-
 
 	public Rol(String nombre, String descripcion, LinkedList<Funcionalidad> funcionalidades) {
 		super();
@@ -24,15 +18,14 @@ public class Rol {
 		this.funcionalidades = funcionalidades;
 	}
 	
-	
-	
-	
 	public String getNombre() {
 		return nombre;
 	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
 	public String getDescripcion() {
 		return descripcion;
 	}
