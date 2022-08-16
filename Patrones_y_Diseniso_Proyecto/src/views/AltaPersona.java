@@ -1,4 +1,4 @@
-package primera;
+package views;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
