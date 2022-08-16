@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 public class AltaFuncionalidad extends JFrame {
 
@@ -69,6 +70,14 @@ public class AltaFuncionalidad extends JFrame {
 		JButton btnAltaFunc = new JButton("Crear");
 		btnAltaFunc.setBounds(215, 205, 89, 23);
 		panel.add(btnAltaFunc);
+		
+		JComboBox comboRol = new JComboBox();
+		comboRol.setBounds(178, 138, 215, 22);
+		panel.add(comboRol);
+		
+		JLabel lblRol = new JLabel("Seleccione un rol");
+		lblRol.setBounds(3, 153, 124, 14);
+		panel.add(lblRol);
 	}
 
 }
