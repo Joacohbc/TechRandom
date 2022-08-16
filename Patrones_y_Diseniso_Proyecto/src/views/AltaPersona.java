@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 public class AltaPersona extends JFrame {
 
@@ -45,7 +46,7 @@ public class AltaPersona extends JFrame {
 	public AltaPersona() {
 		setTitle("Alta Persona");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 493);
+		setBounds(100, 100, 543, 540);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -128,7 +129,15 @@ public class AltaPersona extends JFrame {
 		txtClave.setColumns(10);
 		
 		JButton btnCrear = new JButton("Crear");
-		btnCrear.setBounds(355, 410, 89, 23);
+		btnCrear.setBounds(355, 457, 89, 23);
 		panel.add(btnCrear);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(113, 430, 235, 22);
+		panel.add(comboBox);
+		
+		JLabel lblRol = new JLabel("Rol");
+		lblRol.setBounds(10, 438, 46, 14);
+		panel.add(lblRol);
 	}
 }
