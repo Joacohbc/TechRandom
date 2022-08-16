@@ -3,6 +3,7 @@ package primera;
 import java.util.LinkedList;
 
 public class Rol {
+	
 	private String nombre;
 	private String descripcion;
 	private LinkedList<Funcionalidad> funcionalidades;

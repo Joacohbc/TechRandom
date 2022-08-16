@@ -6,10 +6,11 @@ import java.time.format.DateTimeFormatter;
 import primera.Persona;
 import primera.Retorno;
 import primera.basededatos.BDUtils;
+
 public class PersonaUtils {
-	
+
 	public static Retorno AltaPersona(Persona p) {
-		
+
 		Object[] values = new Object[9];
 		values[0] = p.getDocumento();
 		values[1] = p.getApellido1();
@@ -20,15 +21,16 @@ public class PersonaUtils {
 		values[6] = p.getMail();
 		values[7] = p.getClave();
 		values[8] = p.getRol().getNombre();
-		
+
 		try {
-			//BDUtils.ExecuteDML("INSERT INTO persona VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT rol.id_rol FROM rol WHERE rol.nombre = ?)", values);
-			BDUtils.ExecuteDML("insert into persona values(null,?, ?, ?, ?, ?, ?, ?, ?, (select id_rol from rol where rol.nombre=?))", values);
+			BDUtils.ExecuteDML(
+					"insert into persona values(null,?, ?, ?, ?, ?, ?, ?, ?, (select id_rol from rol where rol.nombre=?))",
+					values);
 			return new Retorno("Persona dada de alta con exito", null);
 		} catch (ClassNotFoundException e) {
-			return new Retorno("no se pudo acceder a los driver de conexion",e);
-		}catch(SQLException e) {
-			return new Retorno("no se pudo dar de alta a la persona",e);
+			return new Retorno("no se pudo acceder a los driver de conexion", e);
+		} catch (SQLException e) {
+			return new Retorno("no se pudo dar de alta a la persona", e);
 		}
 	}
 }
