@@ -9,7 +9,7 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			Conexion.getConnection().close();
-			System.out.println("Conecatda");
+			System.out.println("Conectada");
 			Persona p = new Persona();
 			p.setDocumento("87654321");
 			p.setApellido1("Soberal");
@@ -19,6 +19,8 @@ public class Main {
 			p.setClave("String");
 			p.setRol(new Rol("Administrador", "", null));
 			System.out.println(PersonaUtils.AltaPersona(p));
+		
+	
 		} catch (Exception e) {
 
 		}
