@@ -5,24 +5,16 @@ public class Funcionalidad {
 	private String nombre;
 	private String descripcion;
 	
-	
-
-	
-	
 	public Funcionalidad() {
 		super();
 	}
-
-	
 
 	public Funcionalidad(String nombre, String descripcion) {
 		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 	}
-	
-	
-	
+		
 	public String getNombre() {
 		return nombre;
 	}

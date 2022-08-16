@@ -53,6 +53,7 @@ public class BDUtils {
 				ps = conn.prepareStatement(sql);
 
 				for (int i = 1; i <= values.length; i++) {
+					System.out.println(values[i -1 ]+ " " + i);
 					ps.setObject(i, values[i - 1]);
 				}
 

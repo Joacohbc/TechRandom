@@ -13,14 +13,14 @@ public class Persona {
 	private LocalDate fechaNacimiento;
 	private String clave;
 	private String mail;
-	private LinkedList<Rol> roles;
+	private Rol rol;
 	
 	public Persona() {
 		super();
 	}
 
 	public Persona(String documento, String apellido1, String apellido2, String nombre1, String nombre2,
-			LocalDate fechaNacimiento, String clave, String mail, LinkedList<Rol> roles) {
+			LocalDate fechaNacimiento, String clave, String mail, Rol rol) {
 		super();
 		this.documento = documento;
 		this.apellido1 = apellido1;
@@ -30,7 +30,7 @@ public class Persona {
 		this.fechaNacimiento = fechaNacimiento;
 		this.clave = clave;
 		this.mail = mail;
-		this.roles = roles;
+		this.rol = rol;
 	}
 
 	public String getDocumento() {
@@ -81,11 +81,11 @@ public class Persona {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	public LinkedList<Rol> getRoles() {
-		return roles;
+	public Rol getRol() {
+		return rol;
 	}
-	public void setRoles(LinkedList<Rol> roles) {
-		this.roles = roles;
+	public void setRol(Rol rol) {
+		this.rol = rol;
 	}
 
 
@@ -93,7 +93,7 @@ public class Persona {
 	public String toString() {
 		return "Persona [documento=" + documento + ", apellido1=" + apellido1 + ", apellido2=" + apellido2
 				+ ", nombre1=" + nombre1 + ", nombre2=" + nombre2 + ", fechaNacimiento=" + fechaNacimiento + ", clave="
-				+ clave + ", mail=" + mail + ", roles=" + roles + "]";
+				+ clave + ", mail=" + mail + ", role=" + rol + "]";
 	} 
 	
 	
