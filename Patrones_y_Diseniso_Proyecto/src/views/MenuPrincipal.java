@@ -45,15 +45,15 @@ public class MenuPrincipal extends JFrame {
 		panel.setLayout(null);
 		
 		JButton btnAltaPersona = new JButton("Alta Persona");
-		btnAltaPersona.setBounds(34, 107, 132, 23);
+		btnAltaPersona.setBounds(219, 203, 132, 23);
 		panel.add(btnAltaPersona);
 		
 		JButton btnCrearRol = new JButton("Crear Rol");
-		btnCrearRol.setBounds(34, 39, 132, 23);
+		btnCrearRol.setBounds(219, 135, 132, 23);
 		panel.add(btnCrearRol);
 		
 		JButton btnCrearFuncion = new JButton("CrearFuncion");
-		btnCrearFuncion.setBounds(34, 73, 132, 23);
+		btnCrearFuncion.setBounds(219, 169, 132, 23);
 		panel.add(btnCrearFuncion);
 	}
 
