@@ -15,6 +15,7 @@ public class DatabaseManager {
 
 	// Un bloque estatico que donde se ejecuta el codigo estaticamente
 	private static Connection conn;
+
 	static {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");

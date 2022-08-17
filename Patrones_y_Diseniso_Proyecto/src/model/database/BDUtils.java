@@ -222,4 +222,22 @@ public class BDUtils {
 		}
 	}
 
+	// Ejecuta una sentencia SELECT y retorna true si hubo algun resultado (o false)
+	public static boolean QueryExists(String sql, Object... values) throws SQLException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			for (int i = 1; i <= values.length; i++) {
+				ps.setObject(1, values[i - 1]);
+			}
+			rs = ps.executeQuery();
+			return rs.next();
+		} finally {
+			Close(ps);
+			Close(rs);
+		}
+	}
+
 }
