@@ -1,11 +1,7 @@
 package validarinput;
 
 
-	import java.text.SimpleDateFormat;
 	import java.time.LocalDate;
-	import java.time.LocalDateTime;
-	import java.time.format.DateTimeFormatter;
-	import java.util.Date;
 
 	public class ValidarCampos {
 		

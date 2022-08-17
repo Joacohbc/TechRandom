@@ -12,8 +12,9 @@ public class DatabaseManager {
 
 	// Mostrar mensajes de debug (predeterminadamente es false)
 	public static boolean ShowErrors = false;
-
-	private DatabaseManager() {
+	
+	// Un bloque estatico que donde se ejecuta el codigo estaticamente
+	static {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection(URL_ORACLE, USER, PASSWORD);
@@ -29,7 +30,7 @@ public class DatabaseManager {
 			System.exit(1);
 		}
 	}
-
+	
 	// Metodo para obtener la conexion
 	public static Connection getConnection() {
 		return conn;

@@ -1,7 +1,6 @@
 package primera;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
 
 public class Persona {
 
