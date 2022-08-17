@@ -49,7 +49,7 @@ public class BDUtils {
 			PreparedStatement ps = null;
 
 			try {
-				conn = Conexion.getConnection();
+				conn = DatabaseManager.getConnection();
 				ps = conn.prepareStatement(sql);
 
 				for (int i = 1; i <= values.length; i++) {
@@ -75,7 +75,7 @@ public class BDUtils {
 			PreparedStatement ps = null;
 			ResultSet rs = null;
 			try {
-				conn = Conexion.getConnection();
+				conn = DatabaseManager.getConnection();
 
 				ps = conn.prepareStatement(sql);
 				for (int i = 1; i <= values.length; i++) {

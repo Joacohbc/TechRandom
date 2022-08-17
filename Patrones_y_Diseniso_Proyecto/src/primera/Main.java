@@ -2,7 +2,7 @@ package primera;
 
 import java.time.LocalDate;
 
-import primera.basededatos.Conexion;
+import primera.basededatos.DatabaseManager;
 import primera.logica.PersonaUtils;
 
 public class Main {
