@@ -1,4 +1,4 @@
-package validarinput;
+package validation;
 
 import java.awt.event.KeyEvent;
 
@@ -7,7 +7,7 @@ public class ValidarInputs {
 	private static boolean esEspacioOBorrar(KeyEvent e) {
 		return e.getKeyChar() == KeyEvent.VK_SPACE || e.getKeyChar() == KeyEvent.VK_BACK_SPACE;
 	}
-	
+		
 	// Validar si el caracter ingresado es un espacio, borrar o letra,sique no permita el ingreso y muestre un error
 	public static void ValidarSoloLetras(KeyEvent e) {
 		if (!Character.isLetter(e.getKeyChar())  && !esEspacioOBorrar(e)) {

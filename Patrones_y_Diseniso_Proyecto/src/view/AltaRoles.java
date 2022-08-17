@@ -1,4 +1,4 @@
-package views;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -10,11 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class Login extends JFrame {
+public class AltaRoles extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtCorreo;
-	private JTextField txtClave;
+	private JTextField txtNombreRol;
+	private JTextField txtDescRol;
 
 	/**
 	 * Launch the application.
@@ -23,7 +23,7 @@ public class Login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login frame = new Login();
+					AltaRoles frame = new AltaRoles();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -35,8 +35,8 @@ public class Login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Login() {
-		setTitle("Login");
+	public AltaRoles() {
+		setTitle("Alta Rol");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -48,27 +48,27 @@ public class Login extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		JLabel lblCorreo = new JLabel("Correo");
-		lblCorreo.setBounds(49, 69, 61, 14);
-		panel.add(lblCorreo);
+		JLabel lblNombreRol = new JLabel("Nombre Rol");
+		lblNombreRol.setBounds(20, 44, 96, 14);
+		panel.add(lblNombreRol);
 		
-		JLabel lblClave = new JLabel("Clave");
-		lblClave.setBounds(49, 137, 61, 14);
-		panel.add(lblClave);
+		JLabel lblDescRol = new JLabel("Descripción");
+		lblDescRol.setBounds(20, 85, 96, 14);
+		panel.add(lblDescRol);
 		
-		txtCorreo = new JTextField();
-		txtCorreo.setBounds(138, 63, 166, 20);
-		panel.add(txtCorreo);
-		txtCorreo.setColumns(10);
+		txtNombreRol = new JTextField();
+		txtNombreRol.setBounds(126, 38, 183, 20);
+		panel.add(txtNombreRol);
+		txtNombreRol.setColumns(10);
 		
-		txtClave = new JTextField();
-		txtClave.setBounds(138, 131, 166, 20);
-		panel.add(txtClave);
-		txtClave.setColumns(10);
+		txtDescRol = new JTextField();
+		txtDescRol.setBounds(126, 79, 183, 20);
+		panel.add(txtDescRol);
+		txtDescRol.setColumns(10);
 		
-		JButton btnIngresar = new JButton("Ingresar");
-		btnIngresar.setBounds(215, 203, 89, 23);
-		panel.add(btnIngresar);
+		JButton btnCrearRol = new JButton("Crear");
+		btnCrearRol.setBounds(149, 160, 89, 23);
+		panel.add(btnCrearRol);
 	}
 
 }

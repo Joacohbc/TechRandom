@@ -1,4 +1,4 @@
-package primera;
+package model.entity;
 
 import java.util.LinkedList;
 
