@@ -1,7 +1,5 @@
 package test;
 
-import java.util.Iterator;
-
 import model.database.BDUtils;
 
 public class Test {

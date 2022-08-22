@@ -1,18 +1,7 @@
 package model.service;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
-
-import model.database.BDUtils;
-import model.database.DatabaseManager;
-import model.entity.Persona;
-import model.entity.Retorno;
-
 public class PersonaService {
 
-	private Connection conn = DatabaseManager.getConnection();
+// private Connection conn = DatabaseManager.getConnection();
 	
 //	public Persona InsetarPersona(Persona p) {
 //		

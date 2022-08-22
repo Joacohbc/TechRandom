@@ -1,17 +1,8 @@
 package model.service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-import model.database.BDUtils;
-import model.database.DatabaseManager;
-import model.entity.Retorno;
-import model.entity.Rol;
-
 public class RolService {
 	
-	private static Connection conn = DatabaseManager.getConnection();
+// private static Connection conn = DatabaseManager.getConnection();
 
 //    public static Retorno AltaRol(Rol r) {
 //
