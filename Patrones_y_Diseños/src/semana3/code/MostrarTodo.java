@@ -3,7 +3,7 @@ package semana3.code;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
-import javax.swing.JPanel;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
 import java.awt.*;
@@ -11,60 +11,63 @@ import java.util.LinkedList;
 
 // Clase que muestra el contenido de una tabla de la BD utilizando una tabla
 public class MostrarTodo extends JFrame {
-
-	public void mostrar() {
-
-		JFrame frame = new JFrame("Mostrar");
-
-		// creamos el modelo de Tabla
+	
+	// Aplicamos modelo Singleton que no se pueda crear vas de un
+	// JFrame que muestra las personas.
+	private static final MostrarTodo intance = new MostrarTodo();
+	
+	// Tabla que tendra los datos
+	private final JTable table;
+	
+	// Nombre de las columnas
+	private final String[] columnNames = { "Nombre", "Apellido", "Cedula" };
+	
+	// Creo el JFrame
+	private MostrarTodo() {		
+		// Agrego Layout y agrego la tabla
+		table = new JTable(newModel());
+		
+		// Se define el tamaño de la tabla
+		table.setPreferredScrollableViewportSize(new Dimension(600, 100));
+		
+		// Y creo el JFrame
+		setTitle("Mostrar Todo");
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		getContentPane().setLayout(new BorderLayout(0, 0));
+		getContentPane().add(new JScrollPane(table));
+		pack();
+	}
+	
+	public static MostrarTodo getIntance() {
+		return intance;
+	}
+	
+	private DefaultTableModel newModel() {
 		DefaultTableModel modelo = new DefaultTableModel();
-
-		// se crea la Tabla con el modelo DefaultTableModel
-		final JTable table = new JTable(modelo);
-		// crea un array que contiene los nombre de las columnas
-		final String[] columnNames = { "Nombre", "Apellido", "Cedula" };
-		// insertamos las columnas
+		// Insertamos las cabezeras de cada columna
 		for (int column = 0; column < columnNames.length; column++) {
-			// agrega las columnas a la tabla
+			// Agrego las columnas a la tabla
 			modelo.addColumn(columnNames[column]);
 		}
-
-		// Se crea un array que ser� una de las filas de la tabla.
-		Object[] fila = new Object[columnNames.length];
-		// Se rellena cada posici�n del array con una de las columnas de la tabla en
-		// base de datos.
+		return modelo;
+	}
+	
+	public void mostrar() {
+		DefaultTableModel modelo = newModel();
+		
+		// Obtengo al lista de de Empleados y la cargo en la BD
 		LinkedList<Empleado> todosEmpleados = DAOEmpleados.findAll();
-
-		for (int i = 0; i < todosEmpleados.size(); i++) {
-
-			String nombre = todosEmpleados.get(i).getNombre();
-			String apellido = todosEmpleados.get(i).getApellido();
-			String cedula = todosEmpleados.get(i).getCedula();
-
-			fila[0] = nombre;
-			fila[1] = apellido;
-			fila[2] = cedula;
+		for (Empleado empleado : todosEmpleados) {
+			Object[] fila = new Object[columnNames.length];
+			fila[0] = empleado.getNombre();
+			fila[1] = empleado.getApellido();
+			fila[2] = empleado.getCedula();
 			modelo.addRow(fila);
 		}
-		// Se a�ade al modelo la fila completa.
-
-		// System.out.println(modelo);
-
-		// se define el tama�o de la tabla
-		table.setPreferredScrollableViewportSize(new Dimension(600, 100));
-		// Creamos un JscrollPane y le agregamos la JTable
-		JScrollPane scrollPane = new JScrollPane(table);
-		// crea el panel
-		JPanel panel = new JPanel();
-		// definimos un layout
-		// Agregamos el JScrollPane al contenedor
-		panel.add(scrollPane);
-
-		frame.add(panel);
-		frame.pack();
-
-		frame.setVisible(true);
-
+		
+		// Le asigno el modelo que cree
+		table.setModel(modelo);		
+		setVisible(true);
 	}
 
 }

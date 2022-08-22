@@ -125,8 +125,7 @@ public class Ventana {
 		btnMostrarTodo = new JButton("Mostrar Todo");
 		btnMostrarTodo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MostrarTodo mt = new MostrarTodo();
-				mt.mostrar();
+				MostrarTodo.getIntance().mostrar();
 			}
 		});
 		btnMostrarTodo.setBounds(61, 176, 157, 23);
