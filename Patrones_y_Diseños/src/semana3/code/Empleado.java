@@ -5,13 +5,13 @@ public class Empleado {
 	private String nombre;
 	private String apellido;
 	private String cedula;
-
+	
+	public Empleado() {}
+	
 	public Empleado(String cedula, String nombre, String apellido) {
-
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.cedula = cedula;
-
 	}
 
 	public String getNombre() {
