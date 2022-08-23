@@ -3,7 +3,6 @@ package semana3.code;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
 import java.awt.*;
@@ -38,7 +37,7 @@ public class MostrarTodo extends JFrame {
 		pack();
 	}
 	
-	public static MostrarTodo getIntance() {
+	public static MostrarTodo getIntances() {
 		return intance;
 	}
 	

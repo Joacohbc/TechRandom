@@ -1,6 +1,6 @@
-package model.service;
+package model.dao;
 
-public class FuncionalidadService {
+public class DAOFuncionalidad {
 
 //	  private static Connection conn = DatabaseManager.getConnection();
 

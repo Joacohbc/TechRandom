@@ -1,6 +1,6 @@
-package model.service;
+package model.dao;
 
-public class RolService {
+public class DAORol {
 	
 // private static Connection conn = DatabaseManager.getConnection();
 
