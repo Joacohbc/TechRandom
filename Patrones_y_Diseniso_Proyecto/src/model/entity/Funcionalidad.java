@@ -28,16 +28,9 @@ public class Funcionalidad {
 		this.descripcion = descripcion;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "Funcionalidad [nombre=" + nombre + ", descripcion=" + descripcion + "]";
 	}
-	
-	
-	
-	
-
 	
 }
