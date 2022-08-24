@@ -237,4 +237,11 @@ public class BDUtils {
 		}
 	}
 
+	public static ResultSet QueryResultSet(String sql, Object... values) throws SQLException {
+		PreparedStatement ps = conn.prepareStatement(sql);
+		for (int i = 1; i <= values.length; i++) {
+			ps.setObject(i, values[i - 1]);
+		}
+		return ps.executeQuery();
+	}
 }
