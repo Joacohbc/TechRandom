@@ -1,6 +1,11 @@
 alter session set "_ORACLE_SCRIPT"=true;
 
-CREATE USER developer IDENTIFIED BY "developer"
-DEFAULT TABLESPACE "USERS";
+CREATE USER miniproyecto
+IDENTIFIED BY miniproyecto
+DEFAULT TABLESPACE USERS;
 
-GRANT ALL PRIVILEGES TO developer; 
+GRANT 
+CREATE SESSION, RESOURCE, SELECT_CATALOG_ROLE
+TO miniproyecto;
+
+ALTER USER miniproyecto quota unlimited on USERS;
