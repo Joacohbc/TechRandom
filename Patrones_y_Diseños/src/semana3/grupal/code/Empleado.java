@@ -1,4 +1,4 @@
-package semana3.code;
+package semana3.grupal.code;
 
 public class Empleado {
 

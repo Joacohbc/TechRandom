@@ -1,4 +1,4 @@
-package semana3.code;
+package semana3.grupal.code;
 
 import java.awt.EventQueue;
 
@@ -233,7 +233,7 @@ public class Ventana {
 		if (text.length() <= 1) {
 			return text;
 		}
-		return text.charAt(0) + text.substring(1).toLowerCase();
+		return text.charAt(0) +text.substring(1).toLowerCase();
 	}
 
 	// Busca un empleado por la cedula (textCedula.getText()) y
