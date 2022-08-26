@@ -46,22 +46,6 @@ public class GUI extends JFrame {
 	private JButton btnCargarCuadros;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GUI frame = new GUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public GUI() {
@@ -400,7 +384,7 @@ public class GUI extends JFrame {
 					txtModifAutor.setText(c.getAutor());
 
 					// Actualizo y cargo el Museo del cuadro en el ComboBox
-					cargarCuadros(cmbModifMuseo);
+					cargarMuseos(cmbModifMuseo);
 					cmbModifMuseo.setSelectedItem(c.getMuseo().getNombre());
 
 					// Deshabilito los campos para realizar actualizaciones
