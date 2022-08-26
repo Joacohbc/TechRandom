@@ -280,15 +280,15 @@ public class GUI extends JFrame {
 					}
 
 					while (rs.next()) {
-						List<Object> persona = new LinkedList<>();
+						List<Object> museo = new LinkedList<>();
 
 						// Cargo los datos de cada fila en el lista
 						for (int i = 1; i <= colums; i++) {
-							persona.add(rs.getObject(i));
+							museo.add(rs.getObject(i));
 						}
 
 						// Y la agrego lista a como fila en la JTable
-						model.addRow(persona.toArray());
+						model.addRow(museo.toArray());
 					}
 
 					// Envuelvo la tabla en un JScrollPane
@@ -333,15 +333,15 @@ public class GUI extends JFrame {
 					}
 
 					while (rs.next()) {
-						List<Object> persona = new LinkedList<>();
+						List<Object> cuadro = new LinkedList<>();
 
 						// Cargo los datos de cada fila en el lista
 						for (int i = 1; i <= colums; i++) {
-							persona.add(rs.getObject(i));
+							cuadro.add(rs.getObject(i));
 						}
 
 						// Y la agrego lista a como fila en la JTable
-						model.addRow(persona.toArray());
+						model.addRow(cuadro.toArray());
 					}
 
 					// Envuelvo la tabla en un JScrollPane
