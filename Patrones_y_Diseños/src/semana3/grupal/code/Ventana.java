@@ -7,8 +7,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Ventana {
 
@@ -54,6 +57,14 @@ public class Ventana {
 		frame.getContentPane().setLayout(null);
 
 		textCedula = new JTextField();
+		textCedula.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if (e.getKeyChar() != '-' && e.getKeyChar() != '.' && !Character.isDigit(e.getKeyChar())) {
+					e.consume();
+				}
+			}
+		});
 		textCedula.setBounds(132, 36, 86, 20);
 		frame.getContentPane().add(textCedula);
 		textCedula.setColumns(10);
@@ -162,10 +173,18 @@ public class Ventana {
 				}
 
 				Empleado emp = new Empleado();
-				emp.setCedula(toTitle(textCedula));
+				emp.setCedula(textCedula.getText());
 				emp.setNombre(toTitle(textNombre));
 				emp.setApellido(toTitle(textApellido));
-				DAOEmpleados.update(emp);
+
+				if (DAOEmpleados.update(emp)) {
+					JOptionPane.showMessageDialog(null, "Empleado actualizado con exito", "Exito",
+							JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "No se pude modificar al empleado", "Fallo",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
 			}
 		});
 		btnModificar.setBounds(254, 176, 89, 23);
@@ -200,7 +219,35 @@ public class Ventana {
 			textCedula.grabFocus();
 			return false;
 		}
+
+		if (textCedula.getText().length() != 11) {
+			JOptionPane.showMessageDialog(null, "El campo de la cedula no puede contener mas de 11 caracteres",
+					"Error de entrada", JOptionPane.ERROR_MESSAGE);
+			textCedula.grabFocus();
+			return false;
+		}
+
+		if (textCedula.getText().contains(" ")) {
+			JOptionPane.showMessageDialog(null, "El campo de la cedula no puede contener espacios", "Error de entrada",
+					JOptionPane.ERROR_MESSAGE);
+			textCedula.grabFocus();
+			return false;
+		}
+		
+		char[] cedula = textCedula.getText().toCharArray();
+		for (int i = 0; i < cedula.length; i++) {
+			if (cedula[i] != '-' && cedula[i] != '.' && !Character.isDigit(cedula[i])) {
+				JOptionPane.showMessageDialog(null,
+						"El campo de la cedula solo puede contener puntos, guiones y digitos", "Error de entrada",
+						JOptionPane.ERROR_MESSAGE);
+				textCedula.grabFocus();
+				return false;
+			}
+
+		}
+		textCedula.setText(textCedula.getText().trim());
 		return true;
+		
 	}
 
 	// Checkea que los JTextbox no esten vacios (muestra un mensaje de error si lo
@@ -216,6 +263,14 @@ public class Ventana {
 			return false;
 		}
 
+		if (textNombre.getText().length() > 50) {
+			JOptionPane.showMessageDialog(null, "El campo del nombre no puede contener mas de 50 caracteres",
+					"Error de entrada", JOptionPane.ERROR_MESSAGE);
+			textNombre.grabFocus();
+			return false;
+		}
+		textNombre.setText(textNombre.getText().trim());
+
 		if (textApellido.getText().trim().isBlank()) {
 			JOptionPane.showMessageDialog(null, "El campo del apellido no puede estar vacio", "Error de entrada",
 					JOptionPane.ERROR_MESSAGE);
@@ -223,17 +278,32 @@ public class Ventana {
 			return false;
 		}
 
+		if (textApellido.getText().length() > 50) {
+			JOptionPane.showMessageDialog(null, "El campo del apellido no puede contener mas de 50 caracteres",
+					"Error de entrada", JOptionPane.ERROR_MESSAGE);
+			textApellido.grabFocus();
+			return false;
+		}
+
+		textApellido.setText(textApellido.getText().trim());
+
 		return true;
 	}
 
 	// Retorna el texto del JTextField con formato de titulo (mayuscula en cada
 	// palabra)
 	private String toTitle(JTextField txt) {
-		String text = txt.getText().trim().toUpperCase();
-		if (text.length() <= 1) {
-			return text;
+		String[] words = txt.getText().split(" ");
+		for (int i = 0; i < words.length; i++) {
+			words[i] = words[i].toUpperCase();
 		}
-		return text.charAt(0) +text.substring(1).toLowerCase();
+
+		String text = "";
+		for (int i = 0; i < words.length; i++) {
+			text += words[i].charAt(0) + words[i].substring(1).toLowerCase() + " ";
+		}
+
+		return text;
 	}
 
 	// Busca un empleado por la cedula (textCedula.getText()) y

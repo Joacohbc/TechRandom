@@ -91,6 +91,7 @@ public class DAOEmpleados {
 
 			ResultSet resultado = statement.executeQuery();
 			Empleado empleado = null;
+			
 			if (resultado.next()) {
 				empleado = getEmpleadoFromResultSet(resultado);
 			}
