@@ -93,7 +93,7 @@ public class Ventana {
 				}
 
 				Empleado emp = new Empleado();
-				emp.setCedula(toTitle(textCedula));
+				emp.setCedula(textCedula.getText());
 				emp.setNombre(toTitle(textNombre));
 				emp.setApellido(toTitle(textApellido));
 
@@ -123,7 +123,7 @@ public class Ventana {
 				}
 
 				Empleado emp = new Empleado();
-				emp.setCedula(toTitle(textCedula));
+				emp.setCedula(textCedula.getText());
 				emp.setNombre(toTitle(textNombre));
 				emp.setApellido(toTitle(textApellido));
 
@@ -245,6 +245,7 @@ public class Ventana {
 			}
 
 		}
+		
 		textCedula.setText(textCedula.getText().trim());
 		return true;
 		
