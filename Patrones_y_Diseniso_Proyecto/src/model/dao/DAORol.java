@@ -6,9 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.w3c.dom.ls.LSException;
-
 import model.database.BDUtils;
 import model.database.DatabaseManager;
 import model.entity.Funcionalidad;
@@ -19,7 +17,6 @@ public class DAORol {
 	private static final String INSERT = "INSERT INTO rol VALUES(NULL, ?, ?)";
 	private static final String UPDATE = "UPDATE rol SET nombre = ?, descripcion = ? WHERE nombre = ?";
 	private static final String DELETE = "DELETE FROM rol WHERE nombre = ?";
-	
 	private static final String FIND_ALL = "SELECT id_rol, nombre, descripcion FROM rol";
 	private static final String FIND_BY_ID = "SELECT id_rol, nombre, descripcion FROM rol WHERE id_rol = ?";
 	private static final String FIND_BY_NOMBRE = "SELECT id_rol, nombre, descripcion FROM rol WHERE nombre = ?";

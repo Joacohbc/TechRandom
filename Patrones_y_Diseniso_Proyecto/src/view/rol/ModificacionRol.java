@@ -34,24 +34,24 @@ public class ModificacionRol extends ViewPanel {
 		super();
 
 		JLabel lblNewLabel = new JLabel("Nombre");
-		lblNewLabel.setBounds(45, 165, 147, 13);
+		lblNewLabel.setBounds(45, 165, 121, 13);
 		add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Descripcion");
-		lblNewLabel_1.setBounds(45, 208, 147, 13);
+		lblNewLabel_1.setBounds(45, 208, 121, 13);
 		add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("Funcionalidades");
-		lblNewLabel_2.setBounds(45, 248, 147, 13);
+		lblNewLabel_2.setBounds(45, 276, 121, 13);
 		add(lblNewLabel_2);
 
 		txtNombre = new JTextField();
-		txtNombre.setBounds(199, 162, 222, 19);
+		txtNombre.setBounds(174, 162, 247, 19);
 		add(txtNombre);
 		txtNombre.setColumns(10);
 
 		txtDescripcion = new JTextField();
-		txtDescripcion.setBounds(199, 205, 222, 19);
+		txtDescripcion.setBounds(174, 205, 247, 19);
 		add(txtDescripcion);
 		txtDescripcion.setColumns(10);
 
@@ -74,11 +74,11 @@ public class ModificacionRol extends ViewPanel {
 				}
 			}
 		});
-		btnModificarRol.setBounds(45, 377, 376, 21);
+		btnModificarRol.setBounds(45, 233, 376, 21);
 		add(btnModificarRol);
 
-		cmbTodasFuncs = new JComboBox();
-		cmbTodasFuncs.setBounds(199, 244, 222, 21);
+		cmbTodasFuncs = new JComboBox<Funcionalidad>();
+		cmbTodasFuncs.setBounds(174, 272, 247, 21);
 		RolUtils.cargarTodasLasFuncionalidades(cmbTodasFuncs);
 		add(cmbTodasFuncs);
 
@@ -94,19 +94,19 @@ public class ModificacionRol extends ViewPanel {
 				}
 			}
 		});
-		cmbRoles.setBounds(199, 97, 222, 21);
+		cmbRoles.setBounds(174, 97, 247, 21);
 		add(cmbRoles);
 
 		JLabel lblNewLabel_3 = new JLabel("Seleccionar Rol");
-		lblNewLabel_3.setBounds(45, 101, 147, 13);
+		lblNewLabel_3.setBounds(45, 101, 121, 13);
 		add(lblNewLabel_3);
 
 		JLabel lblNewLabel_2_1 = new JLabel("Funcionalidades");
-		lblNewLabel_2_1.setBounds(45, 313, 147, 13);
+		lblNewLabel_2_1.setBounds(45, 341, 121, 13);
 		add(lblNewLabel_2_1);
 
 		cmbFuncActuales = new JComboBox<Funcionalidad>();
-		cmbFuncActuales.setBounds(199, 309, 222, 21);
+		cmbFuncActuales.setBounds(174, 337, 247, 21);
 		add(cmbFuncActuales);
 
 		JButton btnNuevaFunc = new JButton("Agregar Funcionalidad");
@@ -136,7 +136,7 @@ public class ModificacionRol extends ViewPanel {
 				}
 			}
 		});
-		btnNuevaFunc.setBounds(45, 276, 376, 21);
+		btnNuevaFunc.setBounds(45, 304, 376, 21);
 		add(btnNuevaFunc);
 
 		JButton btnEliminarFunc = new JButton("Eliminar Funcionalidad");
@@ -161,7 +161,7 @@ public class ModificacionRol extends ViewPanel {
 				}
 			}
 		});
-		btnEliminarFunc.setBounds(45, 344, 376, 21);
+		btnEliminarFunc.setBounds(45, 372, 376, 21);
 		add(btnEliminarFunc);
 
 		JButton btnCargarRol = new JButton("Cargar Rol");

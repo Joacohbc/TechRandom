@@ -5,7 +5,11 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 public final class Validaciones {
-
+	
+	public static String Trim(String s) {
+		return s.trim();
+	}
+	
 	public static boolean ValidarNoVacio(String s) {
 		if (s.equals(null))
 			return false;
@@ -57,7 +61,17 @@ public final class Validaciones {
 
 		return ValidarSoloLetras(s, espacios) || ValidarSoloNumeros(s, espacios);
 	}
-
+	
+	// Validacion de Mail 
+	public static boolean ValidarMail(String s) {
+		if(!ValidarNoVacio(s))
+			return false;
+		
+		// RFC 5322
+		String regx = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+		return Pattern.matches(regx, s);
+	}	
+	
 	// Validaciones de Fechas
 	public enum ValidacionesFecha {
 		ESTRICTAMENTE, NO_ESTRICTAMENTE;
@@ -87,6 +101,7 @@ public final class Validaciones {
 			if (date.isEqual(fechaMax))
 				return true;
 		}
+		
 		return date.isBefore(fechaMax);
 	}
 

@@ -15,7 +15,7 @@ import validation.Formatos;
 public class DAOPersona {
 
 	private static final String FIND_ALL = "SELECT id_persona, documento, apellido1, apellido2, nombre1, nombre2, to_char(fecha_nac, 'DD-MM-YYYY'), mail, id_rol FROM persona";
-	private static final String FIND_BY_NOMBRE_APELLIDO = "SELECT id_persona, documento, apellido1, apellido2, nombre1, nombre2, to_char(fecha_nac, 'DD-MM-YYYY'), mail, id_rol FROM persona WHERE nombre=? AND apellido=?";
+	private static final String FIND_BY_NOMBRE_APELLIDO = "SELECT id_persona, documento, apellido1, apellido2, nombre1, nombre2, to_char(fecha_nac, 'DD-MM-YYYY'), mail, id_rol FROM persona WHERE nombre1=? AND apellido1=?";
 	private static final String FIND_BY_DOCUMENTO = "SELECT id_persona, documento, apellido1, apellido2, nombre1, nombre2, to_char(fecha_nac, 'DD-MM-YYYY'), mail, id_rol FROM persona WHERE documento=?";
 	private static final String FIND_BY_EMAIL_AND_CLAVE = "SELECT id_persona, documento, apellido1, apellido2, nombre1, nombre2, to_char(fecha_nac, 'DD-MM-YYYY'), mail, id_rol, clave FROM persona WHERE mail = ? AND clave = ?";
 	

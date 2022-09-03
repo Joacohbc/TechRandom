@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import model.dao.DAOPersona;
 import model.entity.Persona;
+import validation.Mensajes;
 import view.login.LoginView;
 
 public class LoginController {
@@ -22,6 +23,8 @@ public class LoginController {
 			if(usuario != null) {
 				GestionController.getInstance(usuario).setVisible(true);
 				panel.setVisible(false);
+			}else {
+				Mensajes.MostrarError("El usuario con esa credenciales no existe");
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block

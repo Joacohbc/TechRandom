@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import model.entity.Funcionalidad;
 import model.entity.Persona;
+import view.funcionalidad.ConsultaFuncionalidad;
 
 import javax.swing.JTabbedPane;
 import javax.swing.ImageIcon;
@@ -15,7 +16,7 @@ import javax.swing.ImageIcon;
 public class GestionController extends JFrame {
 
 	private JPanel contentPane;
-	
+
 	// Hecha como "Singleton" ya que solo existe un solo GestionController
 	private static GestionController instance = null;
 
@@ -46,18 +47,29 @@ public class GestionController extends JFrame {
 				|| usuario.getRol().getFuncionalidades().contains(Funcionalidad.BORRAR_PERSONA)
 				|| usuario.getRol().getFuncionalidades().contains(Funcionalidad.MODIFICAR_PERSONA)
 				|| usuario.getRol().getFuncionalidades().contains(Funcionalidad.CONSULTAR_PERSONAS)) {
-			
+
 			JTabbedPane tpPersonas = new PersonaController(usuario);
 			tpSecciones.addTab("Personas",
 					new ImageIcon(GestionController.class.getResource("/controller/image/personas/management.png")),
 					tpPersonas, null);
 		}
-				
-		JTabbedPane pRoles = new RolController(usuario);
-		tpSecciones.addTab("Roles", null, pRoles, null);
 
-		JPanel pFuncionalidad = new JPanel();
-		tpSecciones.addTab("Funcionalidad", null, pFuncionalidad, null);
+		if (usuario.getRol().getFuncionalidades().contains(Funcionalidad.ALTA_ROL)
+				|| usuario.getRol().getFuncionalidades().contains(Funcionalidad.BORRAR_ROL)
+				|| usuario.getRol().getFuncionalidades().contains(Funcionalidad.MODIFICAR_ROL)
+				|| usuario.getRol().getFuncionalidades().contains(Funcionalidad.CONSULTAR_ROLES)) {
+
+			JTabbedPane pRoles = new RolController(usuario);
+			tpSecciones.addTab("Roles",
+					new ImageIcon(GestionController.class.getResource("/controller/image/rol/rol.png")), pRoles, null);
+		}
+
+		if (usuario.getRol().getFuncionalidades().contains(Funcionalidad.CONSULTAR_FUNCIONALIDADES)) {
+			JPanel pFuncionalidad = new ConsultaFuncionalidad();
+			tpSecciones.addTab("Funcionalidad",
+					new ImageIcon(GestionController.class.getResource("/controller/image/funcs/func.png")),
+					pFuncionalidad, null);
+		}
 	}
 
 }

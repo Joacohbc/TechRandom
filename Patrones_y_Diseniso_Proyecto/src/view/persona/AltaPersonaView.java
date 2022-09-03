@@ -1,4 +1,5 @@
 package view.persona;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SpringLayout;
@@ -10,6 +11,7 @@ import model.entity.Rol;
 import validation.Formatos;
 import validation.Mensajes;
 import view.ViewPanel;
+import view.rol.RolUtils;
 
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -21,6 +23,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import validation.Validaciones;
+import validation.Validaciones.ValidacionesFecha;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class AltaPersonaView extends ViewPanel {
 
@@ -33,42 +39,6 @@ public class AltaPersonaView extends ViewPanel {
 	private JTextField txtclave;
 	private JTextField txtMail;
 	private JComboBox<Rol> comboRol;
-
-	public String getDocumento() {
-		return txtDocumento.getText();
-	}
-
-	public String getNombre1() {
-		return txtNombre1.getText();
-	}
-
-	public String getNombre2() {
-		return txtNombre2.getText();
-	}
-
-	public String getApellido1() {
-		return txtApellido1.getText();
-	}
-
-	public String getApellido2() {
-		return txtApellido2.getText();
-	}
-
-	public String getFechNac() {
-		return txtFechNac.getText();
-	}
-
-	public String getClave() {
-		return txtclave.getText();
-	}
-
-	public String getMail() {
-		return txtMail.getText();
-	}
-
-	public Rol getRol() {
-		return (Rol) comboRol.getSelectedItem();
-	}
 
 	public AltaPersonaView() {
 		super();
@@ -147,8 +117,15 @@ public class AltaPersonaView extends ViewPanel {
 		txtMail.setColumns(10);
 
 		comboRol = new JComboBox<Rol>();
-		comboRol.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		comboRol.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				try {
+					RolUtils.cargarRol(comboRol);
+				} catch (SQLException e1) {
+					Mensajes.MostrarError("Error al cargar roles de la BD");
+					e1.printStackTrace();
+				}
 			}
 		});
 		comboRol.setBounds(179, 322, 239, 21);
@@ -162,25 +139,77 @@ public class AltaPersonaView extends ViewPanel {
 		btnAltaPersona.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				String documento = txtDocumento.getText();
-				String apellido1 = txtApellido1.getText();
-				String apellido2 = txtApellido2.getText();
-				String nombre1 = txtNombre1.getText();
-				String nombre2 = txtNombre2.getText();
-				String mail = txtMail.getText();
+				String documento = txtDocumento.getText().trim();
+				String apellido1 = txtApellido1.getText().trim();
+				String apellido2 = txtApellido2.getText().trim();
+				String nombre1 = txtNombre1.getText().trim();
+				String nombre2 = txtNombre2.getText().trim();
+				String mail = txtMail.getText().trim();
 				String clave = txtclave.getText();
-				LocalDate fecha = Formatos.Parse(txtFechNac.getText());
+
+				if (!Validaciones.ValidarCedulaUruguaya(documento)) {
+					Mensajes.MostrarError("Error en el documento");
+					return;
+				}
+
+				if (!Validaciones.ValidarSoloLetras(nombre1, false)) {
+					Mensajes.MostrarError("Error en el nombre1");
+					return;
+				}
+
+				if (!nombre2.isBlank() && !Validaciones.ValidarSoloLetras(nombre2, false)) {
+					Mensajes.MostrarError("Error en el nombre2");
+					return;
+				}
+
+				if (!Validaciones.ValidarSoloLetras(apellido1, false)) {
+					Mensajes.MostrarError("Error en el apellido1");
+					return;
+				}
+
+				if (!apellido2.isBlank() && !Validaciones.ValidarSoloLetras(apellido2, false)) {
+					Mensajes.MostrarError("Error en el apellido2");
+					return;
+				}
+
+				LocalDate fecha = null;
+				if (Validaciones.IsValid(txtFechNac.getText()))
+					fecha = Formatos.Parse(txtFechNac.getText());
+				else {
+					Mensajes.MostrarError("Error en la fecha");
+					return;
+				}
+
+				if (!Validaciones.ValidarFechaMax(fecha, LocalDate.now(), ValidacionesFecha.ESTRICTAMENTE)) {
+					Mensajes.MostrarError("Error en la fecha");
+					return;
+				}
+
+				if (!Validaciones.ValidarNoVacio(clave)) {
+					Mensajes.MostrarError("Error en el clave");
+					return;
+				}
+
+				if (!Validaciones.ValidarMail(mail)) {
+					Mensajes.MostrarError("Error en el mail");
+					return;
+				}
 
 				Rol r = (Rol) comboRol.getSelectedItem();
 				Persona p = new Persona(documento, apellido1, apellido2, nombre1, nombre2, fecha, clave, mail, r);
 
-				try {
+				try {					
+					if(DAOPersona.findByDocumento(documento) != null) {
+						Mensajes.MostrarError("Ya existe una persona con ese documento");
+						return;
+					}
+					
 					if (DAOPersona.insert(p) > 0) {
 						Mensajes.MostrarExito("Persona agregada con exito");
 					}
 
 				} catch (SQLException e1) {
-					Mensajes.MostrarError("");
+					Mensajes.MostrarError("Error al dar de alta la persona");
 				}
 			}
 		});
@@ -188,17 +217,10 @@ public class AltaPersonaView extends ViewPanel {
 		add(btnAltaPersona);
 
 		try {
-			cargarCombo();
+			RolUtils.cargarRol(comboRol);
 		} catch (SQLException e1) {
+			Mensajes.MostrarError("Error al cargar roles de la BD");
 			e1.printStackTrace();
-		}
-
-	}
-
-	private void cargarCombo() throws SQLException {
-		List<Rol> roles = DAORol.findAll();
-		for (Rol r : roles) {
-			comboRol.addItem(r);
 		}
 	}
 }
