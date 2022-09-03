@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import model.dao.DAORol;
+import model.entity.Funcionalidad;
 import model.entity.Rol;
 import validation.Mensajes;
 import view.ViewPanel;
@@ -57,11 +58,16 @@ public class ConsultaRol extends ViewPanel {
 							return;
 						}
 						
-						DefaultTableModel modelo = RolUtils.GetTableModel();
+						DefaultTableModel modelo = RolUtils.GetTableModelFunc();
 
 						Object[] fila = { rol.getId(), rol.getNombre(), rol.getDescripcion() };
 						modelo.addRow(fila);
-
+						
+						for(Funcionalidad f : rol.getFuncionalidades()) {
+							Object[] func = { rol.getId(), rol.getNombre(), rol.getDescripcion(), f.getNombre() };
+							modelo.addRow(fila);
+						}
+						
 						table.setModel(modelo);
 
 					} else {

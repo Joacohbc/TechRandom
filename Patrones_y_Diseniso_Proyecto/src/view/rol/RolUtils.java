@@ -41,6 +41,13 @@ public class RolUtils {
 		modelo.setColumnIdentifiers(titulos);
 		return modelo;
 	}
+	
+	public static DefaultTableModel GetTableModelFunc() {
+		DefaultTableModel modelo = new DefaultTableModel();
+		Object[] titulos = { "Id Rol","Nombre", "Descripcion", "Funcionalidades" };
+		modelo.setColumnIdentifiers(titulos);
+		return modelo;
+	}
 }
 
 
