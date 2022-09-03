@@ -58,6 +58,11 @@ public class BajaRol extends ViewPanel {
 						}
 					}
 					
+					Rol func = DAORol.findByNombre(rol.getNombre());
+					if(!func.getFuncionalidades().isEmpty()) {
+						Mensajes.MostrarError("Este rol contiene funcionalidades, borrelas para poder borrar el rol.");
+						return;
+					}
 					if(DAORol.delete(rol.getNombre()) >0) {
 						Mensajes.MostrarExito("Eliminacion de rol exitosa");
 						RolUtils.cargarRol(cmbRoles);

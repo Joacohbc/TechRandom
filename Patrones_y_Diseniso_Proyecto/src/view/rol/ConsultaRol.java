@@ -60,12 +60,11 @@ public class ConsultaRol extends ViewPanel {
 						
 						DefaultTableModel modelo = RolUtils.GetTableModelFunc();
 
-						Object[] fila = { rol.getId(), rol.getNombre(), rol.getDescripcion() };
-						modelo.addRow(fila);
+
 						
 						for(Funcionalidad f : rol.getFuncionalidades()) {
 							Object[] func = { rol.getId(), rol.getNombre(), rol.getDescripcion(), f.getNombre() };
-							modelo.addRow(fila);
+							modelo.addRow(func);
 						}
 						
 						table.setModel(modelo);

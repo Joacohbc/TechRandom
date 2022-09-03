@@ -8,9 +8,9 @@ import java.util.Locale;
 
 public class DatabaseManager {
 	
-	private static final String URL_ORACLE = "jdbc:oracle:thin:@192.168.0.250:1521:xe";
-	private static final String USER = "miniproyecto";
-	private static final String PASSWORD = "1234";
+	private static final String URL_ORACLE = "jdbc:oracle:thin:@localhost:1521:xe";
+	private static final String USER = "projecto";
+	private static final String PASSWORD = "projecto";
 
 	// Mostrar mensajes de debug (predeterminadamente es false)
 	public static boolean ShowErrors = false;
