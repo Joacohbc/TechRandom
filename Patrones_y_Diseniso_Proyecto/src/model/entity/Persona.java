@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Persona {
-
+	
+	private Long id;
 	private String documento;
 	private String apellido1;
 	private String apellido2;
@@ -114,6 +115,14 @@ public class Persona {
 		return "Persona [documento=" + documento + ", apellido1=" + apellido1 + ", apellido2=" + apellido2
 				+ ", nombre1=" + nombre1 + ", nombre2=" + nombre2 + ", fechaNacimiento=" + fechaNacimiento + ", clave="
 				+ clave + ", mail=" + mail + ", role=" + rol + "]";
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }
