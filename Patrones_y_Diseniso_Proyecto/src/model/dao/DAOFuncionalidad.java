@@ -1,22 +1,24 @@
 package model.dao;
 
-import java.sql.PreparedStatement;
-
-import model.database.DatabaseManager;
-import model.entity.Funcionalidad;
-
 public class DAOFuncionalidad {
 
-	public static void insert(Funcionalidad f) {
-		try {
-			PreparedStatement ps = DatabaseManager.getConnection().prepareStatement("INSERT INTO funcionalidad VALUES(?,?,? )");
-			ps.setInt(1, f.getId());
-			ps.setString(2, f.getNombre());
-			ps.setString(3, f.getDescripcion());
-			ps.executeUpdate();
-			ps.close();
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	  private static Connection conn = DatabaseManager.getConnection();
+
+//    public static Retorno AltaDescripcion(Funcionalidad f) {
+//      
+//        PreparedStatement ps = null;
+//        String sql = "INSERT INTO funcionalidad VALUES(null, ?, ?))";
+//        try {
+//        	ps = conn.prepareStatement(sql);
+//        	ps.setString(1, f.getNombre());
+//        	ps.setString(2, f.getDescripcion());
+//        	
+//            return new Retorno("Funcionalidad dado de alta con exito", null);
+//        } catch (SQLException e) {
+//            return new Retorno("no se pudo dar de alta la Funcionalidad", e);
+//        }finally {
+//			BDUtils.Close(ps);
+//		}
+//    }
+
 }

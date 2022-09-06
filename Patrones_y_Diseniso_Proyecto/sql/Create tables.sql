@@ -35,8 +35,7 @@ CREATE TABLE persona (
     
     id_rol      NUMBER NOT NULL,
     CONSTRAINT pk_persona PRIMARY KEY ( id_persona ),
-    CONSTRAINT uk_pers_mail UNIQUE ( mail ),
-      CONSTRAINT uk_pers_doc UNIQUE ( documento )
+    CONSTRAINT uk_pers_mail UNIQUE ( mail )
 );
 
 -- Agrego la FK a Persona de la relacion con ROL
