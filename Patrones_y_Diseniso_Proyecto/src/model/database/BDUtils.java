@@ -68,6 +68,7 @@ public class BDUtils {
 	}
 
 	// Ejecuta una sentencia SELECT y retorna todos los resultados
+	// Si no hubo resultado retonra una Lista vacia (usar isEmpty())
 	public static List<Map<String, Object>> QueryMap(String sql, Object... values) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -110,6 +111,7 @@ public class BDUtils {
 	}
 
 	// Ejecuta una sentencia SELECT y retorna todos los resultados
+	// Si no hubo resultado retonra una Lista vacia (usar isEmpty())
 	public static List<List<Object>> QueryList(String sql, Object... values) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -151,6 +153,7 @@ public class BDUtils {
 	}
 
 	// Ejecuta una sentencia SELECT y retorna solo el primer resultado
+	// Si no hubo resultado retonra una Mapa vacio (usar isEmpty())
 	public static Map<String, Object> QueryOneMap(String sql, Object... values) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -178,8 +181,8 @@ public class BDUtils {
 					colums.put(metaData.getColumnName(i).toLowerCase(), rs.getObject(i));
 				}
 			}
-
 			return colums;
+			
 		} finally {
 			Close(ps);
 			Close(rs);
@@ -187,6 +190,7 @@ public class BDUtils {
 	}
 
 	// Ejecuta una sentencia SELECT y retorna solo el primer resultado
+	// Si no hubo resultado retonra una Lista vacia (usar isEmpty())
 	public static List<Object> QueryOneList(String sql, Object... values) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;

@@ -1,19 +1,22 @@
 package model.entity;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class Rol {
 	
+	private Long id;
 	private String nombre;
 	private String descripcion;
-	private LinkedList<Funcionalidad> funcionalidades;
+	private List<Funcionalidad> funcionalidades;
 	
 	public Rol() {
 		super();
 	}
 
-	public Rol(String nombre, String descripcion, LinkedList<Funcionalidad> funcionalidades) {
+	public Rol(Long  id,String nombre, String descripcion, List<Funcionalidad> funcionalidades) {
 		super();
+		this.id = id;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.funcionalidades = funcionalidades;
@@ -33,19 +36,24 @@ public class Rol {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public LinkedList<Funcionalidad> getFuncionalidades() {
+	public List<Funcionalidad> getFuncionalidades() {
 		return funcionalidades;
 	}
-	public void setFuncionalidades(LinkedList<Funcionalidad> funcionalidades) {
+	public void setFuncionalidades(List<Funcionalidad> funcionalidades) {
 		this.funcionalidades = funcionalidades;
 	}
 
-
-
-
 	@Override
 	public String toString() {
-		return "Rol [nombre=" + nombre + ", descripcion=" + descripcion + ", funcionalidades=" + funcionalidades + "]";
+		return nombre;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	
