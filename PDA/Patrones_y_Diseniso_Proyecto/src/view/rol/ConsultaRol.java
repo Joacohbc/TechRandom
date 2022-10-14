@@ -19,6 +19,10 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class ConsultaRol extends ViewPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtRol;
 	private JTable table;
 

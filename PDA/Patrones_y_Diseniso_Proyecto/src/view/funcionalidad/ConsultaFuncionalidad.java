@@ -12,6 +12,10 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 public class ConsultaFuncionalidad extends ViewPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable table;
 
 	public ConsultaFuncionalidad() {

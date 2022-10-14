@@ -19,6 +19,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class BajaPersonaView extends ViewPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtDocumento;
 	private JTable table;
 

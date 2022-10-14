@@ -18,6 +18,10 @@ import java.awt.event.KeyEvent;
 
 public class LoginView extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPasswordField passClave;
 	private JTextField txtMail;

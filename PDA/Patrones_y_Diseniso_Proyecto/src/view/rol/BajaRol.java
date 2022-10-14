@@ -19,6 +19,11 @@ import java.util.List;
 public class BajaRol extends ViewPanel {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Create the panel.
 	 */
 	public BajaRol() {

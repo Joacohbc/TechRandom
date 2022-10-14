@@ -19,6 +19,10 @@ import java.awt.event.ActionEvent;
 import validation.Validaciones;
 
 public class ConsultaPersonaView extends ViewPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtApellido1;
 	private JTextField txtPrimerNombre;
 	private JTable table;

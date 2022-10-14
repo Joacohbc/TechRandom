@@ -12,6 +12,10 @@ import view.persona.ModificacionPersonaView;
 
 public class PersonaController extends JTabbedPane {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private AltaPersonaView altaPersonaView = new AltaPersonaView();
 	private BajaPersonaView bajaPersonaView = new BajaPersonaView();
 	private ModificacionPersonaView modificacionPersonaView= new ModificacionPersonaView();

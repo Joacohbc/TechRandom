@@ -23,6 +23,10 @@ import java.awt.event.FocusEvent;
 
 public class AltaPersonaView extends ViewPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtDocumento;
 	private JTextField txtNombre1;
 	private JTextField txtNombre2;

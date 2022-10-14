@@ -15,6 +15,10 @@ import javax.swing.ImageIcon;
 
 public class GestionController extends JFrame {
 
+	/**
+	 * 
+	 */
+
 	private JPanel contentPane;
 
 	// Hecha como "Singleton" ya que solo existe un solo GestionController

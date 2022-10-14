@@ -16,6 +16,10 @@ import view.rol.ModificacionRol;
 
 public class RolController extends JTabbedPane {
 
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 		private JScrollPane scrollPane;
 
 		/**

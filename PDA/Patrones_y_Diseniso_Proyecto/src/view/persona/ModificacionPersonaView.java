@@ -24,6 +24,10 @@ import validation.Validaciones.ValidacionesFecha;
 public class ModificacionPersonaView extends ViewPanel {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
 	 * Create the panel.
 	 */
 	private JTextField txtDocumento;

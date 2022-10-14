@@ -12,6 +12,11 @@ import javax.swing.table.DefaultTableModel;
 // Clase que muestra el contenido de una tabla de la BD utilizando una tabla
 public class MostrarTodo extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// Aplicamos modelo Singleton que no se pueda crear vas de un
 	// JFrame que muestra las personas.
 	private static final MostrarTodo intance = new MostrarTodo();

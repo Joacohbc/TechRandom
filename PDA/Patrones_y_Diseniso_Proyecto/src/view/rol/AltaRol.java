@@ -21,6 +21,10 @@ import view.ViewPanel;
 
 public class AltaRol extends ViewPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtNombre;
 	private JTextField txtDescripcion;
 	private JComboBox<Funcionalidad> cmbFuncionalidades;
