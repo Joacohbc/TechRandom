@@ -27,6 +27,9 @@ public class Salon implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Column(length = 40, unique = true)
+	private String nombre;
+	
 	private Integer capMax;
 
 	private Boolean practicas;
@@ -37,16 +40,9 @@ public class Salon implements Serializable {
 	@ManyToOne
 	private Area area;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<Material> materiales = new ArrayList<Material>();
 
-	public List<Material> getMateriales() {
-		return materiales;
-	}
-
-	public void setMateriales(List<Material> materiales) {
-		this.materiales = materiales;
-	}
 
 	public Long getId() {
 		return id;
@@ -54,6 +50,23 @@ public class Salon implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Area getArea() {
+		return area;
+	}
+
+	public void setArea(Area area) {
+		this.area = area;
 	}
 
 	public Integer getCapMax() {
@@ -78,6 +91,20 @@ public class Salon implements Serializable {
 
 	public void setTipo(TipoSalon tipo) {
 		this.tipo = tipo;
+	}
+	
+	public List<Material> getMateriales() {
+		return materiales;
+	}
+
+	public void setMateriales(List<Material> materiales) {
+		this.materiales = materiales;
+	}
+
+	@Override
+	public String toString() {
+		return "Salon [id=" + id + ", capMax=" + capMax + ", practicas=" + practicas + ", tipo=" + tipo + ", area="
+				+ area + "]";
 	}
 
 }

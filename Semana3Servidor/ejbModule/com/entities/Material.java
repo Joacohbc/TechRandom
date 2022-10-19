@@ -25,7 +25,7 @@ public class Material implements Serializable {
 
 	@Column(length = 60)
 	private String descripcion;
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -50,4 +50,8 @@ public class Material implements Serializable {
 		this.descripcion = descripcion;
 	}
 
+	@Override
+	public String toString() {
+		return "Material [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
+	}
 }

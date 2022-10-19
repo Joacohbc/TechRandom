@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.persistence.OneToMany;
 
 /**
  * Entity implementation class for Entity: Area
@@ -19,7 +18,11 @@ public class Area implements Serializable {
 	public Area() {
 		super();
 	}
-
+	
+	public Area(String nombre) {
+		this.nombre = nombre;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -27,7 +30,7 @@ public class Area implements Serializable {
 	@Column(length = 40, unique = true)
 	private String nombre;
 
-	@OneToMany(mappedBy = "area")
+	@OneToMany(mappedBy = "area", fetch = FetchType.EAGER)
 	private List<Salon> salones = new ArrayList<Salon>();
 
 	// Getters y Setters
@@ -54,4 +57,10 @@ public class Area implements Serializable {
 	public void setSalones(List<Salon> salones) {
 		this.salones = salones;
 	}
+
+	@Override
+	public String toString() {
+		return "Area [id=" + id + ", nombre=" + nombre + "]";
+	}
+
 }
