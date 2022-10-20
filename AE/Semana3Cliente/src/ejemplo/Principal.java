@@ -68,8 +68,6 @@ public class Principal {
 			return;
 		}
 
-//		System.exit(0);
-
 		try {
 			
 			System.out.println("> ALTAS <");

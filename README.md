@@ -11,4 +11,4 @@ Integrantes:
 - Bruno Gonzalez
 - Santiago Soberal
 - Cristopher Fontes
-- Juan Perugorria
+
