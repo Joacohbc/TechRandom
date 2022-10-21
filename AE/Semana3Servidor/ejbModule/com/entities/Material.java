@@ -12,6 +12,11 @@ public class Material implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public Material(String nombre, String descripcion) {
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+	}
+
 	public Material() {
 		super();
 	}
@@ -25,7 +30,7 @@ public class Material implements Serializable {
 
 	@Column(length = 60)
 	private String descripcion;
-	
+
 	public Long getId() {
 		return id;
 	}

@@ -14,7 +14,7 @@ public interface SalonBeanRemote extends ServiceInterface<Salon> {
 
 	Salon findByName(String nombre);
 
-	void addMaterial(Long idSalon, Long idMaterial) throws ServiceException, NotFoundEntityException;
+	void addMaterial(Long idMaterial, Long idSalon) throws ServiceException, NotFoundEntityException;
 
 	void removeMaterial(Long idSalon, Long idMaterial) throws ServiceException, NotFoundEntityException;
 }

@@ -91,7 +91,7 @@ public class AreaBean implements AreaBeanRemote {
 		TypedQuery<Area> query = em.createQuery("SELECT a FROM Area a WHERE a.nombre = ?1", Area.class)
 				.setParameter(1, nombre).setMaxResults(1);
 
-		// El query.getSingleResult() si n otiene resultado arroja NoResultException
+		// El query.getSingleResult() si no tiene resultado arroja NoResultException
 		// Asi que si atrapa un NoResultException se envia un empty Optional ya que
 		// es lo mismo que un no resutlado
 		try {
@@ -100,46 +100,4 @@ public class AreaBean implements AreaBeanRemote {
 			return null;
 		}
 	}
-	
-	// No es necesario asignar lo Salons a las Areas ya que cuando se crea un 
-	// salon se debe generar con su Area respectiva
-//	@Override
-//	public void addSalon(Long idArea, Long idSalon) throws ServiceException, NotFoundEntityException {
-//		try {
-//			Area area = em.find(Area.class, idArea);
-//			if (area == null)
-//				throw new NotFoundEntityException("No existe un Area con el ID:" + idArea);
-//
-//			Salon salon = em.find(Salon.class, idSalon);
-//			if (salon == null)
-//				throw new NotFoundEntityException("No existe un Salon con el ID:" + idSalon);
-//
-//			area.getSalones().add(salon);
-//			em.merge(area);
-//			em.flush();
-//		} catch (PersistenceException e) {
-//			throw new ServiceException("Error al agregar el Salon");
-//		}
-//	}
-//
-//	@Override
-//	public void removeSalon(Long idArea, Long idSalon) throws ServiceException, NotFoundEntityException {
-//		try {
-//			Area area = em.find(Area.class, idArea);
-//			if (area == null)
-//				throw new NotFoundEntityException("No existe un Area con el ID:" + idArea);
-//
-//			Salon salon = em.find(Salon.class, idSalon);
-//			if (salon == null)
-//				throw new NotFoundEntityException("No existe un Salon con el ID:" + idSalon);
-//
-//			area.getSalones().remove(salon);
-//			em.merge(area);
-//			em.flush();
-//		} catch (PersistenceException e) {
-//			throw new ServiceException("Error al remover el Salon de ID " + idSalon);
-//		}
-//	}
-
-
 }

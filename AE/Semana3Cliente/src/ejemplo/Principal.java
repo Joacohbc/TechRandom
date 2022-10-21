@@ -6,6 +6,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import com.entities.Area;
+import com.entities.Material;
 import com.entities.Salon;
 import com.entities.TipoSalon;
 import com.exceptions.EntityAlreadyExistsException;
@@ -41,6 +42,18 @@ public class Principal {
 		return salon;
 	}
 
+	private static Material newMaterial(MaterialBeanRemote materialBean, String nombre) throws ServiceException {
+		Material material = materialBean.save(new Material(nombre, " "));
+		System.out.println("Se dio de alta el Material " + material.getNombre() + " con el ID: " + material.getId());
+		return material;
+	}
+
+	private static Material removeMaterial(MaterialBeanRemote materialBean, Long id) throws ServiceException {
+		Material material = materialBean.remove(id);
+		System.out.println("Se dio de baja el Material " + material.getNombre() + " con el ID: " + material.getId());
+		return material;
+	}
+
 	private static void list(String title, List<? extends Object> list) {
 		System.out.println();
 		System.out.println(title);
@@ -69,12 +82,12 @@ public class Principal {
 		}
 
 		try {
-			
+
 			System.out.println("> ALTAS <");
-			Area lti = newArea(areaBean, "LTI");
-			Area bio = newArea(areaBean, "Biomédicas");
-			Area iagro = newArea(areaBean, "IAgro");
-			Area aguaReno = newArea(areaBean, "Aguas renovables");
+			newArea(areaBean, "LTI");
+			newArea(areaBean, "Biomédicas");
+			newArea(areaBean, "IAgro");
+			newArea(areaBean, "Aguas renovables");
 
 			list("Areas disponibles:", areaBean.findAll());
 
@@ -155,16 +168,57 @@ public class Principal {
 			galpon = newSalon(salonBean, galpon);
 
 			list("Salones diponibles en IAgro:", salonBean.findByArea("IAgro"));
-			
+
+			Material arduino = newMaterial(materialBean, "Placa Arduino");
+			Material impre3d = newMaterial(materialBean, "Impresora 3D");
+			salonBean.addMaterial(arduino.getId(), rob.getId());
+			salonBean.addMaterial(impre3d.getId(), rob.getId());
+
+			Material tv = newMaterial(materialBean, "Televisor 4");
+			Material canion = newMaterial(materialBean, "Cañon");
+			salonBean.addMaterial(tv.getId(), aula3.getId());
+			salonBean.addMaterial(canion.getId(), aula3.getId());
+
+			Material serverDB = newMaterial(materialBean, "Servidor BD");
+			Material serverPRT = newMaterial(materialBean, "Servidor PRT");
+			Material serverAPP = newMaterial(materialBean, "Servidor APP");
+			salonBean.addMaterial(serverDB.getId(), servidores.getId());
+			salonBean.addMaterial(serverPRT.getId(), servidores.getId());
+			salonBean.addMaterial(serverAPP.getId(), servidores.getId());
+
+			salonBean.addMaterial(newMaterial(materialBean, "Microscopio").getId(), lab1.getId());
+			salonBean.addMaterial(newMaterial(materialBean, "Tijeras").getId(), lab1.getId());
+
+			salonBean.addMaterial(newMaterial(materialBean, "Televisor 21").getId(), aula2.getId());
+			salonBean.addMaterial(newMaterial(materialBean, "Cañón").getId(), aula2.getId());
+
+			salonBean.addMaterial(newMaterial(materialBean, "Panel Movil").getId(), deposito.getId());
+			salonBean.addMaterial(newMaterial(materialBean, "Mesa de operaciones").getId(), deposito.getId());
+
+			salonBean.addMaterial(newMaterial(materialBean, "Maqueta 1").getId(), lab2.getId());
+			salonBean.addMaterial(newMaterial(materialBean, "Maqueta 2").getId(), lab2.getId());
+
+			salonBean.addMaterial(newMaterial(materialBean, "Televisor 48").getId(), aula1.getId());
+			salonBean.addMaterial(newMaterial(materialBean, "Mesa de Trabajo").getId(), aula1.getId());
+
+			salonBean.addMaterial(newMaterial(materialBean, "Tractor").getId(), galpon.getId());
+			salonBean.addMaterial(newMaterial(materialBean, "Molino").getId(), galpon.getId());
+
+			list("Materiales de todos los Salones:", materialBean.findAll());
+
 			System.out.println("> BAJAS <");
 			for (Salon salon : salonBean.findAll()) {
 				removeSalon(salonBean, salon.getId());
 			}
-			
+
 			for (Area area : areaBean.findAll()) {
 				removeArea(areaBean, area.getId());
 			}
 			
+			for(Material material : materialBean.findAll()) {
+				removeMaterial(materialBean, material.getId());
+			}
+
 		} catch (ServiceException e) {
 			System.out.println(e.getMessage());
 

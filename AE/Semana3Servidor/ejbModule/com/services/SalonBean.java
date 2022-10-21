@@ -12,6 +12,7 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
 import com.entities.Area;
+import com.entities.Material;
 import com.entities.Salon;
 import com.exceptions.EntityAlreadyExistsException;
 import com.exceptions.NotFoundEntityException;
@@ -110,13 +111,41 @@ public class SalonBean implements SalonBeanRemote {
 	}
 
 	@Override
-	public void addMaterial(Long idSalon, Long idMaterial) throws ServiceException, NotFoundEntityException {
+	public void addMaterial(Long idMaterial, Long idSalon) throws ServiceException, NotFoundEntityException {
+		try {
+			Salon salon = findById(idSalon);
+			if (salon == null)
+				throw new NotFoundEntityException("No existe un Salon con el ID:" + idMaterial);
 
+			Material material = em.find(Material.class, idMaterial);
+			if (material == null)
+				throw new NotFoundEntityException("No existe un Material con el ID:" + idSalon);
+
+			salon.getMateriales().add(material);
+			em.merge(material);
+			em.flush();
+		} catch (PersistenceException e) {
+			throw new ServiceException("Error al agregar el Material");
+		}
 	}
 
 	@Override
-	public void removeMaterial(Long idSalon, Long idMaterial) throws ServiceException, NotFoundEntityException {
+	public void removeMaterial(Long idMaterial, Long idSalon) throws ServiceException, NotFoundEntityException {
+		try {
+			Salon salon = findById(idSalon);
+			if (salon == null)
+				throw new NotFoundEntityException("No existe un Salon con el ID:" + idMaterial);
 
+			Material material = em.find(Material.class, idMaterial);
+			if (material == null)
+				throw new NotFoundEntityException("No existe un Material con el ID:" + idSalon);
+
+			salon.getMateriales().remove(Integer.parseInt(idMaterial.toString()));
+			em.merge(salon);
+			em.flush();
+		} catch (PersistenceException e) {
+			throw new ServiceException("Error al agregar el Material");
+		}
 	}
 
 }
