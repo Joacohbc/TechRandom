@@ -1,7 +1,7 @@
 package com.entities;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,46 +35,45 @@ public class Usuario implements Serializable {
 	@Column(name = "ID_USUARIO")
 	private Long idUsuario;
 
-	@Column(nullable = false)
-	private String apellidos;
+	@Column(nullable = false, unique = true)
+	private String documento;
 
+	@Column(unique = true, nullable = false)
+	private String nombreUsuario;
+	
 	@Column(nullable = false)
 	private String contrasena;
 
-	@Enumerated(EnumType.ORDINAL)
-	@Column(nullable = false)
-	private Departamento departamento;
-
-	@Column(nullable = false)
-	private String documento;
-
 	@Column(nullable = false, unique = true)
 	private String email;
-
-	@Enumerated(EnumType.ORDINAL)
+	
 	@Column(nullable = false)
-	private EstadoUsuario estadoUsuario;
+	private String nombres;
 
 	@Column(nullable = false)
-	private Date fecNacimiento;
-
+	private String apellidos;
+	
 	@Enumerated(EnumType.ORDINAL)
 	@Column(nullable = false)
 	private Genero genero;
 
 	@Column(nullable = false)
-	private String localidad;
-
-	@Column(unique = true, nullable = false)
-	private String nombreUsuario;
-
+	private LocalDate fecNacimiento;
+	
+	@Enumerated(EnumType.ORDINAL)
 	@Column(nullable = false)
-	private String nombres;
-
+	private Departamento departamento;
+	
+	@Column(nullable = false)
+	private String localidad;
+	
 	@Column(nullable = false)
 	private String telefono;
-
-	// bi-directional many-to-one association to Itr
+	
+	@Enumerated(EnumType.ORDINAL)
+	@Column(nullable = false)
+	private EstadoUsuario estadoUsuario;
+	
 	@ManyToOne
 	@JoinColumn(name = "ID_ITR")
 	private Itr itr;
@@ -138,11 +137,11 @@ public class Usuario implements Serializable {
 		this.estadoUsuario = estado;
 	}
 
-	public Date getFecNacimiento() {
+	public LocalDate getFecNacimiento() {
 		return this.fecNacimiento;
 	}
 
-	public void setFecNacimiento(Date fecNacimiento) {
+	public void setFecNacimiento(LocalDate fecNacimiento) {
 		this.fecNacimiento = fecNacimiento;
 	}
 

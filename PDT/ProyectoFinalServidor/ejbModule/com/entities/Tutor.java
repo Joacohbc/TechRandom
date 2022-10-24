@@ -17,16 +17,15 @@ public class Tutor extends Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(nullable = false)
-	private String area;
-
-	@Column(nullable = false)
-	private Boolean estado;
+	private String area; // TODO: Esto deberia ser un ENUM o una Tabla aparte?
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(nullable = false)
 	private TipoTutor tipo;
+	
+	@Column(nullable = false) 
+	private Boolean estado;
 
-	// bi-directional many-to-one association to Responsable
 	@OneToMany(mappedBy = "tutor")
 	private List<Responsable> responsables;
 

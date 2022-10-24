@@ -1,8 +1,9 @@
 package com.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 
@@ -12,7 +13,6 @@ import java.util.List;
  */
 @Entity
 @Table(name="EVENTOS")
-@NamedQuery(name="Evento.findAll", query="SELECT e FROM Evento e")
 public class Evento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -20,45 +20,41 @@ public class Evento implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ID_EVENTO")
 	private Long idEvento;
-
-	private Boolean estado;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="FECHA_FIN")
-	private Date fechaFin;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="FECHA_INICIO")
-	private Date fechaInicio;
-
+	
+	@Column(nullable = false, unique = true)
 	private String titulo;
-
-	//bi-directional many-to-one association to Asistencia
+	
+	@Column(nullable = false)
+	private LocalDate fechaInicio;
+	
+	@Column(nullable = false)
+	private LocalDate fechaFin;
+	
+	@Column(nullable = false)
+	private Boolean estado;
+	
 	@OneToMany(mappedBy="evento")
 	private List<Asistencia> asistencias;
-
-	//bi-directional many-to-one association to Constancia
+	
+	// TODO: La bi-direccionaldiad es incesaria? No necesito saber cuales
+	// constancias se hicieron de este evento
+	
 	@OneToMany(mappedBy="evento")
 	private List<Constancia> constancias;
 
-	//bi-directional many-to-one association to TipoEvento
 	@ManyToOne
 	@JoinColumn(name="ID_TIPO_EVENTO")
 	private TipoEvento tipoEvento;
 
-	//bi-directional many-to-one association to Gestore
 	@OneToMany(mappedBy="evento")
 	private List<Gestor> gestores;
 
-	//bi-directional many-to-one association to Justificacione
 	@OneToMany(mappedBy="evento")
 	private List<Justificacion> justificaciones;
 
-	//bi-directional many-to-one association to Reclamo
 	@OneToMany(mappedBy="evento")
 	private List<Reclamo> reclamos;
 
-	//bi-directional many-to-one association to Responsable
 	@OneToMany(mappedBy="evento")
 	private List<Responsable> responsables;
 
@@ -81,19 +77,19 @@ public class Evento implements Serializable {
 		this.estado = estado;
 	}
 
-	public Date getFechaFin() {
+	public LocalDate getFechaFin() {
 		return this.fechaFin;
 	}
 
-	public void setFechaFin(Date fechaFin) {
+	public void setFechaFin(LocalDate fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 
-	public Date getFechaInicio() {
+	public LocalDate getFechaInicio() {
 		return this.fechaInicio;
 	}
 
-	public void setFechaInicio(Date fechaInicio) {
+	public void setFechaInicio(LocalDate fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 

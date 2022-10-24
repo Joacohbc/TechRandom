@@ -17,19 +17,15 @@ public class Analista extends Usuario implements Serializable {
 	@Column(nullable = false)
 	private Boolean estado;
 
-	//bi-directional many-to-one association to AccionConstancia
 	@OneToMany(mappedBy="analista")
 	private List<AccionConstancia> accionConstancias;
 
-	//bi-directional many-to-one association to AccionJustificacione
 	@OneToMany(mappedBy="analista")
 	private List<AccionJustificacion> accionJustificaciones;
 
-	//bi-directional many-to-one association to AccionReclamo
 	@OneToMany(mappedBy="analista")
 	private List<AccionReclamo> accionReclamos;
 
-	//bi-directional many-to-one association to Gestore
 	@OneToMany(mappedBy="analista")
 	private List<Gestor> gestores;
 

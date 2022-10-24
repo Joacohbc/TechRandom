@@ -1,51 +1,54 @@
 package com.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
 
+import javax.persistence.*;
+
+import com.entities.enums.EstadoConstancia;
+
+import java.util.List;
 
 /**
  * The persistent class for the CONSTANCIAS database table.
  * 
  */
 @Entity
-@Table(name="CONSTANCIAS")
-@NamedQuery(name="Constancia.findAll", query="SELECT c FROM Constancia c")
+@Table(name = "CONSTANCIAS")
 public class Constancia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="ID_CONSTANCIA")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ID_CONSTANCIA")
 	private Long idConstancia;
 
+	@Column(nullable = false)
 	private String detalle;
 
-	private String estado;
+	@Column(nullable = false)
+	private EstadoConstancia estado;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="FECHA_HORA")
-	private Date fechaHora;
+	@Column(nullable = false)
+	private LocalDateTime fechaHora;
 
-	//bi-directional many-to-one association to AccionConstancia
-	@OneToMany(mappedBy="constancia")
+	@OneToMany(mappedBy = "constancia")
 	private List<AccionConstancia> accionConstancias;
 
-	//bi-directional many-to-one association to Estudiante
+	@Lob
+	@Column(nullable = false)
+	private byte[] archivo;
+
 	@ManyToOne
-	@JoinColumn(name="ID_ESTUDIANTE")
+	@JoinColumn(name = "ID_ESTUDIANTE")
 	private Estudiante estudiante;
 
-	//bi-directional many-to-one association to Evento
 	@ManyToOne
-	@JoinColumn(name="ID_EVENTO")
+	@JoinColumn(name = "ID_EVENTO")
 	private Evento evento;
 
-	//bi-directional many-to-one association to TipoConstancia
 	@ManyToOne
-	@JoinColumn(name="ID_TIPO_CONSTANCIA")
+	@JoinColumn(name = "ID_TIPO_CONSTANCIA")
 	private TipoConstancia tipoConstancia;
 
 	public Constancia() {
@@ -67,19 +70,19 @@ public class Constancia implements Serializable {
 		this.detalle = detalle;
 	}
 
-	public String getEstado() {
+	public EstadoConstancia getEstado() {
 		return this.estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(EstadoConstancia estado) {
 		this.estado = estado;
 	}
 
-	public Date getFechaHora() {
+	public LocalDateTime getFechaHora() {
 		return this.fechaHora;
 	}
 
-	public void setFechaHora(Date fechaHora) {
+	public void setFechaHora(LocalDateTime fechaHora) {
 		this.fechaHora = fechaHora;
 	}
 

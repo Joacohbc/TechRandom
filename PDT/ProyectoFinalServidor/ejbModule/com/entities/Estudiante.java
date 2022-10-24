@@ -12,26 +12,22 @@ import java.util.List;
 @Table(name = "ESTUDIANTES")
 public class Estudiante extends Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
+	@Column(nullable = false)
+	private Integer generacion;
+	
 	@Column(nullable = false)
 	private Boolean estado;
 
-	@Column(nullable = false)
-	private Integer generacion;
-
-	// bi-directional many-to-one association to Asistencia
 	@OneToMany(mappedBy = "estudiante")
 	private List<Asistencia> asistencias;
 
-	// bi-directional many-to-one association to Constancia
 	@OneToMany(mappedBy = "estudiante")
 	private List<Constancia> constancias;
 
-	// bi-directional many-to-one association to Justificacione
 	@OneToMany(mappedBy = "estudiante")
 	private List<Justificacion> justificaciones;
 
-	// bi-directional many-to-one association to Reclamo
 	@OneToMany(mappedBy = "estudiante")
 	private List<Reclamo> reclamos;
 

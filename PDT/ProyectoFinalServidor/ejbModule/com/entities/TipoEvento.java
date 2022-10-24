@@ -11,7 +11,6 @@ import java.util.List;
  */
 @Entity
 @Table(name="TIPO_EVENTOS")
-@NamedQuery(name="TipoEvento.findAll", query="SELECT t FROM TipoEvento t")
 public class TipoEvento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -20,11 +19,15 @@ public class TipoEvento implements Serializable {
 	@Column(name="ID_TIPO_EVENTO")
 	private Long idTipoEvento;
 
-	private Boolean estado;
-
+	
+	@Column(nullable = false, unique = true)  // TODO: Esto deberia ser UNIQUE, no?
 	private String tipo;
 
-	//bi-directional many-to-one association to Evento
+	@Column(nullable = false)
+	private Boolean estado;
+	
+	// TODO: La bi-direccionaldiad es incesaria? No necesito saber cuales
+	// Eventos son de que tipo, lo averigua directo del evento?
 	@OneToMany(mappedBy="tipoEvento")
 	private List<Evento> eventos;
 

@@ -10,12 +10,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
-import com.entities.Analista;
-import com.entities.Estudiante;
-import com.entities.Tutor;
 import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
-import com.exceptions.EntityAlreadyExistsException;
 import com.exceptions.InvalidUserException;
 import com.exceptions.ServiceException;
 

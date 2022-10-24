@@ -2,11 +2,7 @@ package com.services;
 
 import javax.ejb.Remote;
 
-import com.entities.Analista;
-import com.entities.Estudiante;
-import com.entities.Tutor;
 import com.entities.Usuario;
-import com.exceptions.EntityAlreadyExistsException;
 import com.exceptions.InvalidUserException;
 import com.exceptions.ServiceException;
 

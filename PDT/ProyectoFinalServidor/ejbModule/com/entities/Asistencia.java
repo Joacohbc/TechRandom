@@ -1,37 +1,45 @@
 package com.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import com.entities.enums.TipoAsistencia;
 
 /**
  * The persistent class for the ASISTENCIAS database table.
  * 
  */
 @Entity
-@Table(name="ASISTENCIAS")
-@NamedQuery(name="Asistencia.findAll", query="SELECT a FROM Asistencia a")
+@Table(name = "ASISTENCIAS")
 public class Asistencia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="ID_ASISTENCIA")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ID_ASISTENCIA")
 	private Long idAsistencia;
 
-	private String asistencia;
+	@Enumerated
+	@Column(unique = false)
+	private TipoAsistencia asistencia;
 
-	private BigDecimal calificacion;
+	@Column(nullable = true)
+	private Integer calificacion;
 
-	//bi-directional many-to-one association to Estudiante
 	@ManyToOne
-	@JoinColumn(name="ID_ESTUDIANTE")
+	@JoinColumn(name = "ID_ESTUDIANTE")
 	private Estudiante estudiante;
 
-	//bi-directional many-to-one association to Evento
 	@ManyToOne
-	@JoinColumn(name="ID_EVENTO")
+	@JoinColumn(name = "ID_EVENTO")
 	private Evento evento;
 
 	public Asistencia() {
@@ -45,19 +53,19 @@ public class Asistencia implements Serializable {
 		this.idAsistencia = idAsistencia;
 	}
 
-	public String getAsistencia() {
+	public TipoAsistencia getAsistencia() {
 		return this.asistencia;
 	}
 
-	public void setAsistencia(String asistencia) {
+	public void setAsistencia(TipoAsistencia asistencia) {
 		this.asistencia = asistencia;
 	}
 
-	public BigDecimal getCalificacion() {
+	public Integer getCalificacion() {
 		return this.calificacion;
 	}
 
-	public void setCalificacion(BigDecimal calificacion) {
+	public void setCalificacion(Integer calificacion) {
 		this.calificacion = calificacion;
 	}
 

@@ -4,31 +4,35 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the TIPO_CONSTANCIAS database table.
  * 
  */
 @Entity
-@Table(name="TIPO_CONSTANCIAS")
-@NamedQuery(name="TipoConstancia.findAll", query="SELECT t FROM TipoConstancia t")
+@Table(name = "TIPO_CONSTANCIAS")
+@NamedQuery(name = "TipoConstancia.findAll", query = "SELECT t FROM TipoConstancia t")
 public class TipoConstancia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="ID_TIPO_CONSTANCIA")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ID_TIPO_CONSTANCIA")
 	private Long idTipoConstancia;
 
+	@Column(nullable = false)
 	private Boolean estado;
 
 	@Lob
+	@Column(nullable = false)
 	private byte[] plantilla;
 
+	@Column(nullable = false, unique = true) // TODO: Esto deberia ser UNIQUE?
 	private String tipo;
 
-	//bi-directional many-to-one association to Constancia
-	@OneToMany(mappedBy="tipoConstancia")
+	// TODO: La bi-direccionaldiad es incesaria? No necesito saber cuales
+	// constancias se hicieron con que plantilla
+	
+	@OneToMany(mappedBy = "tipoConstancia")
 	private List<Constancia> constancias;
 
 	public TipoConstancia() {
