@@ -1,6 +1,5 @@
 package main;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.swing.JFrame;
@@ -10,15 +9,15 @@ import javax.swing.border.EmptyBorder;
 import com.entities.Estudiante;
 import com.entities.Tutor;
 import com.entities.enums.Departamento;
-import com.entities.enums.EstadoUsuario;
 import com.entities.enums.Genero;
 import com.entities.enums.TipoTutor;
 
-import beans.Bean;
+import beans.BeanIntances;
 import components.VTextBox;
 
 public class Test extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private VTextBox textField;
 
@@ -35,15 +34,15 @@ public class Test extends JFrame {
 		e.setEmail("joaquin.genova@estudiantes.utec.edu.uy");
 		e.setDocumento("53626663");
 		e.setTelefono("095112514");
-		e.setFecNacimiento(Date.valueOf(LocalDate.of(2003, 9, 8)));
+		e.setFecNacimiento(LocalDate.of(2003, 9, 8));
 		e.setDepartamento(Departamento.MONTEVIDEO);
 		e.setEstado(true);
 		e.setGenero(Genero.MASCULINO);
 		e.setGeneracion(2022);
 		e.setLocalidad("Villa Española");
 
-		System.out.println(Bean.user().register(e));
-		System.out.println(Bean.user().login("joaquin.genova", "1234", Estudiante.class));
+		System.out.println(BeanIntances.user().register(e));
+		System.out.println(BeanIntances.user().login("joaquin.genova", "1234", Estudiante.class));
 
 		Tutor t = new Tutor();
 		t.setNombres("William");
@@ -53,7 +52,7 @@ public class Test extends JFrame {
 		t.setEmail("william.machado@utec.edu.uy");
 		t.setDocumento("45634524");
 		t.setTelefono("096412341");
-		t.setFecNacimiento(Date.valueOf(LocalDate.of(1980, 10, 3)));
+		t.setFecNacimiento(LocalDate.of(1980, 10, 3));
 		t.setDepartamento(Departamento.MONTEVIDEO);
 		t.setGenero(Genero.MASCULINO);
 		t.setArea("Ingles");
@@ -61,8 +60,8 @@ public class Test extends JFrame {
 		t.setEstado(true);
 		t.setLocalidad("Otro lugar que no se cual es");
 
-		System.out.println(Bean.user().register(t));
-		System.out.println(Bean.user().login("william.machado", "1234", Tutor.class));
+		System.out.println(BeanIntances.user().register(t));
+		System.out.println(BeanIntances.user().login("william.machado", "1234", Tutor.class));
 
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {

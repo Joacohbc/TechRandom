@@ -1,4 +1,4 @@
-package validation;
+package swingutils;
 
 import javax.swing.JOptionPane;
 

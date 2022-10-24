@@ -5,7 +5,7 @@ import javax.naming.NamingException;
 
 import com.services.UsuarioBeanRemote;
 
-public class Bean {
+public class BeanIntances {
 
 	static {
 		try {
