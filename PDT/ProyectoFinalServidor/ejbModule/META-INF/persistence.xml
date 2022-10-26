@@ -6,7 +6,7 @@
 	<persistence-unit name="ProyectoFinal">
 
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:/JEE_DS</jta-data-source>
+		<jta-data-source>java:/PDT_DS</jta-data-source>
 
 		<class>com.entities.AccionConstancia</class>
 		<class>com.entities.AccionJustificacion</class>
