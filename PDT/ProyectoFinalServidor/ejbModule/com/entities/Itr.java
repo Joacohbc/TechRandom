@@ -22,7 +22,7 @@ public class Itr implements Serializable {
 	@Column(name="ID_ITR")
 	private Long idItr;
 
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private Departamento departamento;
 	

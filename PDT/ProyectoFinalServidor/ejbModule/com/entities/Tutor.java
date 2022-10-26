@@ -19,7 +19,7 @@ public class Tutor extends Usuario implements Serializable {
 	@Column(nullable = false)
 	private String area; // TODO: Esto deberia ser un ENUM o una Tabla aparte?
 
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private TipoTutor tipo;
 	

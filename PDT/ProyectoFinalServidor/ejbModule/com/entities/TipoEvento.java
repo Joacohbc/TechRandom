@@ -18,7 +18,6 @@ public class TipoEvento implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ID_TIPO_EVENTO")
 	private Long idTipoEvento;
-
 	
 	@Column(nullable = false, unique = true)  // TODO: Esto deberia ser UNIQUE, no?
 	private String tipo;

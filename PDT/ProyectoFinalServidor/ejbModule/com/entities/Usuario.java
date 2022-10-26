@@ -38,7 +38,7 @@ public class Usuario implements Serializable {
 	@Column(nullable = false, unique = true)
 	private String documento;
 
-	@Column(unique = true, nullable = false)
+	@Column(unique = true, nullable = false, name = "NOMBRE_USUARIO")
 	private String nombreUsuario;
 	
 	@Column(nullable = false)
@@ -53,14 +53,14 @@ public class Usuario implements Serializable {
 	@Column(nullable = false)
 	private String apellidos;
 	
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private Genero genero;
 
-	@Column(nullable = false)
+	@Column(nullable = false, name = "FEC_NACIMIENTO")
 	private LocalDate fecNacimiento;
 	
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private Departamento departamento;
 	
@@ -70,8 +70,8 @@ public class Usuario implements Serializable {
 	@Column(nullable = false)
 	private String telefono;
 	
-	@Enumerated(EnumType.ORDINAL)
-	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, name = "ESTADO")
 	private EstadoUsuario estadoUsuario;
 	
 	@ManyToOne

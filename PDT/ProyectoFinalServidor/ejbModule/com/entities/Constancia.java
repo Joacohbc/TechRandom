@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
-import com.entities.enums.EstadoConstancia;
+import com.entities.enums.EstadoSolicitudes;
 
 import java.util.List;
 
@@ -26,10 +26,11 @@ public class Constancia implements Serializable {
 	@Column(nullable = false)
 	private String detalle;
 
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private EstadoConstancia estado;
+	private EstadoSolicitudes estado;
 
-	@Column(nullable = false)
+	@Column(nullable = false, name = "FECHA_HORA")
 	private LocalDateTime fechaHora;
 
 	@OneToMany(mappedBy = "constancia")
@@ -70,11 +71,11 @@ public class Constancia implements Serializable {
 		this.detalle = detalle;
 	}
 
-	public EstadoConstancia getEstado() {
+	public EstadoSolicitudes getEstado() {
 		return this.estado;
 	}
 
-	public void setEstado(EstadoConstancia estado) {
+	public void setEstado(EstadoSolicitudes estado) {
 		this.estado = estado;
 	}
 

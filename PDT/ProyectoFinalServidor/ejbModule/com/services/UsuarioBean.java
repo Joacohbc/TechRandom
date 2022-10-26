@@ -55,7 +55,7 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			usuario.setContrasena(toMD5(usuario.getContrasena()));
 			usuario.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
 			
-			em.persist(usuario);
+			em.persist(usuario);	
 			em.flush();
 			em.refresh(usuario);
 			return usuario;

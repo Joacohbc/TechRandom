@@ -1,13 +1,13 @@
 package com.entities.enums;
 
-public enum EstadoConstancia {
+public enum EstadoSolicitudes {
 	INGRESADO("Ingresado"),
 	EN_PROCESO("En proceso"),
 	FINALIZADO("Finalizado");
 		
 	private String estado;
 	
-	private EstadoConstancia(String estado) {
+	private EstadoSolicitudes(String estado) {
 		this.estado = estado;
 	}
 	

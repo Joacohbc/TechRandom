@@ -1,8 +1,10 @@
 package com.entities.enums;
 
 public enum TipoAsistencia {
-	ASISTENCIA("Asitencia"), MEDIA_ASISTENCIA_MATUTINA("Media asistencia matutina"),
-	MEDIA_ASISTENCIA_VESPERTINA("Media asistencia vespertina"), AUSENCIA("Ausencia"),
+	ASISTENCIA("Asitencia"), 
+	MEDIA_ASISTENCIA_MATUTINA("Media asistencia matutina"),
+	MEDIA_ASISTENCIA_VESPERTINA("Media asistencia vespertina"), 
+	AUSENCIA("Ausencia"),
 	AUSENCIA_JUSTIFICADA("Ausencia justificada");
 
 	private String asistencia;

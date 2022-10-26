@@ -24,10 +24,10 @@ public class Evento implements Serializable {
 	@Column(nullable = false, unique = true)
 	private String titulo;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, name = "FECHA_INICIO")
 	private LocalDate fechaInicio;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, name = "FECHA_FIN")
 	private LocalDate fechaFin;
 	
 	@Column(nullable = false)

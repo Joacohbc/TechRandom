@@ -29,7 +29,7 @@ public class AccionConstancia implements Serializable {
 	@Column(nullable = false)
 	private String detalle;
 
-	@Column(nullable = false)
+	@Column(nullable = false, name ="FECHA_HORA")
 	private LocalDateTime fechaHora;
 
 	@ManyToOne
