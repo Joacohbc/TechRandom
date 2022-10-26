@@ -121,7 +121,7 @@ public final class Validaciones {
 	
 	public static boolean IsValid(String date) {
 		try {
-			LocalDate.parse(date, Formatos.DateFormatter);
+			LocalDate.parse(date, Formatos.DateFormat);
 			return true;
 		} catch (DateTimeParseException e) {
 			return false;
