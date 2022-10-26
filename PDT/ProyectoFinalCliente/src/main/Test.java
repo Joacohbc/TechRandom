@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.entities.Estudiante;
+import com.entities.Itr;
 import com.entities.Tutor;
 import com.entities.enums.Departamento;
 import com.entities.enums.Genero;
@@ -26,6 +27,12 @@ public class Test extends JFrame {
 	 */
 	public static void main(String[] args) {
 
+		Itr itr = new Itr();
+		itr.setIdItr(1l);
+		itr.setNombre("ITRCS");
+		itr.setDepartamento(Departamento.DURAZNO);
+		itr.setEstado(true);
+		
 		Estudiante e = new Estudiante();
 		e.setNombres("Joaquin");
 		e.setApellidos("Genova Guerendiain");
@@ -40,6 +47,7 @@ public class Test extends JFrame {
 		e.setGenero(Genero.MASCULINO);
 		e.setGeneracion(2022);
 		e.setLocalidad("Villa Española");
+		e.setItr(itr);
 
 		System.out.println(BeanIntances.user().register(e));
 		System.out.println(BeanIntances.user().login("joaquin.genova", "1234", Estudiante.class));
@@ -59,7 +67,8 @@ public class Test extends JFrame {
 		t.setTipo(TipoTutor.TUTOR);
 		t.setEstado(true);
 		t.setLocalidad("Otro lugar que no se cual es");
-
+		t.setItr(itr);
+		
 		System.out.println(BeanIntances.user().register(t));
 		System.out.println(BeanIntances.user().login("william.machado", "1234", Tutor.class));
 
