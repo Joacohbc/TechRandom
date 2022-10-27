@@ -11,12 +11,11 @@ import java.util.Date;
  */
 @Entity
 @Table(name="ACCION_RECLAMOS")
-@NamedQuery(name="AccionReclamo.findAll", query="SELECT a FROM AccionReclamo a")
 public class AccionReclamo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO, generator = "SEQ_ACCION_RECLAMOS")
 	@Column(name="ID_ACCION_RECLAMO")
 	private Long idAccionReclamo;
 

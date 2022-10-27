@@ -24,7 +24,7 @@ public class Asistencia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_ANALISTAS")
 	@Column(name = "ID_ASISTENCIA")
 	private Long idAsistencia;
 

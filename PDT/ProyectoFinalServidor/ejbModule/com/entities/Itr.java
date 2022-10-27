@@ -18,7 +18,7 @@ public class Itr implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO, generator = "SEQ_ITRS")
 	@Column(name="ID_ITR")
 	private Long idItr;
 

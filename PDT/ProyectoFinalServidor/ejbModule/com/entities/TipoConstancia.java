@@ -10,12 +10,11 @@ import java.util.List;
  */
 @Entity
 @Table(name = "TIPO_CONSTANCIAS")
-@NamedQuery(name = "TipoConstancia.findAll", query = "SELECT t FROM TipoConstancia t")
 public class TipoConstancia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_TIPO_CONSTANCIAS")
 	@Column(name = "ID_TIPO_CONSTANCIA")
 	private Long idTipoConstancia;
 

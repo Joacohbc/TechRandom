@@ -17,7 +17,7 @@ public class Evento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO, generator = "SEQ_EVENTOS")
 	@Column(name="ID_EVENTO")
 	private Long idEvento;
 	
