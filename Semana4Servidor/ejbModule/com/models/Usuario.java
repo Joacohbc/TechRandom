@@ -9,26 +9,27 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "USUARIOS")
-@NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USUARIO")
+	@SequenceGenerator(name = "SEQ_USUARIO", initialValue = 1, allocationSize = 1)
 	@Column(name = "ID_USUARIO")
 	private long idUsuario;
 
-	private String apellido;
-
-	private String clave;
-
+	@Column(unique = true)
 	private String documento;
-
+	
+	@Column(unique = true)
 	private String mail;
 
+	private String clave;
+	
 	private String nombre;
+	
+	private String apellido;
 
-	// bi-directional many-to-one association to Rol
 	@ManyToOne
 	@JoinColumn(name = "ID_ROL")
 	private Rol role;

@@ -10,21 +10,21 @@ import java.util.List;
  */
 @Entity
 @Table(name = "FUNCIONALIDADES")
-@NamedQuery(name = "Funcionalidad.findAll", query = "SELECT f FROM Funcionalidad f")
 public class Funcionalidad implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FUNCIONALIDAD")
+	@SequenceGenerator(name = "SEQ_FUNCIONALIDAD",initialValue = 1, allocationSize = 1)
 	@Column(name = "ID_FUNCIONALIDAD")
 	private long idFuncionalidad;
 
-	private String descripcion;
-
+	@Column(unique = true)
 	private String nombre;
-
-	// bi-directional many-to-many association to Rol
-	@ManyToMany(mappedBy = "funcionalidades")
+	
+	private String descripcion;
+	
+	@ManyToMany(mappedBy = "funcionalidades", fetch = FetchType.EAGER)
 	private List<Rol> roles;
 
 	public Funcionalidad() {

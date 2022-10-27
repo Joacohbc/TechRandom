@@ -9,27 +9,27 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name = "\"ROLES\"")
-@NamedQuery(name = "Rol.findAll", query = "SELECT r FROM Rol r")
+@Table(name = "ROLES")
 public class Rol implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ROL")	
+	@SequenceGenerator(name = "SEQ_ROL", initialValue = 1, allocationSize = 1)
 	@Column(name = "ID_ROL")
 	private long idRol;
 
-	private String descripcion;
-
+	@Column(unique = true)
 	private String nombre;
-
-	// bi-directional many-to-many association to Funcionalidad
+	
+	private String descripcion;
+	
 	@ManyToMany
-	@JoinTable(name = "ROL_FUNCION", joinColumns = { @JoinColumn(name = "ID_ROL") }, inverseJoinColumns = {
-			@JoinColumn(name = "ID_FUNCION") })
+	@JoinTable(name = "ROL_FUNCION",
+		joinColumns = { @JoinColumn(name = "ID_ROL") }, 
+		inverseJoinColumns = { @JoinColumn(name = "ID_FUNCION") })
 	private List<Funcionalidad> funcionalidades;
 
-	// bi-directional many-to-one association to Usuario
 	@OneToMany(mappedBy = "role")
 	private List<Usuario> usuarios;
 
