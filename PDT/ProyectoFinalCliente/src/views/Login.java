@@ -58,7 +58,6 @@ public class Login extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		getContentPane().add(logo, BorderLayout.CENTER);
 		
 		JComboBox <Roles> comboRol = new JComboBox <Roles>();
 		comboRol.setBounds(317, 175, 164, 21);
@@ -132,7 +131,8 @@ public class Login extends JFrame {
 		contentPane.add(textContraseña);
 		
 		JLabel lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\bruno\\Desktop\\logo utec (2).png"));
+// TODO: Hay que agregar esta foto al proyecto
+//		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\bruno\\Desktop\\logo utec (2).png"));
 		lblNewLabel_3.setBounds(551, 21, 109, 103);
 		contentPane.add(lblNewLabel_3);
 		
