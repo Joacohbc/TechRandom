@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,11 +23,14 @@ import components.Roles;
 import components.VTextBox;
 import components.ValidationObject;
 import validation.Validaciones;
+import java.awt.Label;
+import javax.swing.ImageIcon;
 
 public class Login extends JFrame {
 
 	private JPanel contentPane;
 	private JPasswordField textContraseña;
+	loginLogo logo = new loginLogo();
 
 	/**
 	 * Launch the application.
@@ -48,15 +52,17 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
+		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 711, 572);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		getContentPane().add(logo, BorderLayout.CENTER);
 		
 		JComboBox <Roles> comboRol = new JComboBox <Roles>();
-		comboRol.setBounds(169, 64, 164, 21);
+		comboRol.setBounds(317, 175, 164, 21);
 		contentPane.add(comboRol);
 		for (Roles rol : Roles.values()) {
 			comboRol.addItem(rol);
@@ -80,25 +86,27 @@ public class Login extends JFrame {
 		JButton btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Registrarse registro = new Registrarse();
+				registro.setVisible(true);
 			}
 		});
-		btnRegistrarse.setBounds(264, 209, 102, 21);
+		btnRegistrarse.setBounds(414, 330, 102, 21);
 		contentPane.add(btnRegistrarse);
 		
 		JLabel lblNewLabel = new JLabel("Usuario");
-		lblNewLabel.setBounds(57, 98, 102, 13);
+		lblNewLabel.setBounds(205, 209, 102, 13);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Contraseña");
-		lblNewLabel_1.setBounds(57, 134, 102, 13);
+		lblNewLabel_1.setBounds(205, 245, 102, 13);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Rol");
-		lblNewLabel_2.setBounds(57, 68, 102, 13);
+		lblNewLabel_2.setBounds(205, 179, 102, 13);
 		contentPane.add(lblNewLabel_2);
 		
 		VTextBox textboxUsuario = new VTextBox();
-		textboxUsuario.setBounds(169, 95, 164, 21);
+		textboxUsuario.setBounds(317, 206, 164, 21);
 		contentPane.add(textboxUsuario);
 		
 		JButton btnLogin = new JButton("Login");
@@ -117,12 +125,18 @@ public class Login extends JFrame {
 					}
 				}
 		});
-		btnLogin.setBounds(264, 171, 102, 21);
+		btnLogin.setBounds(414, 292, 102, 21);
 		contentPane.add(btnLogin);
 		
 		textContraseña = new JPasswordField();
-		textContraseña.setBounds(169, 126, 164, 21);
+		textContraseña.setBounds(317, 237, 164, 21);
 		contentPane.add(textContraseña);
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\bruno\\Desktop\\logo utec (2).png"));
+		lblNewLabel_3.setBounds(551, 21, 109, 103);
+		contentPane.add(lblNewLabel_3);
+		
 		
 	}
 }
