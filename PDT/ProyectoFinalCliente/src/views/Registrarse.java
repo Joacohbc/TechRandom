@@ -143,7 +143,7 @@ public class Registrarse extends JFrame {
 		contentPane.add(btnRegistrarme);
 		
 		JLabel lblNewLabel_12 = new JLabel("Registro de usuario");
-		lblNewLabel_12.setBounds(268, 40, 94, 13);
+		lblNewLabel_12.setBounds(207, 40, 218, 13);
 		contentPane.add(lblNewLabel_12);
 	}
 }
