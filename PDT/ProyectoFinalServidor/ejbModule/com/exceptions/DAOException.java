@@ -3,15 +3,15 @@ package com.exceptions;
 import javax.ejb.ApplicationException;
 
 @ApplicationException
-public class ServiceException extends RuntimeException {
+public class DAOException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public ServiceException(String message) {
+	public DAOException(String message) {
 		super(message);
 	}
 
-	public ServiceException(String message, Throwable e) {
+	public DAOException(String message, Throwable e) {
 		super(message + " " + e.getMessage());
 	}
 }

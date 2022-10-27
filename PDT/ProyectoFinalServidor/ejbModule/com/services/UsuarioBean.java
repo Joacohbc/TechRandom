@@ -4,17 +4,17 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
 
+import com.daos.UsuariosDAO;
+import com.entities.Itr;
 import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
+import com.exceptions.DAOException;
 import com.exceptions.InvalidUserException;
+import com.exceptions.NotFoundEntityException;
 import com.exceptions.ServiceException;
 
 /**
@@ -24,14 +24,10 @@ import com.exceptions.ServiceException;
 @LocalBean
 public class UsuarioBean implements UsuarioBeanRemote {
 
-	@PersistenceContext
-	private EntityManager em;
+	@EJB
+	private UsuariosDAO dao;
 
-	/**
-	 * Default constructor.
-	 */
 	public UsuarioBean() {
-		// TODO Auto-generated constructor stub
 	}
 
 	private String toMD5(String password) throws NoSuchAlgorithmException {
@@ -56,42 +52,48 @@ public class UsuarioBean implements UsuarioBeanRemote {
 		try {
 			usuario.setContrasena(toMD5(usuario.getContrasena()));
 			usuario.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
-			
-			em.persist(usuario);	
-			em.flush();
-			em.refresh(usuario);
-			return usuario;
-		} catch (PersistenceException | NoSuchAlgorithmException e) {
-			throw new ServiceException("Ocurrió un error al dar de alta al Usuario: " + e.getMessage());
+			return dao.insert(usuario);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		} catch (NoSuchAlgorithmException e) {
+			throw new ServiceException("No se pudo inscripar la contraseña del usuario: " + e.getMessage());
 		}
 	}
 
 	@Override
-	public <T extends Usuario> T login(String nombreUsuario, String password, Class<T> tipoUsu) throws ServiceException, InvalidUserException{
+	public <T extends Usuario> T login(String nombreUsuario, String password, Class<T> tipoUsu)
+			throws ServiceException, InvalidUserException {
 		try {
-			Long id = em
-					.createQuery("SELECT u.idUsuario FROM Usuario u WHERE u.nombreUsuario = ?1 AND u.contrasena = ?2",
-							Long.class)
-					.setParameter(1, nombreUsuario).setParameter(2, toMD5(password)).getSingleResult();
+			Long id = dao.getUserID(nombreUsuario, toMD5(password));
+			if (id == null)
+				throw new InvalidUserException("El nombre o la contraseña del usuario son incorrectos");
 
-			return em.find(tipoUsu, id);
-		} catch (NoResultException e) {
-			return null;
-		} catch (PersistenceException | NoSuchAlgorithmException e) {
+			return dao.findById(tipoUsu, id);
+		} catch (NoSuchAlgorithmException e) {
 			throw new ServiceException("Ocurrió un error intentar iniciar sesion: " + e.getMessage());
 		}
 	}
-	@Override
-	public <T extends Usuario> List<T> findAll(Class<T> tipoUsu) throws ServiceException, InvalidUserException{ 
-		
-		try {
-			List<T> lista = em.createQuery("Select u FROM Usuario u",tipoUsu).getResultList();
 
-			return lista;
-		} catch (NoResultException e) {
-			return null;
-		} catch (PersistenceException  e) {
-			throw new ServiceException("Ocurrió un error intentado leer listado de usuarios: " + e.getMessage());
+	@Override
+	public <T extends Usuario> List<T> findAll(Class<T> tipoUsu) {
+		return dao.findAll(tipoUsu);
+	}
+
+	@Override
+	public <T extends Usuario> List<T> findAll(Class<T> tipoUsu, EstadoUsuario estado, Itr itr) {
+		return dao.findAll(tipoUsu, estado, itr);
+	}
+
+	@Override
+	public void updateEstadoUsuario(Long id, EstadoUsuario estadoUsuario) throws ServiceException {
+		try {
+			dao.updateUsuarioEstado(id, estadoUsuario);
+		}catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		} catch (NotFoundEntityException e) {
+			throw new ServiceException(e.getMessage());
 		}
 	}
+
+	
 }

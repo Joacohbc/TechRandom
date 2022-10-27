@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
+import com.entities.Itr;
 import com.entities.Usuario;
+import com.entities.enums.EstadoUsuario;
 import com.exceptions.InvalidUserException;
 import com.exceptions.ServiceException;
 
@@ -18,5 +20,9 @@ public interface UsuarioBeanRemote {
 
 	<T extends Usuario> T login(String nombreUsuario, String password, Class<T> tipoUsu) throws ServiceException, InvalidUserException;
 	
-	<T extends Usuario> List<T> findAll(Class<T> tipoUsu) throws ServiceException, InvalidUserException;
+	<T extends Usuario> List<T> findAll(Class<T> tipoUsu);
+	
+	<T extends Usuario> List<T> findAll(Class<T> tipoUsu, EstadoUsuario estado, Itr itr);
+	
+	void updateEstadoUsuario(Long id, EstadoUsuario estadoUsuario) throws ServiceException;
 }
