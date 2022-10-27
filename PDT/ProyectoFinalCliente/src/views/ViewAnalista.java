@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import com.entities.Estudiante;
 import com.entities.Usuario;
 
 import beans.BeanIntances;
@@ -193,6 +194,11 @@ public class ViewAnalista extends JFrame {
 				Long itr = usu.getItr().getIdItr();
 				String tipo = usu.getClass().getSimpleName();
 				String estado = usu.getEstadoUsuario().name();
+				
+				if(tipo.trim().equalsIgnoreCase("Estudiante")) {
+					//BeanIntances.user().findById();
+					
+				}
 				//int generacion = BeanIntances.user().
 				System.out.println("el tipo es " + tipo + " El filtro es " + filtros.get("TIPO").toString());
 
