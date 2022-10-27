@@ -30,7 +30,6 @@ public class Login extends JFrame {
 
 	private JPanel contentPane;
 	private JPasswordField textContraseña;
-	loginLogo logo = new loginLogo();
 
 	/**
 	 * Launch the application.
