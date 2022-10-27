@@ -22,7 +22,7 @@ import com.entities.Usuario;
 
 import beans.BeanIntances;
 
-public class ListadoUsuarios extends JFrame {
+public class ViewAnalista extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtGeneracion;
@@ -38,7 +38,7 @@ public class ListadoUsuarios extends JFrame {
 			public void run() {
 				try {
 
-					ListadoUsuarios frame = new ListadoUsuarios();
+					ViewAnalista frame = new ViewAnalista();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,7 +50,7 @@ public class ListadoUsuarios extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ListadoUsuarios() {
+	public ViewAnalista() {
 		filtros = new HashMap();
 		setTitle("Listado de Usuarios");
 
@@ -79,6 +79,7 @@ public class ListadoUsuarios extends JFrame {
 		comboTipoUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String tipo = comboTipoUsuario.getSelectedItem().toString();
+				
 				switch (tipo) {
 				case "ESTUDIANTE": {
 					filtros.put("TIPO", "Estudiante");
@@ -185,6 +186,7 @@ public class ListadoUsuarios extends JFrame {
 
 	public void filtrarListaUsuarios(JList lstUsuarios, Map filtros) {
 		ArrayList<Usuario> filtrados = new ArrayList<Usuario>();
+		
 		if (!filtros.isEmpty() && filtros.get("ITR") != null) {
 			for (Usuario usu : usuarios) {
 				Long itr = usu.getItr().getIdItr();
