@@ -95,5 +95,11 @@ public class UsuarioBean implements UsuarioBeanRemote {
 		}
 	}
 
+	@Override
+	public <T extends Usuario> T findById(Class<T> tipoUsu, Long id) throws ServiceException, InvalidUserException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }

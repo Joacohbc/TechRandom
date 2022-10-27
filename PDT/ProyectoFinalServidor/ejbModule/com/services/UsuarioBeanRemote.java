@@ -25,4 +25,7 @@ public interface UsuarioBeanRemote {
 	<T extends Usuario> List<T> findAll(Class<T> tipoUsu, EstadoUsuario estado, Itr itr);
 	
 	void updateEstadoUsuario(Long id, EstadoUsuario estadoUsuario) throws ServiceException;
+	
+	<T extends Usuario> T findById(Class<T> tipoUsu,Long id) throws ServiceException, InvalidUserException;
+	
 }
