@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 import com.entities.Usuario;
 
 import beans.BeanIntances;
+import components.Roles;
 
 public class ViewAnalista extends JFrame {
 
@@ -176,9 +177,9 @@ public class ViewAnalista extends JFrame {
 		comboEstado.addItem("SIN_VALIDAR");
 		comboEstado.addItem("ELIMINADO");
 
-		comboTipoUsuario.addItem("ANALISTA");
-		comboTipoUsuario.addItem("ESTUDIANTE");
-		comboTipoUsuario.addItem("TUTOR");
+		comboTipoUsuario.addItem(Roles.ANALISTA);
+		comboTipoUsuario.addItem(Roles.ESTUDIANTE);
+		comboTipoUsuario.addItem(Roles.TUTOR);
 
 		comboITR.addItem(1);
 		comboITR.addItem(2);
