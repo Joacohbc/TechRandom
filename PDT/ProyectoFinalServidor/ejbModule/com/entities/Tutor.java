@@ -15,7 +15,8 @@ import java.util.List;
 @Table(name = "TUTORES")
 public class Tutor extends Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
+	// El
 	@Column(name = "ID_TUTOR", nullable = false, unique = true)
 	private Long idTutor;
 

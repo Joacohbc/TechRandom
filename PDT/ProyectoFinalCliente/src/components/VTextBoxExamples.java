@@ -4,6 +4,7 @@ import javax.swing.ImageIcon;
 
 import validation.Formatos;
 import validation.Validaciones;
+import validation.ValidationObject;
 
 public class VTextBoxExamples {
 

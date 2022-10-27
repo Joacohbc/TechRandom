@@ -4,6 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
+import javax.ejb.LocalBean;
+import javax.ejb.Singleton;
+
+@LocalBean
+@Singleton
 public final class Validaciones {
 	
 	public static String Trim(String s) {
@@ -107,13 +112,13 @@ public final class Validaciones {
 
 	public static boolean ValidarFecha(LocalDate date, LocalDate fechaMin, LocalDate fechaMax,
 			ValidacionesFecha validacion) {
+		
 		if (date == null || fechaMin == null || fechaMax == null)
 			return false;
 
 		if (validacion == ValidacionesFecha.NO_ESTRICTAMENTE) {
 			if (date.isEqual(fechaMin) || date.isEqual(fechaMax))
 				return true;
-
 		}
 
 		return ValidarFechaMin(date, fechaMin, validacion) && ValidarFechaMax(date, fechaMax, validacion);
