@@ -5,13 +5,11 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
-import org.picketbox.util.KeyStoreUtil;
-
+import com.entities.Estudiante;
 import com.entities.Itr;
 import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
@@ -78,10 +76,14 @@ public class UsuariosDAO {
 	}
 	
 	public <T extends Usuario> List<T> findAll(Class<T> tipoUsu, EstadoUsuario estado, Itr itr) {		
-		return em.createQuery("Select u FROM " + tipoUsu.getName() + " u WHERE u.estadoUsuario = ?1 AND u.itr.idItr = ?2", tipoUsu)
+		return em.createQuery("SELECT u FROM " + tipoUsu.getName() + " u WHERE u.estadoUsuario = ?1 AND u.itr.idItr = ?2", tipoUsu)
 				.setParameter(1, estado)
 				.setParameter(2, itr.getIdItr())
 				.getResultList();
+	}
+	
+	public List<Estudiante> findAll(Integer generacion, EstadoUsuario estado, Itr itr) {		
+		return null;
 	}
 	
 	public Usuario updateUsuarioEstado(Long id, EstadoUsuario estado) throws DAOException, NotFoundEntityException{

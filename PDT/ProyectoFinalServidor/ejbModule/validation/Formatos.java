@@ -7,6 +7,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 
+import javax.ejb.LocalBean;
+import javax.ejb.Singleton;
+
+@Singleton
+@LocalBean
 public final class Formatos {
 
 	public static final DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");

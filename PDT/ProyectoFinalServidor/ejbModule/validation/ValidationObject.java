@@ -1,4 +1,4 @@
-package components;
+package validation;
 
 public class ValidationObject {
 
