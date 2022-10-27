@@ -16,20 +16,31 @@ import java.util.List;
 public class Tutor extends Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Column(name = "ID_TUTOR", nullable = false, unique = true)
+	private Long idTutor;
+
 	@Column(nullable = false)
 	private String area; // TODO: Esto deberia ser un ENUM o una Tabla aparte?
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private TipoTutor tipo;
-	
-	@Column(nullable = false) 
+
+	@Column(nullable = false)
 	private Boolean estado;
 
 	@OneToMany(mappedBy = "tutor")
 	private List<Responsable> responsables;
 
 	public Tutor() {
+	}
+
+	public Long getIdTutor() {
+		return idTutor;
+	}
+
+	public void setIdTutor(Long idTutor) {
+		this.idTutor = idTutor;
 	}
 
 	public String getArea() {
@@ -76,5 +87,16 @@ public class Tutor extends Usuario implements Serializable {
 		responsable.setTutore(null);
 
 		return responsable;
+	}
+
+	@Override
+	public String toString() {
+		return "Tutor [idTutor=" + idTutor + ", area=" + area + ", tipo=" + tipo + ", estado=" + estado
+				+ ", getIdUsuario()=" + getIdUsuario() + ", getApellidos()=" + getApellidos() + ", getContrasena()="
+				+ getContrasena() + ", getDepartamento()=" + getDepartamento() + ", getDocumento()=" + getDocumento()
+				+ ", getEmail()=" + getEmail() + ", getEstadoUsuario()=" + getEstadoUsuario() + ", getFecNacimiento()="
+				+ getFecNacimiento() + ", getGenero()=" + getGenero() + ", getLocalidad()=" + getLocalidad()
+				+ ", getNombreUsuario()=" + getNombreUsuario() + ", getNombres()=" + getNombres() + ", getTelefono()="
+				+ getTelefono() + ", getItr()=" + getItr() + "]";
 	}
 }

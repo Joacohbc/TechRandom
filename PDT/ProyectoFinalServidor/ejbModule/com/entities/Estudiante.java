@@ -12,10 +12,13 @@ import java.util.List;
 @Table(name = "ESTUDIANTES")
 public class Estudiante extends Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
+	@Column(name = "ID_ESTUDIANTE", nullable = false, unique = true)
+	private Long idEstudiante;
+
 	@Column(nullable = false)
 	private Integer generacion;
-	
+
 	@Column(nullable = false)
 	private Boolean estado;
 
@@ -32,6 +35,14 @@ public class Estudiante extends Usuario implements Serializable {
 	private List<Reclamo> reclamos;
 
 	public Estudiante() {
+	}
+
+	public Long getIdEstudiante() {
+		return idEstudiante;
+	}
+
+	public void setIdEstudiante(Long idEstudiante) {
+		this.idEstudiante = idEstudiante;
 	}
 
 	public Boolean getEstado() {
@@ -138,4 +149,14 @@ public class Estudiante extends Usuario implements Serializable {
 		return reclamo;
 	}
 
+	@Override
+	public String toString() {
+		return "Estudiante [idEstudiante=" + idEstudiante + ", generacion=" + generacion + ", estado=" + estado
+				+ ", getIdUsuario()=" + getIdUsuario() + ", getApellidos()=" + getApellidos() + ", getContrasena()="
+				+ getContrasena() + ", getDepartamento()=" + getDepartamento() + ", getDocumento()=" + getDocumento()
+				+ ", getEmail()=" + getEmail() + ", getEstadoUsuario()=" + getEstadoUsuario() + ", getFecNacimiento()="
+				+ getFecNacimiento() + ", getGenero()=" + getGenero() + ", getLocalidad()=" + getLocalidad()
+				+ ", getNombreUsuario()=" + getNombreUsuario() + ", getNombres()=" + getNombres() + ", getTelefono()="
+				+ getTelefono() + ", getItr()=" + getItr() + "]";
+	}
 }

@@ -14,6 +14,9 @@ import java.util.List;
 public class Analista extends Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Column(name = "ID_ANALISTA", nullable = false, unique = true)
+	private Long idAnalista;
+	
 	@Column(nullable = false)
 	private Boolean estado;
 
@@ -30,6 +33,14 @@ public class Analista extends Usuario implements Serializable {
 	private List<Gestor> gestores;
 
 	public Analista() {
+	}
+
+	public Long getIdAnalista() {
+		return idAnalista;
+	}
+
+	public void setIdAnalista(Long idAnalista) {
+		this.idAnalista = idAnalista;
 	}
 
 	public Boolean getEstado() {
@@ -114,18 +125,29 @@ public class Analista extends Usuario implements Serializable {
 		this.gestores = gestores;
 	}
 
-	public Gestor addGestore(Gestor gestore) {
-		getGestores().add(gestore);
-		gestore.setAnalista(this);
+	public Gestor addGestore(Gestor gestor) {
+		getGestores().add(gestor);
+		gestor.setAnalista(this);
 
-		return gestore;
+		return gestor;
 	}
 
-	public Gestor removeGestore(Gestor gestore) {
-		getGestores().remove(gestore);
-		gestore.setAnalista(null);
+	public Gestor removeGestore(Gestor gestor) {
+		getGestores().remove(gestor);
+		gestor.setAnalista(null);
 
-		return gestore;
+		return gestor;
+	}
+
+	@Override
+	public String toString() {
+		return "Analista [idAnalista=" + idAnalista + ", estado=" + estado + ", getIdUsuario()=" + getIdUsuario()
+				+ ", getApellidos()=" + getApellidos() + ", getContrasena()=" + getContrasena() + ", getDepartamento()="
+				+ getDepartamento() + ", getDocumento()=" + getDocumento() + ", getEmail()=" + getEmail()
+				+ ", getEstadoUsuario()=" + getEstadoUsuario() + ", getFecNacimiento()=" + getFecNacimiento()
+				+ ", getGenero()=" + getGenero() + ", getLocalidad()=" + getLocalidad() + ", getNombreUsuario()="
+				+ getNombreUsuario() + ", getNombres()=" + getNombres() + ", getTelefono()=" + getTelefono()
+				+ ", getItr()=" + getItr() + "]";
 	}
 
 }
