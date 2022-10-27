@@ -12,12 +12,11 @@ import java.util.List;
  */
 @Entity
 @Table(name="RECLAMOS")
-@NamedQuery(name="Reclamo.findAll", query="SELECT r FROM Reclamo r")
 public class Reclamo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO, generator = "SEQ_RECLAMOS")
 	@Column(name="ID_RECLAMO")
 	private Long idReclamo;
 

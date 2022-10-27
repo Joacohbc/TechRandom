@@ -25,7 +25,7 @@ public class AccionJustificacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO, generator = "SEQ_ACCION_JUSTIFICACIONES")
 	@Column(name="ID_ACCION_JUSTIFICACIONES")
 	private Long idAccionJustificaciones;
 

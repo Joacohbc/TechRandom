@@ -22,7 +22,7 @@ public class AccionConstancia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_ACCION_CONSTANCIAS")
 	@Column(name = "ID_ACCION_CONSTANCIA")
 	private Long idAccionConstancia;
 
