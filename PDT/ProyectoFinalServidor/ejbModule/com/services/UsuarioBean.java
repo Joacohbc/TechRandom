@@ -2,6 +2,7 @@ package com.services;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -9,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 
 import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
@@ -77,6 +79,19 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			return null;
 		} catch (PersistenceException | NoSuchAlgorithmException e) {
 			throw new ServiceException("Ocurrió un error intentar iniciar sesion: " + e.getMessage());
+		}
+	}
+	@Override
+	public <T extends Usuario> List<T> findAll(Class<T> tipoUsu) throws ServiceException, InvalidUserException{ 
+		
+		try {
+			List<T> lista = em.createQuery("Select u FROM Usuario u",tipoUsu).getResultList();
+
+			return lista;
+		} catch (NoResultException e) {
+			return null;
+		} catch (PersistenceException  e) {
+			throw new ServiceException("Ocurrió un error intentado leer listado de usuarios: " + e.getMessage());
 		}
 	}
 }

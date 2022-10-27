@@ -1,5 +1,7 @@
 package com.services;
 
+import java.util.List;
+
 import javax.ejb.Remote;
 
 import com.entities.Usuario;
@@ -15,4 +17,6 @@ public interface UsuarioBeanRemote {
 	<T extends Usuario> T register(T usuario) throws ServiceException, InvalidUserException;
 
 	<T extends Usuario> T login(String nombreUsuario, String password, Class<T> tipoUsu) throws ServiceException, InvalidUserException;
+	
+	<T extends Usuario> List<T> findAll(Class<T> tipoUsu) throws ServiceException, InvalidUserException;
 }
