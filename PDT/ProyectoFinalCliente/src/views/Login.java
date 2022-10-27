@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -115,12 +116,30 @@ public class Login extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (comboRol.getSelectedItem() == Roles.ANALISTA && textboxUsuario.isValid()) {
-					System.out.println(BeanIntances.user().login(textboxUsuario.getText(), String.valueOf(textContraseña.getPassword()), Analista.class));
-				}else if (comboRol.getSelectedItem() == Roles.TUTOR && textboxUsuario.isValid()) {
-					System.out.println(BeanIntances.user().login(textboxUsuario.getText(), String.valueOf(textContraseña.getPassword()), Tutor.class));
-				}else if (comboRol.getSelectedItem() == Roles.ESTUDIANTE && textboxUsuario.isValid()){
-					System.out.println(BeanIntances.user().login(textboxUsuario.getText(), String.valueOf(textContraseña.getPassword()), Estudiante.class));
+					try {
+						System.out.println(BeanIntances.user().login(textboxUsuario.getText(), String.valueOf(textContraseña.getPassword()), Analista.class));
+						//viewAnalista viewAnalista = new viewAnalista();
+						//viewAnalista.setVisible(true);
+					}catch(Exception E) {
+						JOptionPane.showMessageDialog(null, "No es posible loguearse al sistema. Compruebe las credenciales ingresadas.");
 					}
+				}else if (comboRol.getSelectedItem() == Roles.TUTOR && textboxUsuario.isValid()) {
+							try {
+								System.out.println(BeanIntances.user().login(textboxUsuario.getText(), String.valueOf(textContraseña.getPassword()), Tutor.class));
+								viewTutor viewTutor = new viewTutor();
+								viewTutor.setVisible(true);
+							}catch(Exception E) {
+								JOptionPane.showMessageDialog(null, "No es posible loguearse al sistema. Compruebe las credenciales ingresadas.");
+							}
+					}else if (comboRol.getSelectedItem() == Roles.ESTUDIANTE && textboxUsuario.isValid()){
+							try {
+								System.out.println(BeanIntances.user().login(textboxUsuario.getText(), String.valueOf(textContraseña.getPassword()), Estudiante.class));
+								viewEstudiante viewEstudiante = new viewEstudiante();
+								viewEstudiante.setVisible(true);
+							}catch(Exception E) {
+								JOptionPane.showMessageDialog(null, "No es posible loguearse al sistema. Compruebe las credenciales ingresadas.");	
+							}
+						}
 				}
 		});
 		btnLogin.setBounds(414, 292, 102, 21);
