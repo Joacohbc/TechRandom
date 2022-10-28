@@ -21,6 +21,8 @@ import com.exceptions.ServiceException;
 
 import validation.ValidacionesUsuario;
 import validation.ValidationObject;
+import validation.ValidacionesUsuario.TipoDocumentoEmail;
+import validation.ValidacionesUsuario.TipoUsuarioEmail;
 
 /**
  * Session Bean implementation class UsuarioBean
@@ -53,23 +55,34 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	}
 
 	@Override
-	public <T extends Usuario> T register(T usuario) throws ServiceException, InvalidEntityException {
+	public <T extends Usuario> T register(T usuario, TipoDocumentoEmail tipoDocumento, TipoUsuarioEmail tipoEmail)
+			throws ServiceException, InvalidEntityException {
 		try {
 			usuario.setContrasena(toMD5(usuario.getContrasena()));
 			usuario.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
 
-			ValidationObject valid = ValidacionesUsuario.ValidarUsuario(usuario);
+			ValidationObject valid = ValidacionesUsuario.ValidarUsuario(usuario, tipoDocumento, tipoEmail);
 			if (!valid.isValid()) {
 				throw new InvalidEntityException(valid.getErrorMessage());
 			}
 
-			if(usuario.getIdUsuario() != null ) {
-				if (dao.findById(usuario.getClass(), usuario.getIdUsuario()) != null)
-					throw new EntityAlreadyExistsException("Ya existe un usuario con el ID: " + usuario.getIdUsuario());
+			if (usuario.getIdUsuario() != null)
+				throw new InvalidEntityException("Al registrar un Usuario, este no puede tener un ID asignado");
+
+			if (dao.findByDocumento(usuario.getClass(), usuario.getDocumento()) != null) {
+				throw new InvalidEntityException("Ya existe un Usuario con el Documento: " + usuario.getDocumento());
+			}
+
+			if (dao.findByEmail(usuario.getClass(), usuario.getEmail()) != null) {
+				throw new InvalidEntityException("Ya existe un Usuario con el Email: " + usuario.getEmail());
+			}
+
+			if (dao.findByNombreUsuario(usuario.getClass(), usuario.getNombreUsuario()) != null) {
+				throw new InvalidEntityException(
+						"Ya existe un Usuario con el Nombre de Usuario: " + usuario.getEmail());
 			}
 
 			return dao.insert(usuario);
-
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		} catch (NoSuchAlgorithmException e) {
