@@ -214,6 +214,25 @@ public class ViewAnalista extends JFrame {
 		panel.add(lblNewLabel_3);
 
 		JButton btnDesactivar = new JButton("Desactivar");
+		btnDesactivar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int fila = tblUsuarios.getSelectedRow();
+				try {
+					Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila, 0).toString());
+					Usuario usu = BeanIntances.user().findById(Usuario.class, id);
+					if (usu != null && usu.getEstadoUsuario()==EstadoUsuario.VALIDADO) {
+						usu.setEstadoUsuario(EstadoUsuario.ELIMINADO);
+						BeanIntances.user().updateEstadoUsuario(id, usu.getEstadoUsuario());
+						filtrarListaUsuarios(tblUsuarios, filtros);
+						//NO SE ACTUALIZA EL LISTADO
+					} else {
+						JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
+					}
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
+				}
+			}
+		});
 		btnDesactivar.setBounds(224, 335, 105, 27);
 		panel.add(btnDesactivar);
 
