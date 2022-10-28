@@ -82,14 +82,6 @@ public class UsuariosDAO {
 				.getResultList();
 	}
 	
-	public List<Estudiante> findAll(Integer generacion, EstadoUsuario estado, Itr itr) {		
-		return null;
-	}
-	
-	public Estudiante findEstudiantebyId(Long idUsuario) {				
-		return (Estudiante)em.createQuery("SELECT e FROM ESTUDIANTE e WHERE e.idUsuario  = ?1").setParameter(1, idUsuario).getSingleResult();	
-	}
-	
 	public Usuario updateUsuarioEstado(Long id, EstadoUsuario estado) throws DAOException, NotFoundEntityException{
 		try {
 			Usuario usu = findById(Usuario.class, id);

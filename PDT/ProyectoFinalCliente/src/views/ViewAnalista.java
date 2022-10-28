@@ -217,9 +217,9 @@ public class ViewAnalista extends JFrame {
 				
 				
 				if(filtros.get("TIPO").toString().equalsIgnoreCase(Roles.ESTUDIANTE.name())) {
-					Estudiante est = BeanIntances.user().findEstudiantebyId(usu.getIdUsuario());
-					System.out.println("SALIO " + est.getGeneracion());
-					//System.out.println("ENTRA");
+					/*
+					 * NECESITO LOS ESTUDIANTES
+					 * */
 				}
 
 				
