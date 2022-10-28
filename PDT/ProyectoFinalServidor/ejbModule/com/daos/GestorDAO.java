@@ -7,30 +7,31 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import com.entities.Evento;
-import com.entities.Itr;
+
+import com.entities.Gestor;
 import com.exceptions.DAOException;
 import com.exceptions.NotFoundEntityException;
 
 /**
- * Session Bean implementation class EventosDAO
+ * Session Bean implementation class GestorDAO
  */
 @Stateless
 @LocalBean
-public class EventosDAO {
+public class GestorDAO {
+	
+	
 
 	@PersistenceContext
 	private EntityManager em;
 
-	public EventosDAO() {
-		// TODO Auto-generated constructor stub
-	}
-
-	/*
-	 * Periste de un Evento en la Base de datos y retorna la Entidad persistida.
-	 */
-
-	public Evento insert(Evento entidad) throws DAOException {
+    /**
+     * Default constructor. 
+     */
+    public GestorDAO() {
+        // TODO Auto-generated constructor stub
+    }
+    
+    public Gestor insert(Gestor entidad) throws DAOException {
 		try {
 			em.persist(entidad);
 			em.flush();
@@ -44,16 +45,16 @@ public class EventosDAO {
 	 * Retorna un ITR en base al ID.
 	 * 
 	 */
-	public Evento findById(Long id) {
-		return em.find(Evento.class, id);
+	public Gestor findById(Long id) {
+		return em.find(Gestor.class, id);
 	}
 
 	/*
 	 * Retorna todos los ITR.
 	 * 
 	 */
-	public List<Evento> findAll() {
-		return em.createQuery("Select i FROM Evento i", Evento.class).getResultList();
+	public List<Gestor> findAll() {
+		return em.createQuery("Select i FROM Evento i", Gestor.class).getResultList();
 
 	}
 
@@ -62,7 +63,7 @@ public class EventosDAO {
 	 * campos que lleguen por parametro.
 	 * 
 	 */
-	public Evento update(Long id, Evento entidad) throws DAOException, NotFoundEntityException {
+	public Gestor update(Long id, Gestor entidad) throws DAOException, NotFoundEntityException {
 		try {
 			entidad = em.merge(entidad);
 			em.flush();
@@ -71,6 +72,5 @@ public class EventosDAO {
 			throw new DAOException("Ocurrio un error al hacer el update del Itr ", e);
 		}
 
-	}
-
+	}   
 }

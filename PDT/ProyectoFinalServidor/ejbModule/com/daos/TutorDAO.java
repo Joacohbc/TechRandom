@@ -7,30 +7,33 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import com.entities.Evento;
-import com.entities.Itr;
+
+import com.entities.Tutor;
 import com.exceptions.DAOException;
 import com.exceptions.NotFoundEntityException;
 
 /**
- * Session Bean implementation class EventosDAO
+ * Session Bean implementation class TutorDAO
  */
 @Stateless
 @LocalBean
-public class EventosDAO {
-
+public class TutorDAO {
+	
 	@PersistenceContext
 	private EntityManager em;
 
-	public EventosDAO() {
-		// TODO Auto-generated constructor stub
-	}
-
+    /**
+     * Default constructor. 
+     */
+    public TutorDAO() {
+        // TODO Auto-generated constructor stub
+    }
+    
 	/*
-	 * Periste de un Evento en la Base de datos y retorna la Entidad persistida.
+	 * Periste de un Tutor en la Base de datos y retorna la Entidad persistida.
 	 */
 
-	public Evento insert(Evento entidad) throws DAOException {
+	public Tutor insert(Tutor entidad) throws DAOException {
 		try {
 			em.persist(entidad);
 			em.flush();
@@ -41,28 +44,28 @@ public class EventosDAO {
 	}
 
 	/*
-	 * Retorna un ITR en base al ID.
+	 * Retorna un Tutor en base al ID.
 	 * 
 	 */
-	public Evento findById(Long id) {
-		return em.find(Evento.class, id);
+	public Tutor findById(Long id) {
+		return em.find(Tutor.class, id);
 	}
 
 	/*
-	 * Retorna todos los ITR.
+	 * Retorna todos los Tutor.
 	 * 
 	 */
-	public List<Evento> findAll() {
-		return em.createQuery("Select i FROM Evento i", Evento.class).getResultList();
+	public List<Tutor> findAll() {
+		return em.createQuery("Select i FROM Evento i", Tutor.class).getResultList();
 
 	}
 
 	/*
-	 * Verificamos que exista una ITR por ID y luego realizamos un Update de los
+	 * Verificamos que exista una Tutor por ID y luego realizamos un Update de los
 	 * campos que lleguen por parametro.
 	 * 
 	 */
-	public Evento update(Long id, Evento entidad) throws DAOException, NotFoundEntityException {
+	public Tutor update(Long id, Tutor entidad) throws DAOException, NotFoundEntityException {
 		try {
 			entidad = em.merge(entidad);
 			em.flush();

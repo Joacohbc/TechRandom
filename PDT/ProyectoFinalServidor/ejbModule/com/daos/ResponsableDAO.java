@@ -7,30 +7,35 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import com.entities.Evento;
-import com.entities.Itr;
+
+import com.entities.Responsable;
 import com.exceptions.DAOException;
 import com.exceptions.NotFoundEntityException;
 
 /**
- * Session Bean implementation class EventosDAO
+ * Session Bean implementation class ResponsableDAO
  */
 @Stateless
 @LocalBean
-public class EventosDAO {
-
+public class ResponsableDAO {
+	
 	@PersistenceContext
 	private EntityManager em;
 
-	public EventosDAO() {
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * Default constructor. 
+     */
+    public ResponsableDAO() {
+        // TODO Auto-generated constructor stub
+    }
+    
+    
 
 	/*
-	 * Periste de un Evento en la Base de datos y retorna la Entidad persistida.
+	 * Periste de un Responsable en la Base de datos y retorna la Entidad persistida.
 	 */
 
-	public Evento insert(Evento entidad) throws DAOException {
+	public Responsable insert(Responsable entidad) throws DAOException {
 		try {
 			em.persist(entidad);
 			em.flush();
@@ -41,28 +46,28 @@ public class EventosDAO {
 	}
 
 	/*
-	 * Retorna un ITR en base al ID.
+	 * Retorna un Responsable en base al ID.
 	 * 
 	 */
-	public Evento findById(Long id) {
-		return em.find(Evento.class, id);
+	public Responsable findById(Long id) {
+		return em.find(Responsable.class, id);
 	}
 
 	/*
-	 * Retorna todos los ITR.
+	 * Retorna todos los Responsable.
 	 * 
 	 */
-	public List<Evento> findAll() {
-		return em.createQuery("Select i FROM Evento i", Evento.class).getResultList();
+	public List<Responsable> findAll() {
+		return em.createQuery("Select i FROM Evento i", Responsable.class).getResultList();
 
 	}
 
 	/*
-	 * Verificamos que exista una ITR por ID y luego realizamos un Update de los
+	 * Verificamos que exista una Responsable por ID y luego realizamos un Update de los
 	 * campos que lleguen por parametro.
 	 * 
 	 */
-	public Evento update(Long id, Evento entidad) throws DAOException, NotFoundEntityException {
+	public Responsable update(Long id, Responsable entidad) throws DAOException, NotFoundEntityException {
 		try {
 			entidad = em.merge(entidad);
 			em.flush();
@@ -72,5 +77,6 @@ public class EventosDAO {
 		}
 
 	}
+
 
 }
