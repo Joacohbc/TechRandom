@@ -83,6 +83,25 @@ public class ViewAnalista extends JFrame {
 		panel.setLayout(null);
 
 		JButton btnActivar = new JButton("Activar");
+		btnActivar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int fila = tblUsuarios.getSelectedRow();
+				try {
+					Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila, 0).toString());
+					Usuario usu = BeanIntances.user().findById(Usuario.class, id);
+					if (usu != null && usu.getEstadoUsuario()==EstadoUsuario.SIN_VALIDAR) {
+						usu.setEstadoUsuario(EstadoUsuario.VALIDADO);
+						BeanIntances.user().updateEstadoUsuario(id, usu.getEstadoUsuario());
+						filtrarListaUsuarios(tblUsuarios, filtros);
+						//NO SE ACTUALIZA EL LISTADO
+					} else {
+						JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
+					}
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
+				}
+			}
+		});
 		btnActivar.setBounds(12, 335, 105, 27);
 		panel.add(btnActivar);
 
