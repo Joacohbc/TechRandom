@@ -201,4 +201,11 @@ public class VTextBox extends JTextField {
 	public boolean isContentValid() {
 		return validation.isValid();
 	}
+	
+	@Override
+	@Override
+	public void setEnabled(boolean enabled) {
+		
+		super.setEnabled(enabled);
+	}
 }

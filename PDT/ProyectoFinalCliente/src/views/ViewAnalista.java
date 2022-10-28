@@ -87,13 +87,17 @@ public class ViewAnalista extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int fila = tblUsuarios.getSelectedRow();
 				try {
+					
 					Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila, 0).toString());
 					Usuario usu = BeanIntances.user().findById(Usuario.class, id);
-					if (usu != null && usu.getEstadoUsuario()==EstadoUsuario.SIN_VALIDAR) {
+					
+					if (usu != null && usu.getEstadoUsuario()==EstadoUsuario.SIN_VALIDAR || usu.getEstadoUsuario()==EstadoUsuario.ELIMINADO ) {
 						usu.setEstadoUsuario(EstadoUsuario.VALIDADO);
 						BeanIntances.user().updateEstadoUsuario(id, usu.getEstadoUsuario());
+						
+						usuarios = (ArrayList) BeanIntances.user().findAll(Usuario.class);
 						filtrarListaUsuarios(tblUsuarios, filtros);
-						//NO SE ACTUALIZA EL LISTADO
+						
 					} else {
 						JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
 					}
@@ -220,11 +224,14 @@ public class ViewAnalista extends JFrame {
 				try {
 					Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila, 0).toString());
 					Usuario usu = BeanIntances.user().findById(Usuario.class, id);
+					
 					if (usu != null && usu.getEstadoUsuario()==EstadoUsuario.VALIDADO) {
 						usu.setEstadoUsuario(EstadoUsuario.ELIMINADO);
 						BeanIntances.user().updateEstadoUsuario(id, usu.getEstadoUsuario());
+						
+						usuarios = (ArrayList) BeanIntances.user().findAll(Usuario.class);
 						filtrarListaUsuarios(tblUsuarios, filtros);
-						//NO SE ACTUALIZA EL LISTADO
+						
 					} else {
 						JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
 					}
@@ -277,6 +284,10 @@ public class ViewAnalista extends JFrame {
 
 		// cargo los combos con los valores para poder hacer los filtros
 		this.cargarCombosFiltros(comboEstado, comboTipoUsuario, comboITR);
+		
+		JLabel lblNewLabel = new JLabel("ITR");
+		lblNewLabel.setBounds(12, 55, 60, 17);
+		panel.add(lblNewLabel);
 
 	}
 
@@ -295,9 +306,7 @@ public class ViewAnalista extends JFrame {
 				modeloJTable.addRow(datos);
 			}
 		}
-
 		tblUsuarios.setModel(modeloJTable);
-
 	}
 
 	// Método para cargar los valores que contienen los filtros
@@ -340,8 +349,6 @@ public class ViewAnalista extends JFrame {
 
 					}
 				}
-				// && filtros.get("GENERACION").toString()!=null
-				// && Integer.parseInt(filtros.get("GENERACION").toString()) ==generacion
 
 				// proceso que se cumplan las tres condiciones
 				if (gen != null && gen != 0 && filtros.get("GENERACION") != null) {
@@ -358,11 +365,9 @@ public class ViewAnalista extends JFrame {
 					if (idITR == Long.parseLong(filtros.get("ITR").toString())
 							&& tipo.equalsIgnoreCase(filtros.get("TIPO").toString())
 							&& estado.equalsIgnoreCase(filtros.get("ESTADO").toString())) {
-						System.out.println("ENTRA FILTROS 2");
 						filtrados.add(usu);
 					}
 				}
-
 			}
 		} else {
 
