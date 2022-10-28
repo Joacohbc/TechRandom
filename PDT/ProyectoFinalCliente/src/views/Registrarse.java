@@ -302,5 +302,7 @@ public class Registrarse extends JFrame {
 		contentPane.add(textLocalidad);
 		textLocalidad.setText(usuario.getLocalidad());
 	}
+	
+	
 
 }
