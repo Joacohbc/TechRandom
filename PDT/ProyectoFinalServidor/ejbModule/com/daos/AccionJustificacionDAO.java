@@ -7,30 +7,35 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import com.entities.Evento;
-import com.entities.Itr;
+
+import com.entities.AccionJustificacion;
 import com.exceptions.DAOException;
 import com.exceptions.NotFoundEntityException;
 
 /**
- * Session Bean implementation class EventosDAO
+ * Session Bean implementation class AccionJustificacionDAO
  */
 @Stateless
 @LocalBean
-public class EventosDAO {
-
+public class AccionJustificacionDAO {
+	
+	
 	@PersistenceContext
 	private EntityManager em;
 
-	public EventosDAO() {
-		// TODO Auto-generated constructor stub
-	}
-
-	/*
-	 * Periste de un Evento en la Base de datos y retorna la Entidad persistida.
+    /**
+     * Default constructor. 
+     */
+    public AccionJustificacionDAO() {
+        // TODO Auto-generated constructor stub
+    }
+    
+    
+    /*
+	 * Periste de un AccionJustificacion en la Base de datos y retorna la Entidad persistida.
 	 */
 
-	public Evento insert(Evento entidad) throws DAOException {
+	public AccionJustificacion insert(AccionJustificacion entidad) throws DAOException {
 		try {
 			em.persist(entidad);
 			em.flush();
@@ -41,19 +46,19 @@ public class EventosDAO {
 	}
 
 	/*
-	 * Retorna un ITR en base al ID.
+	 * Retorna un AccionJustificacion en base al ID.
 	 * 
 	 */
-	public Evento findById(Long id) {
-		return em.find(Evento.class, id);
+	public AccionJustificacion findById(Long id) {
+		return em.find(AccionJustificacion.class, id);
 	}
 
 	/*
-	 * Retorna todos los ITR.
+	 * Retorna todos los AccionJustificacion.
 	 * 
 	 */
-	public List<Evento> findAll() {
-		return em.createQuery("Select i FROM Evento i", Evento.class).getResultList();
+	public List<AccionJustificacion> findAll() {
+		return em.createQuery("Select i FROM Evento i", AccionJustificacion.class).getResultList();
 
 	}
 
@@ -62,7 +67,7 @@ public class EventosDAO {
 	 * campos que lleguen por parametro.
 	 * 
 	 */
-	public Evento update(Long id, Evento entidad) throws DAOException, NotFoundEntityException {
+	public AccionJustificacion update(Long id, AccionJustificacion entidad) throws DAOException, NotFoundEntityException {
 		try {
 			entidad = em.merge(entidad);
 			em.flush();
