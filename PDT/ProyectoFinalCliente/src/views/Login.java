@@ -67,7 +67,7 @@ public class Login extends JFrame {
 		contentPane.setLayout(null);
 
 		JComboBox<Roles> comboRol = new JComboBox<Roles>();
-		comboRol.setBounds(332, 184, 164, 21);
+		comboRol.setBounds(277, 184, 222, 21);
 		contentPane.add(comboRol);
 		for (Roles rol : Roles.values()) {
 			comboRol.addItem(rol);
@@ -81,23 +81,23 @@ public class Login extends JFrame {
 				registro.setVisible(true);
 			}
 		});
-		btnRegistrarse.setBounds(394, 344, 102, 21);
+		btnRegistrarse.setBounds(165, 343, 102, 21);
 		contentPane.add(btnRegistrarse);
 
 		JLabel lblNewLabel = new JLabel("Usuario");
-		lblNewLabel.setBounds(220, 218, 102, 13);
+		lblNewLabel.setBounds(165, 218, 102, 13);
 		contentPane.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Contraseña");
-		lblNewLabel_1.setBounds(220, 254, 102, 13);
+		lblNewLabel_1.setBounds(165, 254, 102, 13);
 		contentPane.add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("Rol");
-		lblNewLabel_2.setBounds(220, 188, 102, 13);
+		lblNewLabel_2.setBounds(165, 188, 102, 13);
 		contentPane.add(lblNewLabel_2);
 
 		VTextBox textboxUsuario = new VTextBox();
-		textboxUsuario.setBounds(332, 215, 164, 21);
+		textboxUsuario.setBounds(277, 215, 222, 21);
 		contentPane.add(textboxUsuario);
 		textboxUsuario.setValidationFunc(texto -> ValidacionesUsuario.validarNombreUsuario(texto));
 
@@ -156,7 +156,7 @@ public class Login extends JFrame {
 				}
 			}
 		});
-		btnLogin.setBounds(394, 308, 102, 21);
+		btnLogin.setBounds(397, 343, 102, 21);
 		contentPane.add(btnLogin);
 
 		JLabel lblNewLabel_4 = new JLabel("");
@@ -166,17 +166,25 @@ public class Login extends JFrame {
 
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setIcon(new ImageIcon(Login.class.getResource("/images/usuario (3).png")));
-		lblNewLabel_3.setBounds(408, 95, 32, 44);
+		lblNewLabel_3.setBounds(398, 108, 32, 41);
 		contentPane.add(lblNewLabel_3);
 
 		JLabel lblNewLabel_5 = new JLabel("Login");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_5.setBounds(353, 105, 45, 30);
+		lblNewLabel_5.setBounds(324, 119, 45, 30);
 		contentPane.add(lblNewLabel_5);
 
 		textPassword = new JPasswordField();
-		textPassword.setBounds(332, 250, 164, 21);
+		textPassword.setBounds(277, 250, 222, 21);
 		contentPane.add(textPassword);
+		
+		JLabel lblNewLabel_6 = new JLabel("Ha olvidado su contrasena");
+		lblNewLabel_6.setBounds(165, 307, 144, 13);
+		contentPane.add(lblNewLabel_6);
+		
+		JButton btnRestorePassword = new JButton("Restablecer contrasena");
+		btnRestorePassword.setBounds(355, 303, 144, 21);
+		contentPane.add(btnRestorePassword);
 
 	}
 }
