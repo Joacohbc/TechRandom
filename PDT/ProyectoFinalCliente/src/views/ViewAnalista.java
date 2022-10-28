@@ -198,6 +198,15 @@ public class ViewAnalista extends JFrame {
 		panel.add(btnDesactivar);
 
 		JButton btnAbrirUsuario = new JButton("Ver detalles");
+		btnAbrirUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int fila = tblUsuarios.getSelectedRow();
+				Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila,0).toString());
+				Usuario usu = BeanIntances.user().findById(Usuario.class,id);
+				Registrarse reg = new Registrarse(usu);
+				reg.setVisible(true);
+			}
+		});
 		btnAbrirUsuario.setBounds(436, 335, 105, 27);
 		panel.add(btnAbrirUsuario);
 
