@@ -206,8 +206,8 @@ public class ViewAnalista extends JFrame {
 					Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila, 0).toString());
 					Usuario usu = BeanIntances.user().findById(Usuario.class, id);
 					if (usu != null) {
-						Registrarse reg = new Registrarse(usu);
-						reg.setVisible(true);
+						//Registrarse reg = new Registrarse(usu);
+						//reg.setVisible(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
 					}
