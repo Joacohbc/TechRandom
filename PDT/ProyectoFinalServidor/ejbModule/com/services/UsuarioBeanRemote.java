@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
+import com.entities.Estudiante;
 import com.entities.Itr;
 import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
@@ -27,5 +28,7 @@ public interface UsuarioBeanRemote {
 	void updateEstadoUsuario(Long id, EstadoUsuario estadoUsuario) throws ServiceException;
 	
 	<T extends Usuario> T findById(Class<T> tipoUsu,Long id) throws ServiceException, InvalidUserException;
+	
+	Estudiante findEstudiantebyId(Long idUsuario) throws ServiceException, InvalidUserException;
 	
 }

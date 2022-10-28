@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.entities.Estudiante;
 import com.entities.Usuario;
+import com.entities.enums.EstadoUsuario;
 
 import beans.BeanIntances;
 import components.Roles;
@@ -28,9 +29,17 @@ public class ViewAnalista extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtGeneracion;
-	private Map filtros;
-	private ArrayList<Usuario> usuarios;
 	private JList lstUsuarios;
+	private ArrayList<Usuario> usuarios;
+	
+	/*
+	 * Se utiliza una variable de tipo HashMap para gestionar los filtros que aplica el usuario
+	 * El HashMap permite utilizar pares de datos <Key,Value> de esta manera cada vez que el usuario
+	 * actualice los valores de los filtros, al tener el mismo Key se reemplaza el Value
+	*/
+	private Map filtros;
+	
+	
 
 	/**
 	 * Launch the application.
@@ -71,19 +80,22 @@ public class ViewAnalista extends JFrame {
 		lstUsuarios = new JList();
 		lstUsuarios.setBounds(12, 158, 530, 160);
 		panel.add(lstUsuarios);
-		this.cargarUsuarios(lstUsuarios);
+		
+		//Cargo la lista de usuarios al JList
+		cargarUsuarios(lstUsuarios);
 
 		JButton btnActivar = new JButton("Activar");
 		btnActivar.setBounds(12, 335, 105, 27);
 		panel.add(btnActivar);
 
-		JComboBox comboTipoUsuario = new JComboBox();
+		JComboBox<Roles> comboTipoUsuario = new JComboBox();
+		//Se utiliza el evento action performed para capturar cada vez que se cambia el valor del comboBox
 		comboTipoUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String tipo = comboTipoUsuario.getSelectedItem().toString();
 				
 				switch (tipo) {
-				case "ESTUDIANTE": {
+				case "ESTUDIANTE" : {
 					filtros.put("TIPO", "Estudiante");
 					txtGeneracion.setEditable(true);
 					break;
@@ -100,7 +112,7 @@ public class ViewAnalista extends JFrame {
 				}
 
 				}
-
+				//se llama al método que actualiza la lista en base a los filtros seleccionados
 				filtrarListaUsuarios(lstUsuarios, filtros);
 			}
 		});
@@ -111,6 +123,8 @@ public class ViewAnalista extends JFrame {
 		comboITR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				filtros.put("ITR", comboITR.getSelectedItem());
+				
+				//se llama al método que actualiza la lista en base a los filtros seleccionados
 				filtrarListaUsuarios(lstUsuarios, filtros);
 			}
 		});
@@ -123,10 +137,11 @@ public class ViewAnalista extends JFrame {
 		txtGeneracion.setColumns(10);
 		txtGeneracion.setEditable(false);
 
-		JComboBox comboEstado = new JComboBox();
+		JComboBox<EstadoUsuario> comboEstado = new JComboBox();
 		comboEstado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				filtros.put("ESTADO", comboEstado.getSelectedItem());
+				//se llama al método que actualiza la lista en base a los filtros seleccionados
 				filtrarListaUsuarios(lstUsuarios, filtros);
 			}
 		});
@@ -156,27 +171,28 @@ public class ViewAnalista extends JFrame {
 		lblNewLabel_4.setBounds(12, 127, 96, 17);
 		panel.add(lblNewLabel_4);
 
-		// cargo los combos para poder hacer los filtros
+		// cargo los combos con los valores para poder hacer los filtros
 		this.cargarCombosFiltros(comboEstado, comboTipoUsuario, comboITR);
 
 	}
-
+	//Método utilizado para cargar el JList con los usuarios
 	public void cargarUsuarios(JList lstUsuarios) {
 		DefaultListModel listModel = new DefaultListModel();
 		usuarios = (ArrayList) BeanIntances.user().findAll(Usuario.class);
 		listModel.addAll(usuarios);
 		lstUsuarios.setModel(listModel);
 	}
-
+	
+	//Método para cargar los valores que contienen los filtros
 	public void cargarCombosFiltros(JComboBox comboEstado, JComboBox comboTipoUsuario, JComboBox comboITR) {
 
 		/*
 		 * esto queda hardcoded pero falta un método que traiga ITR
 		 * 
 		 */
-		comboEstado.addItem("ACTIVO");
-		comboEstado.addItem("SIN_VALIDAR");
-		comboEstado.addItem("ELIMINADO");
+		comboEstado.addItem(EstadoUsuario.VALIDADO);
+		comboEstado.addItem(EstadoUsuario.ELIMINADO);
+		comboEstado.addItem(EstadoUsuario.SIN_VALIDAR);
 
 		comboTipoUsuario.addItem(Roles.ANALISTA);
 		comboTipoUsuario.addItem(Roles.ESTUDIANTE);
@@ -187,25 +203,30 @@ public class ViewAnalista extends JFrame {
 	}
 
 	public void filtrarListaUsuarios(JList lstUsuarios, Map filtros) {
+		
 		ArrayList<Usuario> filtrados = new ArrayList<Usuario>();
 		
 		if (!filtros.isEmpty() && filtros.get("ITR") != null) {
+			
 			for (Usuario usu : usuarios) {
-				Long itr = usu.getItr().getIdItr();
-				String tipo = usu.getClass().getSimpleName();
-				String estado = usu.getEstadoUsuario().name();
 				
-				if(tipo.trim().equalsIgnoreCase("Estudiante")) {
-					//BeanIntances.user().findById();
-					
+				//Cargo la info del usuario necesaria para los filtros
+				Long idITR = usu.getItr().getIdItr();
+				String estado = usu.getEstadoUsuario().name();
+				String tipo = usu.getClass().getSimpleName().trim();
+				
+				
+				if(filtros.get("TIPO").toString().equalsIgnoreCase(Roles.ESTUDIANTE.name())) {
+					Estudiante est = BeanIntances.user().findEstudiantebyId(usu.getIdUsuario());
+					System.out.println("SALIO " + est.getGeneracion());
+					//System.out.println("ENTRA");
 				}
-				//int generacion = BeanIntances.user().
-				System.out.println("el tipo es " + tipo + " El filtro es " + filtros.get("TIPO").toString());
 
+				
 				// proceso que se cumplan las tres condiciones
-				if (itr == Long.parseLong(filtros.get("ITR").toString())
-						&& tipo.trim().equalsIgnoreCase(filtros.get("TIPO").toString().trim())
-						&& estado == filtros.get("ESTADO").toString()) {
+				if (idITR == Long.parseLong(filtros.get("ITR").toString())
+						&& tipo.equalsIgnoreCase(filtros.get("TIPO").toString())
+						&& estado.equalsIgnoreCase(filtros.get("ESTADO").toString()) ) {
 					
 					filtrados.add(usu);
 				}

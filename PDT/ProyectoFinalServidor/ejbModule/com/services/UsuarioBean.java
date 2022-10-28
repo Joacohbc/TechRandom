@@ -9,6 +9,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.daos.UsuariosDAO;
+import com.entities.Estudiante;
 import com.entities.Itr;
 import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
@@ -98,6 +99,12 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	@Override
 	public <T extends Usuario> T findById(Class<T> tipoUsu, Long id) throws ServiceException, InvalidUserException {
 		return dao.findById(tipoUsu, id);
+	}
+
+	@Override
+	public Estudiante findEstudiantebyId(Long idUsuario){
+		
+		return dao.findEstudiantebyId(idUsuario);
 	}
 
 	
