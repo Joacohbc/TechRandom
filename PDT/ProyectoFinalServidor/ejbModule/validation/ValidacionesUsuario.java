@@ -113,7 +113,7 @@ public class ValidacionesUsuario {
 			return valid;
 		}
 
-		valid = ValidarTelefono(usuario.getTelefono());
+		valid = validarTelefono(usuario.getTelefono());
 		if (!valid.isValid()) {
 			return valid;
 		}
@@ -198,7 +198,7 @@ public class ValidacionesUsuario {
 		}
 	}
 
-	public static ValidationObject ValidarTelefono(String telefono) {
+	public static ValidationObject validarTelefono(String telefono) {
 		if (!Pattern.matches("[0-9+-]+", telefono)) {
 			return new ValidationObject("El telefono solo debe contener numeros, + o -");
 		}
