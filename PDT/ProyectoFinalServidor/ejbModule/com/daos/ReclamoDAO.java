@@ -7,30 +7,37 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import com.entities.Evento;
-import com.entities.Itr;
+
+import com.entities.Reclamo;
 import com.exceptions.DAOException;
 import com.exceptions.NotFoundEntityException;
 
 /**
- * Session Bean implementation class EventosDAO
+ * Session Bean implementation class ReclamoDAO
  */
 @Stateless
 @LocalBean
-public class EventosDAO {
+public class ReclamoDAO {
 
+    /**
+     * Default constructor. 
+     */
+	
+	
 	@PersistenceContext
 	private EntityManager em;
 
-	public EventosDAO() {
-		// TODO Auto-generated constructor stub
-	}
-
-	/*
+	
+    public ReclamoDAO() {
+        // TODO Auto-generated constructor stub
+    }
+    
+    
+    /*
 	 * Periste de un Evento en la Base de datos y retorna la Entidad persistida.
 	 */
 
-	public Evento insert(Evento entidad) throws DAOException {
+	public Reclamo insert(Reclamo entidad) throws DAOException {
 		try {
 			em.persist(entidad);
 			em.flush();
@@ -44,16 +51,16 @@ public class EventosDAO {
 	 * Retorna un ITR en base al ID.
 	 * 
 	 */
-	public Evento findById(Long id) {
-		return em.find(Evento.class, id);
+	public Reclamo findById(Long id) {
+		return em.find(Reclamo.class, id);
 	}
 
 	/*
 	 * Retorna todos los ITR.
 	 * 
 	 */
-	public List<Evento> findAll() {
-		return em.createQuery("Select i FROM Evento i", Evento.class).getResultList();
+	public List<Reclamo> findAll() {
+		return em.createQuery("Select i FROM Evento i", Reclamo.class).getResultList();
 
 	}
 
@@ -62,7 +69,7 @@ public class EventosDAO {
 	 * campos que lleguen por parametro.
 	 * 
 	 */
-	public Evento update(Long id, Evento entidad) throws DAOException, NotFoundEntityException {
+	public Reclamo update(Long id, Reclamo entidad) throws DAOException, NotFoundEntityException {
 		try {
 			entidad = em.merge(entidad);
 			em.flush();
@@ -72,5 +79,8 @@ public class EventosDAO {
 		}
 
 	}
+
+    
+    
 
 }
