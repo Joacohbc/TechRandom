@@ -112,5 +112,10 @@ public class UsuarioBean implements UsuarioBeanRemote {
 		return dao.findById(tipoUsu, id);
 	}
 
+	@Override
+	public List<Estudiante> findAllEstudiantes() {		
+		return dao.findAllEstudiante();
+	}
+
 	
 }

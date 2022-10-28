@@ -96,4 +96,7 @@ public class UsuariosDAO {
 			throw new DAOException("Ocurrio un error al cambiar el estado del usuario:",e);
 		}
 	}
+	public List<Estudiante> findAllEstudiante(){
+		return em.createQuery("SELECT e FROM Estudiante e",Estudiante.class).getResultList();
+	}
 }

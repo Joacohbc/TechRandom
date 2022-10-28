@@ -8,15 +8,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 
 import com.entities.Estudiante;
 import com.entities.Usuario;
@@ -29,17 +32,16 @@ public class ViewAnalista extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtGeneracion;
-	private JList lstUsuarios;
 	private ArrayList<Usuario> usuarios;
-	
+
 	/*
-	 * Se utiliza una variable de tipo HashMap para gestionar los filtros que aplica el usuario
-	 * El HashMap permite utilizar pares de datos <Key,Value> de esta manera cada vez que el usuario
-	 * actualice los valores de los filtros, al tener el mismo Key se reemplaza el Value
-	*/
+	 * Se utiliza una variable de tipo HashMap para gestionar los filtros que aplica
+	 * el usuario El HashMap permite utilizar pares de datos <Key,Value> de esta
+	 * manera cada vez que el usuario actualice los valores de los filtros, al tener
+	 * el mismo Key se reemplaza el Value
+	 */
 	private Map filtros;
-	
-	
+	private JTable tblUsuarios;
 
 	/**
 	 * Launch the application.
@@ -62,6 +64,8 @@ public class ViewAnalista extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewAnalista() {
+		usuarios = (ArrayList) BeanIntances.user().findAll(Usuario.class);
+
 		filtros = new HashMap();
 		setTitle("Listado de Usuarios");
 
@@ -77,25 +81,19 @@ public class ViewAnalista extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
-		lstUsuarios = new JList();
-		lstUsuarios.setBounds(12, 158, 530, 160);
-		panel.add(lstUsuarios);
-		
-		//Cargo la lista de usuarios al JList
-		cargarUsuarios(lstUsuarios);
-
 		JButton btnActivar = new JButton("Activar");
 		btnActivar.setBounds(12, 335, 105, 27);
 		panel.add(btnActivar);
 
 		JComboBox<Roles> comboTipoUsuario = new JComboBox();
-		//Se utiliza el evento action performed para capturar cada vez que se cambia el valor del comboBox
+		// Se utiliza el evento action performed para capturar cada vez que se cambia el
+		// valor del comboBox
 		comboTipoUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String tipo = comboTipoUsuario.getSelectedItem().toString();
-				
+
 				switch (tipo) {
-				case "ESTUDIANTE" : {
+				case "ESTUDIANTE": {
 					filtros.put("TIPO", "Estudiante");
 					txtGeneracion.setEditable(true);
 					break;
@@ -112,8 +110,8 @@ public class ViewAnalista extends JFrame {
 				}
 
 				}
-				//se llama al método que actualiza la lista en base a los filtros seleccionados
-				filtrarListaUsuarios(lstUsuarios, filtros);
+				// se llama al método que actualiza la lista en base a los filtros seleccionados
+				filtrarListaUsuarios(tblUsuarios, filtros);
 			}
 		});
 		comboTipoUsuario.setBounds(97, 13, 168, 26);
@@ -123,9 +121,9 @@ public class ViewAnalista extends JFrame {
 		comboITR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				filtros.put("ITR", comboITR.getSelectedItem());
-				
-				//se llama al método que actualiza la lista en base a los filtros seleccionados
-				filtrarListaUsuarios(lstUsuarios, filtros);
+
+				// se llama al método que actualiza la lista en base a los filtros seleccionados
+				filtrarListaUsuarios(tblUsuarios, filtros);
 			}
 		});
 		comboITR.setBounds(97, 50, 168, 26);
@@ -137,12 +135,48 @@ public class ViewAnalista extends JFrame {
 		txtGeneracion.setColumns(10);
 		txtGeneracion.setEditable(false);
 
+		DocumentListener l1 = new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				try {
+					filtros.put("GENERACION", Integer.parseInt(txtGeneracion.getText()));
+					filtrarListaUsuarios(tblUsuarios, filtros);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				try {
+					filtros.put("GENERACION", Integer.parseInt(txtGeneracion.getText()));
+					filtrarListaUsuarios(tblUsuarios, filtros);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				try {
+					filtros.put("GENERACION", Integer.parseInt(txtGeneracion.getText()));
+					filtrarListaUsuarios(tblUsuarios, filtros);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+
+		};
+		txtGeneracion.getDocument().addDocumentListener(l1);
+
 		JComboBox<EstadoUsuario> comboEstado = new JComboBox();
 		comboEstado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				filtros.put("ESTADO", comboEstado.getSelectedItem());
-				//se llama al método que actualiza la lista en base a los filtros seleccionados
-				filtrarListaUsuarios(lstUsuarios, filtros);
+				// se llama al método que actualiza la lista en base a los filtros seleccionados
+				filtrarListaUsuarios(tblUsuarios, filtros);
 			}
 		});
 		comboEstado.setBounds(97, 87, 168, 26);
@@ -171,19 +205,45 @@ public class ViewAnalista extends JFrame {
 		lblNewLabel_4.setBounds(12, 127, 96, 17);
 		panel.add(lblNewLabel_4);
 
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 158, 520, 151);
+		panel.add(scrollPane);
+
+		tblUsuarios = new JTable();
+		scrollPane.setViewportView(tblUsuarios);
+		String columns[] = { "id", "Documento", "Nombres", "Apellidos", "ITR", "Estado" };
+		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0);
+		tblUsuarios.setModel(modeloJTable);
+
+		// Cargo el listado de usuario a la tabla
+		cargarUsuarios(tblUsuarios, usuarios);
+
 		// cargo los combos con los valores para poder hacer los filtros
 		this.cargarCombosFiltros(comboEstado, comboTipoUsuario, comboITR);
 
 	}
-	//Método utilizado para cargar el JList con los usuarios
-	public void cargarUsuarios(JList lstUsuarios) {
-		DefaultListModel listModel = new DefaultListModel();
-		usuarios = (ArrayList) BeanIntances.user().findAll(Usuario.class);
-		listModel.addAll(usuarios);
-		lstUsuarios.setModel(listModel);
+
+	public void cargarUsuarios(JTable lstUsuarios, ArrayList<Usuario> listaUsuarios) {
+		String columns[] = { "id", "Documento", "Nombres", "Apellidos", "ITR", "Estado" };
+		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0);
+		if (lstUsuarios != null) {
+			for (Usuario usu : listaUsuarios) {
+				Long id = usu.getIdUsuario();
+				String doc = usu.getDocumento();
+				String nombres = usu.getNombres();
+				String apellidos = usu.getApellidos();
+				Long idITR = usu.getItr().getIdItr();
+				String tipo = usu.getEstadoUsuario().name();
+				Object[] datos = { id, doc, nombres, apellidos, idITR, tipo };
+				modeloJTable.addRow(datos);
+			}
+		}
+
+		tblUsuarios.setModel(modeloJTable);
+
 	}
-	
-	//Método para cargar los valores que contienen los filtros
+
+	// Método para cargar los valores que contienen los filtros
 	public void cargarCombosFiltros(JComboBox comboEstado, JComboBox comboTipoUsuario, JComboBox comboITR) {
 
 		/*
@@ -202,41 +262,54 @@ public class ViewAnalista extends JFrame {
 		comboITR.addItem(2);
 	}
 
-	public void filtrarListaUsuarios(JList lstUsuarios, Map filtros) {
-		
+	public void filtrarListaUsuarios(JTable lstUsuarios, Map filtros) {
+
 		ArrayList<Usuario> filtrados = new ArrayList<Usuario>();
-		
-		if (!filtros.isEmpty() && filtros.get("ITR") != null) {
-			
+		if (usuarios != null && !filtros.isEmpty() && filtros.get("ITR") != null) {
+
 			for (Usuario usu : usuarios) {
-				
-				//Cargo la info del usuario necesaria para los filtros
+				// Cargo la info del usuario necesaria para los filtros
 				Long idITR = usu.getItr().getIdItr();
 				String estado = usu.getEstadoUsuario().name();
 				String tipo = usu.getClass().getSimpleName().trim();
-				
-				
-				if(filtros.get("TIPO").toString().equalsIgnoreCase(Roles.ESTUDIANTE.name())) {
-					/*
-					 * NECESITO LOS ESTUDIANTES
-					 * */
-				}
+				Integer gen = 0;
+				if (filtros.get("TIPO").toString().equalsIgnoreCase(Roles.ESTUDIANTE.name())) {
+					ArrayList<Estudiante> estudiantes = (ArrayList) BeanIntances.user().findAllEstudiantes();
 
-				
-				// proceso que se cumplan las tres condiciones
-				if (idITR == Long.parseLong(filtros.get("ITR").toString())
-						&& tipo.equalsIgnoreCase(filtros.get("TIPO").toString())
-						&& estado.equalsIgnoreCase(filtros.get("ESTADO").toString()) ) {
-					
-					filtrados.add(usu);
+					for (Estudiante est : estudiantes) {
+						if(est.getIdUsuario()==usu.getIdUsuario()) {
+						  gen = est.getGeneracion(); }
+						 
+					}
 				}
+				// && filtros.get("GENERACION").toString()!=null
+				// && Integer.parseInt(filtros.get("GENERACION").toString()) ==generacion
+
+				// proceso que se cumplan las tres condiciones
+				if(gen!=null && gen!=0 && filtros.get("GENERACION")!=null) {
+					System.out.println("ENTRA NOT NULL" + " GEN " + gen + " FILTRO "+ Integer.parseInt(filtros.get("GENERACION").toString())  );
+					if (idITR == Long.parseLong(filtros.get("ITR").toString())
+							&& tipo.equalsIgnoreCase(filtros.get("TIPO").toString())
+							&& estado.equalsIgnoreCase(filtros.get("ESTADO").toString())
+							&& gen == Integer.parseInt(filtros.get("GENERACION").toString())) {
+						
+						filtrados.add(usu);
+					}
+				}else {
+					if (idITR == Long.parseLong(filtros.get("ITR").toString())
+							&& tipo.equalsIgnoreCase(filtros.get("TIPO").toString())
+							&& estado.equalsIgnoreCase(filtros.get("ESTADO").toString())) {
+						System.out.println("ENTRA FILTROS 2");
+						filtrados.add(usu);
+					}
+				}
+				
 			}
 		} else {
-			cargarUsuarios(lstUsuarios);
+
+			cargarUsuarios(tblUsuarios, usuarios);
 		}
-		DefaultListModel listModel = new DefaultListModel();
-		listModel.addAll(filtrados);
-		lstUsuarios.setModel(listModel);
-		lstUsuarios.repaint();
+
+		cargarUsuarios(tblUsuarios, filtrados);
 	}
 }

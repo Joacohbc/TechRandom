@@ -29,4 +29,5 @@ public interface UsuarioBeanRemote {
 	
 	<T extends Usuario> T findById(Class<T> tipoUsu,Long id) throws ServiceException, InvalidUserException;
 	
+	List<Estudiante> findAllEstudiantes();
 }
