@@ -21,7 +21,7 @@ import com.exceptions.ServiceException;
 
 import validation.ValidacionesUsuario;
 import validation.ValidationObject;
-import validation.ValidacionesUsuario.TipoDocumentoEmail;
+import validation.ValidacionesUsuario.TipoUsuarioDocumento;
 import validation.ValidacionesUsuario.TipoUsuarioEmail;
 
 /**
@@ -55,7 +55,7 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	}
 
 	@Override
-	public <T extends Usuario> T register(T usuario, TipoDocumentoEmail tipoDocumento, TipoUsuarioEmail tipoEmail)
+	public <T extends Usuario> T register(T usuario, TipoUsuarioDocumento tipoDocumento, TipoUsuarioEmail tipoEmail)
 			throws ServiceException, InvalidEntityException {
 		try {
 			usuario.setContrasena(toMD5(usuario.getContrasena()));

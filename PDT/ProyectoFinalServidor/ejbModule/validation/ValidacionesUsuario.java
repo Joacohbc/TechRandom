@@ -31,7 +31,7 @@ public class ValidacionesUsuario {
 		}
 	}
 
-	public enum TipoDocumentoEmail {
+	public enum TipoUsuarioDocumento {
 		URUGUAYO("Uruguayo"), NO_URUGAUYO("No Uruguayo");
 
 		private String tipo;
@@ -41,15 +41,15 @@ public class ValidacionesUsuario {
 			return tipo;
 		}
 
-		private TipoDocumentoEmail(String tipo) {
+		private TipoUsuarioDocumento(String tipo) {
 			this.tipo = tipo;
 		}
 	}
 
-	public static ValidationObject ValidarUsuario(Usuario usuario, TipoDocumentoEmail tipoDocumento, TipoUsuarioEmail tipoEmail) {
+	public static ValidationObject ValidarUsuario(Usuario usuario, TipoUsuarioDocumento tipoDocumento, TipoUsuarioEmail tipoEmail) {
 
 		ValidationObject valid;
-		if (tipoDocumento == TipoDocumentoEmail.URUGUAYO) {
+		if (tipoDocumento == TipoUsuarioDocumento.URUGUAYO) {
 			valid = validarDocumentoUruguayo(usuario.getDocumento());
 			if (!valid.isValid()) {
 				return valid;
