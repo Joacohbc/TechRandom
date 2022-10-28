@@ -63,8 +63,10 @@ public class UsuarioBean implements UsuarioBeanRemote {
 				throw new InvalidEntityException(valid.getErrorMessage());
 			}
 
-			if (dao.findById(usuario.getClass(), usuario.getIdUsuario()) != null)
-				throw new EntityAlreadyExistsException("Ya existe un usuario con el ID: " + usuario.getIdUsuario());
+			if(usuario.getIdUsuario() != null ) {
+				if (dao.findById(usuario.getClass(), usuario.getIdUsuario()) != null)
+					throw new EntityAlreadyExistsException("Ya existe un usuario con el ID: " + usuario.getIdUsuario());
+			}
 
 			return dao.insert(usuario);
 

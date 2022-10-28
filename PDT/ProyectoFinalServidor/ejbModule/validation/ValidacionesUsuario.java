@@ -1,6 +1,7 @@
 package validation;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 import com.entities.Usuario;
@@ -132,11 +133,24 @@ public class ValidacionesUsuario {
 	}
 
 	public static ValidationObject validarFechaNacimiento(LocalDate fecNacimiento) {
+		if(LocalDate.now().compareTo(fecNacimiento) < 17) {
+			return new ValidationObject("La fecha de nacimiento debe ser de mayoria de edad (o 17 años inclusive)");
+		}
+		
 		return Validaciones.ValidarFechaMax(fecNacimiento, LocalDate.now(), ValidacionesFecha.NO_ESTRICTAMENTE)
 				? ValidationObject.VALID
 				: new ValidationObject("La fecha de nacimiento debe ser menor a la fecha actual");
 	}
 
+	public static ValidationObject validarFechaNacimiento(String fecNacimiento) {
+		try {
+			LocalDate fecha = Formatos.ToLocalDate(fecNacimiento);
+			return validarFechaNacimiento(fecha);
+		}catch (DateTimeParseException e) {
+			return new ValidationObject("La fecha debe seguir el formato de \"dia-mes-año\"");
+		}
+	}
+ 	
 	public static ValidationObject ValidarTelefono(String telefono) {
 		if (!Pattern.matches("[0-9+-]+", telefono)) {
 			return new ValidationObject("El telefono solo debe contener numeros, + o -");
@@ -158,6 +172,14 @@ public class ValidacionesUsuario {
 		
 		if(!partes[1].contains("utec.edu.uy")) {
 			return new ValidationObject("El email de UTEC debe pertener al dominio utec.edu.uy");
+		}
+		
+		return ValidationObject.VALID;
+	}
+	
+	public static ValidationObject validarEmail(String email) {
+		if(!Validaciones.ValidarMail(email)) {
+			return new ValidationObject("El email tiene un formato invalido");
 		}
 		
 		return ValidationObject.VALID;
