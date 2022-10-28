@@ -13,7 +13,19 @@ import java.util.List;
 @Table(name="ANALISTAS")
 public class Analista extends Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
+	/*
+	 * Las clases Tutor, Estudiante y Analista no posse un ID declarada con @Id
+	 * debido a que extienden de Usuario y solo la super clase Usuario puede
+	 * tener el ID en una Herencia JOINED.
+	 * 
+	 * Por tanto, se le agrega el ID de Analista (en este caso) como UNIQUE y 
+	 * NOT NULL y se le asigna un valor con un Trigger desde la Base de Datos.
+	 * 
+	 * Hibernate puede leer el IdAnalista desde la base de datos pero no escribe
+	 * sobre el ya que lo considera un atributo no primario, por tanto tenemos
+	 * que escribirlo nosotros.
+	 * */
 	@Column(name = "ID_ANALISTA", nullable = false, unique = true)
 	private Long idAnalista;
 	
