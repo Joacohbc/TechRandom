@@ -11,6 +11,9 @@ import com.entities.enums.EstadoUsuario;
 import com.exceptions.InvalidEntityException;
 import com.exceptions.ServiceException;
 
+import validation.ValidacionesUsuario.TipoDocumentoEmail;
+import validation.ValidacionesUsuario.TipoUsuarioEmail;
+
 @Remote
 public interface UsuarioBeanRemote {
 	/*
@@ -27,7 +30,7 @@ public interface UsuarioBeanRemote {
 	 * Tutor.class y Analista.class.
 	 */
 
-	<T extends Usuario> T register(T usuario) throws ServiceException, InvalidEntityException;
+	<T extends Usuario> T register(T usuario, TipoDocumentoEmail tipoDocumento, TipoUsuarioEmail tipoEmail) throws ServiceException, InvalidEntityException;
 
 	<T extends Usuario> T login(String nombreUsuario, String password, Class<T> tipoUsu)
 			throws ServiceException, InvalidEntityException;

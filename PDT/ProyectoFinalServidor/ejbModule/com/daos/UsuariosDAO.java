@@ -31,7 +31,7 @@ public class UsuariosDAO {
 	}
 
 	/**
-	 * Periste un usuario en la Base de datos y retorna la Entidad persistida. 
+	 * Periste un usuario en la Base de datos y retorna la Entidad persistida.
 	 * 
 	 * @exception DAOException Si ocurrio un error al realizar el Perist()
 	 */
@@ -62,7 +62,7 @@ public class UsuariosDAO {
 
 	/**
 	 * Retorna el Tipo de Usuario (Estudiante.class, Analista.class, Tutor.class) en
-	 * base ID.
+	 * base a su ID.
 	 * 
 	 * @return Si no hay resultado retornara null
 	 */
@@ -70,6 +70,52 @@ public class UsuariosDAO {
 		return em.find(tipoUsu, id);
 	}
 
+	/**
+	 * Retorna el Tipo de Usuario (Estudiante.class, Analista.class, Tutor.class) en
+	 * base a su Nombre de Usuario.
+	 * 
+	 * @return Si no hay resultado retornara null
+	 */
+	public <T extends Usuario> T findByNombreUsuario(Class<T> tipoUsu, String nombreUsuario) {
+		try {
+			return em.createQuery("SELECT u FROM " + tipoUsu.getName() + " u WHERE u.nombreUsuario = ?1", tipoUsu)
+					.setParameter(1, nombreUsuario).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Retorna el Tipo de Usuario (Estudiante.class, Analista.class, Tutor.class) en
+	 * base a su Email.
+	 * 
+	 * @return Si no hay resultado retornara null
+	 */
+	public <T extends Usuario> T findByEmail(Class<T> tipoUsu, String email) {
+		try {
+			return em.createQuery("SELECT u FROM " + tipoUsu.getName() + " u WHERE u.email = ?1", tipoUsu)
+					.setParameter(1, email).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Retorna el Tipo de Usuario (Estudiante.class, Analista.class, Tutor.class) en
+	 * base a su Documento.
+	 * 
+	 * @return Si no hay resultado retornara null
+	 */
+	public <T extends Usuario> T findByDocumento(Class<T> tipoUsu, String documento) {
+		try {
+			return em.createQuery("SELECT u FROM " + tipoUsu.getName() + " u WHERE u.documento = ?1", tipoUsu)
+					.setParameter(1, documento).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	
 	/**
 	 * Retorna una Lista de Usuarios del Tipo de Usuario que se le indique.
 	 * 
