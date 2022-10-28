@@ -16,7 +16,11 @@ import java.util.List;
 public class Tutor extends Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	// El
+	/*
+	 * Las clases Tutor, Estudiante y Analista no posse un ID declarada con @Id
+	 * debido a que extienden de Usuario y solo la super clase Usuario puede
+	 * tener el ID en una Herencia JOINED
+	 * */
 	@Column(name = "ID_TUTOR", nullable = false, unique = true)
 	private Long idTutor;
 
