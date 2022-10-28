@@ -206,6 +206,7 @@ public class ViewAnalista extends JFrame {
 					Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila, 0).toString());
 					Usuario usu = BeanIntances.user().findById(Usuario.class, id);
 					if (usu != null) {
+						// lo de modificar
 						//Registrarse reg = new Registrarse(usu);
 						//reg.setVisible(true);
 					} else {
