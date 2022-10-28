@@ -11,18 +11,20 @@ import javax.ejb.Stateless;
 import com.daos.UsuariosDAO;
 import com.entities.Estudiante;
 import com.entities.Itr;
+import com.entities.Tutor;
 import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
 import com.exceptions.DAOException;
-import com.exceptions.EntityAlreadyExistsException;
 import com.exceptions.InvalidEntityException;
 import com.exceptions.NotFoundEntityException;
 import com.exceptions.ServiceException;
 
 import validation.ValidacionesUsuario;
-import validation.ValidationObject;
 import validation.ValidacionesUsuario.TipoUsuarioDocumento;
 import validation.ValidacionesUsuario.TipoUsuarioEmail;
+import validation.ValidacionesUsuarioEstudiante;
+import validation.ValidacionesUsuarioTutor;
+import validation.ValidationObject;
 
 /**
  * Session Bean implementation class UsuarioBean
@@ -82,6 +84,32 @@ public class UsuarioBean implements UsuarioBeanRemote {
 						"Ya existe un Usuario con el Nombre de Usuario: " + usuario.getEmail());
 			}
 
+			if (usuario instanceof Estudiante) {
+
+				Estudiante est = (Estudiante) usuario;
+				valid = ValidacionesUsuarioEstudiante.ValidarGeneracion(est.getGeneracion());
+
+				if (!valid.isValid()) {
+					throw new InvalidEntityException(valid.getErrorMessage());
+
+				} else if (usuario instanceof Tutor) {
+
+					Tutor tut = (Tutor) usuario;
+					valid = ValidacionesUsuarioTutor.ValidarArea(tut.getArea());
+
+					if (!valid.isValid()) {
+
+						throw new InvalidEntityException(valid.getErrorMessage());
+
+					}
+					valid = ValidacionesUsuarioTutor.ValidarTipo(tut.getTipo());
+
+					if (!valid.isValid()) {
+						throw new InvalidEntityException(valid.getErrorMessage());
+					}
+				}
+
+			}
 			return dao.insert(usuario);
 		} catch (DAOException e) {
 			throw new ServiceException(e);

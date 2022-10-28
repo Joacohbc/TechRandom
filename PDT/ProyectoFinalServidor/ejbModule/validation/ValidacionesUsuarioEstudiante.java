@@ -40,6 +40,24 @@ public class ValidacionesUsuarioEstudiante {
 		}
 
 	}
+	
+	
+	public static ValidationObject ValidarGeneracion(Integer generacion) {
+
+
+			if (generacion >= 1000 && generacion <= 9999 ) {
+
+				return ValidationObject.VALID;
+
+			} else {
+
+				return new ValidationObject("La generacion solo puede tener un maximo de 4 digitos");
+			}
+
+		} 
+
+	}
+
 
 
 }
