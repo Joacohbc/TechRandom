@@ -10,18 +10,18 @@ public class ValidacionesUsuario {
 	public ValidacionesUsuario() {
 	}
 
-	public ValidationObject ValidarDocumentoUruguayo(String documento) {
+	public static ValidationObject validarDocumentoUruguayo(String documento) {
 		return Validaciones.ValidarCedulaUruguaya(documento) ? ValidationObject.VALID
-				: new ValidationObject("La cedula urugauya debe contener los puntos, guiones y el digito verificador");
+				: new ValidationObject("La cedula uruguaya debe contener los puntos, guiones y el digito verificador");
 	}
 
-	public ValidationObject ValidarDocumentoNoUruguayo(String documento) {
+	public static ValidationObject validarDocumentoNoUruguayo(String documento) {
 		return Validaciones.ValidarLargo(documento, 20) ? ValidationObject.VALID
 				: new ValidationObject("El documento debe contener un maximo de 20 caracteres");
 	}
 
-	public ValidationObject ValdidarNombreUsuario(String nombreUsuario) {
-		if (!Pattern.matches("[a-zA-Z.]", nombreUsuario)) {
+	public static ValidationObject validarNombreUsuario(String nombreUsuario) {
+		if (!Pattern.matches("[a-z]+(\\.)[a-z]+", nombreUsuario) && !Pattern.matches("[a-z]+(\\.)[a-z]+(\\.)[a-z]+", nombreUsuario)) {
 			return new ValidationObject("El nombre de usuario es invalido, debe tener el formato \"nombre.apellido\"");
 		}
 
@@ -32,7 +32,7 @@ public class ValidacionesUsuario {
 		return ValidationObject.VALID;
 	}
 
-	public ValidationObject ValidarNombres(String nombre) {
+	public static ValidationObject validarNombres(String nombre) {
 		if (!Validaciones.ValidarSoloLetras(nombre, true)) {
 			return new ValidationObject("Los nombres solo deben contener letras y/o espacios");
 		}
@@ -44,7 +44,7 @@ public class ValidacionesUsuario {
 		return ValidationObject.VALID;
 	}
 
-	public ValidationObject ValidarApellido(String apellido) {
+	public static ValidationObject validarApellido(String apellido) {
 		if (!Validaciones.ValidarSoloLetras(apellido, true)) {
 			return new ValidationObject("Los apellidos solo deben contener letras y/o espacios");
 		}
@@ -56,13 +56,13 @@ public class ValidacionesUsuario {
 		return ValidationObject.VALID;
 	}
 
-	public ValidationObject ValidarFechaNacimiento(LocalDate fecNacimiento) {
+	public static ValidationObject validarFechaNacimiento(LocalDate fecNacimiento) {
 		return Validaciones.ValidarFechaMax(fecNacimiento, LocalDate.now(), ValidacionesFecha.NO_ESTRICTAMENTE)
 				? ValidationObject.VALID
 				: new ValidationObject("La fecha de nacimiento debe ser menor a la fecha actual");
 	}
 
-	public ValidationObject ValidarTelefono(String telefono) {
+	public static ValidationObject ValidarTelefono(String telefono) {
 		if (!Pattern.matches("[1-9+-]", telefono)) {
 			return new ValidationObject("El telefono solo debe contener numeros, + o -");
 		}
@@ -74,7 +74,7 @@ public class ValidacionesUsuario {
 		return ValidationObject.VALID;
 	}
 	
-	public ValidationObject ValidarEmailUTEC(String email) {
+	public static ValidationObject validarEmailUTEC(String email) {
 		if(!Validaciones.ValidarMail(email)) {
 			return new ValidationObject("El email tiene un formato invalido");
 		}
@@ -88,7 +88,7 @@ public class ValidacionesUsuario {
 		return ValidationObject.VALID;
 	}
 	
-	public ValidationObject ValidarLocalidad(String localidad) {
+	public static  ValidationObject validarLocalidad(String localidad) {
 		if (!Validaciones.ValidarLargo(localidad, 100)) {
 			return new ValidationObject("La localidad debe tener un maximo de 100 caracteres");
 		}
