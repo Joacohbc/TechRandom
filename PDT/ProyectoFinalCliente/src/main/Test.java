@@ -56,7 +56,7 @@ public class Test extends JFrame {
 		e.setLocalidad("Villa Española");
 		e.setItr(itr);
 
-		System.out.println(ValidacionesUsuario.ValidarUsuario(e).getErrorMessage());
+		//System.out.println(ValidacionesUsuario.ValidarUsuario(e).getErrorMessage());
 
 //		System.out.println(BeanIntances.user().register(e));
 //		Estudiante e1 = BeanIntances.user().login("joaquin.genova", "1234", Estudiante.class);

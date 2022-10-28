@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -198,6 +199,23 @@ public class ViewAnalista extends JFrame {
 		panel.add(btnDesactivar);
 
 		JButton btnAbrirUsuario = new JButton("Ver detalles");
+		btnAbrirUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int fila = tblUsuarios.getSelectedRow();
+				try {
+					Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila, 0).toString());
+					Usuario usu = BeanIntances.user().findById(Usuario.class, id);
+					if (usu != null) {
+						Registrarse reg = new Registrarse(usu);
+						reg.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
+					}
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
+				}
+			}
+		});
 		btnAbrirUsuario.setBounds(436, 335, 105, 27);
 		panel.add(btnAbrirUsuario);
 
@@ -277,25 +295,27 @@ public class ViewAnalista extends JFrame {
 					ArrayList<Estudiante> estudiantes = (ArrayList) BeanIntances.user().findAllEstudiantes();
 
 					for (Estudiante est : estudiantes) {
-						if(est.getIdUsuario()==usu.getIdUsuario()) {
-						  gen = est.getGeneracion(); }
-						 
+						if (est.getIdUsuario() == usu.getIdUsuario()) {
+							gen = est.getGeneracion();
+						}
+
 					}
 				}
 				// && filtros.get("GENERACION").toString()!=null
 				// && Integer.parseInt(filtros.get("GENERACION").toString()) ==generacion
 
 				// proceso que se cumplan las tres condiciones
-				if(gen!=null && gen!=0 && filtros.get("GENERACION")!=null) {
-					System.out.println("ENTRA NOT NULL" + " GEN " + gen + " FILTRO "+ Integer.parseInt(filtros.get("GENERACION").toString())  );
+				if (gen != null && gen != 0 && filtros.get("GENERACION") != null) {
+					System.out.println("ENTRA NOT NULL" + " GEN " + gen + " FILTRO "
+							+ Integer.parseInt(filtros.get("GENERACION").toString()));
 					if (idITR == Long.parseLong(filtros.get("ITR").toString())
 							&& tipo.equalsIgnoreCase(filtros.get("TIPO").toString())
 							&& estado.equalsIgnoreCase(filtros.get("ESTADO").toString())
 							&& gen == Integer.parseInt(filtros.get("GENERACION").toString())) {
-						
+
 						filtrados.add(usu);
 					}
-				}else {
+				} else {
 					if (idITR == Long.parseLong(filtros.get("ITR").toString())
 							&& tipo.equalsIgnoreCase(filtros.get("TIPO").toString())
 							&& estado.equalsIgnoreCase(filtros.get("ESTADO").toString())) {
@@ -303,7 +323,7 @@ public class ViewAnalista extends JFrame {
 						filtrados.add(usu);
 					}
 				}
-				
+
 			}
 		} else {
 

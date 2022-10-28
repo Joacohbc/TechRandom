@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,6 +24,7 @@ import com.entities.enums.Genero;
 import com.toedter.calendar.JDateChooser;
 
 import beans.BeanIntances;
+import components.Roles;
 import components.VTextBox;
 import swingutils.Mensajes;
 import validation.Formatos;
@@ -30,23 +32,27 @@ import validation.ValidacionesUsuario;
 import validation.ValidacionesUsuario.TipoUsuarioDocumento;
 import validation.ValidacionesUsuario.TipoUsuarioEmail;
 import validation.ValidationObject;
-import components.Roles;
-import javax.swing.JCheckBox;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 
 public class Registrarse extends JFrame {
 
 	private JPanel contentPane;
+
 	private JDateChooser dtFechaDeNacimiento;
 	private JPasswordField textpassword;
-	private JComboBox <Itr> comboItr;
 	private JComboBox <Genero> comboGenero;
 	private JComboBox <Departamento> comboDepartamento;
-	private VTextBox textLocalidad;
 	private VTextBox textGeneracion;
 	private VTextBox textTipoTutor;
 	private VTextBox textArea;
 	private JCheckBox chckbxInstitucional;
 	private JCheckBox chckbxUruguayo;
+	private JComboBox comboItr;
+	private VTextBox textLocalidad;
+	private JComboBox<Roles> comboRol;
+
 
 	/**
 	 * Launch the application.
@@ -68,6 +74,27 @@ public class Registrarse extends JFrame {
 	 * Create the frame.
 	 */
 	public Registrarse() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				for (Departamento departamento : Departamento.values()) {
+					comboDepartamento.addItem(departamento);
+				}
+				
+				for (Genero genero : Genero.values()) {
+					comboGenero.addItem(genero);
+				}
+				List <Itr> itrs = BeanIntances.itr().findAll();
+				for (Itr itr : itrs) {
+					comboItr.addItem(itr);
+				}
+				
+				for (Roles rol : Roles.values()) {
+					comboRol.addItem(rol);
+				}
+				
+			}
+		});
 		setTitle("Registrarse");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 706, 543);
@@ -75,85 +102,111 @@ public class Registrarse extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("Documento");
 		lblNewLabel.setBounds(10, 118, 136, 13);
 		contentPane.add(lblNewLabel);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Nombre Usuario");
 		lblNewLabel_1.setBounds(10, 140, 136, 13);
 		contentPane.add(lblNewLabel_1);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Contraseña");
 		lblNewLabel_2.setBounds(10, 163, 136, 13);
 		contentPane.add(lblNewLabel_2);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("Nombres");
 		lblNewLabel_3.setBounds(10, 186, 136, 13);
 		contentPane.add(lblNewLabel_3);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("Apellidos");
 		lblNewLabel_4.setBounds(10, 209, 136, 13);
 		contentPane.add(lblNewLabel_4);
-		
+
 		JLabel lblNewLabel_5 = new JLabel("Fecha de Nacimiento");
 		lblNewLabel_5.setBounds(10, 232, 136, 13);
 		contentPane.add(lblNewLabel_5);
-		
+
 		JLabel lblNewLabel_6 = new JLabel("Telefono");
-		lblNewLabel_6.setBounds(379, 117, 116, 13);
+
+		lblNewLabel_6.setBounds(347, 119, 116, 13);
+
+		lblNewLabel_6.setBounds(347, 119, 116, 13);
+
 		contentPane.add(lblNewLabel_6);
-		
+
 		JLabel lblNewLabel_7 = new JLabel("E-Mail");
-		lblNewLabel_7.setBounds(379, 139, 116, 13);
+
+		lblNewLabel_7.setBounds(347, 141, 116, 13);
+
+		lblNewLabel_7.setBounds(347, 141, 116, 13);
+
 		contentPane.add(lblNewLabel_7);
-		
+
 		JLabel lblNewLabel_8 = new JLabel("Localidad");
-		lblNewLabel_8.setBounds(379, 162, 116, 13);
+
+		lblNewLabel_8.setBounds(347, 164, 116, 13);
+
+		lblNewLabel_8.setBounds(347, 164, 116, 13);
+
 		contentPane.add(lblNewLabel_8);
-		
+
 		JLabel lblNewLabel_9 = new JLabel("Departamento");
-		lblNewLabel_9.setBounds(379, 185, 116, 13);
+
+		lblNewLabel_9.setBounds(347, 187, 116, 13);
+
+		lblNewLabel_9.setBounds(347, 187, 116, 13);
+
 		contentPane.add(lblNewLabel_9);
-		
+
 		JLabel lblNewLabel_10 = new JLabel("Genero");
-		lblNewLabel_10.setBounds(379, 208, 116, 13);
+
+		lblNewLabel_10.setBounds(347, 210, 116, 13);
+
+		lblNewLabel_10.setBounds(347, 210, 116, 13);
+
 		contentPane.add(lblNewLabel_10);
-		
+
 		JLabel lblNewLabel_11 = new JLabel("ITR");
-		lblNewLabel_11.setBounds(379, 231, 116, 13);
+
+		lblNewLabel_11.setBounds(347, 233, 116, 13);
+
+		lblNewLabel_11.setBounds(347, 233, 116, 13);
+
 		contentPane.add(lblNewLabel_11);
-		
+
 		VTextBox textDocumento = new VTextBox();
-		textDocumento.setBounds(150, 115, 110, 16);
+		textDocumento.setBounds(138, 118, 110, 16);
 		contentPane.add(textDocumento);
-		textDocumento.setValidationFunc(texto -> ValidacionesUsuario.validarDocumentoUruguayo(texto));
-		
+
 		VTextBox textUsuario = new VTextBox();
-		textUsuario.setBounds(150, 137, 110, 16);
+		textUsuario.setBounds(138, 140, 110, 16);
 		contentPane.add(textUsuario);
-		textUsuario.setValidationFunc(texto -> ValidacionesUsuario.validarNombreUsuario(texto));
-		
+
 		VTextBox textNombres = new VTextBox();
-		textNombres.setBounds(150, 183, 110, 16);
+		textNombres.setBounds(138, 186, 110, 16);
 		contentPane.add(textNombres);
-		textNombres.setValidationFunc(texto -> ValidacionesUsuario.validarNombres(texto));
-		
+
 		VTextBox textApellidos = new VTextBox();
-		textApellidos.setBounds(150, 206, 110, 16);
+		textApellidos.setBounds(138, 209, 110, 16);
 		contentPane.add(textApellidos);
-		textApellidos.setValidationFunc(texto -> ValidacionesUsuario.validarApellido(texto));
-		
+
 		VTextBox textTel = new VTextBox();
-		textTel.setBounds(471, 113, 110, 16);
+
+		textTel.setBounds(439, 115, 110, 16);
+
+		textTel.setBounds(439, 115, 110, 16);
+
 		contentPane.add(textTel);
-		textTel.setValidationFunc(texto -> ValidacionesUsuario.ValidarTelefono(texto));
-		
+
 		VTextBox textMail = new VTextBox();
-		textMail.setBounds(471, 135, 110, 16);
+
+		textMail.setBounds(439, 137, 110, 16);
+
+		textMail.setBounds(439, 137, 110, 16);
+
 		contentPane.add(textMail);
-		textMail.setValidationFunc(texto -> ValidacionesUsuario.validarEmailUTEC(texto));
-		
+
 		JButton btnRegistrarme = new JButton("Registrarme");
 		btnRegistrarme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -199,50 +252,48 @@ public class Registrarse extends JFrame {
 					Mensajes.MostrarError(E.getMessage());
 				}
 				
+				
 			}
 		});
-		btnRegistrarme.setBounds(471, 409, 110, 21);
+		btnRegistrarme.setBounds(440, 360, 110, 21);
+
+
 		contentPane.add(btnRegistrarme);
-		
+
 		JLabel lblNewLabel_12 = new JLabel("Registro de usuario");
 		lblNewLabel_12.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_12.setBounds(228, 39, 218, 13);
 		contentPane.add(lblNewLabel_12);
+
 		
 		
 		comboDepartamento = new JComboBox <Departamento>();
 		comboDepartamento.setBounds(471, 181, 110, 17);
+
+
+		comboDepartamento = new JComboBox<Departamento>();
+		comboDepartamento.setBounds(440, 185, 110, 17);
+
 		contentPane.add(comboDepartamento);
-		for (Departamento departamento : Departamento.values()) {
-			comboDepartamento.addItem(departamento);
-		}
+		
+
 		
 		comboGenero = new JComboBox <Genero>();
 		comboGenero.setBounds(471, 204, 110, 17);
+
+
+		comboGenero = new JComboBox<Genero>();
+		comboGenero.setBounds(440, 208, 110, 17);
+
 		contentPane.add(comboGenero);
-		for (Genero genero : Genero.values()) {
-			comboGenero.addItem(genero);
-		}
 		
-		
-		comboItr = new JComboBox<Itr>();
-		comboItr.setBounds(471, 227, 111, 17);
-		contentPane.add(comboItr);
-		List <Itr> itrs = BeanIntances.itr().findAll();
-		for (Itr itr : itrs) {
-			comboItr.addItem(itr);
-		}
-		
-		textLocalidad = new VTextBox();
-		textLocalidad.setBounds(471, 159, 110, 16);
-		contentPane.add(textLocalidad);
 		
 		dtFechaDeNacimiento = new JDateChooser();
-		dtFechaDeNacimiento.setBounds(150, 232, 110, 19);
+		dtFechaDeNacimiento.setBounds(138, 235, 110, 19);
 		contentPane.add(dtFechaDeNacimiento);
 		
 		textpassword = new JPasswordField();
-		textpassword.setBounds(150, 160, 110, 16);
+		textpassword.setBounds(138, 163, 110, 16);
 		contentPane.add(textpassword);
 		
 		
@@ -252,33 +303,33 @@ public class Registrarse extends JFrame {
 		contentPane.add(lblNewLabel_13);
 		
 		JLabel lblNewLabel_6_1 = new JLabel("Generacion");
-		lblNewLabel_6_1.setBounds(379, 258, 116, 13);
+		lblNewLabel_6_1.setBounds(348, 262, 116, 13);
 		contentPane.add(lblNewLabel_6_1);
 		
 		textGeneracion = new VTextBox();
-		textGeneracion.setBounds(471, 254, 110, 16);
+		textGeneracion.setBounds(440, 258, 110, 16);
 		contentPane.add(textGeneracion);
 		textGeneracion.setEnabled(false);
 		
 		JLabel lblNewLabel_6_2 = new JLabel("Area");
-		lblNewLabel_6_2.setBounds(379, 285, 116, 13);
+		lblNewLabel_6_2.setBounds(348, 289, 116, 13);
 		contentPane.add(lblNewLabel_6_2);
 		
 		JLabel lblNewLabel_7_2 = new JLabel("Tipo Tutor");
-		lblNewLabel_7_2.setBounds(379, 307, 116, 13);
+		lblNewLabel_7_2.setBounds(348, 311, 116, 13);
 		contentPane.add(lblNewLabel_7_2);
 		
 		textTipoTutor = new VTextBox();
 		textTipoTutor.setEnabled(false);
-		textTipoTutor.setBounds(471, 303, 110, 16);
+		textTipoTutor.setBounds(440, 307, 110, 16);
 		contentPane.add(textTipoTutor);
 		
 		textArea = new VTextBox();
 		textArea.setEnabled(false);
-		textArea.setBounds(471, 281, 110, 16);
+		textArea.setBounds(440, 285, 110, 16);
 		contentPane.add(textArea);
 		
-		JComboBox<Roles> comboRol = new JComboBox<Roles>();
+		comboRol = new JComboBox<Roles>();
 		comboRol.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(((Roles) comboRol.getSelectedItem()) == Roles.ESTUDIANTE) {
@@ -296,20 +347,30 @@ public class Registrarse extends JFrame {
 				}
 			}
 		});
-		comboRol.setBounds(150, 261, 110, 21);
+		comboRol.setBounds(138, 264, 110, 21);
 		contentPane.add(comboRol);
 		
 		chckbxInstitucional = new JCheckBox("Institucional");
 		chckbxInstitucional.setSelected(true);
-		chckbxInstitucional.setBounds(587, 137, 126, 13);
+		chckbxInstitucional.setBounds(566, 143, 126, 13);
 		contentPane.add(chckbxInstitucional);
 		
 		chckbxUruguayo = new JCheckBox("Uruguayo");
 		chckbxUruguayo.setSelected(true);
-		chckbxUruguayo.setBounds(266, 118, 126, 13);
+		chckbxUruguayo.setBounds(254, 118, 87, 13);
 		contentPane.add(chckbxUruguayo);
-		for (Roles rol : Roles.values()) {
-			comboRol.addItem(rol);
-		}
+		
+
+
+		comboItr = new JComboBox();
+		comboItr.setBounds(440, 231, 111, 17);
+		contentPane.add(comboItr);
+
+		textLocalidad = new VTextBox();
+		textLocalidad.setBounds(440, 163, 110, 16);
+		contentPane.add(textLocalidad);
+
 	}
+	
+
 }
