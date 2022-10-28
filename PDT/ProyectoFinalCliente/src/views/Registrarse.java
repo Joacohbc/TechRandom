@@ -6,9 +6,18 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.entities.enums.Departamento;
+import com.entities.enums.Genero;
+
+import components.Roles;
 import components.VTextBox;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Registrarse extends JFrame {
 
@@ -36,34 +45,34 @@ public class Registrarse extends JFrame {
 	public Registrarse() {
 		setTitle("Registrarse");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 655, 522);
+		setBounds(100, 100, 696, 530);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Documento");
-		lblNewLabel.setBounds(53, 119, 94, 13);
+		lblNewLabel.setBounds(33, 119, 136, 13);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre Usuario");
-		lblNewLabel_1.setBounds(53, 141, 94, 13);
+		lblNewLabel_1.setBounds(33, 141, 136, 13);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Contraseña");
-		lblNewLabel_2.setBounds(53, 164, 94, 13);
+		lblNewLabel_2.setBounds(33, 164, 136, 13);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Nombres");
-		lblNewLabel_3.setBounds(53, 187, 94, 13);
+		lblNewLabel_3.setBounds(33, 187, 136, 13);
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("Apellidos");
-		lblNewLabel_4.setBounds(53, 210, 94, 13);
+		lblNewLabel_4.setBounds(33, 210, 136, 13);
 		contentPane.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("Fecha de Nacimiento");
-		lblNewLabel_5.setBounds(53, 233, 116, 13);
+		lblNewLabel_5.setBounds(33, 233, 136, 13);
 		contentPane.add(lblNewLabel_5);
 		
 		JLabel lblNewLabel_6 = new JLabel("Telefono");
@@ -122,28 +131,41 @@ public class Registrarse extends JFrame {
 		textMail.setBounds(439, 137, 110, 16);
 		contentPane.add(textMail);
 		
-		VTextBox textLocalidad = new VTextBox();
-		textLocalidad.setBounds(439, 160, 110, 16);
-		contentPane.add(textLocalidad);
-		
-		VTextBox textDepartamento = new VTextBox();
-		textDepartamento.setBounds(439, 183, 110, 16);
-		contentPane.add(textDepartamento);
-		
-		VTextBox textGenero = new VTextBox();
-		textGenero.setBounds(439, 206, 110, 16);
-		contentPane.add(textGenero);
-		
-		VTextBox textItr = new VTextBox();
-		textItr.setBounds(439, 230, 110, 16);
-		contentPane.add(textItr);
-		
 		JButton btnRegistrarme = new JButton("Registrarme");
+		btnRegistrarme.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnRegistrarme.setBounds(439, 314, 110, 21);
 		contentPane.add(btnRegistrarme);
 		
 		JLabel lblNewLabel_12 = new JLabel("Registro de usuario");
-		lblNewLabel_12.setBounds(207, 40, 218, 13);
+		lblNewLabel_12.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_12.setBounds(228, 39, 218, 13);
 		contentPane.add(lblNewLabel_12);
+		
+		
+		JComboBox <Departamento> comboDepartamento = new JComboBox <Departamento>();
+		comboDepartamento.setBounds(439, 183, 110, 17);
+		contentPane.add(comboDepartamento);
+		for (Departamento departamento : Departamento.values()) {
+			comboDepartamento.addItem(departamento);
+		}
+		
+		JComboBox <Genero> comboGenero = new JComboBox <Genero>();
+		comboGenero.setBounds(439, 206, 110, 17);
+		contentPane.add(comboGenero);
+		for (Genero genero : Genero.values()) {
+			comboGenero.addItem(genero);
+		}
+		
+		
+		JComboBox comboItr = new JComboBox();
+		comboItr.setBounds(439, 229, 111, 17);
+		contentPane.add(comboItr);
+		
+		VTextBox textLocalidad = new VTextBox();
+		textLocalidad.setBounds(439, 161, 110, 16);
+		contentPane.add(textLocalidad);
 	}
 }

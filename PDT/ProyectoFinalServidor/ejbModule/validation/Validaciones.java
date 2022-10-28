@@ -137,7 +137,7 @@ public final class Validaciones {
 		if (!ValidarNoVacio(s))
 			return false;
 
-		return Pattern.matches("[0-9](.)[0-9][0-9][0-9](.)[0-9][0-9][0-9](-)[0-9]", s)
-				|| Pattern.matches("[0-9][0-9][0-9](.)[0-9][0-9][0-9](-)[0-9]", s);
+		return Pattern.matches("[0-9](\\.)[0-9][0-9][0-9](\\.)[0-9][0-9][0-9](-)[0-9]", s)
+				|| Pattern.matches("[0-9][0-9][0-9](\\.)[0-9][0-9][0-9](-)[0-9]", s);
 	}
 }

@@ -34,7 +34,7 @@ public class Test extends JFrame {
 		itr.setNombre("ITRCS");
 		itr.setDepartamento(Departamento.DURAZNO);
 		itr.setEstado(true);
-/*
+
 		Estudiante e = new Estudiante();
 		e.setNombres("Joaquin");
 		e.setApellidos("Genova Guerendiain");
@@ -59,7 +59,7 @@ public class Test extends JFrame {
 		System.out.println(BeanIntances.user().findAll(Estudiante.class));
 		System.out.println(BeanIntances.user().findAll(Tutor.class));
 
-		BeanIntances.user().updateEstadoUsuario(6l, EstadoUsuario.SIN_VALIDAR);*/
+		//BeanIntances.user().updateEstadoUsuario(6l, EstadoUsuario.SIN_VALIDAR);
 /*
 		for (Estudiante e : BeanIntances.user().findAll(Estudiante.class, EstadoUsuario.SIN_VALIDAR, itr)) {
 			System.out.println(e);

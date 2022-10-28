@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class viewTutor extends JFrame {
+public class ViewTutor extends JFrame {
 
 	private JPanel contentPane;
 
@@ -18,7 +18,7 @@ public class viewTutor extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					viewTutor frame = new viewTutor();
+					ViewTutor frame = new ViewTutor();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -30,7 +30,7 @@ public class viewTutor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public viewTutor() {
+	public ViewTutor() {
 		setTitle("Tutor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 708, 535);

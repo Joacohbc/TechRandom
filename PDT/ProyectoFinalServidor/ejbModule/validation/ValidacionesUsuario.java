@@ -3,6 +3,11 @@ package validation;
 import java.time.LocalDate;
 import java.util.regex.Pattern;
 
+import com.entities.Usuario;
+import com.entities.enums.Departamento;
+import com.entities.enums.EstadoUsuario;
+import com.entities.enums.Genero;
+
 import validation.Validaciones.ValidacionesFecha;
 
 public class ValidacionesUsuario {
@@ -10,18 +15,83 @@ public class ValidacionesUsuario {
 	public ValidacionesUsuario() {
 	}
 
-	public ValidationObject ValidarDocumentoUruguayo(String documento) {
+	public static ValidationObject ValidarUsuario(Usuario usuario) {
+		
+		ValidationObject valid = validarDocumentoUruguayo(usuario.getDocumento());
+		if(!valid.isValid()) {
+			return valid;
+		}
+		
+		valid = validarNombreUsuario(usuario.getNombreUsuario());
+		if(!valid.isValid()) {
+			return valid;
+		}
+		
+		valid = validarContrasena(usuario.getContrasena());
+		if(!valid.isValid()) {
+			return valid;
+		}
+		
+		valid = validarEmailUTEC(usuario.getEmail());
+		if(!valid.isValid()) {
+			return valid;
+		}
+		
+		valid = validarNombres(usuario.getNombres());
+		if(!valid.isValid()) {
+			return valid;
+		}
+		
+		valid = validarApellido(usuario.getApellidos());
+		if(!valid.isValid()) {
+			return valid;
+		}
+		
+		valid = validarGenero(usuario.getGenero());
+		if(!valid.isValid()) {
+			return valid;
+		}
+		
+		valid = validarFechaNacimiento(usuario.getFecNacimiento());
+		if(!valid.isValid()) {
+			return valid;
+		}
+		
+		valid = validarDepartamento(usuario.getDepartamento());
+		if(!valid.isValid()) {
+			return valid;
+		}
+		
+		valid = validarLocalidad(usuario.getLocalidad());
+		if(!valid.isValid()) {
+			return valid;
+		}
+		
+		valid = ValidarTelefono(usuario.getTelefono());
+		if(!valid.isValid()) {
+			return valid;
+		}
+		
+		valid = validarEstadoUsuario(usuario.getEstadoUsuario());
+		if(!valid.isValid()) {
+			return valid;
+		}
+		
+		return ValidationObject.VALID;
+	}
+	
+	public static ValidationObject validarDocumentoUruguayo(String documento) {
 		return Validaciones.ValidarCedulaUruguaya(documento) ? ValidationObject.VALID
-				: new ValidationObject("La cedula urugauya debe contener los puntos, guiones y el digito verificador");
+				: new ValidationObject("La cedula uruguaya debe contener los puntos, guiones y el digito verificador");
 	}
 
-	public ValidationObject ValidarDocumentoNoUruguayo(String documento) {
+	public static ValidationObject validarDocumentoNoUruguayo(String documento) {
 		return Validaciones.ValidarLargo(documento, 20) ? ValidationObject.VALID
 				: new ValidationObject("El documento debe contener un maximo de 20 caracteres");
 	}
 
-	public ValidationObject ValdidarNombreUsuario(String nombreUsuario) {
-		if (!Pattern.matches("[a-zA-Z.]", nombreUsuario)) {
+	public static ValidationObject validarNombreUsuario(String nombreUsuario) {
+		if (!Pattern.matches("[a-z]+(\\.)[a-z]+", nombreUsuario) && !Pattern.matches("[a-z]+(\\.)[a-z]+(\\.)[a-z]+", nombreUsuario)) {
 			return new ValidationObject("El nombre de usuario es invalido, debe tener el formato \"nombre.apellido\"");
 		}
 
@@ -31,8 +101,13 @@ public class ValidacionesUsuario {
 
 		return ValidationObject.VALID;
 	}
-
-	public ValidationObject ValidarNombres(String nombre) {
+	
+	public static ValidationObject validarContrasena(String contrasena) {
+		return Validaciones.ValidarLargo(contrasena, 8, 64) ? 
+				ValidationObject.VALID : new ValidationObject("La contraseña debe tener un minimo de 8 caracteres y un maxaimo de 64 caracteres");
+	}
+	
+	public static ValidationObject validarNombres(String nombre) {
 		if (!Validaciones.ValidarSoloLetras(nombre, true)) {
 			return new ValidationObject("Los nombres solo deben contener letras y/o espacios");
 		}
@@ -44,7 +119,7 @@ public class ValidacionesUsuario {
 		return ValidationObject.VALID;
 	}
 
-	public ValidationObject ValidarApellido(String apellido) {
+	public static ValidationObject validarApellido(String apellido) {
 		if (!Validaciones.ValidarSoloLetras(apellido, true)) {
 			return new ValidationObject("Los apellidos solo deben contener letras y/o espacios");
 		}
@@ -56,14 +131,14 @@ public class ValidacionesUsuario {
 		return ValidationObject.VALID;
 	}
 
-	public ValidationObject ValidarFechaNacimiento(LocalDate fecNacimiento) {
+	public static ValidationObject validarFechaNacimiento(LocalDate fecNacimiento) {
 		return Validaciones.ValidarFechaMax(fecNacimiento, LocalDate.now(), ValidacionesFecha.NO_ESTRICTAMENTE)
 				? ValidationObject.VALID
 				: new ValidationObject("La fecha de nacimiento debe ser menor a la fecha actual");
 	}
 
-	public ValidationObject ValidarTelefono(String telefono) {
-		if (!Pattern.matches("[1-9+-]", telefono)) {
+	public static ValidationObject ValidarTelefono(String telefono) {
+		if (!Pattern.matches("[0-9+-]+", telefono)) {
 			return new ValidationObject("El telefono solo debe contener numeros, + o -");
 		}
 
@@ -74,7 +149,7 @@ public class ValidacionesUsuario {
 		return ValidationObject.VALID;
 	}
 	
-	public ValidationObject ValidarEmailUTEC(String email) {
+	public static ValidationObject validarEmailUTEC(String email) {
 		if(!Validaciones.ValidarMail(email)) {
 			return new ValidationObject("El email tiene un formato invalido");
 		}
@@ -88,12 +163,23 @@ public class ValidacionesUsuario {
 		return ValidationObject.VALID;
 	}
 	
-	public ValidationObject ValidarLocalidad(String localidad) {
+	public static  ValidationObject validarLocalidad(String localidad) {
 		if (!Validaciones.ValidarLargo(localidad, 100)) {
 			return new ValidationObject("La localidad debe tener un maximo de 100 caracteres");
 		}
 
 		return ValidationObject.VALID;
 	}
-
+	
+	public static ValidationObject validarGenero(Genero genero) {
+		return genero != null ? ValidationObject.VALID : new ValidationObject("El genero obligatorio");
+	}
+	
+	public static ValidationObject validarDepartamento(Departamento departamento) {
+		return departamento != null ? ValidationObject.VALID : new ValidationObject("El departamento obligatorio");
+	}
+	
+	public static ValidationObject validarEstadoUsuario(EstadoUsuario estado) {
+		return estado != null ? ValidationObject.VALID : new ValidationObject("El estado obligatorio");
+	}
 }

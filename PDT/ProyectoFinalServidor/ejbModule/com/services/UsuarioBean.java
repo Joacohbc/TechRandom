@@ -18,6 +18,10 @@ import com.exceptions.InvalidUserException;
 import com.exceptions.NotFoundEntityException;
 import com.exceptions.ServiceException;
 
+import validation.Validaciones;
+import validation.ValidacionesUsuario;
+import validation.ValidationObject;
+
 /**
  * Session Bean implementation class UsuarioBean
  */
@@ -53,7 +57,14 @@ public class UsuarioBean implements UsuarioBeanRemote {
 		try {
 			usuario.setContrasena(toMD5(usuario.getContrasena()));
 			usuario.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
+			
+			ValidationObject valid = ValidacionesUsuario.ValidarUsuario(usuario);
+			if(!valid.isValid()) {
+				throw new InvalidUserException(valid.getErrorMessage());
+			}
+			
 			return dao.insert(usuario);
+			
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		} catch (NoSuchAlgorithmException e) {

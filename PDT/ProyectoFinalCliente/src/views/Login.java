@@ -22,10 +22,10 @@ import com.entities.Tutor;
 import beans.BeanIntances;
 import components.Roles;
 import components.VTextBox;
-import components.ValidationObject;
 import validation.Validaciones;
 import java.awt.Label;
 import javax.swing.ImageIcon;
+import java.awt.Font;
 
 public class Login extends JFrame {
 
@@ -61,7 +61,7 @@ public class Login extends JFrame {
 		contentPane.setLayout(null);
 		
 		JComboBox <Roles> comboRol = new JComboBox <Roles>();
-		comboRol.setBounds(317, 175, 164, 21);
+		comboRol.setBounds(332, 184, 164, 21);
 		contentPane.add(comboRol);
 		for (Roles rol : Roles.values()) {
 			comboRol.addItem(rol);
@@ -85,28 +85,30 @@ public class Login extends JFrame {
 		JButton btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
 				Registrarse registro = new Registrarse();
 				registro.setVisible(true);
 			}
 		});
-		btnRegistrarse.setBounds(414, 330, 102, 21);
+		btnRegistrarse.setBounds(394, 344, 102, 21);
 		contentPane.add(btnRegistrarse);
 		
 		JLabel lblNewLabel = new JLabel("Usuario");
-		lblNewLabel.setBounds(205, 209, 102, 13);
+		lblNewLabel.setBounds(220, 218, 102, 13);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Contraseña");
-		lblNewLabel_1.setBounds(205, 245, 102, 13);
+		lblNewLabel_1.setBounds(220, 254, 102, 13);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Rol");
-		lblNewLabel_2.setBounds(205, 179, 102, 13);
+		lblNewLabel_2.setBounds(220, 188, 102, 13);
 		contentPane.add(lblNewLabel_2);
 		
 		VTextBox textboxUsuario = new VTextBox();
-		textboxUsuario.setBounds(317, 206, 164, 21);
+		textboxUsuario.setBounds(332, 215, 164, 21);
 		contentPane.add(textboxUsuario);
+		//textboxUsuario.setValidationFunc(texto -> ValidacionesUsuario);
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
@@ -118,42 +120,54 @@ public class Login extends JFrame {
 				if (comboRol.getSelectedItem() == Roles.ANALISTA && textboxUsuario.isValid()) {
 					try {
 						System.out.println(BeanIntances.user().login(textboxUsuario.getText(), String.valueOf(textContraseña.getPassword()), Analista.class));
-						//viewAnalista viewAnalista = new viewAnalista();
-						//viewAnalista.setVisible(true);
+						setVisible(false);
+						ViewAnalista viewAnalista = new ViewAnalista();
+						viewAnalista.setVisible(true);
 					}catch(Exception E) {
 						JOptionPane.showMessageDialog(null, "No es posible loguearse al sistema. Compruebe las credenciales ingresadas.");
 					}
 				}else if (comboRol.getSelectedItem() == Roles.TUTOR && textboxUsuario.isValid()) {
 							try {
 								System.out.println(BeanIntances.user().login(textboxUsuario.getText(), String.valueOf(textContraseña.getPassword()), Tutor.class));
-								viewTutor viewTutor = new viewTutor();
-								viewTutor.setVisible(true);
+								setVisible(false);
+								ViewTutor ViewTutor = new ViewTutor();
+								ViewTutor.setVisible(true);
 							}catch(Exception E) {
 								JOptionPane.showMessageDialog(null, "No es posible loguearse al sistema. Compruebe las credenciales ingresadas.");
 							}
 					}else if (comboRol.getSelectedItem() == Roles.ESTUDIANTE && textboxUsuario.isValid()){
 							try {
 								System.out.println(BeanIntances.user().login(textboxUsuario.getText(), String.valueOf(textContraseña.getPassword()), Estudiante.class));
-								viewEstudiante viewEstudiante = new viewEstudiante();
-								viewEstudiante.setVisible(true);
+								setVisible(false);
+								ViewEstudiante ViewEstudiante = new ViewEstudiante();
+								ViewEstudiante.setVisible(true);
 							}catch(Exception E) {
 								JOptionPane.showMessageDialog(null, "No es posible loguearse al sistema. Compruebe las credenciales ingresadas.");	
 							}
 						}
 				}
 		});
-		btnLogin.setBounds(414, 292, 102, 21);
+		btnLogin.setBounds(394, 308, 102, 21);
 		contentPane.add(btnLogin);
 		
 		textContraseña = new JPasswordField();
-		textContraseña.setBounds(317, 237, 164, 21);
+		textContraseña.setBounds(332, 246, 164, 21);
 		contentPane.add(textContraseña);
 		
+		JLabel lblNewLabel_4 = new JLabel("");
+		lblNewLabel_4.setIcon(new ImageIcon(Login.class.getResource("/images/logo utec (2).png")));
+		lblNewLabel_4.setBounds(570, 10, 117, 105);
+		contentPane.add(lblNewLabel_4);
+		
 		JLabel lblNewLabel_3 = new JLabel("");
-// TODO: Hay que agregar esta foto al proyecto
-//		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\bruno\\Desktop\\logo utec (2).png"));
-		lblNewLabel_3.setBounds(551, 21, 109, 103);
+		lblNewLabel_3.setIcon(new ImageIcon(Login.class.getResource("/images/usuario (3).png")));
+		lblNewLabel_3.setBounds(408, 95, 32, 44);
 		contentPane.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_5 = new JLabel("Login");
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_5.setBounds(353, 105, 45, 30);
+		contentPane.add(lblNewLabel_5);
 		
 		
 	}
