@@ -203,8 +203,15 @@ public class VTextBox extends JTextField {
 	}
 	
 	@Override
-	@Override
 	public void setEnabled(boolean enabled) {
+		/*
+		 * Cuando deshabilitamos el VTextBox se ponga el borde predeterminado de un JTextBox,
+		 * asi no queda en Rojo o en Verde
+		 * */
+		if(!enabled) {
+			this.setBorder(new JTextField().getBorder());
+			this.errorLabel.setVisible(false);
+		}
 		
 		super.setEnabled(enabled);
 	}
