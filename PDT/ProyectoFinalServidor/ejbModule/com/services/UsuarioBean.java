@@ -9,6 +9,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.daos.UsuariosDAO;
+import com.entities.Analista;
 import com.entities.Estudiante;
 import com.entities.Itr;
 import com.entities.Tutor;
@@ -63,11 +64,6 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			usuario.setContrasena(toMD5(usuario.getContrasena()));
 			usuario.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
 
-			ValidationObject valid = ValidacionesUsuario.ValidarUsuario(usuario, tipoDocumento, tipoEmail);
-			if (!valid.isValid()) {
-				throw new InvalidEntityException(valid.getErrorMessage());
-			}
-
 			if (usuario.getIdUsuario() != null)
 				throw new InvalidEntityException("Al registrar un Usuario, este no puede tener un ID asignado");
 
@@ -85,33 +81,28 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			}
 
 			if (usuario instanceof Estudiante) {
-
 				Estudiante est = (Estudiante) usuario;
-				valid = ValidacionesUsuarioEstudiante.ValidarGeneracion(est.getGeneracion());
-
-				if (!valid.isValid()) {
-					throw new InvalidEntityException(valid.getErrorMessage());
-
-				} else if (usuario instanceof Tutor) {
-
-					Tutor tut = (Tutor) usuario;
-					valid = ValidacionesUsuarioTutor.ValidarArea(tut.getArea());
-
-					if (!valid.isValid()) {
-
-						throw new InvalidEntityException(valid.getErrorMessage());
-
-					}
-					valid = ValidacionesUsuarioTutor.ValidarTipo(tut.getTipo());
-
-					if (!valid.isValid()) {
-						throw new InvalidEntityException(valid.getErrorMessage());
-					}
-				}
-
+				ValidationObject error = ValidacionesUsuarioEstudiante.validarEstudiante(est, tipoDocumento, tipoEmail);
+				if (!error.isValid())
+					throw new InvalidEntityException(error.getErrorMessage());
+				
+			} else if (usuario instanceof Tutor) {
+				Tutor tut = (Tutor) usuario;
+				ValidationObject error = ValidacionesUsuarioTutor.validarTutor(tut, tipoDocumento, tipoEmail);
+				if (!error.isValid())
+					throw new InvalidEntityException(error.getErrorMessage());
+			
+			} else {
+				Analista ana = (Analista) usuario;
+				ValidationObject error = ValidacionesUsuario.ValidarUsuario(ana, tipoDocumento, tipoEmail);
+				if (!error.isValid())
+					throw new InvalidEntityException(error.getErrorMessage());
 			}
+
 			return dao.insert(usuario);
-		} catch (DAOException e) {
+		} catch (
+
+		DAOException e) {
 			throw new ServiceException(e);
 		} catch (NoSuchAlgorithmException e) {
 			throw new ServiceException("No se pudo inscripar la contraseña del usuario: " + e.getMessage());

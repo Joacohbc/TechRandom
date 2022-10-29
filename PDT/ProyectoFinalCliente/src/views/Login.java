@@ -1,10 +1,11 @@
 package views;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -12,31 +13,25 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.entities.Analista;
 import com.entities.Estudiante;
 import com.entities.Tutor;
 
-import org.wildfly.security.password.Password;
-
 import beans.BeanIntances;
 import components.Roles;
 import components.VTextBox;
 import swingutils.Mensajes;
-import validation.Validaciones;
 import validation.ValidacionesUsuario;
 import validation.ValidationObject;
-
-import java.awt.Label;
-import javax.swing.ImageIcon;
-import java.awt.Font;
 
 public class Login extends JFrame {
 
 	private JPanel contentPane;
 	private JPasswordField textPassword;
+
+	public static final String VERSION = "v1.1";
 
 	/**
 	 * Launch the application.
@@ -108,18 +103,18 @@ public class Login extends JFrame {
 		});
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Valido el usuario
+				// Valido el usuario
 				if (!textboxUsuario.isValid()) {
 					Mensajes.MostrarError(textboxUsuario.getErrorMessage());
 					return;
 				}
-				//Valido la contrasena
+				// Valido la contrasena
 				ValidationObject v = ValidacionesUsuario.validarContrasena(String.valueOf(textPassword.getPassword()));
 				if (!v.isValid()) {
 					Mensajes.MostrarError(v.getErrorMessage());
 					return;
 				}
-				
+
 				if (comboRol.getSelectedItem() == Roles.ANALISTA) {
 					try {
 						BeanIntances.user().login(textboxUsuario.getText(), String.valueOf(textPassword.getPassword()),
@@ -177,11 +172,11 @@ public class Login extends JFrame {
 		textPassword = new JPasswordField();
 		textPassword.setBounds(277, 250, 222, 21);
 		contentPane.add(textPassword);
-		
+
 		JLabel lblNewLabel_6 = new JLabel("Ha olvidado su contrasena");
 		lblNewLabel_6.setBounds(165, 307, 144, 13);
 		contentPane.add(lblNewLabel_6);
-		
+
 		JButton btnRestorePassword = new JButton("Restablecer contrasena");
 		btnRestorePassword.setBounds(355, 303, 144, 21);
 		contentPane.add(btnRestorePassword);

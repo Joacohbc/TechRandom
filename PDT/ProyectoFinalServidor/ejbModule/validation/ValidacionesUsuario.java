@@ -48,79 +48,79 @@ public class ValidacionesUsuario {
 
 	public static ValidationObject ValidarUsuario(Usuario usuario, TipoUsuarioDocumento tipoDocumento, TipoUsuarioEmail tipoEmail) {
 
-		ValidationObject valid;
+		ValidationObject error;
 		if (tipoDocumento == TipoUsuarioDocumento.URUGUAYO) {
-			valid = validarDocumentoUruguayo(usuario.getDocumento());
-			if (!valid.isValid()) {
-				return valid;
+			error = validarDocumentoUruguayo(usuario.getDocumento());
+			if (!error.isValid()) {
+				return error;
 			}
 		} else {
-			valid = validarDocumentoNoUruguayo(usuario.getDocumento());
-			if (!valid.isValid()) {
-				return valid;
+			error = validarDocumentoNoUruguayo(usuario.getDocumento());
+			if (!error.isValid()) {
+				return error;
 			}
 		}
 
-		valid = validarNombreUsuario(usuario.getNombreUsuario());
-		if (!valid.isValid()) {
-			return valid;
+		error = validarNombreUsuario(usuario.getNombreUsuario());
+		if (!error.isValid()) {
+			return error;
 		}
 
-		valid = validarContrasena(usuario.getContrasena());
-		if (!valid.isValid()) {
-			return valid;
+		error = validarContrasena(usuario.getContrasena());
+		if (!error.isValid()) {
+			return error;
 		}
 
 		if (tipoEmail == TipoUsuarioEmail.UTEC) {
-			valid = validarEmailUTEC(usuario.getEmail());
-			if (!valid.isValid()) {
-				return valid;
+			error = validarEmailUTEC(usuario.getEmail());
+			if (!error.isValid()) {
+				return error;
 			}
 		} else {
-			valid = validarEmail(usuario.getDocumento());
-			if (!valid.isValid()) {
-				return valid;
+			error = validarEmail(usuario.getDocumento());
+			if (!error.isValid()) {
+				return error;
 			}
 		}
 
-		valid = validarNombres(usuario.getNombres());
-		if (!valid.isValid()) {
-			return valid;
+		error = validarNombres(usuario.getNombres());
+		if (!error.isValid()) {
+			return error;
 		}
 
-		valid = validarApellido(usuario.getApellidos());
-		if (!valid.isValid()) {
-			return valid;
+		error = validarApellido(usuario.getApellidos());
+		if (!error.isValid()) {
+			return error;
 		}
 
-		valid = validarGenero(usuario.getGenero());
-		if (!valid.isValid()) {
-			return valid;
+		error = validarGenero(usuario.getGenero());
+		if (!error.isValid()) {
+			return error;
 		}
 
-		valid = validarFechaNacimiento(usuario.getFecNacimiento());
-		if (!valid.isValid()) {
-			return valid;
+		error = validarFechaNacimiento(usuario.getFecNacimiento());
+		if (!error.isValid()) {
+			return error;
 		}
 
-		valid = validarDepartamento(usuario.getDepartamento());
-		if (!valid.isValid()) {
-			return valid;
+		error = validarDepartamento(usuario.getDepartamento());
+		if (!error.isValid()) {
+			return error;
 		}
 
-		valid = validarLocalidad(usuario.getLocalidad());
-		if (!valid.isValid()) {
-			return valid;
+		error = validarLocalidad(usuario.getLocalidad());
+		if (!error.isValid()) {
+			return error;
 		}
 
-		valid = validarTelefono(usuario.getTelefono());
-		if (!valid.isValid()) {
-			return valid;
+		error = validarTelefono(usuario.getTelefono());
+		if (!error.isValid()) {
+			return error;
 		}
 
-		valid = validarEstadoUsuario(usuario.getEstadoUsuario());
-		if (!valid.isValid()) {
-			return valid;
+		error = validarEstadoUsuario(usuario.getEstadoUsuario());
+		if (!error.isValid()) {
+			return error;
 		}
 
 		return ValidationObject.VALID;

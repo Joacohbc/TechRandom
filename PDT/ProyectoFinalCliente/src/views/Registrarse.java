@@ -20,7 +20,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.entities.Analista;
+import com.entities.Estudiante;
 import com.entities.Itr;
+import com.entities.Tutor;
 import com.entities.enums.Departamento;
 import com.entities.enums.EstadoUsuario;
 import com.entities.enums.Genero;
@@ -35,6 +37,8 @@ import validation.Formatos;
 import validation.ValidacionesUsuario;
 import validation.ValidacionesUsuario.TipoUsuarioDocumento;
 import validation.ValidacionesUsuario.TipoUsuarioEmail;
+import validation.ValidacionesUsuarioEstudiante;
+import validation.ValidacionesUsuarioTutor;
 import validation.ValidationObject;
 
 public class Registrarse extends JFrame {
@@ -91,12 +95,11 @@ public class Registrarse extends JFrame {
 					comboGenero.addItem(genero);
 				}
 
-
 				for (Roles rol : Roles.values()) {
 					comboRol.addItem(rol);
 				}
-				
-				for(TipoTutor tipo : TipoTutor.values()) {
+
+				for (TipoTutor tipo : TipoTutor.values()) {
 					cmbTipoTutor.addItem(tipo);
 				}
 
@@ -197,56 +200,101 @@ public class Registrarse extends JFrame {
 		JButton btnRegistrarme = new JButton("Registrarme");
 		btnRegistrarme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Se valida fecha de nacimiento
-				LocalDate fecha = Formatos.ToLocalDate(dtFechaDeNacimiento.getDate());
-				
-				ValidationObject v = ValidacionesUsuario.validarFechaNacimiento(fecha);
-
-				if (!v.isValid()) {
-					Mensajes.MostrarError(v.getErrorMessage());
-					return;
-				}
-
-				v = ValidacionesUsuario.validarContrasena(String.valueOf(textpassword.getPassword()));
-				if (!v.isValid()) {
-					Mensajes.MostrarError(v.getErrorMessage());
-					return;
-				}
-
-				if (!textDocumento.isValid() || !textApellidos.isValid() || !textMail.isValid()
-						|| !textNombres.isValid() || !textTel.isValid() || !textUsuario.isValid()) {
-					Mensajes.MostrarError(
-							"Para realizar el registro, debe de tener todos los campos correctamente ingresados.");
-					return;
-				}
 
 				try {
-					Analista a = new Analista();
-					a.setNombres(textNombres.getText());
-					a.setApellidos(textApellidos.getText());
-					a.setNombreUsuario(textUsuario.getText());
-					a.setContrasena(String.valueOf(textpassword.getPassword()));
-					a.setEmail(textMail.getText());
-					a.setDocumento(textDocumento.getText());
-					a.setTelefono(textTel.getText());
-					a.setFecNacimiento(fecha);
-					a.setDepartamento((Departamento) comboDepartamento.getSelectedItem());
-					a.setEstado(true);
-					a.setGenero((Genero) comboGenero.getSelectedItem());
-					a.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
-					a.setLocalidad(textLocalidad.getText());
-					a.setItr((Itr) comboItr.getSelectedItem());
-
 					// La siguiente sentencia es lo mismo que un If, si esta seleccionado es email
 					// utec si no es general.
 					TipoUsuarioEmail email = chckbxInstitucional.isSelected() ? TipoUsuarioEmail.UTEC
 							: TipoUsuarioEmail.GENERAL;
 					TipoUsuarioDocumento documento = chckbxUruguayo.isSelected() ? TipoUsuarioDocumento.URUGUAYO
 							: TipoUsuarioDocumento.NO_URUGAUYO;
+
 					
-					BeanIntances.user().register(a, documento, email);
-				} catch (Exception E) {
-					Mensajes.MostrarError(E.getMessage());
+					Roles rol = ((Roles) comboRol.getSelectedItem());					
+					LocalDate fecha = Formatos.ToLocalDate(dtFechaDeNacimiento.getDate());
+					if (rol == Roles.ESTUDIANTE) {
+						Estudiante estudiante = new Estudiante();
+						estudiante.setNombres(textNombres.getText());
+						estudiante.setApellidos(textApellidos.getText());
+						estudiante.setNombreUsuario(textUsuario.getText());
+						estudiante.setContrasena(String.valueOf(textpassword.getPassword()));
+						estudiante.setEmail(textMail.getText());
+						estudiante.setDocumento(textDocumento.getText());
+						estudiante.setTelefono(textTel.getText());
+						estudiante.setFecNacimiento(fecha);
+						estudiante.setDepartamento((Departamento) comboDepartamento.getSelectedItem());
+						estudiante.setGenero((Genero) comboGenero.getSelectedItem());
+						estudiante.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
+						estudiante.setLocalidad(textLocalidad.getText());
+						estudiante.setItr((Itr) comboItr.getSelectedItem());
+						estudiante.setEstado(true);
+						estudiante.setGeneracion(Integer.parseInt(textGeneracion.getText()));
+
+						ValidationObject error = ValidacionesUsuarioEstudiante.validarEstudiante(estudiante, documento,
+								email);
+						if (!error.isValid()) {
+							Mensajes.MostrarError(error.getErrorMessage());
+							return;
+						}
+						estudiante = BeanIntances.user().register(estudiante, documento, email);
+						Mensajes.MostrarExito("Se dio de alta correctamente el Estudiante " + estudiante.getNombres());
+						return;
+					}
+
+					if (rol == Roles.TUTOR) {
+						Tutor tutor = new Tutor();
+						tutor.setNombres(textNombres.getText());
+						tutor.setApellidos(textApellidos.getText());
+						tutor.setNombreUsuario(textUsuario.getText());
+						tutor.setContrasena(String.valueOf(textpassword.getPassword()));
+						tutor.setEmail(textMail.getText());
+						tutor.setDocumento(textDocumento.getText());
+						tutor.setTelefono(textTel.getText());
+						tutor.setFecNacimiento(fecha);
+						tutor.setDepartamento((Departamento) comboDepartamento.getSelectedItem());
+						tutor.setGenero((Genero) comboGenero.getSelectedItem());
+						tutor.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
+						tutor.setLocalidad(textLocalidad.getText());
+						tutor.setItr((Itr) comboItr.getSelectedItem());
+						tutor.setEstado(true);
+						tutor.setArea(textArea.getText());
+						tutor.setTipo((TipoTutor) cmbTipoTutor.getSelectedItem());
+
+						ValidationObject error = ValidacionesUsuarioTutor.validarTutor(tutor, documento, email);
+						if (!error.isValid()) {
+							Mensajes.MostrarError(error.getErrorMessage());
+							return;
+						}
+						tutor = BeanIntances.user().register(tutor, documento, email);
+						Mensajes.MostrarExito("Se dio de alta correctamente el Tutor " + tutor.getNombres());
+						return;
+					}
+
+					Analista analista = new Analista();
+					analista.setNombres(textNombres.getText());
+					analista.setApellidos(textApellidos.getText());
+					analista.setNombreUsuario(textUsuario.getText());
+					analista.setContrasena(String.valueOf(textpassword.getPassword()));
+					analista.setEmail(textMail.getText());
+					analista.setDocumento(textDocumento.getText());
+					analista.setTelefono(textTel.getText());
+					analista.setFecNacimiento(fecha);
+					analista.setDepartamento((Departamento) comboDepartamento.getSelectedItem());
+					analista.setGenero((Genero) comboGenero.getSelectedItem());
+					analista.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
+					analista.setLocalidad(textLocalidad.getText());
+					analista.setItr((Itr) comboItr.getSelectedItem());
+					analista.setEstado(true);
+
+					ValidationObject error = ValidacionesUsuario.ValidarUsuario(analista, documento, email);
+					if (!error.isValid()) {
+						Mensajes.MostrarError(error.getErrorMessage());
+						return;
+					}
+					analista = BeanIntances.user().register(analista, documento, email);
+					Mensajes.MostrarExito("Se dio de alta correctamente el Analista " + analista.getNombres());
+				} catch (Exception ex) {
+					Mensajes.MostrarError(ex.getMessage());
 				}
 
 			}
@@ -295,6 +343,7 @@ public class Registrarse extends JFrame {
 		textGeneracion = new VTextBox();
 		textGeneracion.setBounds(438, 300, 111, 16);
 		textGeneracion.setEnabled(false);
+		textGeneracion.setValidationFunc(text -> ValidacionesUsuarioEstudiante.validarGeneracion(text));
 		contentPane.add(textGeneracion);
 
 		JLabel lblNewLabel_6_2 = new JLabel("Area");
@@ -313,16 +362,18 @@ public class Registrarse extends JFrame {
 		textArea = new VTextBox();
 		textArea.setEnabled(false);
 		textArea.setBounds(438, 327, 111, 16);
+		textArea.setValidationFunc(text -> ValidacionesUsuarioTutor.validarArea(text));
 		contentPane.add(textArea);
 
 		comboRol = new JComboBox<Roles>();
 		comboRol.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (((Roles) comboRol.getSelectedItem()) == Roles.ESTUDIANTE) {
+				Roles rol = ((Roles) comboRol.getSelectedItem());
+				if (rol == Roles.ESTUDIANTE) {
 					textGeneracion.setEnabled(true);
 					textArea.setEnabled(false);
 					cmbTipoTutor.setEnabled(false);
-				} else if (((Roles) comboRol.getSelectedItem()) == Roles.TUTOR) {
+				} else if (rol == Roles.TUTOR) {
 					textArea.setEnabled(true);
 					cmbTipoTutor.setEnabled(true);
 					textGeneracion.setEnabled(false);
