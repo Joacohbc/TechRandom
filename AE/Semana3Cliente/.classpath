@@ -9,6 +9,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/jboss-client (Wildfly-24.1.0.Final).jar"/>
-	<classpathentry kind="lib" path="/home/joaco/Programas/Wildfly/wildfly-26.1.0.Final/modules/system/layers/base/org/hibernate/main/hibernate-core-5.3.24.Final.jar"/>
+	<classpathentry kind="lib" path="libs/hibernate-core-5.3.24.Final.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

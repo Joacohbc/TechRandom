@@ -2,7 +2,6 @@ package com.services;
 
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -12,7 +11,6 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
 import com.entities.Material;
-import com.entities.Salon;
 import com.exceptions.EntityAlreadyExistsException;
 import com.exceptions.NotFoundEntityException;
 import com.exceptions.ServiceException;

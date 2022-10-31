@@ -1,8 +1,6 @@
 package com.services;
 
 import java.util.List;
-import java.util.Optional;
-
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -11,7 +9,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
-import com.entities.Area;
 import com.entities.Material;
 import com.entities.Salon;
 import com.exceptions.EntityAlreadyExistsException;

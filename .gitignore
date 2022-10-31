@@ -1,4 +1,3 @@
 .metadata
 .vscode
-*/bin/
-Patrones_y_Diseniso_Proyecto/src/test/*
+*.class
