@@ -27,24 +27,24 @@ public class ControlSesionesSingleton implements ControlSesionesSingletonRemote 
 	public ControlSesionesSingleton() {
 	}
 
-	private void addUsuario(String mail) throws ServiceException {
-		if (usuarios.contains(mail)) {
-			throw new ServiceException("El Usuario con el mail " + mail + "  ya esta logueado en el Sistema");
+	private void addUsuario(String documento) throws ServiceException {
+		if (usuarios.contains(documento)) {
+			throw new ServiceException("El Usuario con el documento " + documento + "  ya esta logueado en el Sistema");
 		}
-		usuarios.add(mail);
+		usuarios.add(documento);
 	}
 
-	private void removeUsuario(String mail) throws ServiceException {
-		if (!usuarios.contains(mail)) {
-			throw new ServiceException("El Usuario con el mail " + mail + " no esta logueado en el Sistema");
+	private void removeUsuario(String documento) throws ServiceException {
+		if (!usuarios.contains(documento)) {
+			throw new ServiceException("El Usuario con el documento " + documento + " no esta logueado en el Sistema");
 		}
-		usuarios.remove(mail);
+		usuarios.remove(documento);
 	}
 	
-	private Usuario login(String email, String password) {
+	private Usuario login(String documento, String password) {
 		try {
-			return em.createQuery("SELECT u FROM Usuario u WHERE u.mail = ?1 AND u.clave = ?2", Usuario.class)
-					.setParameter(1, email)
+			return em.createQuery("SELECT u FROM Usuario u WHERE u.documento = ?1 AND u.clave = ?2", Usuario.class)
+					.setParameter(1, documento)
 					.setParameter(2, password)
 					.getSingleResult();
 		} catch (NoResultException e) {
@@ -52,13 +52,13 @@ public class ControlSesionesSingleton implements ControlSesionesSingletonRemote 
 		}
 	}
 	
-	public Usuario iniciarSesion(String email, String password) throws ServiceException {
-		Usuario usu = login(email, password);
+	public Usuario iniciarSesion(String documento, String password) throws ServiceException {
+		Usuario usu = login(documento, password);
 		if(usu == null) {
 			return null;
 		}
 
-		addUsuario(email);
+		addUsuario(documento);
 		return usu;
 	}
 	

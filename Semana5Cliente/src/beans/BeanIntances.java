@@ -23,16 +23,6 @@ public class BeanIntances {
 		}
 	}
 
-	public static void reload() {
-		try {
-			usuarioBean = (UsuarioBeanRemote)  InitialContext.doLookup("ejb:/Semana4Servidor/UsuarioBean!com.services.UsuarioBeanRemote");
-			funcionalidadBean = (FuncionalidadBeanRemote) InitialContext.doLookup("ejb:/Semana4Servidor/FuncionalidadBean!com.services.FuncionalidadBeanRemote");
-			rolBean = (RolBeanRemote) InitialContext.doLookup("ejb:/Semana4Servidor/RolBean!com.services.RolBeanRemote");
-		} catch (NamingException e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
-	}
 	
 	private static UsuarioBeanRemote usuarioBean;
 	private static FuncionalidadBeanRemote funcionalidadBean;

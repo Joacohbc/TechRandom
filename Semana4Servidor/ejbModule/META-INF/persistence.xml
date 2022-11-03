@@ -3,7 +3,7 @@
 	<persistence-unit name="Semana4Servidor">
 	
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:/JEE_DS</jta-data-source>
+		<jta-data-source>java:/UNIVERSIDAD</jta-data-source>
 		<class>com.models.Funcionalidad</class>
 		<class>com.models.Rol</class>
 		<class>com.models.Usuario</class>

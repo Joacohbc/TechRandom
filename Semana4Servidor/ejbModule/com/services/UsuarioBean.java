@@ -32,9 +32,9 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	public Usuario save(Usuario entity) throws ServiceException, EntityAlreadyExistsException {
 		try {
 			// Verifico que no se repita le nombre de la Funcionalidad
-			if (findByMail(entity.getNombre()) != null)
+			if (findByDocumento(entity.getDocumento()) != null)
 				throw new EntityAlreadyExistsException(
-						"Ya existe una Usuario con el nombre: " + entity.getNombre());
+						"Ya existe una Usuario con el documento: " + entity.getDocumento());
 			
 			// Persito, commiteo y retorno la entidad
 			em.persist(entity);
@@ -89,10 +89,10 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	}
 
 	@Override
-	public Usuario findByMail(String email) {
+	public Usuario findByDocumento(String documento) {
 		try {
-			return em.createQuery("SELECT f FROM Usuario f WHERE f.mail = ?1", Usuario.class)
-					.setParameter(1, email)
+			return em.createQuery("SELECT f FROM Usuario f WHERE f.documento = ?1", Usuario.class)
+					.setParameter(1, documento)
 					.getSingleResult();
 		} catch (NoResultException e) {
 			return null;

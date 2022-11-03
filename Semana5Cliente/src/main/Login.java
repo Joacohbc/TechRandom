@@ -30,7 +30,7 @@ public class Login extends JFrame {
 
 	private static Login frame;
 	private JPanel contentPane;
-	private JTextField txtMail;
+	private JTextField txtDocumento;
 	private JPasswordField txtPassword;
 	private JButton btnLogOut;
 	private JButton btnLoguearse;
@@ -75,10 +75,10 @@ public class Login extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		txtMail = new JTextField();
-		txtMail.setBounds(12, 12, 378, 21);
-		contentPane.add(txtMail);
-		txtMail.setColumns(10);
+		txtDocumento = new JTextField();
+		txtDocumento.setBounds(12, 12, 378, 21);
+		contentPane.add(txtDocumento);
+		txtDocumento.setColumns(10);
 
 		txtPassword = new JPasswordField();
 		txtPassword.setBounds(12, 45, 378, 21);
@@ -91,7 +91,7 @@ public class Login extends JFrame {
 				Usuario usu;
 
 				try {
-					usu = BeanIntances.sesion().iniciarSesion(txtMail.getText(),
+					usu = BeanIntances.sesion().iniciarSesion(txtDocumento.getText(),
 							String.valueOf(txtPassword.getPassword()));
 				} catch (ServiceException ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Operaccion Fallida", JOptionPane.ERROR_MESSAGE);
@@ -117,8 +117,8 @@ public class Login extends JFrame {
 				tableFuncionalidades.setEnabled(true);
 				btnLogOut.setEnabled(true);
 
-				txtMail.setEditable(false);
-				txtMail.setEditable(false);
+				txtDocumento.setEditable(false);
+				txtDocumento.setEditable(false);
 				txtPassword.setEditable(false);
 				btnLoguearse.setEnabled(false);
 			}
@@ -130,14 +130,14 @@ public class Login extends JFrame {
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					BeanIntances.sesion().cerrarSesion(txtMail.getText());
+					BeanIntances.sesion().cerrarSesion(txtDocumento.getText());
 
 					tableFuncionalidades.setEnabled(false);
 					tableFuncionalidades.setModel(getTableModel());
 					btnLogOut.setEnabled(false);
 
-					txtMail.setEditable(true);
-					txtMail.setText("");
+					txtDocumento.setEditable(true);
+					txtDocumento.setText("");
 					txtPassword.setEditable(true);
 					txtPassword.setText("");
 					btnLoguearse.setEnabled(true);

@@ -9,7 +9,7 @@ import com.models.Usuario;
 
 @Remote
 public interface ControlSesionesSingletonRemote {
-	Usuario iniciarSesion(String email, String password) throws ServiceException;
-	void cerrarSesion(String email) throws ServiceException;
+	Usuario iniciarSesion(String documento, String password) throws ServiceException;
+	void cerrarSesion(String documento) throws ServiceException;
 	List<String> getUsuarios();
 }

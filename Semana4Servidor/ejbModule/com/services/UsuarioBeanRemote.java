@@ -6,6 +6,6 @@ import com.models.Usuario;
 
 @Remote
 public interface UsuarioBeanRemote extends ServiceInterface<Usuario>{
-	Usuario findByMail(String email); 
+	Usuario findByDocumento(String documento); 
 //	Usuario login(String email, String password); 
 }
