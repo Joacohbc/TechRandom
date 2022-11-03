@@ -67,17 +67,17 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			if (usuario.getIdUsuario() != null)
 				throw new InvalidEntityException("Al registrar un Usuario, este no puede tener un ID asignado");
 
-			if (dao.findByDocumento(usuario.getClass(), usuario.getDocumento()) != null) {
+			if (dao.findByDocumento(Usuario.class, usuario.getDocumento()) != null) {
 				throw new InvalidEntityException("Ya existe un Usuario con el Documento: " + usuario.getDocumento());
 			}
 
-			if (dao.findByEmail(usuario.getClass(), usuario.getEmail()) != null) {
+			if (dao.findByEmail(Usuario.class, usuario.getEmail()) != null) {
 				throw new InvalidEntityException("Ya existe un Usuario con el Email: " + usuario.getEmail());
 			}
 
-			if (dao.findByNombreUsuario(usuario.getClass(), usuario.getNombreUsuario()) != null) {
+			if (dao.findByNombreUsuario(Usuario.class, usuario.getNombreUsuario()) != null) {
 				throw new InvalidEntityException(
-						"Ya existe un Usuario con el Nombre de Usuario: " + usuario.getEmail());
+						"Ya existe un Usuario con el Nombre de Usuario: " + usuario.getNombreUsuario());
 			}
 
 			if (usuario instanceof Estudiante) {
@@ -100,9 +100,8 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			}
 
 			return dao.insert(usuario);
-		} catch (
-
-		DAOException e) {
+		
+		} catch (DAOException e) {
 			throw new ServiceException(e);
 		} catch (NoSuchAlgorithmException e) {
 			throw new ServiceException("No se pudo inscripar la contraseña del usuario: " + e.getMessage());

@@ -23,6 +23,7 @@ public class ValidacionesUsuarioEstudiante {
 
 	public static ValidationObject validarEstudiante(Estudiante estudiante, TipoUsuarioDocumento tipoDocumento,
 			TipoUsuarioEmail tipoEmail) {
+		
 		ValidationObject valid = ValidacionesUsuario.ValidarUsuario(estudiante, tipoDocumento, tipoEmail);
 		if (!valid.isValid())
 			return valid;
@@ -35,16 +36,20 @@ public class ValidacionesUsuarioEstudiante {
 	}
 
 	public static ValidationObject validarGeneracion(String generacion) {
-
-		if (Validaciones.ValidarSoloNumeros(generacion, false)) {
-			if (generacion.length() == 4) {
-				return ValidationObject.VALID;
-			} else {
-				return new ValidationObject("La generacion solo puede tener un maximo de 4 digitos");
-			}
-		} else {
-			return new ValidationObject("La generacion solo puede contener numeros positivos");
+		if(!Validaciones.ValidarNoVacio(generacion)) {
+			return new ValidationObject("La generacion es obligatoria");
 		}
+		
+		if (!Validaciones.ValidarSoloNumeros(generacion, false)) {
+			return new ValidationObject("La generacion solo puede contener numeros positivos");
+
+		} 
+	
+		if (generacion.length() != 4) {
+			return new ValidationObject("La generacion solo puede tener un maximo de 4 digitos");
+		}
+		
+		return ValidationObject.VALID;
 	}
 
 	public static ValidationObject validarGeneracion(Integer generacion) {

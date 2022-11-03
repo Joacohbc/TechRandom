@@ -46,7 +46,8 @@ public class ValidacionesUsuario {
 		}
 	}
 
-	public static ValidationObject ValidarUsuario(Usuario usuario, TipoUsuarioDocumento tipoDocumento, TipoUsuarioEmail tipoEmail) {
+	public static ValidationObject ValidarUsuario(Usuario usuario, TipoUsuarioDocumento tipoDocumento,
+			TipoUsuarioEmail tipoEmail) {
 
 		ValidationObject error;
 		if (tipoDocumento == TipoUsuarioDocumento.URUGUAYO) {
@@ -77,7 +78,7 @@ public class ValidacionesUsuario {
 				return error;
 			}
 		} else {
-			error = validarEmail(usuario.getDocumento());
+			error = validarEmail(usuario.getEmail());
 			if (!error.isValid()) {
 				return error;
 			}
@@ -199,11 +200,11 @@ public class ValidacionesUsuario {
 	}
 
 	public static ValidationObject validarTelefono(String telefono) {
-		if (!Pattern.matches("[0-9+-]+", telefono)) {
-			return new ValidationObject("El telefono solo debe contener numeros, + o -");
+		if (!Pattern.matches("[+-]?[0-9]+", telefono)) {
+			return new ValidationObject("El telefono solo debe contener numeros y tambien simbolo de \'+\' o \'-\'");
 		}
-
-		if (!Validaciones.ValidarLargo(telefono, 20)) {
+		
+		if (!Validaciones.ValidarLargo(telefono, 3, 20)) {
 			return new ValidationObject("El telefono debe tener un maximo de 20 caracteres");
 		}
 

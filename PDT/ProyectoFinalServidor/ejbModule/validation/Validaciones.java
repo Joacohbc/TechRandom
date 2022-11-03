@@ -64,7 +64,11 @@ public final class Validaciones {
 		if (!ValidarNoVacio(s))
 			return false;
 
-		return ValidarSoloLetras(s, espacios) || ValidarSoloNumeros(s, espacios);
+		if (espacios) {
+			return Pattern.matches("[0-9a-zA-Z ]+", s);
+		} else {
+			return Pattern.matches("[0-9a-zA-Z]+", s);
+		}
 	}
 	
 	// Validacion de Mail 
