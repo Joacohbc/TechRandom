@@ -90,11 +90,13 @@ public class FuncionalidadBean implements FuncionalidadBeanRemote {
 	@Override
 	public Funcionalidad findByName(String name) {
 		try {
-			return em.createQuery("SELECT f FROM Funcionalidad f WHERE f.nombre", Funcionalidad.class)
+			return em.createQuery("SELECT f FROM Funcionalidad f WHERE f.nombre = ?1", Funcionalidad.class)
+					.setParameter(1, name)
 					.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}
 	}
 
+	
 }

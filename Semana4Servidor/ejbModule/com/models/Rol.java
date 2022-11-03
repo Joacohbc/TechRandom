@@ -4,33 +4,41 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
+
 /**
  * The persistent class for the "ROLES" database table.
  * 
  */
 @Entity
-@Table(name = "ROLES")
+@Table(name="\"ROLES\"")
+@NamedQuery(name="Rol.findAll", query="SELECT r FROM Rol r")
 public class Rol implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ROL")	
-	@SequenceGenerator(name = "SEQ_ROL", initialValue = 1, allocationSize = 1)
-	@Column(name = "ID_ROL")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="ID_ROL")
 	private long idRol;
 
-	@Column(unique = true)
-	private String nombre;
-	
 	private String descripcion;
-	
-	@ManyToMany
-	@JoinTable(name = "ROL_FUNCION",
-		joinColumns = { @JoinColumn(name = "ID_ROL") }, 
-		inverseJoinColumns = { @JoinColumn(name = "ID_FUNCION") })
+
+	private String nombre;
+
+	//bi-directional many-to-many association to Funcionalidad
+	@ManyToMany(fetch =  FetchType.EAGER)
+	@JoinTable(
+		name="ROL_FUNCION"
+		, joinColumns={
+			@JoinColumn(name="ID_ROL")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="ID_FUNCION")
+			}
+		)
 	private List<Funcionalidad> funcionalidades;
 
-	@OneToMany(mappedBy = "role")
+	//bi-directional many-to-one association to Usuario
+	@OneToMany(mappedBy="role")
 	private List<Usuario> usuarios;
 
 	public Rol() {

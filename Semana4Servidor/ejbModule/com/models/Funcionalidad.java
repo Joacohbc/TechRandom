@@ -3,28 +3,30 @@ package com.models;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
+
 
 /**
  * The persistent class for the FUNCIONALIDADES database table.
  * 
  */
 @Entity
-@Table(name = "FUNCIONALIDADES")
+@Table(name="FUNCIONALIDADES")
+@NamedQuery(name="Funcionalidad.findAll", query="SELECT f FROM Funcionalidad f")
 public class Funcionalidad implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FUNCIONALIDAD")
-	@SequenceGenerator(name = "SEQ_FUNCIONALIDAD",initialValue = 1, allocationSize = 1)
-	@Column(name = "ID_FUNCIONALIDAD")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="ID_FUNCIONALIDAD")
 	private long idFuncionalidad;
 
-	@Column(unique = true)
-	private String nombre;
-	
 	private String descripcion;
-	
-	@ManyToMany(mappedBy = "funcionalidades", fetch = FetchType.EAGER)
+
+	private String nombre;
+
+	//bi-directional many-to-many association to Rol
+	@ManyToMany(mappedBy="funcionalidades")
 	private List<Rol> roles;
 
 	public Funcionalidad() {
@@ -62,4 +64,28 @@ public class Funcionalidad implements Serializable {
 		this.roles = roles;
 	}
 
+	@Override
+	public String toString() {
+		return nombre;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(descripcion, idFuncionalidad, nombre, roles);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Funcionalidad other = (Funcionalidad) obj;
+		return Objects.equals(descripcion, other.descripcion) && idFuncionalidad == other.idFuncionalidad
+				&& Objects.equals(nombre, other.nombre);
+	}
+	
+	
 }
