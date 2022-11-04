@@ -27,7 +27,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Window.Type;
 
-public class Registrarse extends JFrame {
+public class Actualizar extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textnombre;
@@ -40,12 +40,12 @@ public class Registrarse extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	private  Registrarse frame;
+	private  Actualizar frame;
 
 	/**
 	 * Create the frame.
 	 */
-	public Registrarse(Login l) {
+	public Actualizar(Login l, Usuario usu) {
 		frame = this;
 		l.setVisible(false);
 		setResizable(false);
@@ -57,6 +57,18 @@ public class Registrarse extends JFrame {
 				for (Rol r : roles) {
 					comboBoxRol.addItem(r);
 				}
+				textnombre.setText(usu.getNombre());
+				textApellido.setText(usu.getApellido());
+				textEmail.setText(usu.getMail());
+				textClave.setText(usu.getClave());
+				textDocumento.setText(usu.getDocumento());
+				textDocumento.setEditable(false);
+				for (int i = 0 ; i<comboBoxRol.getItemCount();i++) {
+					if(comboBoxRol.getItemAt(i).equals(usu.getRole())) {
+						comboBoxRol.setSelectedIndex(i);
+					}
+				}
+				//comboBoxRol.setSelectedItem(u.getRole());
 			}
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -71,7 +83,7 @@ public class Registrarse extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Registrarse");
+		JLabel lblNewLabel = new JLabel("Actualizar");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel.setBounds(186, 39, 104, 25);
 		contentPane.add(lblNewLabel);
@@ -137,12 +149,13 @@ public class Registrarse extends JFrame {
 		contentPane.add(comboBoxRol);
 		
 		
-		JButton btnRegistrarse = new JButton("Registrarse");
+		JButton btnRegistrarse = new JButton("Actualizar");
 		btnRegistrarse.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuario u = new Usuario();
 				try {
+					u.setIdUsuario(usu.getIdUsuario());
 					u.setNombre(textnombre.getText());
 					u.setApellido(textApellido.getText());
 					u.setDocumento(textDocumento.getText());
@@ -154,8 +167,8 @@ public class Registrarse extends JFrame {
 						JOptionPane.showMessageDialog(null,validar, "Operaccion Fallida", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					BeanIntances.usuario().save(u);
-					JOptionPane.showMessageDialog(null, "El usuario fue registrado con exito.");
+					BeanIntances.usuario().update(u);
+					JOptionPane.showMessageDialog(null, "El usuario fue actualizado con exito.");
 					frame.dispose();
 					l.setVisible(true);
 				}catch(ServiceException | EntityAlreadyExistsException ex ) {

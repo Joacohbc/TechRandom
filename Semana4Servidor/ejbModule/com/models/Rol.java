@@ -3,6 +3,7 @@ package com.models;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -97,5 +98,29 @@ public class Rol implements Serializable {
 
 		return usuario;
 	}
+
+	@Override
+	public String toString() {
+		return nombre.toUpperCase();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(descripcion, idRol, nombre);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Rol other = (Rol) obj;
+		return Objects.equals(descripcion, other.descripcion) && idRol == other.idRol
+				&& Objects.equals(nombre, other.nombre);
+	}
+	
 
 }

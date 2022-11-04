@@ -36,6 +36,7 @@ public class Usuario implements Serializable {
 
 	public Usuario() {
 	}
+	
 
 	public long getIdUsuario() {
 		return this.idUsuario;

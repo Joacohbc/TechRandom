@@ -31,7 +31,7 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	@Override
 	public Usuario save(Usuario entity) throws ServiceException, EntityAlreadyExistsException {
 		try {
-			// Verifico que no se repita le nombre de la Funcionalidad
+			// Verifico que no se repita le nombre de la usuario
 			if (findByDocumento(entity.getDocumento()) != null)
 				throw new EntityAlreadyExistsException(
 						"Ya existe una Usuario con el documento: " + entity.getDocumento());
@@ -65,16 +65,16 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	@Override
 	public Usuario update(Usuario entity) throws ServiceException, NotFoundEntityException {
 		try {
-			// Verifico que exista una funcionalidad con ese ID
+			// Verifico que exista una usuario con ese ID
 			if (findById(entity.getIdUsuario()) == null)
-				throw new EntityAlreadyExistsException("No existe una funcionalidad con el ID: " + entity.getIdUsuario());
+				throw new EntityAlreadyExistsException("No existe una usuario con el ID: " + entity.getIdUsuario());
 
 			
 			Usuario updated = em.merge(entity);
 			em.flush();
 			return updated;
 		} catch (PersistenceException e) {
-			throw new ServiceException("Error al dar de baja la funcionalidad: " + e.getMessage());
+			throw new ServiceException("Error al actualizar el usuario: " + e.getMessage());
 		}
 	}
 
@@ -98,5 +98,30 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			return null;
 		}
 	}
+
+	@Override
+	public String validarUsuario(Usuario u) {
+		try {
+			if (u.getNombre().isBlank()) {
+				return "El nombre del usuario no puede estar vacio";
+			}
+			if (u.getApellido().isBlank()) {
+				return "El apellido del usuario no puede estar vacio";
+			}
+			if (u.getDocumento().isBlank()) {
+				return "El documento del usuario no puede estar vacio";
+			}
+			if (u.getMail().isBlank()) {
+				return "El e-mail del usuario no puede estar vacio";
+			}
+			if (u.getClave().isBlank()) {
+				return "La clave del usuario no puede estar vacio";
+			}
+		}catch(Exception e) {
+			return e.toString();
+		}
+		return null;
+	}
+	
 
 }

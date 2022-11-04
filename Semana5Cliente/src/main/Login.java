@@ -22,6 +22,8 @@ import com.exceptions.ServiceException;
 import com.models.Funcionalidad;
 import com.models.Usuario;
 
+import org.hibernate.resource.beans.spi.BeanInstanceProducer;
+
 import beans.BeanIntances;
 
 public class Login extends JFrame {
@@ -38,6 +40,8 @@ public class Login extends JFrame {
 	private JScrollPane scrollPane;
 	private JButton btnRegistrarse;
 	private JButton btnSalir;
+	private JButton btnActualizar;
+	private JButton btnDarDeBaja;
 
 	/**
 	 * Launch the application.
@@ -68,7 +72,7 @@ public class Login extends JFrame {
 			}
 		});
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 410, 420);
+		setBounds(100, 100, 410, 519);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -102,7 +106,6 @@ public class Login extends JFrame {
 					JOptionPane.showMessageDialog(null, "No existe el usuario", "Fallo al Iniciar Sesion", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-
 				List<Funcionalidad> funcs = BeanIntances.funcionalidad().findAll();
 				List<Funcionalidad> funcsUsu = usu.getRole().getFuncionalidades();
 
@@ -116,6 +119,8 @@ public class Login extends JFrame {
 				tableFuncionalidades.setModel(model);
 				tableFuncionalidades.setEnabled(true);
 				btnLogOut.setEnabled(true);
+				btnActualizar.setEnabled(true);
+				btnDarDeBaja.setEnabled(true);
 
 				txtDocumento.setEditable(false);
 				txtDocumento.setEditable(false);
@@ -135,6 +140,8 @@ public class Login extends JFrame {
 					tableFuncionalidades.setEnabled(false);
 					tableFuncionalidades.setModel(getTableModel());
 					btnLogOut.setEnabled(false);
+					btnActualizar.setEnabled(false);
+					btnDarDeBaja.setEnabled(false);
 
 					txtDocumento.setEditable(true);
 					txtDocumento.setText("");
@@ -160,6 +167,12 @@ public class Login extends JFrame {
 		scrollPane.setViewportView(tableFuncionalidades);
 
 		btnRegistrarse = new JButton("Registrarse");
+		btnRegistrarse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Registrarse registro = new Registrarse(frame);
+				registro.setVisible(true);
+			}
+		});
 		btnRegistrarse.setBounds(12, 314, 378, 27);
 		contentPane.add(btnRegistrarse);
 		
@@ -170,8 +183,47 @@ public class Login extends JFrame {
 				frame.dispose();
 			}
 		});
-		btnSalir.setBounds(12, 353, 378, 27);
+		btnSalir.setBounds(12, 429, 378, 27);
 		contentPane.add(btnSalir);
+		
+		btnActualizar = new JButton("Actualizar");
+		btnActualizar.setEnabled(false);
+		btnActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String doc = JOptionPane.showInputDialog("Ingrese el documento que quiere actualizar:");
+				Usuario usu = BeanIntances.usuario().findByDocumento(doc);
+				if (usu == null) {
+					JOptionPane.showMessageDialog(null, "No existe el usuario", "Fallo al Iniciar Sesion", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				new Actualizar(frame, usu).setVisible(true);
+			}
+		});
+		btnActualizar.setBounds(12, 351, 378, 27);
+		contentPane.add(btnActualizar);
+		
+		btnDarDeBaja = new JButton("Dar de baja");
+		btnDarDeBaja.setEnabled(false);
+		btnDarDeBaja.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String doc = JOptionPane.showInputDialog("Ingrese el documento que quiere dar de baja:");
+				Usuario usu = BeanIntances.usuario().findByDocumento(doc);
+				if (usu == null) {
+					JOptionPane.showMessageDialog(null, "No existe el usuario", "Fallo al Iniciar Sesion", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				try {
+					BeanIntances.usuario().remove(usu.getIdUsuario());
+					JOptionPane.showMessageDialog(null, "El usuario fue dado de baja con exito.");
+				}catch (ServiceException ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "Operaccion Fallida", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+			}
+		});
+		btnDarDeBaja.setBounds(12, 388, 378, 27);
+		contentPane.add(btnDarDeBaja);
 	}
 
 	private DefaultTableModel getTableModel() {
