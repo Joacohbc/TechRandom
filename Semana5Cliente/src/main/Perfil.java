@@ -27,7 +27,7 @@ import org.hibernate.resource.beans.spi.BeanInstanceProducer;
 import beans.BeanIntances;
 
 public class Perfil extends JFrame {
-
+	
 	private static final long serialVersionUID = 1L;
 
 	private static Perfil frame;
@@ -36,33 +36,27 @@ public class Perfil extends JFrame {
 	private JTable tableFuncionalidades;
 	private JScrollPane scrollPane;
 	private JButton btnActualizar;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					frame = new Perfil();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Perfil() {
+	
+	
+	public Perfil(Usuario usu, Login l) {
+		l.setVisible(false);
+		frame =this;
 		setTitle("Mi Perfil");
 		setResizable(false);
 		addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosed(WindowEvent e) {
-					btnLogOut.doClick();
+			public void windowOpened(WindowEvent e) {
+				List<Funcionalidad> funcs = BeanIntances.funcionalidad().findAll();
+				List<Funcionalidad> funcsUsu = usu.getRole().getFuncionalidades();
+
+				DefaultTableModel model = getTableModel();
+				for (Funcionalidad funcionalidad : funcs) {
+					if (funcsUsu.contains(funcionalidad))
+						model.addRow(new String[] { funcionalidad.toString(), "Tienes acceso" });
+					else
+						model.addRow(new String[] { funcionalidad.toString(), "No tienes acceso" });
+				}
+				tableFuncionalidades.setModel(model);
 			}
 		});
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -77,28 +71,17 @@ public class Perfil extends JFrame {
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					BeanIntances.sesion().cerrarSesion(txtDocumento.getText());
-
-					tableFuncionalidades.setEnabled(false);
-					tableFuncionalidades.setModel(getTableModel());
-					btnLogOut.setEnabled(false);
-					btnActualizar.setEnabled(false);
-					btnDarDeBaja.setEnabled(false);
-
-					txtDocumento.setEditable(true);
-					txtDocumento.setText("");
-					txtPassword.setEditable(true);
-					txtPassword.setText("");
-					btnLoguearse.setEnabled(true);
-
+					System.out.println(BeanIntances.sesion().getUsuarios());
+					BeanIntances.sesion().cerrarSesion(usu.getDocumento());
+					frame.dispose();
 				} catch (ServiceException ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Operaccion Fallida", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
+				l.setVisible(true);
 			}
 		});
-		btnLogOut.setEnabled(false);
-		btnLogOut.setBounds(12, 352, 378, 27);
+		btnLogOut.setBounds(9, 386, 378, 27);
 		contentPane.add(btnLogOut);
 
 		scrollPane = new JScrollPane();
@@ -109,7 +92,6 @@ public class Perfil extends JFrame {
 		scrollPane.setViewportView(tableFuncionalidades);
 		
 		btnActualizar = new JButton("Actualizar");
-		btnActualizar.setEnabled(false);
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String doc = JOptionPane.showInputDialog("Ingrese el documento que quiere actualizar:");
@@ -121,7 +103,7 @@ public class Perfil extends JFrame {
 				new Actualizar(frame, usu).setVisible(true);
 			}
 		});
-		btnActualizar.setBounds(12, 389, 378, 27);
+		btnActualizar.setBounds(12, 349, 378, 27);
 		contentPane.add(btnActualizar);
 	}
 

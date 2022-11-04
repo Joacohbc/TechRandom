@@ -45,7 +45,7 @@ public class Actualizar extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Actualizar(Login l, Usuario usu) {
+	public Actualizar(JFrame l, Usuario usu) {
 		frame = this;
 		l.setVisible(false);
 		setResizable(false);

@@ -25,6 +25,9 @@ import com.models.Usuario;
 import org.hibernate.resource.beans.spi.BeanInstanceProducer;
 
 import beans.BeanIntances;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.ImageIcon;
 
 public class Login extends JFrame {
 
@@ -34,13 +37,9 @@ public class Login extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtDocumento;
 	private JPasswordField txtPassword;
-	private JButton btnLogOut;
 	private JButton btnLoguearse;
-	private JTable tableFuncionalidades;
-	private JScrollPane scrollPane;
 	private JButton btnRegistrarse;
 	private JButton btnSalir;
-	private JButton btnActualizar;
 	private JButton btnDarDeBaja;
 
 	/**
@@ -66,13 +65,10 @@ public class Login extends JFrame {
 		setTitle("Sistema de Gestion de Usuarios");
 		setResizable(false);
 		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosed(WindowEvent e) {
-					btnLogOut.doClick();
-			}
+			
 		});
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 410, 519);
+		setBounds(100, 100, 410, 398);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -80,12 +76,12 @@ public class Login extends JFrame {
 		contentPane.setLayout(null);
 
 		txtDocumento = new JTextField();
-		txtDocumento.setBounds(12, 12, 378, 21);
+		txtDocumento.setBounds(109, 118, 250, 21);
 		contentPane.add(txtDocumento);
 		txtDocumento.setColumns(10);
 
 		txtPassword = new JPasswordField();
-		txtPassword.setBounds(12, 45, 378, 21);
+		txtPassword.setBounds(109, 160, 250, 21);
 		contentPane.add(txtPassword);
 		txtPassword.setColumns(10);
 
@@ -106,65 +102,11 @@ public class Login extends JFrame {
 					JOptionPane.showMessageDialog(null, "No existe el usuario", "Fallo al Iniciar Sesion", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				List<Funcionalidad> funcs = BeanIntances.funcionalidad().findAll();
-				List<Funcionalidad> funcsUsu = usu.getRole().getFuncionalidades();
-
-				DefaultTableModel model = getTableModel();
-				for (Funcionalidad funcionalidad : funcs) {
-					if (funcsUsu.contains(funcionalidad))
-						model.addRow(new String[] { funcionalidad.toString(), "Tienes acceso" });
-					else
-						model.addRow(new String[] { funcionalidad.toString(), "No tienes acceso" });
-				}
-				tableFuncionalidades.setModel(model);
-				tableFuncionalidades.setEnabled(true);
-				btnLogOut.setEnabled(true);
-				btnActualizar.setEnabled(true);
-				btnDarDeBaja.setEnabled(true);
-
-				txtDocumento.setEditable(false);
-				txtDocumento.setEditable(false);
-				txtPassword.setEditable(false);
-				btnLoguearse.setEnabled(false);
+				new Perfil(usu,frame).setVisible(true);
 			}
 		});
-		btnLoguearse.setBounds(12, 78, 378, 27);
+		btnLoguearse.setBounds(12, 210, 378, 27);
 		contentPane.add(btnLoguearse);
-
-		btnLogOut = new JButton("Cerrar Sesion");
-		btnLogOut.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					BeanIntances.sesion().cerrarSesion(txtDocumento.getText());
-
-					tableFuncionalidades.setEnabled(false);
-					tableFuncionalidades.setModel(getTableModel());
-					btnLogOut.setEnabled(false);
-					btnActualizar.setEnabled(false);
-					btnDarDeBaja.setEnabled(false);
-
-					txtDocumento.setEditable(true);
-					txtDocumento.setText("");
-					txtPassword.setEditable(true);
-					txtPassword.setText("");
-					btnLoguearse.setEnabled(true);
-
-				} catch (ServiceException ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Operaccion Fallida", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-			}
-		});
-		btnLogOut.setEnabled(false);
-		btnLogOut.setBounds(12, 275, 378, 27);
-		contentPane.add(btnLogOut);
-
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 117, 375, 146);
-		contentPane.add(scrollPane);
-
-		tableFuncionalidades = new JTable();
-		scrollPane.setViewportView(tableFuncionalidades);
 
 		btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.addActionListener(new ActionListener() {
@@ -173,37 +115,19 @@ public class Login extends JFrame {
 				registro.setVisible(true);
 			}
 		});
-		btnRegistrarse.setBounds(12, 314, 378, 27);
+		btnRegistrarse.setBounds(12, 247, 378, 27);
 		contentPane.add(btnRegistrarse);
 		
 		btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnLogOut.doClick();
 				frame.dispose();
 			}
 		});
-		btnSalir.setBounds(12, 429, 378, 27);
+		btnSalir.setBounds(12, 325, 378, 27);
 		contentPane.add(btnSalir);
 		
-		btnActualizar = new JButton("Actualizar");
-		btnActualizar.setEnabled(false);
-		btnActualizar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String doc = JOptionPane.showInputDialog("Ingrese el documento que quiere actualizar:");
-				Usuario usu = BeanIntances.usuario().findByDocumento(doc);
-				if (usu == null) {
-					JOptionPane.showMessageDialog(null, "No existe el usuario", "Fallo al Iniciar Sesion", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				new Actualizar(frame, usu).setVisible(true);
-			}
-		});
-		btnActualizar.setBounds(12, 351, 378, 27);
-		contentPane.add(btnActualizar);
-		
 		btnDarDeBaja = new JButton("Dar de baja");
-		btnDarDeBaja.setEnabled(false);
 		btnDarDeBaja.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String doc = JOptionPane.showInputDialog("Ingrese el documento que quiere dar de baja:");
@@ -222,8 +146,28 @@ public class Login extends JFrame {
 				
 			}
 		});
-		btnDarDeBaja.setBounds(12, 388, 378, 27);
+		btnDarDeBaja.setBounds(12, 284, 378, 27);
 		contentPane.add(btnDarDeBaja);
+		
+		JLabel lblNewLabel = new JLabel("Documento");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblNewLabel.setBounds(12, 118, 100, 17);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Clave");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblNewLabel_1.setBounds(12, 160, 64, 17);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Login");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_2.setBounds(156, 45, 45, 27);
+		contentPane.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon(Login.class.getResource("/img/usuario (3).png")));
+		lblNewLabel_3.setBounds(211, 29, 32, 49);
+		contentPane.add(lblNewLabel_3);
 	}
 
 	private DefaultTableModel getTableModel() {
