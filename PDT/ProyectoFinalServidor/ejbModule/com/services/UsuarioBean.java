@@ -67,19 +67,6 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			if (usuario.getIdUsuario() != null)
 				throw new InvalidEntityException("Al registrar un Usuario, este no puede tener un ID asignado");
 
-			if (dao.findByDocumento(Usuario.class, usuario.getDocumento()) != null) {
-				throw new InvalidEntityException("Ya existe un Usuario con el Documento: " + usuario.getDocumento());
-			}
-
-			if (dao.findByEmail(Usuario.class, usuario.getEmail()) != null) {
-				throw new InvalidEntityException("Ya existe un Usuario con el Email: " + usuario.getEmail());
-			}
-
-			if (dao.findByNombreUsuario(Usuario.class, usuario.getNombreUsuario()) != null) {
-				throw new InvalidEntityException(
-						"Ya existe un Usuario con el Nombre de Usuario: " + usuario.getNombreUsuario());
-			}
-
 			if (usuario instanceof Estudiante) {
 				Estudiante est = (Estudiante) usuario;
 				ValidationObject error = ValidacionesUsuarioEstudiante.validarEstudiante(est, tipoDocumento, tipoEmail);
@@ -91,12 +78,25 @@ public class UsuarioBean implements UsuarioBeanRemote {
 				ValidationObject error = ValidacionesUsuarioTutor.validarTutor(tut, tipoDocumento, tipoEmail);
 				if (!error.isValid())
 					throw new InvalidEntityException(error.getErrorMessage());
-			
+				
 			} else {
 				Analista ana = (Analista) usuario;
 				ValidationObject error = ValidacionesUsuario.ValidarUsuario(ana, tipoDocumento, tipoEmail);
 				if (!error.isValid())
 					throw new InvalidEntityException(error.getErrorMessage());
+			}
+
+			if (dao.findByDocumento(Usuario.class, usuario.getDocumento()) != null) {
+				throw new InvalidEntityException("Ya existe un Usuario con el Documento: " + usuario.getDocumento());
+			}
+
+			if (dao.findByEmail(Usuario.class, usuario.getEmail()) != null) {
+				throw new InvalidEntityException("Ya existe un Usuario con el Email: " + usuario.getEmail());
+			}
+
+			if (dao.findByNombreUsuario(Usuario.class, usuario.getNombreUsuario()) != null) {
+				throw new InvalidEntityException(
+						"Ya existe un Usuario con el Nombre de Usuario: " + usuario.getNombreUsuario());
 			}
 
 			return dao.insert(usuario);

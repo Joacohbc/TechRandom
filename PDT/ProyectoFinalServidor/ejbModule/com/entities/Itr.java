@@ -93,4 +93,8 @@ public class Itr implements Serializable {
 		return usuario;
 	}
 
+	@Override
+	public String toString() {
+		return nombre;
+	}
 }

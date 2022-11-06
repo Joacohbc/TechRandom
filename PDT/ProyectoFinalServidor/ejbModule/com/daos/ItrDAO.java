@@ -1,15 +1,16 @@
 package com.daos;
 
 import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+
 import com.entities.Itr;
-import com.entities.Usuario;
 import com.exceptions.DAOException;
-import com.exceptions.NotFoundEntityException;
 
 /**
  * Session Bean implementation class ItrDAO
@@ -21,10 +22,8 @@ public class ItrDAO {
 	@PersistenceContext
 	private EntityManager em;
 
-	public ItrDAO() {
-		// TODO Auto-generated constructor stub
+	public ItrDAO() {}
 
-	}
 	/*
 	 * Periste un Itr en la Base de datos y retorna la Entidad persistida.
 	 */
@@ -38,9 +37,11 @@ public class ItrDAO {
 		}
 	}
 
-	/*
-	 * Retorna un ITR en base al ID.
+	/**
+	 * Realiza la busqueda del ITR con ese ID
 	 * 
+	 * @param El ID debe ser
+	 * @return Si existe el ID retorna el ITR. Sino existe retorna null
 	 */
 	public Itr findById(Long id) {
 		return em.find(Itr.class, id);
@@ -52,18 +53,16 @@ public class ItrDAO {
 	public List<Itr> findAll() {
 		return em.createQuery("Select i FROM Itr i", Itr.class).getResultList();
 	}
-
-	/*
-	 * Verificamos que exista una ITR por ID y luego realizamos un Update de los
-	 * campos que lleguen por parametro.
-	 * Si el ID no existe arroja un NotFoundEntityException.
-	 * En caso de que ocurrar un error al hacer el update arroja un DAOException.
+	
+	/**
+	 * Se realiza el Update de la entidad luego de checkear que este managed (ID que exista)
+	 * 
+	 * @param ITR que se queire realizar el cambio
+	 * @return El ITR luego de los cambios aplicados
+	 * @throws DAOException Si ocurrio un error la dar realizar el Update
 	 */
-	public Itr update(Itr itr) throws DAOException, NotFoundEntityException {
+	public Itr update(Itr itr) throws DAOException {
 		try {
-			if (findById(itr.getIdItr()) == null)
-				throw new NotFoundEntityException("No existe un Itr el con el ID: " + itr.getIdItr());
-		
 			itr = em.merge(itr);
 			em.flush();
 			return itr;
@@ -72,4 +71,13 @@ public class ItrDAO {
 		}
 	}
 
+	public Itr findByName(String nombre) {
+		try {
+			return em.createQuery("SELECT i FROM Itr i WHERE i.nombre = ?1", Itr.class)
+					.setParameter(1, nombre)
+					.getSingleResult();
+		} catch (NoResultException ex) {
+			return null;
+		}
+	}
 }

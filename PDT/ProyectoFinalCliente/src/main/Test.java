@@ -8,16 +8,12 @@ import javax.swing.border.EmptyBorder;
 
 import com.entities.Estudiante;
 import com.entities.Itr;
-import com.entities.Tutor;
 import com.entities.enums.Departamento;
 import com.entities.enums.EstadoUsuario;
 import com.entities.enums.Genero;
-import com.entities.enums.TipoTutor;
 
 import beans.BeanIntances;
-import components.Roles;
 import components.VTextBox;
-import validation.ValidacionesUsuario;
 
 public class Test extends JFrame {
 
@@ -31,12 +27,21 @@ public class Test extends JFrame {
 	public static void main(String[] args) {
 
 		Itr itr = new Itr();
+		itr.setIdItr(1l);
 		itr.setNombre("ITRCS");
 		itr.setDepartamento(Departamento.DURAZNO);
 		itr.setEstado(true);
-
-		BeanIntances.itr().save(itr);
+		
+		BeanIntances.itr().update(itr);
 		System.out.println(BeanIntances.itr().findAll());
+		System.exit(0);
+		
+		try {
+//			BeanIntances.itr().save(itr);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
 		System.exit(1);
 
 		Estudiante e = new Estudiante();
