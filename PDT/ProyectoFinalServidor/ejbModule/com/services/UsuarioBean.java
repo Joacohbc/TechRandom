@@ -136,7 +136,12 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	public void updateEstadoUsuario(Long id, EstadoUsuario estadoUsuario)
 			throws ServiceException, NotFoundEntityException {
 		try {
-			dao.updateUsuarioEstado(id, estadoUsuario);
+			Usuario usu = findById(Usuario.class, id);
+			if (usu == null)
+				throw new NotFoundEntityException("No existe un usuario el ID: " + id);
+			
+			usu.setEstadoUsuario(estadoUsuario);
+			dao.update(usu);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		} catch (NotFoundEntityException e) {

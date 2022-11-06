@@ -138,21 +138,15 @@ public class UsuariosDAO {
 	}
 
 	/**
-	 * Cambia el Estado del Usuario de la Entidad con ese ID.
+	 * Realiza un Updatede la Entidad con ese ID.
 	 * 
-	 * @exception DAOException            Si ocurrio un error al realizar el Merge()
-	 * @exception NotFoundEntityException Si el ID que se paso no existe en la BD
+	 * @exception DAOException Si ocurrio un error al realizar el Merge()
 	 */
-	public Usuario updateUsuarioEstado(Long id, EstadoUsuario estado) throws DAOException, NotFoundEntityException {
+	public Usuario update(Usuario usuario) throws DAOException, NotFoundEntityException {
 		try {
-			Usuario usu = findById(Usuario.class, id);
-			if (usu == null)
-				throw new NotFoundEntityException("No existe un usuario el ID: " + id);
-
-			usu.setEstadoUsuario(estado);
-			usu = em.merge(usu);
+			usuario = em.merge(usuario);
 			em.flush();
-			return usu;
+			return usuario;
 		} catch (PersistenceException e) {
 			throw new DAOException("Ocurrio un error al cambiar el estado del usuario:", e);
 		}

@@ -59,9 +59,6 @@ public class RestorePassword extends JFrame {
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 			setContentPane(contentPane);
 			contentPane.setLayout(null);
-			for (Roles rol : Roles.values()) {
-				comboRol.addItem(rol);
-			}
 
 			JLabel lblNewLabel = new JLabel("Nueva Contraseña");
 			lblNewLabel.setBounds(132, 219, 102, 13);
