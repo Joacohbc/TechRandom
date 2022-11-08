@@ -238,6 +238,9 @@ public class Registrarse extends JFrame {
 						}
 						estudiante = BeanIntances.user().register(estudiante, documento, email);
 						Mensajes.MostrarExito("Se dio de alta correctamente el Estudiante " + estudiante.getNombres());
+						dispose();
+						Login log = new Login();
+						log.setVisible(true);
 						return;
 					}
 
@@ -267,6 +270,9 @@ public class Registrarse extends JFrame {
 						}
 						tutor = BeanIntances.user().register(tutor, documento, email);
 						Mensajes.MostrarExito("Se dio de alta correctamente el Tutor " + tutor.getNombres());
+						dispose();
+						Login log = new Login();
+						log.setVisible(true);
 						return;
 					}
 
@@ -293,6 +299,10 @@ public class Registrarse extends JFrame {
 					}
 					analista = BeanIntances.user().register(analista, documento, email);
 					Mensajes.MostrarExito("Se dio de alta correctamente el Analista " + analista.getNombres());
+					dispose();
+					Login log = new Login();
+					log.setVisible(true);
+					return;
 				} catch (Exception ex) {
 					Mensajes.MostrarError(ex.getMessage());
 				}

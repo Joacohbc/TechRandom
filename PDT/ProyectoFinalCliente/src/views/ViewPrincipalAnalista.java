@@ -87,6 +87,7 @@ public class ViewPrincipalAnalista extends JFrame {
 		btnUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ViewAnalista viewAnalista = new ViewAnalista();
+				
 			}
 		});
 		btnUsuarios.setBounds(31, 78, 173, 27);

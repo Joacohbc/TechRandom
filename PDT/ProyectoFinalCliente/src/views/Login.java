@@ -63,7 +63,7 @@ public class Login extends JFrame {
 		contentPane.setLayout(null);
 
 		JComboBox<Roles> comboRol = new JComboBox<Roles>();
-		comboRol.setBounds(277, 184, 222, 21);
+		comboRol.setBounds(277, 184, 270, 21);
 		contentPane.add(comboRol);
 		for (Roles rol : Roles.values()) {
 			comboRol.addItem(rol);
@@ -81,11 +81,11 @@ public class Login extends JFrame {
 		contentPane.add(btnRegistrarse);
 
 		JLabel lblNewLabel = new JLabel("Usuario");
-		lblNewLabel.setBounds(165, 218, 102, 13);
+		lblNewLabel.setBounds(165, 218, 123, 13);
 		contentPane.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Contraseña");
-		lblNewLabel_1.setBounds(165, 254, 102, 13);
+		lblNewLabel_1.setBounds(165, 254, 123, 13);
 		contentPane.add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("Rol");
@@ -93,7 +93,7 @@ public class Login extends JFrame {
 		contentPane.add(lblNewLabel_2);
 
 		VTextBox textboxUsuario = new VTextBox();
-		textboxUsuario.setBounds(277, 215, 222, 21);
+		textboxUsuario.setBounds(277, 215, 270, 21);
 		contentPane.add(textboxUsuario);
 		textboxUsuario.setValidationFunc(texto -> ValidacionesUsuario.validarNombreUsuario(texto));
 
@@ -152,7 +152,7 @@ public class Login extends JFrame {
 				}
 			}
 		});
-		btnLogin.setBounds(397, 343, 102, 21);
+		btnLogin.setBounds(397, 343, 150, 21);
 		contentPane.add(btnLogin);
 
 		JLabel lblNewLabel_4 = new JLabel("");
@@ -171,15 +171,20 @@ public class Login extends JFrame {
 		contentPane.add(lblNewLabel_5);
 
 		textPassword = new JPasswordField();
-		textPassword.setBounds(277, 250, 222, 21);
+		textPassword.setBounds(277, 250, 270, 21);
 		contentPane.add(textPassword);
 
 		JLabel lblNewLabel_6 = new JLabel("Ha olvidado su contrasena");
-		lblNewLabel_6.setBounds(165, 307, 144, 13);
+		lblNewLabel_6.setBounds(165, 307, 165, 13);
 		contentPane.add(lblNewLabel_6);
 
 		JButton btnRestorePassword = new JButton("Restablecer contrasena");
-		btnRestorePassword.setBounds(355, 303, 144, 21);
+		btnRestorePassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Contactese con el Analista correspondiente para reiniciar su clave.");
+			}
+		});
+		btnRestorePassword.setBounds(355, 303, 192, 21);
 		contentPane.add(btnRestorePassword);
 
 	}
