@@ -33,6 +33,8 @@ public class ItrBean implements ItrBeanRemote {
 	@Override
 	public Itr save(Itr entity) throws ServiceException, EntityAlreadyExistsException {
 		try {
+			ServicesUtils.checkNull(entity, "Al registrar un ITR, este no puede ser nulo");
+			
 			if (entity.getIdItr() != null)
 				throw new InvalidEntityException("Al registrar un ITR, este no puede tener un ID asignado");
 
@@ -53,6 +55,8 @@ public class ItrBean implements ItrBeanRemote {
 	@Override
 	public Itr remove(Long id) throws ServiceException, NotFoundEntityException {
 		try {
+			ServicesUtils.checkNull(id, "Al dar de baja un ITR, el ID no puede ser nulo");
+			
 			Itr itr = dao.findById(id);
 			if (itr == null)
 				throw new NotFoundEntityException("No existe un Itr el con el ID: " + id);
@@ -81,6 +85,8 @@ public class ItrBean implements ItrBeanRemote {
 	@Override
 	public Itr update(Itr entity) throws ServiceException, NotFoundEntityException {
 		try {
+			ServicesUtils.checkNull(entity, "Al actualizar un ITR, el ID no puede ser nulo");
+
 			if (dao.findById(entity.getIdItr()) == null)
 				throw new NotFoundEntityException("No existe un Itr el con el ID: " + entity.getIdItr());
 			
