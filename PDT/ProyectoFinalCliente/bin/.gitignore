@@ -1,6 +1,8 @@
-/main/
-/views/
 /beans/
 /components/
-/swingutils/
 /images/
+/jndi.properties
+/main/
+/swingutils/
+/views/
+/viewsEstudiante/
