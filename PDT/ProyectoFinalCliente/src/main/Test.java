@@ -25,7 +25,7 @@ public class Test extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-
+		
 		Itr itr = new Itr();
 		itr.setIdItr(1l);
 		itr.setNombre("ITRCS");

@@ -24,9 +24,12 @@ public class ItrDAO {
 
 	public ItrDAO() {}
 
-	/*
-	 * Periste un Itr en la Base de datos y retorna la Entidad persistida.
-	 */
+/**
+ * Periste un Itr en la Base de datos y retorna la Entidad persistida.
+ * @param itr
+ * @return
+ * @throws DAOException Si ocurre un error al persistir
+ */
 	public Itr insert(Itr itr) throws DAOException {
 		try {
 			em.persist(itr);

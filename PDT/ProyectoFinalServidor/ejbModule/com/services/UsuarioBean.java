@@ -61,6 +61,8 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	public <T extends Usuario> T register(T usuario, TipoUsuarioDocumento tipoDocumento, TipoUsuarioEmail tipoEmail)
 			throws ServiceException, InvalidEntityException {
 		try {
+			ServicesUtils.checkNull(usuario, "Al registrar un Usuario, este no puede ser nulo");
+
 			usuario.setContrasena(toMD5(usuario.getContrasena()));
 			usuario.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
 
@@ -136,6 +138,8 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	public void updateEstadoUsuario(Long id, EstadoUsuario estadoUsuario)
 			throws ServiceException, NotFoundEntityException {
 		try {
+			ServicesUtils.checkNull(id, "Al registrar un Usuario, el ID no puede ser nulo");
+
 			Usuario usu = findById(Usuario.class, id);
 			if (usu == null)
 				throw new NotFoundEntityException("No existe un usuario el ID: " + id);
