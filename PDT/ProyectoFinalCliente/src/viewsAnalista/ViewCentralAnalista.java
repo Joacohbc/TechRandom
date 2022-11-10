@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -13,6 +14,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ViewCentralAnalista extends JFrame{
 
@@ -24,7 +30,7 @@ public class ViewCentralAnalista extends JFrame{
 	private JMenu mnSecondaryMenu;
 	private JMenuItem mntmNewMenuItem_2;
 	private JMenuItem mntmNewMenuItem_3;
-	private JMenuItem itemConIcono;
+	private JLabel label;
 
 	/**
 	 * Launch the application.
@@ -49,24 +55,34 @@ public class ViewCentralAnalista extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		this.setTitle("Pasar el nombre del usuario por parametro en el constructor");
-		
-		JMenuBar menuBar = new JMenuBar();
-		
-		BorderLayout layout = new BorderLayout();
-		layout.setHgap(10);
-	    layout.setVgap(10);
-		menuBar.setLayout(layout);
-
-		setJMenuBar(menuBar);
-
-		JMenu mnMainMenu = new JMenu("Main menu");
-		menuBar.add(mnMainMenu,BorderLayout.LINE_START);
-
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		
+		JMenuBar menuBar = new JMenuBar();
+		
+		/*BorderLayout layout = new BorderLayout();
+		layout.setHgap(10);
+	    layout.setVgap(10);
+		menuBar.setLayout(layout);*/
+		
+		JMenu mnMainMenu = new JMenu("Main menu");
+		menuBar.add(mnMainMenu);
+		
+		mnSecondaryMenu = new JMenu("Secondary menu");
+		menuBar.add(mnSecondaryMenu);
+		
+		//para hacer que se alienea algunos a la derecha o izquierda
+		menuBar.add(Box.createHorizontalGlue());
+
+		setJMenuBar(menuBar);
+
+		
+
+		
 
 		mntmNewMenuItem = new JMenuItem("Panel 1");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
@@ -99,8 +115,7 @@ public class ViewCentralAnalista extends JFrame{
 
 		mnMainMenu.add(mntmNewMenuItem_1);
 		
-		mnSecondaryMenu = new JMenu("Secondary menu");
-		menuBar.add(mnSecondaryMenu,BorderLayout.CENTER);
+
 		
 		mntmNewMenuItem_2 = new JMenuItem("New menu item");
 		mnSecondaryMenu.add(mntmNewMenuItem_2);
@@ -108,16 +123,16 @@ public class ViewCentralAnalista extends JFrame{
 		mntmNewMenuItem_3 = new JMenuItem("New menu item");
 		mnSecondaryMenu.add(mntmNewMenuItem_3);
 		
-		itemConIcono = new JMenuItem("");
-		itemConIcono.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "HACER LO DEL PROFILE");
+		label = new JLabel("");
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "MOUSE!!!");
 			}
+			
 		});
-		itemConIcono.setBorder(null);
-		itemConIcono.setBorderPainted(false);
-		itemConIcono.setIcon(new ImageIcon(ViewCentralAnalista.class.getResource("/images/usuario (3).png")));
-		menuBar.add(itemConIcono,BorderLayout.LINE_END);
+		label.setIcon(new ImageIcon(ViewCentralAnalista.class.getResource("/images/usuario (3).png")));
+		menuBar.add(label);
 	}
 
 }
