@@ -62,10 +62,7 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			throws ServiceException, InvalidEntityException {
 		try {
 			ServicesUtils.checkNull(usuario, "Al registrar un Usuario, este no puede ser nulo");
-
-			usuario.setContrasena(toMD5(usuario.getContrasena()));
-			usuario.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
-
+			
 			if (usuario.getIdUsuario() != null)
 				throw new InvalidEntityException("Al registrar un Usuario, este no puede tener un ID asignado");
 
@@ -101,8 +98,11 @@ public class UsuarioBean implements UsuarioBeanRemote {
 						"Ya existe un Usuario con el Nombre de Usuario: " + usuario.getNombreUsuario());
 			}
 
+			usuario.setContrasena(toMD5(usuario.getContrasena()));
+			usuario.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
+
 			return dao.insert(usuario);
-		
+
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		} catch (NoSuchAlgorithmException e) {

@@ -29,21 +29,24 @@ public class ItrBean implements ItrBeanRemote {
 
 	public ItrBean() {
 	}
-
+	private void validarItr(Itr entity) throws InvalidEntityException {
+		ValidationObject valid = ValidacionesItr.validarItr(entity);
+		if(!valid.isValid()) 
+			throw new InvalidEntityException(valid.getErrorMessage());
+		
+		if (dao.findByName(entity.getNombre()) != null)
+			throw new InvalidEntityException("Ya existe un ITR con el nombre: " + entity.getNombre());
+	}
+	
 	@Override
-	public Itr save(Itr entity) throws ServiceException, EntityAlreadyExistsException {
+	public Itr save(Itr entity) throws ServiceException, InvalidEntityException {
 		try {
 			ServicesUtils.checkNull(entity, "Al registrar un ITR, este no puede ser nulo");
 			
 			if (entity.getIdItr() != null)
 				throw new InvalidEntityException("Al registrar un ITR, este no puede tener un ID asignado");
 
-			ValidationObject valid = ValidacionesItr.validarItr(entity);
-			if(!valid.isValid()) 
-				throw new InvalidEntityException(valid.getErrorMessage());
-			
-			if (dao.findByName(entity.getNombre()) != null)
-				throw new InvalidEntityException("Ya existe un ITR con el nombre: " + entity.getNombre());
+			validarItr(entity);
 			
 			entity.setEstado(true);
 			return dao.insert(entity);
@@ -71,6 +74,8 @@ public class ItrBean implements ItrBeanRemote {
 	@Override
 	public Itr reactivar(Long id) throws ServiceException, NotFoundEntityException {
 		try {
+			ServicesUtils.checkNull(id, "Al reactivar un ITR, el ID no puede ser nulo");
+			
 			Itr itr = dao.findById(id);
 			if (itr == null)
 				throw new NotFoundEntityException("No existe un Itr el con el ID: " + id);
@@ -83,13 +88,15 @@ public class ItrBean implements ItrBeanRemote {
 	}
 	
 	@Override
-	public Itr update(Itr entity) throws ServiceException, NotFoundEntityException {
+	public Itr update(Itr entity) throws ServiceException, NotFoundEntityException, InvalidEntityException {
 		try {
-			ServicesUtils.checkNull(entity, "Al actualizar un ITR, el ID no puede ser nulo");
+			ServicesUtils.checkNull(entity, "Al actualizar un ITR, este no puede ser nulo");
+			ServicesUtils.checkNull(entity.getIdItr(), "Al actualizar un ITR, el ID no puede ser nulo");
 
 			if (dao.findById(entity.getIdItr()) == null)
 				throw new NotFoundEntityException("No existe un Itr el con el ID: " + entity.getIdItr());
 			
+			validarItr(entity);
 			return dao.update(entity);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
