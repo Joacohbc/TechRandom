@@ -14,6 +14,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.entities.Analista;
+
+import beans.BeanIntances;
+import views.ViewPerfilUsuario;
+
 import javax.swing.JLabel;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -29,7 +35,6 @@ public class ViewCentralAnalista extends JFrame{
 	private JMenuItem mntmNewMenuItem_1;
 	private JMenu mnSecondaryMenu;
 	private JMenuItem mntmNewMenuItem_2;
-	private JMenuItem mntmNewMenuItem_3;
 	private JLabel label;
 
 	/**
@@ -39,7 +44,8 @@ public class ViewCentralAnalista extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewCentralAnalista frame = new ViewCentralAnalista();
+					Analista p = BeanIntances.user().findById(Analista.class, 3L);
+					ViewCentralAnalista frame = new ViewCentralAnalista(p);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +57,7 @@ public class ViewCentralAnalista extends JFrame{
 	/**
 	 * Create the frame.
 	 */
-	public ViewCentralAnalista() {
+	public ViewCentralAnalista(Analista analista) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		this.setTitle("Pasar el nombre del usuario por parametro en el constructor");
@@ -63,28 +69,20 @@ public class ViewCentralAnalista extends JFrame{
 		
 		
 		JMenuBar menuBar = new JMenuBar();
-		
-		/*BorderLayout layout = new BorderLayout();
-		layout.setHgap(10);
-	    layout.setVgap(10);
-		menuBar.setLayout(layout);*/
-		
-		JMenu mnMainMenu = new JMenu("Main menu");
+		JMenu mnMainMenu = new JMenu("Gestión de Usuarios");
 		menuBar.add(mnMainMenu);
 		
-		mnSecondaryMenu = new JMenu("Secondary menu");
+		mnSecondaryMenu = new JMenu("Gestión ITRs");
 		menuBar.add(mnSecondaryMenu);
 		
 		//para hacer que se alienea algunos a la derecha o izquierda
+		//todo lo que se pone antes aparece a la izquierda 
+		//todo lo que se pone despues aparece a la derecha 
 		menuBar.add(Box.createHorizontalGlue());
 
 		setJMenuBar(menuBar);
 
-		
-
-		
-
-		mntmNewMenuItem = new JMenuItem("Panel 1");
+		mntmNewMenuItem = new JMenuItem("Listado de Usuarios");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panel1 = new PanelAnalista1();
@@ -117,17 +115,15 @@ public class ViewCentralAnalista extends JFrame{
 		
 
 		
-		mntmNewMenuItem_2 = new JMenuItem("New menu item");
+		mntmNewMenuItem_2 = new JMenuItem("Mantenimiento");
 		mnSecondaryMenu.add(mntmNewMenuItem_2);
-		
-		mntmNewMenuItem_3 = new JMenuItem("New menu item");
-		mnSecondaryMenu.add(mntmNewMenuItem_3);
 		
 		label = new JLabel("");
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "MOUSE!!!");
+				ViewPerfilUsuario vista = new ViewPerfilUsuario(analista);
+				vista.setVisible(true);
 			}
 			
 		});

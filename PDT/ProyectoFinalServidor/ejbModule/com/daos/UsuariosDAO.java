@@ -4,14 +4,15 @@ import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
-import javax.el.ELException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import com.entities.Analista;
 import com.entities.Estudiante;
 import com.entities.Itr;
+import com.entities.Tutor;
 import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
 import com.exceptions.DAOException;
@@ -147,6 +148,36 @@ public class UsuariosDAO {
 			usuario = em.merge(usuario);
 			em.flush();
 			return usuario;
+		} catch (PersistenceException e) {
+			throw new DAOException("Ocurrio un error al cambiar el estado del usuario:", e);
+		}
+	}
+	
+	public Estudiante update(Estudiante estudiante) throws DAOException, NotFoundEntityException {
+		try {
+			estudiante = em.merge(estudiante);
+			em.flush();
+			return estudiante;
+		} catch (PersistenceException e) {
+			throw new DAOException("Ocurrio un error al cambiar el estado del usuario:", e);
+		}
+	}
+	
+	public Analista update(Analista analista) throws DAOException, NotFoundEntityException {
+		try {
+			analista = em.merge(analista);
+			em.flush();
+			return analista;
+		} catch (PersistenceException e) {
+			throw new DAOException("Ocurrio un error al cambiar el estado del usuario:", e);
+		}
+	}
+	
+	public Tutor update(Tutor tutor) throws DAOException, NotFoundEntityException {
+		try {
+			tutor = em.merge(tutor);
+			em.flush();
+			return tutor;
 		} catch (PersistenceException e) {
 			throw new DAOException("Ocurrio un error al cambiar el estado del usuario:", e);
 		}

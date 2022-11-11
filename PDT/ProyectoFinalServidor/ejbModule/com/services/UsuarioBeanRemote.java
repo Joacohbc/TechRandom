@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
+import com.entities.Analista;
 import com.entities.Estudiante;
 import com.entities.Itr;
+import com.entities.Tutor;
 import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
 import com.exceptions.InvalidEntityException;
@@ -36,6 +38,12 @@ public interface UsuarioBeanRemote {
 			throws ServiceException, InvalidEntityException;
 
 	void updateEstadoUsuario(Long id, EstadoUsuario estadoUsuario) throws ServiceException;
+	
+	void updateEstudiante(Estudiante estudiante) throws ServiceException;
+	
+	void updateAnalista(Analista analista) throws ServiceException;
+	
+	void updateTutor(Tutor tutor) throws ServiceException;
 
 	<T extends Usuario> List<T> findAll(Class<T> tipoUsu);
 

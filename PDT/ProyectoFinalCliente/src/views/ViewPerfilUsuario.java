@@ -277,8 +277,8 @@ public class ViewPerfilUsuario extends JFrame {
 							Mensajes.MostrarError(error.getErrorMessage());
 							return;
 						}
-						estudiante = BeanIntances.user().register(estudiante, documento, email);
-						Mensajes.MostrarExito("Se dio de alta correctamente el Estudiante " + estudiante.getNombres());
+						BeanIntances.user().updateEstudiante(estudiante);
+						Mensajes.MostrarExito("Se modificó correctamente el Estudiante " + estudiante.getNombres());
 						return;
 					}
 
@@ -306,8 +306,8 @@ public class ViewPerfilUsuario extends JFrame {
 							Mensajes.MostrarError(error.getErrorMessage());
 							return;
 						}
-						tutor = BeanIntances.user().register(tutor, documento, email);
-						Mensajes.MostrarExito("Se dio de alta correctamente el Tutor " + tutor.getNombres());
+						BeanIntances.user().updateTutor(tutor);
+						Mensajes.MostrarExito("Se modificó correctamente el Tutor " + tutor.getNombres());
 						return;
 					}
 
@@ -332,8 +332,8 @@ public class ViewPerfilUsuario extends JFrame {
 						Mensajes.MostrarError(error.getErrorMessage());
 						return;
 					}
-					analista = BeanIntances.user().register(analista, documento, email);
-					Mensajes.MostrarExito("Se dio de alta correctamente el Analista " + analista.getNombres());
+					BeanIntances.user().updateAnalista(analista);
+					Mensajes.MostrarExito("Se modificó correctamente el Analista " + analista.getNombres());
 				} catch (Exception ex) {
 					Mensajes.MostrarError(ex.getMessage());
 				}
