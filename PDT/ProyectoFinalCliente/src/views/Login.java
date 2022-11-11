@@ -57,7 +57,7 @@ public class Login extends JFrame {
 		});
 	}
 
-	private boolean validarEstado(Usuario usuario) {
+	private boolean estadoValido(Usuario usuario) {
 		if (usuario == null) {
 			Mensajes.MostrarError("No es posible loguearse al sistema. Compruebe las credenciales ingresadas");
 			return false;
@@ -69,6 +69,7 @@ public class Login extends JFrame {
 					+ " no esta vaidado, consulte con el Analista responsable");
 			return false;
 		}
+		
 		return true;
 	}
 
@@ -145,7 +146,7 @@ public class Login extends JFrame {
 						Analista ana = BeanIntances.user().login(txtUsuario.getText(),
 								String.valueOf(textPassword.getPassword()), Analista.class);
 
-						if (validarEstado(ana))
+						if (!estadoValido(ana))
 							return;
 
 						setVisible(false);
@@ -156,7 +157,7 @@ public class Login extends JFrame {
 						Tutor tut = BeanIntances.user().login(txtUsuario.getText(),
 								String.valueOf(textPassword.getPassword()), Tutor.class);
 						
-						if (validarEstado(tut))
+						if (!estadoValido(tut))
 							return;
 						
 						setVisible(false);
@@ -167,7 +168,7 @@ public class Login extends JFrame {
 						Estudiante est = BeanIntances.user().login(txtUsuario.getText(),
 								String.valueOf(textPassword.getPassword()), Estudiante.class);
 						
-						if (validarEstado(est))
+						if (!estadoValido(est))
 							return;
 						
 						setVisible(false);
