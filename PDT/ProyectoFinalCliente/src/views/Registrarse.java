@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -209,10 +210,12 @@ public class Registrarse extends JFrame {
 					TipoUsuarioDocumento documento = chckbxUruguayo.isSelected() ? TipoUsuarioDocumento.URUGUAYO
 							: TipoUsuarioDocumento.NO_URUGAUYO;
 
+					Roles rol = ((Roles) comboRol.getSelectedItem());
 					
-					Roles rol = ((Roles) comboRol.getSelectedItem());					
 					LocalDate fecha = Formatos.ToLocalDate(dtFechaDeNacimiento.getDate());
+					
 					if (rol == Roles.ESTUDIANTE) {
+						
 						Estudiante estudiante = new Estudiante();
 						estudiante.setNombres(textNombres.getText());
 						estudiante.setApellidos(textApellidos.getText());
@@ -228,14 +231,20 @@ public class Registrarse extends JFrame {
 						estudiante.setLocalidad(textLocalidad.getText());
 						estudiante.setItr((Itr) comboItr.getSelectedItem());
 						estudiante.setEstado(true);
-						estudiante.setGeneracion(Integer.parseInt(textGeneracion.getText()));
-
+						
+						if (textGeneracion.isContentValid()) {
+							estudiante.setGeneracion(Integer.parseInt(textGeneracion.getText()));
+						}else {
+							estudiante.setGeneracion(0);
+						}
+						
 						ValidationObject error = ValidacionesUsuarioEstudiante.validarEstudiante(estudiante, documento,
 								email);
 						if (!error.isValid()) {
 							Mensajes.MostrarError(error.getErrorMessage());
 							return;
 						}
+						
 						estudiante = BeanIntances.user().register(estudiante, documento, email);
 						Mensajes.MostrarExito("Se dio de alta correctamente el Estudiante " + estudiante.getNombres());
 						dispose();
@@ -299,10 +308,10 @@ public class Registrarse extends JFrame {
 					}
 					analista = BeanIntances.user().register(analista, documento, email);
 					Mensajes.MostrarExito("Se dio de alta correctamente el Analista " + analista.getNombres());
+					
 					dispose();
 					Login log = new Login();
 					log.setVisible(true);
-					return;
 				} catch (Exception ex) {
 					Mensajes.MostrarError(ex.getMessage());
 				}
@@ -336,6 +345,7 @@ public class Registrarse extends JFrame {
 
 		dtFechaDeNacimiento = new JDateChooser();
 		dtFechaDeNacimiento.setBounds(140, 250, 110, 19);
+		dtFechaDeNacimiento.setDate(new Date());
 		contentPane.add(dtFechaDeNacimiento);
 
 		textpassword = new JPasswordField();

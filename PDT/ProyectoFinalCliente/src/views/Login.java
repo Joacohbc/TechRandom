@@ -18,6 +18,10 @@ import javax.swing.border.EmptyBorder;
 import com.entities.Analista;
 import com.entities.Estudiante;
 import com.entities.Tutor;
+import com.entities.Usuario;
+import com.entities.enums.EstadoUsuario;
+import com.exceptions.InvalidEntityException;
+import com.exceptions.ServiceException;
 
 import beans.BeanIntances;
 import components.Roles;
@@ -29,10 +33,13 @@ import viewsEstudiante.ViewEstudiante;
 
 public class Login extends JFrame {
 
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	private JPasswordField textPassword;
-
-	public static final String VERSION = "v1.1";
+	private VTextBox txtUsuario;
+	
+	public static final String VERSION = "v1.2";
 
 	/**
 	 * Launch the application.
@@ -48,6 +55,21 @@ public class Login extends JFrame {
 				}
 			}
 		});
+	}
+
+	private boolean validarEstado(Usuario usuario) {
+		if (usuario == null) {
+			Mensajes.MostrarError("No es posible loguearse al sistema. Compruebe las credenciales ingresadas");
+			return false;
+		}
+
+		if (usuario.getEstadoUsuario() == EstadoUsuario.SIN_VALIDAR
+				|| usuario.getEstadoUsuario() == EstadoUsuario.ELIMINADO) {
+			Mensajes.MostrarError("El usuario " + usuario.getNombreUsuario()
+					+ " no esta vaidado, consulte con el Analista responsable");
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -92,10 +114,10 @@ public class Login extends JFrame {
 		lblNewLabel_2.setBounds(165, 188, 102, 13);
 		contentPane.add(lblNewLabel_2);
 
-		VTextBox textboxUsuario = new VTextBox();
-		textboxUsuario.setBounds(277, 215, 270, 21);
-		contentPane.add(textboxUsuario);
-		textboxUsuario.setValidationFunc(texto -> ValidacionesUsuario.validarNombreUsuario(texto));
+		txtUsuario = new VTextBox();
+		txtUsuario.setBounds(277, 215, 270, 21);
+		contentPane.add(txtUsuario);
+		txtUsuario.setValidationFunc(texto -> ValidacionesUsuario.validarNombreUsuario(texto));
 
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
@@ -104,11 +126,13 @@ public class Login extends JFrame {
 		});
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				// Valido el usuario
-				if (!textboxUsuario.isValid()) {
-					Mensajes.MostrarError(textboxUsuario.getErrorMessage());
+				if (!txtUsuario.isContentValid()) {
+					Mensajes.MostrarError(txtUsuario.getErrorMessage());
 					return;
 				}
+
 				// Valido la contrasena
 				ValidationObject v = ValidacionesUsuario.validarContrasena(String.valueOf(textPassword.getPassword()));
 				if (!v.isValid()) {
@@ -116,40 +140,48 @@ public class Login extends JFrame {
 					return;
 				}
 
-				if (comboRol.getSelectedItem() == Roles.ANALISTA) {
-					try {
-						BeanIntances.user().login(textboxUsuario.getText(), String.valueOf(textPassword.getPassword()),
-								Analista.class);
+				try {
+					if (comboRol.getSelectedItem() == Roles.ANALISTA) {
+						Analista ana = BeanIntances.user().login(txtUsuario.getText(),
+								String.valueOf(textPassword.getPassword()), Analista.class);
+
+						if (validarEstado(ana))
+							return;
+
 						setVisible(false);
 						ViewAnalista viewAnalista = new ViewAnalista();
 						viewAnalista.setVisible(true);
-					} catch (Exception E) {
-						JOptionPane.showMessageDialog(null,
-								"No es posible loguearse al sistema. Compruebe las credenciales ingresadas.");
-					}
-				} else if (comboRol.getSelectedItem() == Roles.TUTOR) {
-					try {
-						BeanIntances.user().login(textboxUsuario.getText(), String.valueOf(textPassword.getPassword()),
-								Tutor.class);
+
+					} else if (comboRol.getSelectedItem() == Roles.TUTOR) {
+						Tutor tut = BeanIntances.user().login(txtUsuario.getText(),
+								String.valueOf(textPassword.getPassword()), Tutor.class);
+						
+						if (validarEstado(tut))
+							return;
+						
 						setVisible(false);
 						ViewTutor ViewTutor = new ViewTutor();
 						ViewTutor.setVisible(true);
-					} catch (Exception E) {
-						JOptionPane.showMessageDialog(null,
-								"No es posible loguearse al sistema. Compruebe las credenciales ingresadas.");
-					}
-				} else if (comboRol.getSelectedItem() == Roles.ESTUDIANTE) {
-					try {
-						BeanIntances.user().login(textboxUsuario.getText(), String.valueOf(textPassword.getPassword()),
-								Estudiante.class);
+
+					} else {
+						Estudiante est = BeanIntances.user().login(txtUsuario.getText(),
+								String.valueOf(textPassword.getPassword()), Estudiante.class);
+						
+						if (validarEstado(est))
+							return;
+						
 						setVisible(false);
 						ViewEstudiante ViewEstudiante = new ViewEstudiante();
 						ViewEstudiante.setVisible(true);
-					} catch (Exception E) {
-						JOptionPane.showMessageDialog(null,
-								"No es posible loguearse al sistema. Compruebe las credenciales ingresadas.");
 					}
+
+				} catch (ServiceException | InvalidEntityException ex) {
+					Mensajes.MostrarError(ex.getMessage());
+
+				} catch (Exception ex) {
+					Mensajes.MostrarError("Error desconocido:" + ex.getMessage());
 				}
+
 			}
 		});
 		btnLogin.setBounds(397, 343, 150, 21);
@@ -181,7 +213,8 @@ public class Login extends JFrame {
 		JButton btnRestorePassword = new JButton("Restablecer contrasena");
 		btnRestorePassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Contactese con el Analista correspondiente para reiniciar su clave.");
+				JOptionPane.showMessageDialog(null,
+						"Contactese con el Analista correspondiente para reiniciar su clave.");
 			}
 		});
 		btnRestorePassword.setBounds(355, 303, 192, 21);

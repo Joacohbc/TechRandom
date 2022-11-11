@@ -199,6 +199,9 @@ public class VTextBox extends JTextField {
 	}
 
 	public boolean isContentValid() {
+		if(validation == null) {
+			validation = validationFunc.apply(getText());
+		}
 		return validation.isValid();
 	}
 	

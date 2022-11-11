@@ -1,34 +1,23 @@
 package views;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
-import com.entities.Analista;
-import com.entities.Estudiante;
-import com.entities.Tutor;
-
-import beans.BeanIntances;
-import components.Roles;
 import components.VTextBox;
-import swingutils.Mensajes;
 import validation.ValidacionesUsuario;
-import validation.ValidationObject;
 
 public class RestorePassword extends JFrame {
 
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	private JPasswordField textPassword;
 

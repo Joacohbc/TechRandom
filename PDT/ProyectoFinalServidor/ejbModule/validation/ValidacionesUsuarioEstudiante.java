@@ -28,7 +28,7 @@ public class ValidacionesUsuarioEstudiante {
 		if (!valid.isValid())
 			return valid;
 
-		valid = validarGeneracion(estudiante.getGeneracion());
+		valid = validarGeneracion(estudiante.getGeneracion().toString());
 		if (!valid.isValid())
 			return valid;
 
@@ -50,13 +50,5 @@ public class ValidacionesUsuarioEstudiante {
 		}
 		
 		return ValidationObject.VALID;
-	}
-
-	public static ValidationObject validarGeneracion(Integer generacion) {
-		if (generacion >= 1000 && generacion <= 9999) {
-			return ValidationObject.VALID;
-		} else {
-			return new ValidationObject("La generacion solo puede tener un maximo de 4 digitos");
-		}
 	}
 }
