@@ -167,7 +167,7 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	public void updateEstudiante(Estudiante estudiante) throws ServiceException {
 		try {
 			Estudiante usu = dao.findByNombreUsuario(Estudiante.class, estudiante.getNombreUsuario());
-			if (estudiante == null || usu == null)
+			if (estudiante == null)
 				throw new NotFoundEntityException("No existe un usuario");
 
 			estudiante.setIdEstudiante(usu.getIdEstudiante());
