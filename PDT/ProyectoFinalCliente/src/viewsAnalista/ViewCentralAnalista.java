@@ -4,29 +4,27 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.entities.Analista;
 
 import beans.BeanIntances;
+import views.ViewMedida;
 import views.ViewPerfilUsuario;
+import views.viewAltaITR;
 
-import javax.swing.JLabel;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class ViewCentralAnalista extends JFrame{
+public class ViewCentralAnalista extends JFrame implements ViewMedida{
 
 	private JPanel contentPane;
 	PanelAnalista2 panel2;
@@ -59,9 +57,10 @@ public class ViewCentralAnalista extends JFrame{
 	 */
 	public ViewCentralAnalista(Analista analista) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, ANCHO_VIEW, LARGO_VIEW);
 		this.setTitle("Pasar el nombre del usuario por parametro en el constructor");
 		contentPane = new JPanel();
+		contentPane = new viewAltaITR();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);

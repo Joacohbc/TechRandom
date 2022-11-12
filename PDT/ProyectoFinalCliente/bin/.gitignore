@@ -1,9 +1,5 @@
-/beans/
-/components/
-/images/
-/jndi.properties
-/main/
-/swingutils/
-/views/
-/viewsEstudiante/
 /viewsAnalista/
+/views/
+/images/
+/beans/
+/main/
