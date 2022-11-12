@@ -81,11 +81,11 @@ public class AccionJustificacion implements Serializable {
 	}
 
 	public Justificacion getJustificacione() {
-		return this.justificacione;
+		return this.justificacion;
 	}
 
 	public void setJustificacione(Justificacion justificacione) {
-		this.justificacione = justificacione;
+		this.justificacion = justificacione;
 	}
 
 }
