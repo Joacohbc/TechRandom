@@ -254,9 +254,6 @@ public class ViewAnalista extends JFrame {
 						ViewPerfilUsuario view = new ViewPerfilUsuario(usu);
 						view.setVisible(true);
 						
-						// lo de modificar
-						//Registrarse reg = new Registrarse(usu);
-						//reg.setVisible(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
 					}

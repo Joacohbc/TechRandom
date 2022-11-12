@@ -166,28 +166,28 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	@Override
 	public void updateEstudiante(Estudiante estudiante) throws ServiceException {
 		try {
-			Usuario usu = findById(Usuario.class, estudiante.getIdUsuario());
+			Estudiante usu = dao.findByNombreUsuario(Estudiante.class, estudiante.getNombreUsuario());
 			if (estudiante == null || usu == null)
 				throw new NotFoundEntityException("No existe un usuario");
 
-			dao.update(usu);
+			estudiante.setIdEstudiante(usu.getIdEstudiante());
+			estudiante.setIdUsuario(usu.getIdUsuario());
 			dao.update(estudiante);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		} catch (NotFoundEntityException e) {
 			throw e;
 		}
-
 	}
 
 	@Override
 	public void updateAnalista(Analista analista) throws ServiceException {
 		try {
-			Usuario usu = findById(Usuario.class, analista.getIdUsuario());
-			if (analista == null || usu == null)
+			Analista usu = dao.findByNombreUsuario(Analista.class, analista.getNombreUsuario());
+			if (usu == null)
 				throw new NotFoundEntityException("No existe un usuario");
-
-			dao.update(usu);
+			analista.setIdAnalista(usu.getIdAnalista());
+			analista.setIdUsuario(usu.getIdUsuario());
 			dao.update(analista);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -200,12 +200,14 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	@Override
 	public void updateTutor(Tutor tutor) throws ServiceException {
 		try {
-			Usuario usu = findById(Usuario.class, tutor.getIdUsuario());
+			Tutor usu = dao.findByNombreUsuario(Tutor.class, tutor.getNombreUsuario());
 			if (tutor == null || usu == null)
 				throw new NotFoundEntityException("No existe un usuario");
 
-			dao.update(usu);
+			tutor.setIdTutor(usu.getIdTutor());
+			tutor.setIdUsuario(usu.getIdUsuario());
 			dao.update(tutor);
+			
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		} catch (NotFoundEntityException e) {
