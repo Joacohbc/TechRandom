@@ -9,7 +9,6 @@ import javax.ejb.Stateless;
 import com.daos.ItrDAO;
 import com.entities.Itr;
 import com.exceptions.DAOException;
-import com.exceptions.EntityAlreadyExistsException;
 import com.exceptions.InvalidEntityException;
 import com.exceptions.NotFoundEntityException;
 import com.exceptions.ServiceException;
@@ -29,6 +28,7 @@ public class ItrBean implements ItrBeanRemote {
 
 	public ItrBean() {
 	}
+	
 	private void validarItr(Itr entity) throws InvalidEntityException {
 		ValidationObject valid = ValidacionesItr.validarItr(entity);
 		if(!valid.isValid()) 
