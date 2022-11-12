@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.*;
+
+import com.entities.enums.Modalidad;
+
 import java.util.List;
 
 
@@ -42,6 +45,17 @@ public class Evento implements Serializable {
 	@OneToMany(mappedBy="evento")
 	private List<Constancia> constancias;
 
+	@Column(nullable = false)
+	private String localizacion;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private Modalidad modalidad;
+	
+	@ManyToOne
+	@JoinColumn(name = "ID_ITR")
+	private Itr itr;
+	
 	@ManyToOne
 	@JoinColumn(name="ID_TIPO_EVENTO")
 	private TipoEvento tipoEvento;

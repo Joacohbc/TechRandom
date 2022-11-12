@@ -11,6 +11,7 @@ import com.entities.Tutor;
 import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
 import com.exceptions.InvalidEntityException;
+import com.exceptions.NotFoundEntityException;
 import com.exceptions.ServiceException;
 
 import validation.ValidacionesUsuario.TipoUsuarioDocumento;
@@ -37,13 +38,13 @@ public interface UsuarioBeanRemote {
 	<T extends Usuario> T login(String nombreUsuario, String password, Class<T> tipoUsu)
 			throws ServiceException, InvalidEntityException;
 
-	void updateEstadoUsuario(Long id, EstadoUsuario estadoUsuario) throws ServiceException;
+	void updateEstadoUsuario(Long id, EstadoUsuario estadoUsuario) throws ServiceException, NotFoundEntityException;
 	
-	void updateEstudiante(Estudiante estudiante) throws ServiceException;
+	void updateEstudiante(Estudiante estudiante) throws ServiceException, NotFoundEntityException, InvalidEntityException;
 	
-	void updateAnalista(Analista analista) throws ServiceException;
+	void updateAnalista(Analista analista) throws ServiceException, NotFoundEntityException, InvalidEntityException;
 	
-	void updateTutor(Tutor tutor) throws ServiceException;
+	void updateTutor(Tutor tutor) throws ServiceException, NotFoundEntityException, InvalidEntityException;
 
 	<T extends Usuario> List<T> findAll(Class<T> tipoUsu);
 

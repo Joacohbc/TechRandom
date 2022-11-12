@@ -2,7 +2,6 @@ package com.services;
 
 import java.util.List;
 
-import com.exceptions.EntityAlreadyExistsException;
 import com.exceptions.InvalidEntityException;
 import com.exceptions.NotFoundEntityException;
 import com.exceptions.ServiceException;

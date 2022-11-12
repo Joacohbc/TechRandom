@@ -22,7 +22,7 @@ public class Responsable implements Serializable {
 	private Evento evento;
 
 	@ManyToOne
-	@JoinColumn(name = "ID_TUTOR")
+	@JoinColumn(name = "ID_TUTOR", referencedColumnName = "ID_TUTOR")
 	private Tutor tutor;
 
 	public Responsable() {

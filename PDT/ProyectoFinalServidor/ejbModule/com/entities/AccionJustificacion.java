@@ -43,7 +43,7 @@ public class AccionJustificacion implements Serializable {
 	//bi-directional many-to-one association to Justificacione
 	@ManyToOne
 	@JoinColumn(name="ID_JUSTIFICACION")
-	private Justificacion justificacione;
+	private Justificacion justificacion;
 
 	public AccionJustificacion() {
 	}
@@ -81,11 +81,11 @@ public class AccionJustificacion implements Serializable {
 	}
 
 	public Justificacion getJustificacione() {
-		return this.justificacione;
+		return this.justificacion;
 	}
 
 	public void setJustificacione(Justificacion justificacione) {
-		this.justificacione = justificacione;
+		this.justificacion = justificacione;
 	}
 
 }

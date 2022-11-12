@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import com.entities.enums.EstadoSolicitudes;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,22 +34,22 @@ public class Constancia implements Serializable {
 	@Column(nullable = false, name = "FECHA_HORA")
 	private LocalDateTime fechaHora;
 
-	@OneToMany(mappedBy = "constancia")
-	private List<AccionConstancia> accionConstancias;
-
 	@Lob
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private byte[] archivo;
 
-	@ManyToOne
-	@JoinColumn(name = "ID_ESTUDIANTE")
+	@OneToMany(mappedBy = "constancia", fetch = FetchType.EAGER)
+	private List<AccionConstancia> accionConstancias;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "ID_ESTUDIANTE", referencedColumnName = "ID_ESTUDIANTE")
 	private Estudiante estudiante;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ID_EVENTO")
 	private Evento evento;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ID_TIPO_CONSTANCIA")
 	private TipoConstancia tipoConstancia;
 
@@ -85,6 +86,14 @@ public class Constancia implements Serializable {
 
 	public void setFechaHora(LocalDateTime fechaHora) {
 		this.fechaHora = fechaHora;
+	}
+
+	public byte[] getArchivo() {
+		return archivo;
+	}
+
+	public void setArchivo(byte[] archivo) {
+		this.archivo = archivo;
 	}
 
 	public List<AccionConstancia> getAccionConstancias() {
@@ -131,6 +140,14 @@ public class Constancia implements Serializable {
 
 	public void setTipoConstancia(TipoConstancia tipoConstancia) {
 		this.tipoConstancia = tipoConstancia;
+	}
+
+	@Override
+	public String toString() {
+		return "Constancia [idConstancia=" + idConstancia + ", detalle=" + detalle + ", estado=" + estado
+				+ ", fechaHora=" + fechaHora + ", accionConstancias=" + accionConstancias + ", archivo="
+				+ Arrays.toString(archivo) + ", estudiante=" + estudiante + ", evento=" + evento + ", tipoConstancia="
+				+ tipoConstancia + "]";
 	}
 
 }

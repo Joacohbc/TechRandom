@@ -164,7 +164,7 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	}
 
 	@Override
-	public void updateEstudiante(Estudiante estudiante) throws ServiceException {
+	public void updateEstudiante(Estudiante estudiante) throws ServiceException, NotFoundEntityException, InvalidEntityException {
 		try {
 			Estudiante usu = dao.findByNombreUsuario(Estudiante.class, estudiante.getNombreUsuario());
 			if (estudiante == null)
@@ -181,11 +181,12 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	}
 
 	@Override
-	public void updateAnalista(Analista analista) throws ServiceException {
+	public void updateAnalista(Analista analista) throws ServiceException, NotFoundEntityException, InvalidEntityException {
 		try {
 			Analista usu = dao.findByNombreUsuario(Analista.class, analista.getNombreUsuario());
 			if (usu == null)
 				throw new NotFoundEntityException("No existe un usuario");
+			
 			analista.setIdAnalista(usu.getIdAnalista());
 			analista.setIdUsuario(usu.getIdUsuario());
 			dao.update(analista);
@@ -198,7 +199,7 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	}
 
 	@Override
-	public void updateTutor(Tutor tutor) throws ServiceException {
+	public void updateTutor(Tutor tutor) throws ServiceException, NotFoundEntityException, InvalidEntityException {
 		try {
 			Tutor usu = dao.findByNombreUsuario(Tutor.class, tutor.getNombreUsuario());
 			if (tutor == null || usu == null)

@@ -46,7 +46,7 @@ public class ValidacionesUsuarioEstudiante {
 		} 
 	
 		if (generacion.length() != 4) {
-			return new ValidationObject("La generacion solo puede tener un maximo de 4 digitos");
+			return new ValidationObject("La generacion debe tener 4 digitos");
 		}
 		
 		return ValidationObject.VALID;

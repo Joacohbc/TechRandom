@@ -5,7 +5,7 @@ public enum Departamento  {
 	CANELONES("Canelones"),
 	MALDONADO("Maldonado"),
 	SAN_JOSE("San José"),
-	COLONIA("Colinia"),
+	COLONIA("Colonia"),
 	ROCHA("Rocha"),
 	FLORIDA("Florida"),
 	LAVALLEJA("Lavalleja"),

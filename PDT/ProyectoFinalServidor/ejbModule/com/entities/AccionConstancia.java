@@ -33,7 +33,7 @@ public class AccionConstancia implements Serializable {
 	private LocalDateTime fechaHora;
 
 	@ManyToOne
-	@JoinColumn(name = "ID_ANALISTA")
+	@JoinColumn(name = "ID_ANALISTA", referencedColumnName = "ID_ANALISTA")
 	private Analista analista;
 
 	@ManyToOne

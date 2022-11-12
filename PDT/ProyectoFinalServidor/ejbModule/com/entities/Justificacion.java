@@ -19,7 +19,7 @@ public class Justificacion implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO, generator = "SEQ_JUSTIFICACIONES")
 	@Column(name="ID_JUSTIFICACION")
 	private Long idJustificacion;
-
+	
 	private String detalle;
 
 	private String estado;
@@ -29,12 +29,12 @@ public class Justificacion implements Serializable {
 	private Date fechaHora;
 
 	//bi-directional many-to-one association to AccionJustificacione
-	@OneToMany(mappedBy="justificacione")
+	@OneToMany(mappedBy="justificacion")
 	private List<AccionJustificacion> accionJustificaciones;
 
 	//bi-directional many-to-one association to Estudiante
 	@ManyToOne
-	@JoinColumn(name="ID_ESTUDIANTE")
+	@JoinColumn(name="ID_ESTUDIANTE", referencedColumnName = "ID_ESTUDIANTE")
 	private Estudiante estudiante;
 
 	//bi-directional many-to-one association to Evento

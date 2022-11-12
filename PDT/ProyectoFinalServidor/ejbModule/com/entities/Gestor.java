@@ -19,12 +19,10 @@ public class Gestor implements Serializable {
 	@Column(name="ID_GESTOR")
 	private Long idGestor;
 
-	//bi-directional many-to-one association to Analista
 	@ManyToOne
-	@JoinColumn(name="ID_ANALISTA")
+	@JoinColumn(name="ID_ANALISTA", referencedColumnName = "ID_ANALISTA")
 	private Analista analista;
 
-	//bi-directional many-to-one association to Evento
 	@ManyToOne
 	@JoinColumn(name="ID_EVENTO")
 	private Evento evento;

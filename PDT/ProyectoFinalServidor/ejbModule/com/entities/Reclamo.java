@@ -34,7 +34,7 @@ public class Reclamo implements Serializable {
 
 	//bi-directional many-to-one association to Estudiante
 	@ManyToOne
-	@JoinColumn(name="ID_ESTUDIANTE")
+	@JoinColumn(name="ID_ESTUDIANTE", referencedColumnName = "ID_ESTUDIANTE")
 	private Estudiante estudiante;
 
 	//bi-directional many-to-one association to Evento
