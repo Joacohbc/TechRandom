@@ -36,7 +36,7 @@ public class Asistencia implements Serializable {
 	private Integer calificacion;
 
 	@ManyToOne
-	@JoinColumn(name = "ID_ESTUDIANTE")
+	@JoinColumn(name = "ID_ESTUDIANTE", referencedColumnName = "ID_ESTUDIANTE")
 	private Estudiante estudiante;
 
 	@ManyToOne

@@ -27,7 +27,7 @@ public class AccionReclamo implements Serializable {
 
 	//bi-directional many-to-one association to Analista
 	@ManyToOne
-	@JoinColumn(name="ID_ANALISTA")
+	@JoinColumn(name="ID_ANALISTA", referencedColumnName = "ID_ANALISTA")
 	private Analista analista;
 
 	//bi-directional many-to-one association to Reclamo
