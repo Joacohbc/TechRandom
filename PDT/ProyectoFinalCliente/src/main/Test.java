@@ -1,19 +1,30 @@
 package main;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.entities.AccionConstancia;
+import com.entities.Analista;
+import com.entities.Constancia;
 import com.entities.Estudiante;
+import com.entities.Evento;
 import com.entities.Itr;
+import com.entities.TipoConstancia;
+import com.entities.TipoEvento;
 import com.entities.enums.Departamento;
+import com.entities.enums.EstadoSolicitudes;
 import com.entities.enums.EstadoUsuario;
 import com.entities.enums.Genero;
+import com.jgoodies.common.bean.Bean;
 
 import beans.BeanIntances;
 import components.VTextBox;
+import validation.ValidacionesUsuario.TipoUsuarioDocumento;
+import validation.ValidacionesUsuario.TipoUsuarioEmail;
 
 public class Test extends JFrame {
 
@@ -25,45 +36,91 @@ public class Test extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+
+//		System.out.println(BeanIntances.constancia().findAll());
+//		
+//		Constancia c = BeanIntances.constancia().findById(31l);
+//		System.out.println(c);
+//		
+//		c.setEstado(EstadoSolicitudes.FINALIZADO);
+//		BeanIntances.constancia().update(c);
+//		
+//		System.exit(1);
+//				
+//		TipoEvento tp = new TipoEvento();
+//		tp.setIdTipoEvento(1l);
+//		tp.setTipo("Prueba Presencial");
+//		tp.setEstado(true);
+//		
+//		Evento evento = new Evento();
+//		evento.setIdEvento(1l);
+//		evento.setFechaInicio(LocalDate.of(2022, 11, 9));
+//		evento.setFechaFin(LocalDate.of(2022, 11, 9));
+//		evento.setTitulo("Prueba de DBC");
+//		evento.setEstado(true);		
+//		evento.setTipoEvento(tp);
+//		
+//		TipoConstancia tpc = new TipoConstancia();
+//		tpc.setIdTipoConstancia(1l);
+//		tpc.setTipo("Constancia de Prueba");
+//		tpc.setPlantilla(new byte[] {1});
+//		
+//		Constancia constancia = new Constancia();
+//		constancia.setDetalle("3er Try");
+//		constancia.setEstudiante(BeanIntances.user().findById(Estudiante.class, 1l));
+//		constancia.setEvento(evento);
+//		constancia.setTipoConstancia(tpc);
+//		
+//		BeanIntances.constancia().solicitar(constancia);
 		
-		Itr itr = new Itr();
-		itr.setIdItr(1l);
-		itr.setNombre("ITRCS");
-		itr.setDepartamento(Departamento.DURAZNO);
-		itr.setEstado(true);
+//		System.out.println(BeanIntances.constancia().findAll());
 		
-		BeanIntances.itr().update(itr);
-		System.out.println(BeanIntances.itr().findAll());
-		System.exit(0);
+		AccionConstancia ac = new AccionConstancia();
+		ac.setAnalista(BeanIntances.user().findById(Analista.class, 2l));
+		ac.setConstancia(BeanIntances.constancia().findById(6l));
+		ac.setDetalle("Constancai dada a Joaquin");
+		ac.setFechaHora(LocalDateTime.now());
 		
-		try {
+		BeanIntances.constancia().updateEstado(6l, EstadoSolicitudes.FINALIZADO, ac);
+//		
+//		Itr itr = new Itr();
+//		itr.setIdItr(1l);
+//		itr.setNombre("ITRCS");
+//		itr.setDepartamento(Departamento.DURAZNO);
+//		itr.setEstado(true);
+//
+//		BeanIntances.itr().update(itr);
+//		System.out.println(BeanIntances.itr().findAll());
+//		System.exit(0);
+//
+//		try {
 //			BeanIntances.itr().save(itr);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
-		System.exit(1);
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+//
+//		System.exit(1);
 
-		Estudiante e = new Estudiante();
-		e.setNombres("Joaquin");
-		e.setApellidos("Genova Guerendiain");
-		e.setNombreUsuario("joaquin.genova");
-		e.setContrasena("12345678");
-		e.setEmail("joaquin.genova@estudiantes.utec.edu.uy");
-		e.setDocumento("5.362.666-3");
-		e.setTelefono("095112514");
-		e.setFecNacimiento(LocalDate.of(2003, 9, 8));
-		e.setDepartamento(Departamento.MONTEVIDEO);
-		e.setEstado(true);
-		e.setGenero(Genero.MASCULINO);
-		e.setGeneracion(2022);
-		e.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
-		e.setLocalidad("Villa Española");
-		e.setItr(itr);
+//		Estudiante e = new Estudiante();
+//		e.setNombres("Joaquin");
+//		e.setApellidos("Genova Guerendiain");
+//		e.setNombreUsuario("joaquin.genova");
+//		e.setContrasena("12345678");
+//		e.setEmail("joaquin.genova@estudiantes.utec.edu.uy");
+//		e.setDocumento("5.362.666-3");
+//		e.setTelefono("095112514");
+//		e.setFecNacimiento(LocalDate.of(2003, 9, 8));
+//		e.setDepartamento(Departamento.MONTEVIDEO);
+//		e.setEstado(true);
+//		e.setGenero(Genero.MASCULINO);
+//		e.setGeneracion(2022);
+//		e.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
+//		e.setLocalidad("Villa Española");
+//		e.setItr(itr);
 
-		//System.out.println(ValidacionesUsuario.ValidarUsuario(e).getErrorMessage());
+		// System.out.println(ValidacionesUsuario.ValidarUsuario(e).getErrorMessage());
 
-//		System.out.println(BeanIntances.user().register(e));
+//		System.out.println(BeanIntances.user().register(e, TipoUsuarioDocumento.URUGUAYO, TipoUsuarioEmail.UTEC));
 //		Estudiante e1 = BeanIntances.user().login("joaquin.genova", "1234", Estudiante.class);
 //		System.out.println(e1);
 
