@@ -56,7 +56,7 @@ public class ViewPDF extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton btnNewButton = new JButton("CREAR");
+		JButton btnNewButton =new JButton("CREAR");
 		btnNewButton.setBounds(175, 103, 105, 27);
 		contentPane.add(btnNewButton);
 
