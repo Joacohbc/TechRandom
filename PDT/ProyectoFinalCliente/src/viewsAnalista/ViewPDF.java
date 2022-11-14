@@ -4,7 +4,9 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -13,13 +15,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.itextpdf.text.pdf.PRStream;
-import com.itextpdf.text.pdf.PdfDictionary;
-import com.itextpdf.text.pdf.PdfName;
-import com.itextpdf.text.pdf.PdfObject;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
-import com.itextpdf.text.pdf.PdfStream;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class ViewPDF extends JFrame {
 
@@ -53,63 +55,122 @@ public class ViewPDF extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JButton btnNewButton = new JButton("Seleccionar");
+
+		JButton btnNewButton = new JButton("CREAR");
 		btnNewButton.setBounds(175, 103, 105, 27);
 		contentPane.add(btnNewButton);
-		
+
 		fc = new JFileChooser();
 		getContentPane().add(fc);
 		fc.setVisible(true);
-		
-		
+
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String destino = "/home/william/Documents/nuevo.pdf";
+				File file = new File(destino);
 
-				//showOpenDialog abre la ventana para seleccionar el archivo
-				int retorno = fc.showOpenDialog(null);
-				
-				//JFileChooser.APPROVE_OPTION retorna un valor según si se selecciona ok o cancelar al seleccionar el archivo
-	            if (retorno == JFileChooser.APPROVE_OPTION) {
-	                File archivo = fc.getSelectedFile();
+				try {
+					FileOutputStream file2 = new FileOutputStream(destino);
+					Document documento = new Document();
+					PdfWriter writer = PdfWriter.getInstance(documento, file2);
+					Paragraph titulo = new Paragraph("Plantilla Personalizada");
+					documento.open();
+					titulo.setAlignment(1);
+					Image logo = null;
+					
+					logo =  Image.getInstance("/home/william/Documents/GitHub/TechRandom/PDT/ProyectoFinalCliente/src/images/logo utec (2).png");//carga imagen
+					logo.scaleAbsolute(150, 100);//cambia tamaño
+					logo.setAbsolutePosition(415, 750);//coloca imagen en la posicion
 	                
-	                JOptionPane.showMessageDialog(null, "se sube el archivo" + archivo.getName());
-	                String ubicacionPDF = archivo.getAbsolutePath();
-	                String destino = "/home/william/Documents/nuevo.pdf";
-	                try {	                	
-	                	
-	                	PdfReader reader = new PdfReader(ubicacionPDF);
-	                	 PdfDictionary dict = reader.getPageN(1);
-	                     PdfObject object = dict.getDirectObject(PdfName.CONTENTS);
-	                     if (object instanceof PdfStream) {
-	                         PRStream stream = (PRStream)object;
-	                         byte[] data = PdfReader.getStreamBytes(stream);
-	                         System.out.println("ENTRA");
-	                         String a = new String(data).replace("nombre", "HELLO WORLD");
-	                         System.out.println(a.toString());
-	                         stream.setData(new String(data).replace("nombre", "HELLO WORLD").getBytes());
-	                     }
-	                     PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(destino));
-	                     stamper.close();
-	                     reader.close();
-	                	
-	                	
-	                	
-	              
-	        		} catch (Exception ex) {
-	        		    ex.printStackTrace();
-	        		}
+	                Image firma = null;
+	                firma =  Image.getInstance("/home/william/Documents/GitHub/TechRandom/PDT/ProyectoFinalCliente/src/images/logo utec (2).png");//carga imagen
+	                firma.scaleAbsolute(150, 100);//cambia tamaño
+	                firma.setAbsolutePosition(0, 0);//coloca imagen en la posicion
+					
+	                documento.add(logo);//agrega la imagen al documento
+	                documento.add(firma);//agrega la imagen al documento
+	                
+	                documento.add(titulo);
+	                
+	                documento.add(new Paragraph("Nombre: el poronga" ));
+	                documento.add(new Paragraph("Apellidos: del barrio"));
+	                
+	                documento.add(Chunk.NEWLINE);
+	                
+	                //EL SECRETARIO DE CARRERA CARGA EL TEXTO DEL TEMPLATE USANDO CAMPOS DETERMINADOS POR NOSOTROS {NOMBRE} ETC
+	                //ESOS CAMPOS LOS REEMPLAZAMOS DINAMICAMENTE
+	                String textoAreemplazar = "It is a long established {nombre} that a reader will be distracted by the readable content of "
+	                        + "a page when looking at its layout. The point of using {apellido} Ipsum is that it has a more-or-less normal distribution"
+	                        + " of letters, as opposed to using 'Content here, content here', making it look like readable English. "
+	                        + "Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for "
+	                        + "'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, "
+	                        + "sometimes on purpose (injected humour and the like).";
+	                
+	                //Procesar el texto y reepmplazar
+	                String txtoProcesado = "";
+	                for(int i = 0; i < textoAreemplazar.split(" ").length; i++) {
+	                	String pal = textoAreemplazar.split(" ")[i];
+	                	if(pal.equalsIgnoreCase("{nombre}")) {
+							pal=" EL PUTO NOMBRE";
+						}
+						if(pal.equalsIgnoreCase("{apellido}")) {
+							pal=" EL PUTO APELLIDO";
+						}
+						txtoProcesado += pal + " ";
+	                }
+
+	                Paragraph texto = new Paragraph(txtoProcesado);
+	                texto.setAlignment(Element.ALIGN_JUSTIFIED);
+	                documento.add(texto);
+	                
+	                documento.add(Chunk.NEWLINE);
 	                
 	                
-	                
-	                
-	                
-	            } else {
-	            	JOptionPane.showMessageDialog(null, "se cancela la subida del archivo");
-	            } 
-	        
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(Chunk.NEWLINE);
+	                documento.add(new Paragraph("Fecha: "));
+	                Paragraph textoFirma = new Paragraph("firma: La reconcha de la lora");
+	                documento.add(textoFirma);
+
+	                documento.close();
+	                System.out.println("Archivo creado correctamente!");
+					
+					
+
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
-}
+	}
 }
