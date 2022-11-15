@@ -13,8 +13,10 @@ public class ViewsDatosPersonales extends JPanel implements ViewMedida {
 	public ViewsDatosPersonales() {
 		
 		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
+		setLayout(null);
 		
 		JButton btnNewButton = new JButton("Funciona papu");
+		btnNewButton.setBounds(310, 231, 103, 23);
 		add(btnNewButton);
 
 	}
