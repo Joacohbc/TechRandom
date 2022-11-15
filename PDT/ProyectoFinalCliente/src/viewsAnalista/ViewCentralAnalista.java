@@ -22,7 +22,6 @@ import com.entities.Analista;
 import beans.BeanIntances;
 import views.ViewMedida;
 import views.ViewPerfilUsuario;
-import views.viewAltaITR;
 
 public class ViewCentralAnalista extends JFrame implements ViewMedida{
 

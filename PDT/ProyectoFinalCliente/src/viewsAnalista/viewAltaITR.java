@@ -1,10 +1,9 @@
-package views;
+package viewsAnalista;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -14,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.entities.Itr;
@@ -24,6 +25,7 @@ import components.VTextBox;
 import swingutils.Mensajes;
 import validation.ValidacionesItr;
 import validation.ValidationObject;
+import views.ViewMedida;
 
 public class viewAltaITR  extends JPanel implements ViewMedida  {
 	private JTable table;
@@ -62,7 +64,7 @@ public class viewAltaITR  extends JPanel implements ViewMedida  {
 		add(lblNewLabel_3);
 		
 		comboBoxAltaDepar = new JComboBox<Departamento>();
-		comboBoxAltaDepar.setBounds(162, 107, 129, 17);
+		comboBoxAltaDepar.setBounds(162, 103, 129, 21);
 		add(comboBoxAltaDepar);
 		
 		
@@ -88,7 +90,8 @@ public class viewAltaITR  extends JPanel implements ViewMedida  {
 							return;
 						}
 						itr = BeanIntances.itr().save(itr);
-						Mensajes.MostrarExito("Se dio de alta correctamente el Itr " + itr.getNombre());	
+						Mensajes.MostrarExito("Se dio de alta correctamente el Itr " + itr.getNombre());
+						cargarItr(table);
 					}
 				}catch(Exception E) {
 					Mensajes.MostrarError(E.getMessage());
@@ -109,15 +112,30 @@ public class viewAltaITR  extends JPanel implements ViewMedida  {
 		add(scrollPane);
 		
 		table = new JTable();
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				int row = table.getSelectedRow();
+				String nombreDepto = table.getModel().getValueAt(row, 1).toString();
+				for (Departamento deptos : Departamento.values()) {
+					if(nombreDepto == deptos.toString()) {
+						comboBoxModDepar.setSelectedItem(deptos);
+						break;
+					}
+				}
+				String nombreItr = (String) table.getModel().getValueAt(row, 2);
+				textBoxModNombre.setText(nombreItr);
+			}
+		});
 		scrollPane.setViewportView(table);
 		String columns[] = { "id", "Departamento", "Nombre", "Estado" };
 		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0);
 		table.setModel(modeloJTable);
+		
 
-		//Me cargo el arreglo de itrs con consulta findAll
-		List<Itr> itrs = (List) BeanIntances.itr().findAll();
+		
 		// Cargo el listado de los itrs a la tabla
-		cargarItr(table, itrs);
+		cargarItr(table);
 		
 		
 		JLabel lblNewLabel_5 = new JLabel("Departamento");
@@ -131,7 +149,7 @@ public class viewAltaITR  extends JPanel implements ViewMedida  {
 		add(lblNewLabel_6);
 		
 		comboBoxModDepar = new JComboBox<Departamento>();
-		comboBoxModDepar.setBounds(505, 250, 129, 17);
+		comboBoxModDepar.setBounds(505, 246, 129, 21);
 		add(comboBoxModDepar);
 		
 		JButton btnModificar = new JButton("Modificar");
@@ -195,13 +213,24 @@ public class viewAltaITR  extends JPanel implements ViewMedida  {
 		
 		for (Departamento d : Departamento.values()) {
 			comboBoxAltaDepar.addItem(d);
+			comboBoxModDepar.addItem(d);
 		}
-
+		
+	
+		
+		
 	}
 	
-	public void cargarItr(JTable table, List<Itr> itrs) {
+	public void cargarItr(JTable table) {
+		//Me cargo el arreglo de itrs con consulta findAll
+		List<Itr> itrs =  BeanIntances.itr().findAll();
 		String columns[] = { "id", "Departamento", "Nombre", "Estado" };
-		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0);
+		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 		if (table != null) {
 			for (Itr itr : itrs) {
 				Long id = itr.getIdItr();
