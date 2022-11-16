@@ -36,6 +36,9 @@ public class Test extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		
+		System.out.println(BeanIntances.estudiante().findByEstudianteId(1l));
 
 //		System.out.println(BeanIntances.constancia().findAll());
 //		
@@ -75,13 +78,13 @@ public class Test extends JFrame {
 		
 //		System.out.println(BeanIntances.constancia().findAll());
 		
-		AccionConstancia ac = new AccionConstancia();
-		ac.setAnalista(BeanIntances.user().findById(Analista.class, 2l));
-		ac.setConstancia(BeanIntances.constancia().findById(6l));
-		ac.setDetalle("Constancai dada a Joaquin");
-		ac.setFechaHora(LocalDateTime.now());
-		
-		BeanIntances.constancia().updateEstado(6l, EstadoSolicitudes.FINALIZADO, ac);
+//		AccionConstancia ac = new AccionConstancia();
+//		ac.setAnalista(BeanIntances.user().findById(Analista.class, 2l));
+//		ac.setConstancia(BeanIntances.constancia().findById(6l));
+//		ac.setDetalle("Constancai dada a Joaquin");
+//		ac.setFechaHora(LocalDateTime.now());
+//		
+//		BeanIntances.constancia().updateEstado(6l, EstadoSolicitudes.FINALIZADO, ac);
 //		
 //		Itr itr = new Itr();
 //		itr.setIdItr(1l);

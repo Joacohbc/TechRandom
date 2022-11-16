@@ -10,6 +10,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.daos.EventosDao;
+
+import beans.BeanIntances;
+
 public class ViewsContancia extends JPanel {
 
 	private JPanel contentPane;
@@ -70,11 +74,12 @@ public class ViewsContancia extends JPanel {
 		
 
 	}
+
 	
-	public void cargarEventos() {
-		
-		
+	public void cargarEventos(Long id) {
+		System.out.println(BeanIntances.estudiante().findByEstudianteId(1l)); 		
 	}
+	
 	
 	
 }
