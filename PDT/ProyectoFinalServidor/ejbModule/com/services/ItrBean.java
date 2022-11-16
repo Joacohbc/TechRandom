@@ -101,7 +101,7 @@ public class ItrBean implements ItrBeanRemote {
 			if(!valid.isValid()) 
 				throw new InvalidEntityException(valid.getErrorMessage());
 			
-			if(entity.getNombre() != actual.getNombre()) {
+			if(!entity.getNombre().equals(actual.getNombre())) {
 				if (dao.findByName(entity.getNombre()) != null) {
 					throw new InvalidEntityException("Ya existe un ITR con el nombre: " + entity.getNombre());
 				}
