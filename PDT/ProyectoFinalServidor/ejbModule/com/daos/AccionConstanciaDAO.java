@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
 import com.entities.AccionConstancia;
+import com.entities.Constancia;
 import com.exceptions.DAOException;
 import com.exceptions.NotFoundEntityException;
 
@@ -18,65 +19,29 @@ import com.exceptions.NotFoundEntityException;
 @Stateless
 @LocalBean
 public class AccionConstanciaDAO {
-	
-	
+		
 	@PersistenceContext
 	private EntityManager em;
 
-
-    /**
-     * Default constructor. 
-     */
-    public AccionConstanciaDAO() {
-        // TODO Auto-generated constructor stub
+	public AccionConstanciaDAO() {
     }
 
-	/*
-	 * Periste de un AccionConstancia en la Base de datos y retorna la Entidad persistida.
-	 */
-
-	public AccionConstancia insert(AccionConstancia entidad) throws DAOException {
+	public AccionConstancia insert(AccionConstancia accion) throws DAOException {
 		try {
-			em.persist(entidad);
+			em.persist(accion);
 			em.flush();
-			return entidad;
+			return accion;
 		} catch (PersistenceException e) {
-			throw new DAOException("Ocurrió un error al dar de alta un Evento: " + e.getMessage());
+			throw new DAOException("Ocurrió un error al dar de alta una Alta de una Accion en Constancia: " + e.getMessage());
 		}
 	}
-
-	/*
-	 * Retorna un AccionConstancia en base al ID.
-	 * 
-	 */
+	
 	public AccionConstancia findById(Long id) {
 		return em.find(AccionConstancia.class, id);
 	}
 
-	/*
-	 * Retorna todas las AccionConstancia.
-	 * 
-	 */
 	public List<AccionConstancia> findAll() {
-		return em.createQuery("Select i FROM Evento i", AccionConstancia.class).getResultList();
+		return em.createQuery("Select ac FROM AccionConstancia ac", AccionConstancia.class).getResultList();
 
 	}
-
-	/*
-	 * Verificamos que exista una AccionConstancia por ID y luego realizamos un Update de los
-	 * campos que lleguen por parametro.
-	 * 
-	 */
-	public AccionConstancia update(Long id, AccionConstancia entidad) throws DAOException, NotFoundEntityException {
-		try {
-			entidad = em.merge(entidad);
-			em.flush();
-			return entidad;
-		} catch (Exception e) {
-			throw new DAOException("Ocurrio un error al hacer el update del Itr ", e);
-		}
-
-	}
-    
-    
 }

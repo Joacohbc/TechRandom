@@ -1,17 +1,15 @@
 package com.daos;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
 
-import com.entities.AccionConstancia;
 import com.entities.Constancia;
 import com.exceptions.DAOException;
 import com.exceptions.NotFoundEntityException;
@@ -29,11 +27,6 @@ public class ConstanciaDAO {
 	public ConstanciaDAO() {
 	}
 
-	private Long getNextId() {
-		BigDecimal id = (BigDecimal) em.createNativeQuery("SELECT seq_estudiantes.nextval FROM dual").getSingleResult();
-		return id.longValue();
-	}
-
 	public Constancia insert(Constancia entidad) throws DAOException {
 		try {
 			em.persist(entidad);
@@ -44,16 +37,6 @@ public class ConstanciaDAO {
 		}
 	}
 
-	public AccionConstancia insert(AccionConstancia entidad) throws DAOException {
-		try {
-			em.persist(entidad);
-			em.flush();
-			return entidad;
-		} catch (PersistenceException e) {
-			throw new DAOException("Ocurrió un error al dar de alta una Alta de Constancia: " + e.getMessage());
-		}
-	}
-	
 	public Constancia findById(Long id) {
 		return em.find(Constancia.class, id);
 	}
@@ -62,6 +45,47 @@ public class ConstanciaDAO {
 		return em.createQuery("Select c FROM Constancia c", Constancia.class).getResultList();
 	}
 
+	public List<Constancia> findByFecha(LocalDateTime fechaHora){
+		return em.createQuery("SELECT c FROM Constancia c WHERE c.fechaHora = ?1", Constancia.class)
+				.setParameter(1, fechaHora)
+				.getResultList();
+	}
+	
+	public List<Constancia> findByEvento(Long idEvento){
+		return em.createQuery("SELECT c FROM Constancia c WHERE c.evento.idEvento = ?1", Constancia.class)
+				.setParameter(1, idEvento)
+				.getResultList();
+	}
+	
+	public List<Constancia> findByTipoConstancia(Long idTipoConstancia){
+		return em.createQuery("SELECT c FROM Constancia c WHERE c.tipoConstancia.idTipoConstancia = ?1", Constancia.class)
+				.setParameter(1, idTipoConstancia)
+				.getResultList();
+	}
+	
+	public List<Constancia> findByEstudiante(Long idEstudiante) {
+		return em.createQuery("Select c FROM Constancia c.estudiante.idEstudiante = ?1", Constancia.class)
+				.setParameter(1, idEstudiante)
+				.getResultList();
+	}
+	
+	public Constancia findUnique(Constancia constancia) {
+		try {
+			return em.createQuery("SELECT c FROM Constancia c WHERE "
+					+ "TRUNC(c.fechaHora) = TRUNC(?1)"
+					+ "AND c.evento.idEvento = ?2 "
+					+ "AND c.tipoConstancia.idTipoConstancia = ?3 "
+					+ "AND c.estudiante.idEstudiante = ?4", Constancia.class)
+			.setParameter(1, constancia.getFechaHora())
+			.setParameter(2, constancia.getEvento().getIdEvento())
+			.setParameter(3, constancia.getTipoConstancia().getIdTipoConstancia())
+			.setParameter(4, constancia.getEstudiante().getIdEstudiante())
+			.getSingleResult();
+		}catch (NoResultException e) {
+			return null;
+		}
+	}
+	
 	public Constancia update(Constancia entidad) throws DAOException, NotFoundEntityException {
 		try {
 			entidad = em.merge(entidad);

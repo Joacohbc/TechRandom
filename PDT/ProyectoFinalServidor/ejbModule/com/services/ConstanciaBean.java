@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.validation.ValidationException;
 
 import com.daos.ConstanciaDAO;
 import com.entities.AccionConstancia;
@@ -15,6 +16,9 @@ import com.exceptions.DAOException;
 import com.exceptions.InvalidEntityException;
 import com.exceptions.NotFoundEntityException;
 import com.exceptions.ServiceException;
+
+import validation.ValidacionesConstancia;
+import validation.ValidationObject;
 
 /**
  * Session Bean implementation class ConstanciaBean
@@ -26,19 +30,12 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 	@EJB
 	private ConstanciaDAO dao;
 
+	@EJB
+	private AccionConstanciaBean acBean;
+
 	public ConstanciaBean() {
 	}
 
-	private void validarConstancia(Constancia entity) throws InvalidEntityException {
-		// TODO: Validar los campos
-		// TODO: Validar que la Constancia no se repita
-	}
-
-	private void validarAccionConstancia(AccionConstancia entity) throws InvalidEntityException {
-		// TODO: Validar los campos
-		// TODO: Validar que la Accion Constancia no se repita
-	}
-	
 	@Override
 	public Constancia solicitar(Constancia entity) throws ServiceException, InvalidEntityException {
 		try {
@@ -47,10 +44,16 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 			if (entity.getIdConstancia() != null)
 				throw new InvalidEntityException("Al solictar una Constancia, esta no puede tener un ID asignado");
 
-			validarConstancia(entity);
-
 			entity.setEstado(EstadoSolicitudes.INGRESADO);
 			entity.setFechaHora(LocalDateTime.now());
+
+			ValidationObject valid = ValidacionesConstancia.validarConstancia(entity);
+			if (!valid.isValid())
+				throw new InvalidEntityException(valid.getErrorMessage());
+
+			if (dao.findUnique(entity) != null)
+				throw new InvalidEntityException("Ya existe una Contancia con esos atributos");
+
 			return dao.insert(entity);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -70,19 +73,31 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 				throw new NotFoundEntityException("No existe una constancia con el ID: " + entity.getIdConstancia());
 
 			if (actual.getEstado() == EstadoSolicitudes.FINALIZADO)
-				throw new NotFoundEntityException("No se puede modificar una constancia que ya esta finalizada");
-
-			validarConstancia(entity);
+				throw new InvalidEntityException("No se puede modificar una constancia que ya esta finalizada");
 
 			// La Fecha y Hora de emision y el Estado de la constancia no debe cambiado
 			entity.setFechaHora(actual.getFechaHora());
 			entity.setEstado(actual.getEstado());
+
+			ValidationObject valid = ValidacionesConstancia.validarConstancia(entity);
+			if (!valid.isValid())
+				throw new InvalidEntityException(valid.getErrorMessage());
+			
+			// La fecha no se verifica ya que la fecha no cambia
+			if (entity.getEstudiante().getIdEstudiante() == actual.getEstudiante().getIdEstudiante()
+					&& entity.getEvento().getIdEvento() == actual.getEvento().getIdEvento()
+					&& entity.getTipoConstancia().getIdTipoConstancia() == actual.getTipoConstancia().getIdTipoConstancia()) {
+				
+				if (dao.findUnique(entity) != null) 
+					throw new InvalidEntityException("Ya existe una Contancia con esos atributos, mismo Estudiante, Evento, Fecha y Tipo de Constancia");
+			}
+
 			return dao.update(entity);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
 	}
-	
+
 	@Override
 	public Constancia findById(Long id) {
 		return dao.findById(id);
@@ -93,22 +108,6 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 		return dao.findAll();
 	}
 
-	private AccionConstancia addAccionConstancia(AccionConstancia entity) throws ServiceException, InvalidEntityException {
-		try {
-			ServicesUtils.checkNull(entity, "Al solictar una Constancia, esta no puede ser nula");
-
-			if (entity.getIdAccionConstancia() != null)
-				throw new InvalidEntityException("Al solictar una Accion Constancia, esta no puede tener un ID asignado");
-
-			validarAccionConstancia(entity);
-
-			entity.setFechaHora(LocalDateTime.now());
-			return dao.insert(entity);
-		} catch (DAOException e) {
-			throw new ServiceException(e);
-		}
-	}
-	
 	@Override
 	public Constancia updateEstado(Long id, EstadoSolicitudes estado, AccionConstancia accion)
 			throws ServiceException, NotFoundEntityException, InvalidEntityException {
@@ -121,14 +120,17 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 
 			if (actual.getEstado() == EstadoSolicitudes.FINALIZADO)
 				throw new NotFoundEntityException("No se puede modificar una constancia que ya esta finalizada");
-			
-			// Fuerzo a que la accion constancia se para la constancia con ese ID
-			accion.setConstancia(actual);
-			addAccionConstancia(accion);
-			
+
+			// Agrego la accion constancia a la Constancia
+			acBean.addAccionConstancia(accion, actual);
+
+			// Cambio el estado de la constancia
 			actual.setEstado(estado);
+
 			return dao.update(actual);
-		} catch (DAOException e) {
+
+			// Se cacha ServiceException porque se utiliza el acBean.addAccionConstancia()
+		} catch (DAOException | ServiceException e) {
 			throw new ServiceException(e);
 		}
 	}
@@ -138,5 +140,4 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 		return null;
 	}
 
-	
 }
