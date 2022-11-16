@@ -255,4 +255,27 @@ public class Evento implements Serializable {
 		return responsable;
 	}
 
+	public String getLocalizacion() {
+		return localizacion;
+	}
+
+	public void setLocalizacion(String localizacion) {
+		this.localizacion = localizacion;
+	}
+
+	public Modalidad getModalidad() {
+		return modalidad;
+	}
+
+	public void setModalidad(Modalidad modalidad) {
+		this.modalidad = modalidad;
+	}
+
+	public Itr getItr() {
+		return itr;
+	}
+
+	public void setItr(Itr itr) {
+		this.itr = itr;
+	}
 }
