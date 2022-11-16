@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
+import com.entities.Itr;
 import com.entities.Usuario;
 import com.entities.enums.Departamento;
 import com.entities.enums.EstadoUsuario;
@@ -124,6 +125,11 @@ public class ValidacionesUsuario {
 			return error;
 		}
 
+		error = validarItr(usuario.getItr());
+		if (!error.isValid()) {
+			return error;
+		}
+		
 		return ValidationObject.VALID;
 	}
 
@@ -251,5 +257,9 @@ public class ValidacionesUsuario {
 
 	public static ValidationObject validarEstadoUsuario(EstadoUsuario estado) {
 		return estado != null ? ValidationObject.VALID : new ValidationObject("El estado obligatorio");
+	}
+	
+	public static ValidationObject validarItr(Itr itr) {
+		return itr != null ? ValidationObject.VALID : new ValidationObject("El ITR obligatorio");
 	}
 }
