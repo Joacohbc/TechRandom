@@ -93,10 +93,21 @@ public class ItrBean implements ItrBeanRemote {
 			ServicesUtils.checkNull(entity, "Al actualizar un ITR, este no puede ser nulo");
 			ServicesUtils.checkNull(entity.getIdItr(), "Al actualizar un ITR, el ID no puede ser nulo");
 
-			if (dao.findById(entity.getIdItr()) == null)
+			Itr actual = dao.findById(entity.getIdItr());
+			if (actual == null)
 				throw new NotFoundEntityException("No existe un Itr el con el ID: " + entity.getIdItr());
 			
-			validarItr(entity);
+			ValidationObject valid = ValidacionesItr.validarItr(entity);
+			if(!valid.isValid()) 
+				throw new InvalidEntityException(valid.getErrorMessage());
+			
+			if(entity.getNombre() != actual.getNombre()) {
+				if (dao.findByName(entity.getNombre()) != null) {
+					throw new InvalidEntityException("Ya existe un ITR con el nombre: " + entity.getNombre());
+				}
+			}
+			
+			
 			return dao.update(entity);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());

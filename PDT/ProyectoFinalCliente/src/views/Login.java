@@ -30,6 +30,7 @@ import swingutils.Mensajes;
 import validation.ValidacionesUsuario;
 import validation.ValidationObject;
 import viewsEstudiante.ViewEstudiante;
+import viewsEstudiante.ViewsEstudiante;
 
 public class Login extends JFrame {
 
@@ -172,7 +173,7 @@ public class Login extends JFrame {
 							return;
 						
 						setVisible(false);
-						ViewEstudiante ViewEstudiante = new ViewEstudiante();
+						ViewsEstudiante ViewEstudiante = new ViewsEstudiante();
 						ViewEstudiante.setVisible(true);
 					}
 

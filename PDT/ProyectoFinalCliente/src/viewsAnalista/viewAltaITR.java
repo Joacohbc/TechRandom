@@ -20,6 +20,8 @@ import javax.swing.table.DefaultTableModel;
 import com.entities.Itr;
 import com.entities.enums.Departamento;
 
+import org.hibernate.resource.beans.spi.BeanInstanceProducer;
+
 import beans.BeanIntances;
 import components.VTextBox;
 import swingutils.Mensajes;
@@ -108,23 +110,25 @@ public class viewAltaITR  extends JPanel implements ViewMedida  {
 		add(lblNewLabel_4);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(36, 250, 305, 130);
+		scrollPane.setBounds(23, 250, 318, 130);
 		add(scrollPane);
 		
 		table = new JTable();
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				int row = table.getSelectedRow();
-				String nombreDepto = table.getModel().getValueAt(row, 1).toString();
-				for (Departamento deptos : Departamento.values()) {
-					if(nombreDepto == deptos.toString()) {
-						comboBoxModDepar.setSelectedItem(deptos);
-						break;
+				if (table.getSelectedRow() != -1) {
+					int row = table.getSelectedRow();
+					String nombreDepto = table.getModel().getValueAt(row, 1).toString();
+					for (Departamento deptos : Departamento.values()) {
+						if(nombreDepto == deptos.toString()) {
+							comboBoxModDepar.setSelectedItem(deptos);
+							break;
+						}
 					}
+					String nombreItr = (String) table.getModel().getValueAt(row, 2);
+					textBoxModNombre.setText(nombreItr);
 				}
-				String nombreItr = (String) table.getModel().getValueAt(row, 2);
-				textBoxModNombre.setText(nombreItr);
 			}
 		});
 		scrollPane.setViewportView(table);
@@ -158,16 +162,23 @@ public class viewAltaITR  extends JPanel implements ViewMedida  {
 				try {
 					if(textBoxModNombre.isValid()) {
 						Itr itr = new Itr();
+						if (table.getSelectedRow() != -1) {
+							int row = table.getSelectedRow();
+							itr.setIdItr(BeanIntances.itr().findByName(table.getModel().getValueAt(row, 2).toString()).getIdItr());
+						}
 						itr.setNombre(textBoxModNombre.getText());
 						itr.setDepartamento((Departamento) comboBoxModDepar.getSelectedItem());
-
+						itr.setEstado(false);
+						
 						ValidationObject error = ValidacionesItr.validarItr(itr);
 						if (!error.isValid()) {
 							Mensajes.MostrarError(error.getErrorMessage());
 							return;
 						}
 						itr = BeanIntances.itr().update(itr);
-						Mensajes.MostrarExito("Se modifico correctamente el Itr " + itr.getNombre());	
+						Mensajes.MostrarExito("Se modifico correctamente el Itr " + itr.getNombre());
+						cargarItr(table);
+							
 					}
 				}catch(Exception E) {
 					Mensajes.MostrarError(E.getMessage());
@@ -191,7 +202,22 @@ public class viewAltaITR  extends JPanel implements ViewMedida  {
 		btnActivar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					Itr itr = new Itr();
+					if (table.getSelectedRow() != -1) {
+						int row = table.getSelectedRow();
+						itr = BeanIntances.itr().findByName(table.getModel().getValueAt(row, 2).toString());
+					}
 					
+					itr.setEstado(true);
+					
+					ValidationObject error = ValidacionesItr.validarItr(itr);
+					if (!error.isValid()) {
+						Mensajes.MostrarError(error.getErrorMessage());
+						return;
+					}
+					itr = BeanIntances.itr().reactivar(itr.getIdItr());
+					Mensajes.MostrarExito("Se modifico correctamente el Itr " + itr.getNombre());
+					cargarItr(table);
 				}catch(Exception ex) {
 					Mensajes.MostrarError(ex.getMessage());
 				}
@@ -201,6 +227,30 @@ public class viewAltaITR  extends JPanel implements ViewMedida  {
 		add(btnActivar);
 		
 		JButton btnDesactivar = new JButton("Desactivar");
+		btnDesactivar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Itr itr = new Itr();
+					if (table.getSelectedRow() != -1) {
+						int row = table.getSelectedRow();
+						itr = BeanIntances.itr().findByName(table.getModel().getValueAt(row, 2).toString());
+					}
+					
+					itr.setEstado(false);
+					
+					ValidationObject error = ValidacionesItr.validarItr(itr);
+					if (!error.isValid()) {
+						Mensajes.MostrarError(error.getErrorMessage());
+						return;
+					}
+					itr = BeanIntances.itr().remove(itr.getIdItr());
+					Mensajes.MostrarExito("Se modifico correctamente el Itr " + itr.getNombre());
+					cargarItr(table);
+				}catch(Exception ex) {
+					Mensajes.MostrarError(ex.getMessage());
+				}
+			}
+		});
 		btnDesactivar.setBounds(461, 359, 100, 21);
 		add(btnDesactivar);
 		
@@ -215,10 +265,6 @@ public class viewAltaITR  extends JPanel implements ViewMedida  {
 			comboBoxAltaDepar.addItem(d);
 			comboBoxModDepar.addItem(d);
 		}
-		
-	
-		
-		
 	}
 	
 	public void cargarItr(JTable table) {
