@@ -29,7 +29,6 @@ import components.VTextBox;
 import swingutils.Mensajes;
 import validation.ValidacionesUsuario;
 import validation.ValidationObject;
-import viewsEstudiante.ViewEstudiante;
 import viewsEstudiante.ViewsEstudiante;
 
 public class Login extends JFrame {
