@@ -96,4 +96,12 @@ public class ConstanciaDAO {
 		}
 	}
 
+	public void remove(Constancia entidad) throws DAOException, NotFoundEntityException {
+		try {
+			em.remove(entidad);
+			em.flush();
+		} catch (Exception e) {
+			throw new DAOException("Ocurrio un error al hacer al eliminar de la Constancia ", e);
+		}
+	}
 }

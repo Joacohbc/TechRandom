@@ -140,4 +140,24 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 		return null;
 	}
 
+	@Override
+	public Constancia eliminarConstancia(Long id) throws ServiceException, NotFoundEntityException {
+		try {
+			ServicesUtils.checkNull(id, "Al registra una Constancia el ID no puede ser nulo");
+			
+			Constancia actual = dao.findById(id);
+			if(actual == null)
+				throw new NotFoundEntityException("No existe una Constancia con el ID: " + id);
+			
+			if(!actual.getAccionConstancias().isEmpty()) {
+				throw new ServiceException("No puede dar de baja una Constancia que ya se le aplicaron acciones");
+			}
+			
+			dao.remove(actual);
+			return actual;
+		}catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
 }

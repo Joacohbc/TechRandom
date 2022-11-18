@@ -18,5 +18,6 @@ public interface ConstanciaBeanRemote  {
 	List<Constancia> findAll();
 	Constancia update(Constancia entity) throws ServiceException, NotFoundEntityException, InvalidEntityException;
 	Constancia updateEstado(Long id, EstadoSolicitudes estado, AccionConstancia accion) throws ServiceException, NotFoundEntityException, InvalidEntityException;
+	Constancia eliminarConstancia(Long id) throws ServiceException, NotFoundEntityException;
 	byte[] descargarConstancia(Long id) throws ServiceException, NotFoundEntityException;
 }
