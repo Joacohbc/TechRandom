@@ -50,6 +50,9 @@ public class ValidacionesUsuario {
 	public static ValidationObject ValidarUsuario(Usuario usuario, TipoUsuarioDocumento tipoDocumento,
 			TipoUsuarioEmail tipoEmail) {
 
+		if(usuario == null)
+			return new ValidationObject("La entidad no puede ser nula");
+		
 		ValidationObject error;
 		if (tipoDocumento == TipoUsuarioDocumento.URUGUAYO) {
 			error = validarDocumentoUruguayo(usuario.getDocumento());

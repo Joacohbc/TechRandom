@@ -10,6 +10,9 @@ public class ValidacionesItr {
 
 	public static ValidationObject validarItr(Itr itr) {
 		
+		if(itr == null)
+			return new ValidationObject("La entidad no puede ser nula");
+		
 		ValidationObject valid = validarNombre(itr.getNombre());
 		if(!valid.isValid()) 
 			return valid;
