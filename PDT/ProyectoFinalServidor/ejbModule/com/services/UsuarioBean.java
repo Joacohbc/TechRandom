@@ -148,8 +148,6 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			dao.update(usu);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
-		} catch (NotFoundEntityException e) {
-			throw e;
 		}
 	}
 
@@ -164,81 +162,124 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	}
 
 	private void validarUpdate(Usuario newUsu, Usuario actual) throws DAOException, InvalidEntityException {
-		
-		if(!newUsu.getDocumento().equals(actual.getDocumento())) {
-			if (dao.findByDocumento(Usuario.class, newUsu.getDocumento()) != null) 
+
+		if (!newUsu.getDocumento().equals(actual.getDocumento())) {
+			if (dao.findByDocumento(Usuario.class, newUsu.getDocumento()) != null)
 				throw new InvalidEntityException("Ya existe un Usuario con el Documento: " + newUsu.getDocumento());
 		}
 
-		if(!newUsu.getEmail().equals(actual.getEmail())) {
-			if (dao.findByEmail(Usuario.class, newUsu.getEmail()) != null) 
+		if (!newUsu.getEmail().equals(actual.getEmail())) {
+			if (dao.findByEmail(Usuario.class, newUsu.getEmail()) != null)
 				throw new InvalidEntityException("Ya existe un Usuario con el Email: " + newUsu.getEmail());
 		}
-		
-		
-		if(!newUsu.getNombreUsuario().equals(actual.getNombreUsuario())) {
-			if (dao.findByNombreUsuario(Usuario.class, newUsu.getNombreUsuario()) != null) 
+
+		if (!newUsu.getNombreUsuario().equals(actual.getNombreUsuario())) {
+			if (dao.findByNombreUsuario(Usuario.class, newUsu.getNombreUsuario()) != null)
 				throw new InvalidEntityException(
 						"Ya existe un Usuario con el Nombre de Usuario: " + newUsu.getNombreUsuario());
 		}
 	}
-	
+
 	@Override
-	public void updateEstudiante(Estudiante estudiante) throws ServiceException, NotFoundEntityException, InvalidEntityException {
+	public void updateEstudiante(Estudiante estudiante)
+			throws ServiceException, NotFoundEntityException, InvalidEntityException {
 		try {
-			Estudiante estActual = dao.findByNombreUsuario(Estudiante.class, estudiante.getNombreUsuario());
-			if (estActual == null) 
-				throw new NotFoundEntityException("No existe un usuario");
-			
+
+			ServicesUtils.checkNull(estudiante, "Al actualizar un usuario este no puede ser nulo");
+
+			Estudiante estActual = dao.findById(Estudiante.class, estudiante.getIdUsuario());
+			if (estActual == null)
+				throw new NotFoundEntityException("No existe un usuario con el ID: " + estudiante.getIdUsuario());
+
 			estudiante.setIdEstudiante(estActual.getIdEstudiante());
-			estudiante.setIdUsuario(estActual.getIdUsuario());
-			
 			validarUpdate(estudiante, estActual);
 			dao.update(estudiante);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
-		} catch (NotFoundEntityException e) {
-			throw e;
 		}
 	}
 
 	@Override
-	public void updateAnalista(Analista analista) throws ServiceException, NotFoundEntityException, InvalidEntityException {
+	public void updateAnalista(Analista analista)
+			throws ServiceException, NotFoundEntityException, InvalidEntityException {
 		try {
-			Analista anaActual = dao.findByNombreUsuario(Analista.class, analista.getNombreUsuario());
+			ServicesUtils.checkNull(analista, "Al actualizar un usuario este no puede ser nulo");
+
+			Analista anaActual = dao.findById(Analista.class, analista.getIdUsuario());
 			if (anaActual == null)
-				throw new NotFoundEntityException("No existe un usuario");
-			
+				throw new NotFoundEntityException("No existe un usuario con el ID: " + analista.getIdUsuario());
+
 			analista.setIdAnalista(anaActual.getIdAnalista());
-			analista.setIdUsuario(anaActual.getIdUsuario());
-			
 			validarUpdate(analista, anaActual);
 			dao.update(analista);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
-		} catch (NotFoundEntityException e) {
-			throw e;
-		}
-
+		} 
 	}
 
 	@Override
 	public void updateTutor(Tutor tutor) throws ServiceException, NotFoundEntityException, InvalidEntityException {
 		try {
-			Tutor tutActual = dao.findByNombreUsuario(Tutor.class, tutor.getNombreUsuario());
+			ServicesUtils.checkNull(tutor, "Al actualizar un usuario este no puede ser nulo");
+
+			Tutor tutActual = dao.findById(Tutor.class, tutor.getIdUsuario());
 			if (tutActual == null)
-				throw new NotFoundEntityException("No existe un usuario");
+				throw new NotFoundEntityException("No existe un usuario con el ID: "+tutor.getIdUsuario());
 
 			tutor.setIdTutor(tutActual.getIdTutor());
-			tutor.setIdUsuario(tutActual.getIdUsuario());
-				
 			validarUpdate(tutor, tutActual);
 			dao.update(tutor);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
-		} catch (NotFoundEntityException e) {
-			throw e;
 		}
-
 	}
+
+	@Override
+	public void updateEstadoEstudiante(Long id, boolean estado) throws ServiceException, NotFoundEntityException {
+		try {
+			ServicesUtils.checkNull(id, "Al actualizar un Usuario, su ID no puede ser nulo");
+
+			Estudiante actual = dao.findById(Estudiante.class, id);
+			if (actual == null)
+				throw new NotFoundEntityException("No existe un usuario con el ID: " + id);
+			
+			actual.setEstado(estado);
+			dao.update(actual);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public void updateEstadoAnalista(Long id, boolean estado) throws ServiceException, NotFoundEntityException {
+		try {
+			ServicesUtils.checkNull(id, "Al actualizar un Usuario, su ID no puede ser nulo");
+
+			Analista actual = dao.findById(Analista.class, id);
+			if (actual == null)
+				throw new NotFoundEntityException("No existe un usuario con el ID: " + id);
+			
+			actual.setEstado(estado);
+			dao.update(actual);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public void updateEstadoTutor(Long id, boolean estado) throws ServiceException, NotFoundEntityException {
+		try {
+			ServicesUtils.checkNull(id, "Al actualizar un Usuario, su ID no puede ser nulo");
+
+			Tutor actual = dao.findById(Tutor.class, id);
+			if (actual == null)
+				throw new NotFoundEntityException("No existe un usuario con el ID: " + id);
+			
+			actual.setEstado(estado);
+			dao.update(actual);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
 }
