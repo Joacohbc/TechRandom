@@ -23,6 +23,8 @@ import com.jgoodies.common.bean.Bean;
 
 import beans.BeanIntances;
 import components.VTextBox;
+import validation.Validaciones;
+import validation.ValidacionesUsuario;
 import validation.ValidacionesUsuario.TipoUsuarioDocumento;
 import validation.ValidacionesUsuario.TipoUsuarioEmail;
 
@@ -32,13 +34,16 @@ public class Test extends JFrame {
 	private JPanel contentPane;
 	private VTextBox textField;
 
-	/**
-	 * Launch the application.
-	 */
+	
+	public static void valdaciones() {
+		System.out.println(ValidacionesUsuario.validarContrasena("aAaaaaaaaa8").getErrorMessage());
+	}
+	
 	public static void main(String[] args) {
 		
+		valdaciones();
 		
-		System.out.println(BeanIntances.estudiante().findByEstudianteId(1l));
+//		System.out.println(BeanIntances.estudiante().findByEstudianteId(1l));
 
 //		System.out.println(BeanIntances.constancia().findAll());
 //		

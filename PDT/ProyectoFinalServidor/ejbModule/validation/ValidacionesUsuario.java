@@ -129,7 +129,7 @@ public class ValidacionesUsuario {
 		if (!error.isValid()) {
 			return error;
 		}
-		
+
 		return ValidationObject.VALID;
 	}
 
@@ -157,9 +157,24 @@ public class ValidacionesUsuario {
 	}
 
 	public static ValidationObject validarContrasena(String contrasena) {
-		return Validaciones.ValidarLargo(contrasena, 8, 64) ? ValidationObject.VALID
-				: new ValidationObject(
-						"La contraseña debe tener un minimo de 8 caracteres y un maxaimo de 64 caracteres");
+		if (!Validaciones.ValidarLargo(contrasena, 8, 64)) 
+			return new ValidationObject("La contraseña debe tener un minimo de 8 caracteres y un maxaimo de 64 caracteres");
+		
+		// .* = Cualquier caracter zero o mas veces
+		
+		if(!Pattern.matches(".*[a-z]+.*", contrasena)) {
+			return new ValidationObject("La contraseña debe contener por lo menos una letra minúsculas");
+		}
+		
+		if(!Pattern.matches(".*[A-Z]+.*", contrasena)) {
+			return new ValidationObject("La contraseña debe contener por lo menos un número, una letra mayúscula y una letra minúsculas");
+		}
+		
+		if(!Pattern.matches(".*[1-9]+.*", contrasena)) {
+			return new ValidationObject("La contraseña debe contener por lo menos un número");
+		}
+		
+		return ValidationObject.VALID;
 	}
 
 	public static ValidationObject validarNombres(String nombre) {
@@ -209,7 +224,7 @@ public class ValidacionesUsuario {
 		if (!Pattern.matches("[+-]?[0-9]+", telefono)) {
 			return new ValidationObject("El telefono solo debe contener numeros y tambien simbolo de \'+\' o \'-\'");
 		}
-		
+
 		if (!Validaciones.ValidarLargo(telefono, 3, 20)) {
 			return new ValidationObject("El telefono debe tener un maximo de 20 caracteres");
 		}
@@ -258,7 +273,7 @@ public class ValidacionesUsuario {
 	public static ValidationObject validarEstadoUsuario(EstadoUsuario estado) {
 		return estado != null ? ValidationObject.VALID : new ValidationObject("El estado obligatorio");
 	}
-	
+
 	public static ValidationObject validarItr(Itr itr) {
 		return itr != null ? ValidationObject.VALID : new ValidationObject("El ITR obligatorio");
 	}
