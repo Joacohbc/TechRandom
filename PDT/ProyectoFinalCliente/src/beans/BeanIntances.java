@@ -6,6 +6,7 @@ import javax.naming.NamingException;
 import com.services.ConstanciaBeanRemote;
 import com.services.EstudianteRemote;
 import com.services.ItrBeanRemote;
+import com.services.TipoConstanciaBeanRemote;
 import com.services.UsuarioBeanRemote;
 
 public class BeanIntances {
@@ -16,6 +17,7 @@ public class BeanIntances {
 			itrBean = InitialContext.doLookup("/ProyectoFinalServidor/ItrBean!com.services.ItrBeanRemote");
 			contanciaBean = InitialContext.doLookup("/ProyectoFinalServidor/ConstanciaBean!com.services.ConstanciaBeanRemote");
 			estudiante = InitialContext.doLookup("/ProyectoFinalServidor/Estudiante!com.services.EstudianteRemote");
+			tipoConstancia = InitialContext.doLookup("/ProyectoFinalServidor/TipoConstanciaBean!com.services.TipoConstanciaBeanRemote");
 			
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -27,6 +29,7 @@ public class BeanIntances {
 	private static ItrBeanRemote itrBean;
 	private static ConstanciaBeanRemote contanciaBean;
 	private static EstudianteRemote estudiante;
+	private static TipoConstanciaBeanRemote tipoConstancia;
 	
 	public static UsuarioBeanRemote user() {
 		return usuarioBean;
@@ -42,6 +45,9 @@ public class BeanIntances {
 	
 	public static EstudianteRemote estudiante() {
 		return estudiante;
+	}
+	public static TipoConstanciaBeanRemote tipoConstancia() {
+		return tipoConstancia;
 	}
 
 }

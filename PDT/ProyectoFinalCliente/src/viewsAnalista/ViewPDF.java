@@ -7,14 +7,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
 import com.itextpdf.text.Chunk;
@@ -26,13 +30,9 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.services.ConstanciaBeanRemote;
 
-import io.undertow.server.handlers.resource.FileResourceManager;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
+import beans.BeanIntances;
 
 public class ViewPDF extends JFrame {
 
@@ -120,8 +120,8 @@ public class ViewPDF extends JFrame {
 		lblPlantilla.setBounds(25, 307, 60, 17);
 		contentPane.add(lblPlantilla);
 
-		JButton btnGuardar = new JButton("Previsualizar Plantilla PDF");
-		btnGuardar.addActionListener(new ActionListener() {
+		JButton btnPrevisualizar = new JButton("Previsualizar Plantilla PDF");
+		btnPrevisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -155,15 +155,15 @@ public class ViewPDF extends JFrame {
 						parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
 						documento.add(parrafo1);
 						
-						documento.add(Chunk.NEWLINE);
+						for (int i = 0; i < (Integer) spinner.getValue(); i++) {
+							documento.add(Chunk.NEWLINE);
+						}
 
 						Paragraph parrafo2 = new Paragraph(txtAParrafo2.getText());
 						parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
 						documento.add(parrafo2);
 
-						for (int i = 0; i < (Integer) spinner.getValue(); i++) {
-							documento.add(Chunk.NEWLINE);
-						}
+						
 
 						documento.close();
 						JOptionPane.showMessageDialog(null, "Plantilla creada correctamente en " + ubicacionPDF);
@@ -225,8 +225,8 @@ public class ViewPDF extends JFrame {
 				 */
 			}
 		});
-		btnGuardar.setBounds(129, 341, 360, 27);
-		contentPane.add(btnGuardar);
+		btnPrevisualizar.setBounds(129, 341, 360, 27);
+		contentPane.add(btnPrevisualizar);
 
 		JLabel lblEspaciado = new JLabel("Espaciado");
 		lblEspaciado.setBounds(25, 265, 60, 17);
@@ -243,9 +243,16 @@ public class ViewPDF extends JFrame {
 		fc.setLocation(0, 29);
 		getContentPane().add(fc);
 		
-		JButton btnNewButton = new JButton("Guardar");
-		btnNewButton.setBounds(129, 380, 360, 27);
-		contentPane.add(btnNewButton);
+		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				BeanIntances.constancia().solicitar(null);
+				
+			}
+		});
+		btnGuardar.setBounds(129, 380, 360, 27);
+		contentPane.add(btnGuardar);
 		fc.setVisible(true);
 
 		btnCargarPlantilla.addActionListener(new ActionListener() {

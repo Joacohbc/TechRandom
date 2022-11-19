@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import com.entities.Constancia;
 import com.entities.TipoConstancia;
 import com.exceptions.DAOException;
 import com.exceptions.NotFoundEntityException;
@@ -75,6 +76,14 @@ public class TipoConstanciaDAO {
 			throw new DAOException("Ocurrio un error al hacer el update del Itr ", e);
 		}
 
+	}
+	public void remove(TipoConstancia entidad) throws DAOException, NotFoundEntityException {
+		try {
+			em.remove(entidad);
+			em.flush();
+		} catch (Exception e) {
+			throw new DAOException("Ocurrio un error al hacer al eliminar el TipoConstancia ", e);
+		}
 	}
 
 
