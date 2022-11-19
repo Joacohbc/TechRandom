@@ -7,12 +7,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.itextpdf.text.Chunk;
@@ -20,13 +22,28 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import io.undertow.server.handlers.resource.FileResourceManager;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class ViewPDF extends JFrame {
 
 	private JPanel contentPane;
 	JFileChooser fc;
+	private JTextArea txtAParrafo1;
+	private JTextArea txtAParrafo2;
+	private JSpinner spinner;
+	private String ubicacionPlantilla = null;
+	private String ubicacionPDF = null;
+	private JTextField txtTitulo;
 
 	/**
 	 * Launch the application.
@@ -46,119 +63,114 @@ public class ViewPDF extends JFrame {
 
 	/**
 	 * Create the frame.
+	 *ESTA VIEW TIENE QUE RECIBIR UN
+	 *EVENTO
+	 *ANALISTA
+	 *
 	 */
 	public ViewPDF() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 540, 461);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton btnNewButton =new JButton("CREAR");
-		btnNewButton.setBounds(175, 103, 105, 27);
-		contentPane.add(btnNewButton);
+		JButton btnCargarPlantilla = new JButton("Cargar Modelo Plantilla");
+		btnCargarPlantilla.setBounds(129, 302, 360, 27);
+		contentPane.add(btnCargarPlantilla);
 
-		fc = new JFileChooser();
-		getContentPane().add(fc);
-		fc.setVisible(true);
+		txtTitulo = new JTextField();
+		txtTitulo.setBounds(129, 29, 360, 21);
+		contentPane.add(txtTitulo);
+		txtTitulo.setColumns(10);
 
-		btnNewButton.addActionListener(new ActionListener() {
+		JLabel lblTtulo = new JLabel("Título");
+		lblTtulo.setBounds(25, 31, 60, 17);
+		contentPane.add(lblTtulo);
+
+		JLabel lblPrrafo = new JLabel("Párrafo #1");
+		lblPrrafo.setBounds(25, 64, 86, 17);
+		contentPane.add(lblPrrafo);
+
+		JLabel lblPrrafo_1 = new JLabel("Párrafo #2");
+		lblPrrafo_1.setBounds(25, 165, 86, 17);
+		contentPane.add(lblPrrafo_1);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setToolTipText(
+				"En el texto que ingrese puede utilizar las siguientes variables  {nombre_estudiante},{documento}, {carrera},{evento},{semestre},{curso}");
+		scrollPane.setBounds(129, 63, 360, 90);
+		contentPane.add(scrollPane);
+
+		txtAParrafo1 = new JTextArea();
+		txtAParrafo1.setLineWrap(true);
+		scrollPane.setViewportView(txtAParrafo1);
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(129, 165, 360, 82);
+		contentPane.add(scrollPane_1);
+
+		txtAParrafo2 = new JTextArea();
+		txtAParrafo2.setLineWrap(true);
+		scrollPane_1.setViewportView(txtAParrafo2);
+
+		JLabel lblPlantilla = new JLabel("Plantilla");
+		lblPlantilla.setBounds(25, 307, 60, 17);
+		contentPane.add(lblPlantilla);
+
+		JButton btnGuardar = new JButton("Previsualizar Plantilla PDF");
+		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String destino = "/home/william/Documents/nuevo.pdf";
-				File file = new File(destino);
-
 				try {
-					FileOutputStream file2 = new FileOutputStream(destino);
-					Document documento = new Document();
-					PdfWriter writer = PdfWriter.getInstance(documento, file2);
-					Paragraph titulo = new Paragraph("Plantilla Personalizada");
-					documento.open();
-					titulo.setAlignment(1);
-					Image logo = null;
-					
-					logo =  Image.getInstance("/home/william/Documents/GitHub/TechRandom/PDT/ProyectoFinalCliente/src/images/logo utec (2).png");//carga imagen
-					logo.scaleAbsolute(150, 100);//cambia tamaño
-					logo.setAbsolutePosition(415, 750);//coloca imagen en la posicion
-	                
-	                Image firma = null;
-	                firma =  Image.getInstance("/home/william/Documents/GitHub/TechRandom/PDT/ProyectoFinalCliente/src/images/logo utec (2).png");//carga imagen
-	                firma.scaleAbsolute(150, 100);//cambia tamaño
-	                firma.setAbsolutePosition(0, 0);//coloca imagen en la posicion
-					
-	                documento.add(logo);//agrega la imagen al documento
-	                documento.add(firma);//agrega la imagen al documento
-	                
-	                documento.add(titulo);
-	                
-	                documento.add(new Paragraph("Nombre: el poronga" ));
-	                documento.add(new Paragraph("Apellidos: del barrio"));
-	                
-	                documento.add(Chunk.NEWLINE);
-	                
-	                //EL SECRETARIO DE CARRERA CARGA EL TEXTO DEL TEMPLATE USANDO CAMPOS DETERMINADOS POR NOSOTROS {NOMBRE} ETC
-	                //ESOS CAMPOS LOS REEMPLAZAMOS DINAMICAMENTE
-	                String textoAreemplazar = "It is a long established {nombre} that a reader will be distracted by the readable content of "
-	                        + "a page when looking at its layout. The point of using {apellido} Ipsum is that it has a more-or-less normal distribution"
-	                        + " of letters, as opposed to using 'Content here, content here', making it look like readable English. "
-	                        + "Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for "
-	                        + "'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, "
-	                        + "sometimes on purpose (injected humour and the like).";
-	                
-	                //Procesar el texto y reepmplazar
-	                String txtoProcesado = "";
-	                for(int i = 0; i < textoAreemplazar.split(" ").length; i++) {
-	                	String pal = textoAreemplazar.split(" ")[i];
-	                	if(pal.equalsIgnoreCase("{nombre}")) {
-							pal=" EL PUTO NOMBRE";
+					fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					int retorno_salida = fc.showSaveDialog(null);
+					if (retorno_salida == JFileChooser.APPROVE_OPTION) {
+						ubicacionPDF = fc.getCurrentDirectory().getAbsolutePath() + "/plantilla.pdf";
+						
+						FileOutputStream file2 = new FileOutputStream(ubicacionPDF);
+
+						// creo el documento
+						Document documento = new Document();
+
+						//
+						PdfWriter writer = PdfWriter.getInstance(documento, file2);
+						Paragraph titulo = new Paragraph(txtTitulo.getText());
+						documento.open();
+						titulo.setAlignment(1);
+						documento.add(titulo);
+						documento.add(Chunk.NEWLINE);
+						documento.add(Chunk.NEWLINE);
+						documento.add(Chunk.NEWLINE);
+
+						PdfContentByte canvas = writer.getDirectContentUnder();
+						Image image = Image.getInstance(ubicacionPlantilla);
+						image.scaleAbsoluteHeight(PageSize.A4.getHeight());
+						image.scaleAbsoluteWidth(PageSize.A4.getWidth());
+						image.setAbsolutePosition(0, 0);
+						canvas.addImage(image);
+
+						Paragraph parrafo1 = new Paragraph(txtAParrafo1.getText());
+						parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
+						documento.add(parrafo1);
+						
+						documento.add(Chunk.NEWLINE);
+
+						Paragraph parrafo2 = new Paragraph(txtAParrafo2.getText());
+						parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
+						documento.add(parrafo2);
+
+						for (int i = 0; i < (Integer) spinner.getValue(); i++) {
+							documento.add(Chunk.NEWLINE);
 						}
-						if(pal.equalsIgnoreCase("{apellido}")) {
-							pal=" EL PUTO APELLIDO";
-						}
-						txtoProcesado += pal + " ";
-	                }
 
-	                Paragraph texto = new Paragraph(txtoProcesado);
-	                texto.setAlignment(Element.ALIGN_JUSTIFIED);
-	                documento.add(texto);
-	                
-	                documento.add(Chunk.NEWLINE);
-	                
-	                
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(Chunk.NEWLINE);
-	                documento.add(new Paragraph("Fecha: "));
-	                Paragraph textoFirma = new Paragraph("firma: La reconcha de la lora");
-	                documento.add(textoFirma);
+						documento.close();
+						JOptionPane.showMessageDialog(null, "Plantilla creada correctamente en " + ubicacionPDF);
 
-	                documento.close();
-	                System.out.println("Archivo creado correctamente!");
-					
-					
-
+					} else {
+						JOptionPane.showMessageDialog(null, "Acción cancelada");
+					}
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -168,6 +180,85 @@ public class ViewPDF extends JFrame {
 				} catch (DocumentException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				}
+
+				/*
+				 * try {
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * documento.add(Chunk.NEWLINE); documento.add(Chunk.NEWLINE);
+				 * documento.add(Chunk.NEWLINE); String textoAreemplazar =
+				 * "Se deja constancia que {nombre} con Cédula de Identidad N° {documento}" +
+				 * " estudiante de la carrera {carrera_est} ,asistió a {evento}  correspondiente al {semestre} semestre."
+				 * + " En la misma se realizó la evaluación final / examen del curso de {curso}"
+				 * + " en el día {fecha} en el horario de 9 a 17 horas.";
+				 * 
+				 * // Procesar el texto y reepmplazar String txtoProcesado = ""; for (int i = 0;
+				 * i < textoAreemplazar.split(" ").length; i++) { String pal =
+				 * textoAreemplazar.split(" ")[i]; if (pal.equalsIgnoreCase("{nombre}")) { pal =
+				 * " Juan Perez"; } if (pal.equalsIgnoreCase("{documento}")) { pal =
+				 * " 348695959"; } if (pal.equalsIgnoreCase("{carrera_est}")) { pal =
+				 * " Licenciatura en Tecnologías de la Información"; } if
+				 * (pal.equalsIgnoreCase("{evento}")) { pal = " Jornada presencial obligatoria";
+				 * } if (pal.equalsIgnoreCase("{semestre}")) { pal = " segundo"; } if
+				 * (pal.equalsIgnoreCase("{curso}")) { pal = " Bases de datos empresariales"; }
+				 * if (pal.equalsIgnoreCase("{fecha}")) { pal = " 18/11/2022"; } txtoProcesado
+				 * += pal + " "; }
+				 * 
+				 * Paragraph texto = new Paragraph(txtoProcesado);
+				 * 
+				 * 
+				 * } catch (FileNotFoundException e1) { // TODO Auto-generated catch block
+				 * e1.printStackTrace(); } catch (IOException e1) { // TODO Auto-generated catch
+				 * block e1.printStackTrace(); } catch (DocumentException e1) { // TODO
+				 * Auto-generated catch block e1.printStackTrace(); }
+				 * 
+				 */
+			}
+		});
+		btnGuardar.setBounds(129, 341, 360, 27);
+		contentPane.add(btnGuardar);
+
+		JLabel lblEspaciado = new JLabel("Espaciado");
+		lblEspaciado.setBounds(25, 265, 60, 17);
+		contentPane.add(lblEspaciado);
+		
+		//SE UTILIZA UN SPINNER PARA CONTROLAR LOS ESPACIOS DESDE EL ÚLTIMO PÁRRAFO AL FINAL DEL DOCUMENTO
+		spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(1, 1, 10010, 1));
+		spinner.setBounds(129, 268, 60, 22);
+		contentPane.add(spinner);
+
+		
+		fc = new JFileChooser();
+		fc.setLocation(0, 29);
+		getContentPane().add(fc);
+		
+		JButton btnNewButton = new JButton("Guardar");
+		btnNewButton.setBounds(129, 380, 360, 27);
+		contentPane.add(btnNewButton);
+		fc.setVisible(true);
+
+		btnCargarPlantilla.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				int retorno_plantilla = fc.showOpenDialog(null);
+
+				if (retorno_plantilla == JFileChooser.APPROVE_OPTION) {
+					File plantilla = fc.getSelectedFile();
+					ubicacionPlantilla = plantilla.getAbsolutePath();
+				} else {
+					JOptionPane.showMessageDialog(null, "Acción cancelada");
 				}
 			}
 		});
