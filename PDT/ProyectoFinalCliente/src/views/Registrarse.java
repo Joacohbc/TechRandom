@@ -439,6 +439,7 @@ public class Registrarse extends JFrame {
 		
 		textMailPersonal = new VTextBox();
 		textMailPersonal.setBounds(439, 161, 110, 16);
+		textMailPersonal.setValidationFunc(text -> ValidacionesUsuario.validarEmail(text));
 		contentPane.add(textMailPersonal);
 		
 		JLabel lblNewLabel_7_1 = new JLabel(" E-Mail Personal");
