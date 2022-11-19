@@ -3,13 +3,11 @@ package viewsAnalista;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -24,8 +22,6 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
-import org.hibernate.boot.archive.internal.ByteArrayInputStreamAccess;
-
 import com.entities.TipoConstancia;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -34,9 +30,15 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PRStream;
 import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfDictionary;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfObject;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.services.ConstanciaBeanRemote;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 import beans.BeanIntances;
 import swingutils.Mensajes;
@@ -169,7 +171,7 @@ public class ViewPDF extends JFrame {
 						documento.add(parrafo2);
 
 						documento.close();
-						
+
 						JOptionPane.showMessageDialog(null, "Plantilla creada correctamente en " + ubicacionPDF);
 
 					} else {
@@ -247,13 +249,13 @@ public class ViewPDF extends JFrame {
 
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
-				
+			public void actionPerformed(ActionEvent e) {
+
 				byte[] plantilla = obtenerPlantilla(ubicacionPlantilla);
-				if(plantilla == null) {
+				if (plantilla == null) {
 					return;
 				}
-				
+
 				TipoConstancia tp = new TipoConstancia();
 				tp.setTipo(txtTipoContancia.getText());
 				tp.setPlantilla(plantilla);
@@ -273,6 +275,85 @@ public class ViewPDF extends JFrame {
 		JLabel lblTipoConstancia = new JLabel("Tipo Constancia");
 		lblTipoConstancia.setBounds(25, 2, 102, 17);
 		contentPane.add(lblTipoConstancia);
+
+		JButton btnProbar = new JButton("Probar");
+		btnProbar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				byte[] plantilla = BeanIntances.tipoConstancia().descargarPlantilla(1l);
+
+				try {
+					PdfReader reader = new PdfReader(plantilla);
+					
+					String textoAreemplazar = PdfTextExtractor.getTextFromPage(reader, 1);
+					
+					String txtoProcesado = textoAreemplazar.replace("{nombre}", "Pepito Perez");
+					
+					txtoProcesado = txtoProcesado.replace("{documento}", "LTI");
+					
+			        PdfDictionary dict = reader.getPageN(1);
+			        PdfObject object = dict.getDirectObject(PdfName.CONTENTS);
+			        if (object instanceof PRStream) {
+			            PRStream stream = (PRStream)object;
+			            byte[] data = PdfReader.getStreamBytes(stream);
+			            stream.setData(new String(data).replace("Hello World", "HELLO WORLD").getBytes());
+			        }
+			        
+			        String dest = "";
+			        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dest));
+			        stamper.close();
+			        reader.close();
+					
+//					for (int i = 0; i < textoAreemplazar.split(" ").length; i++) {
+//						
+//						textoAreemplazar.replace("{nombre}", "");
+//						String pal = textoAreemplazar.split(" ")[i];
+//						if (pal.equalsIgnoreCase("{nombre}")) {
+//							pal = " Juan Perez";
+//						}
+//
+//						if (pal.equalsIgnoreCase("{documento}")) {
+//							pal = " 348695959";
+//						}
+//
+//						if (pal.equalsIgnoreCase("{carrera_est}")) {
+//							pal = " Licenciatura en Tecnologías de la Información";
+//						}
+//
+//						if (pal.equalsIgnoreCase("{evento}")) {
+//							pal = " Jornada presencial obligatoria";
+//						}
+//
+//						if (pal.equalsIgnoreCase("{semestre}")) {
+//							pal = " segundo";
+//						}
+//
+//						if (pal.equalsIgnoreCase("{curso}")) {
+//							pal = " Bases de datos empresariales";
+//						}
+//
+//						if (pal.equalsIgnoreCase("{fecha}")) {
+//							pal = " 18/11/2022";
+//						}
+//
+//						txtoProcesado += pal + " ";
+//					}
+					
+					
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+
+
+
+			}
+		});
+		btnProbar.setBounds(12, 380, 105, 27);
+		contentPane.add(btnProbar);
 		fc.setVisible(true);
 
 		btnCargarPlantilla.addActionListener(new ActionListener() {
@@ -294,18 +375,18 @@ public class ViewPDF extends JFrame {
 
 	private byte[] obtenerPlantilla(String ubicacionPlantilla) {
 		try {
-			
+
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			
+
 			// creo el documento
 			Document documento = new Document();
-			
+
 			PdfWriter writer = PdfWriter.getInstance(documento, baos);
-			
+
 			Paragraph titulo = new Paragraph(txtTitulo.getText());
-			
+
 			documento.open();
-			
+
 			titulo.setAlignment(1);
 			documento.add(titulo);
 			documento.add(Chunk.NEWLINE);
@@ -332,7 +413,7 @@ public class ViewPDF extends JFrame {
 			documento.add(parrafo2);
 
 			documento.close();
-			
+
 			return baos.toByteArray();
 
 		} catch (FileNotFoundException e1) {
