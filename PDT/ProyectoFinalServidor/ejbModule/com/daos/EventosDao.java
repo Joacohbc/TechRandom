@@ -70,7 +70,7 @@ public class EventosDao {
 	 */
 	
 	public List<Evento> findByEstudianteId(Long id) {
-		return em.createQuery("Select e FROM Evento e INNER JOIN e.asistencias a  where a.estudiante.idEstudiante = ?1", Evento.class).setParameter(1, id).getResultList();
+		return em.createQuery("Select e FROM Evento e INNER JOIN e.asistencias a where a.estudiante.idEstudiante = ?1", Evento.class).setParameter(1, id).getResultList();
 	}
 	
 	

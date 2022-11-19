@@ -10,19 +10,24 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.entities.Estudiante;
+
+import beans.BeanIntances;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 
 public class ViewsEstudiante extends JFrame {
-
+	
+	private Estudiante estudiante;
 	private JPanel contentPane;
 	private JPanel panelActual;
 	private final ViewsDatosPersonales panelPersonal = new ViewsDatosPersonales();
-	private final ViewsContancia panelConstancia = new ViewsContancia();
+	private final ViewsContancia panelConstancia = new ViewsContancia(estudiante);
 	
-
 	/**
 	 * Launch the application.
 	 */
@@ -30,8 +35,11 @@ public class ViewsEstudiante extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewsEstudiante frame = new ViewsEstudiante();
+					System.out.println(BeanIntances.user().findById(Estudiante.class, 12l));
+					ViewsEstudiante frame = new ViewsEstudiante(BeanIntances.user().findById(Estudiante.class, 12l));
 					frame.setVisible(true);
+					
+				
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -39,13 +47,19 @@ public class ViewsEstudiante extends JFrame {
 		});
 	}
 	
+	
 
 	/**
 	 * Create the frame.
 	 */
 	
-	
-	public ViewsEstudiante() {
+	public ViewsEstudiante(Estudiante e) {
+		
+		
+		
+		estudiante = e;
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 705, 784);
 		
