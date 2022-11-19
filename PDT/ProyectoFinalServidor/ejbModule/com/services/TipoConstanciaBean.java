@@ -1,5 +1,7 @@
 package com.services;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -61,6 +63,11 @@ public class TipoConstanciaBean implements TipoConstanciaBeanRemote {
 	@Override
 	public byte[] descargarPlantilla(Long id) throws ServiceException, NotFoundEntityException {
 		return dao.findById(id).getPlantilla();
+	}
+
+	@Override
+	public List<TipoConstancia> findAll() {
+		return dao.findAll();
 	}
 
 }
