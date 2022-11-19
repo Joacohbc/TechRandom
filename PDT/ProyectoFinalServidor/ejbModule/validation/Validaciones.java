@@ -16,7 +16,7 @@ public final class Validaciones {
 	}
 	
 	public static boolean ValidarNoVacio(String s) {
-		if (s.equals(null))
+		if (s == null)
 			return false;
 
 		return !s.isBlank();

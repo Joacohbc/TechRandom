@@ -166,7 +166,7 @@ public class Estudiante extends Usuario implements Serializable {
 		return "Estudiante [idEstudiante=" + idEstudiante + ", generacion=" + generacion + ", estado=" + estado
 				+ ", getIdUsuario()=" + getIdUsuario() + ", getApellidos()=" + getApellidos() + ", getContrasena()="
 				+ getContrasena() + ", getDepartamento()=" + getDepartamento() + ", getDocumento()=" + getDocumento()
-				+ ", getEmail()=" + getEmail() + ", getEstadoUsuario()=" + getEstadoUsuario() + ", getFecNacimiento()="
+				+ ", getEmail()=" + getEmailUtec() + ", getEstadoUsuario()=" + getEstadoUsuario() + ", getFecNacimiento()="
 				+ getFecNacimiento() + ", getGenero()=" + getGenero() + ", getLocalidad()=" + getLocalidad()
 				+ ", getNombreUsuario()=" + getNombreUsuario() + ", getNombres()=" + getNombres() + ", getTelefono()="
 				+ getTelefono() + ", getItr()=" + getItr() + "]";

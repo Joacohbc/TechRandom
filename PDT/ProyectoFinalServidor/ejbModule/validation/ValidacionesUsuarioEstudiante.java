@@ -15,16 +15,13 @@ import validation.ValidacionesUsuario.TipoUsuarioEmail;
 @LocalBean
 public class ValidacionesUsuarioEstudiante {
 
-	/**
-	 * Default constructor.
-	 */
-	public ValidacionesUsuarioEstudiante() {
-	}
 
-	public static ValidationObject validarEstudiante(Estudiante estudiante, TipoUsuarioDocumento tipoDocumento,
-			TipoUsuarioEmail tipoEmail) {
+	public static ValidationObject validarEstudiante(Estudiante estudiante, TipoUsuarioDocumento tipoDocumento) {
 		
-		ValidationObject valid = ValidacionesUsuario.ValidarUsuario(estudiante, tipoDocumento, tipoEmail);
+		if(estudiante == null)
+				return new ValidationObject("La entidad no puede ser nula");
+		
+		ValidationObject valid = ValidacionesUsuario.ValidarUsuario(estudiante, tipoDocumento);
 		if (!valid.isValid())
 			return valid;
 

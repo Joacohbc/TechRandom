@@ -33,7 +33,7 @@ public interface UsuarioBeanRemote {
 	 * Tutor.class y Analista.class.
 	 */
 
-	<T extends Usuario> T register(T usuario, TipoUsuarioDocumento tipoDocumento, TipoUsuarioEmail tipoEmail) throws ServiceException, InvalidEntityException;
+	<T extends Usuario> T register(T usuario, TipoUsuarioDocumento tipoDocumento) throws ServiceException, InvalidEntityException;
 
 	<T extends Usuario> T login(String nombreUsuario, String password, Class<T> tipoUsu)
 			throws ServiceException, InvalidEntityException;
@@ -46,6 +46,12 @@ public interface UsuarioBeanRemote {
 	
 	void updateTutor(Tutor tutor) throws ServiceException, NotFoundEntityException, InvalidEntityException;
 
+	void updateEstadoEstudiante(Long id, boolean estado) throws ServiceException, NotFoundEntityException;
+	
+	void updateEstadoAnalista(Long id, boolean estado) throws ServiceException, NotFoundEntityException;
+	
+	void updateEstadoTutor(Long id, boolean estado) throws ServiceException, NotFoundEntityException;
+		
 	<T extends Usuario> List<T> findAll(Class<T> tipoUsu);
 
 	<T extends Usuario> List<T> findAll(Class<T> tipoUsu, EstadoUsuario estado, Itr itr);

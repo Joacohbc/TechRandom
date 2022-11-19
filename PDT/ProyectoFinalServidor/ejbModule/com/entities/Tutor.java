@@ -99,7 +99,7 @@ public class Tutor extends Usuario implements Serializable {
 		return "Tutor [idTutor=" + idTutor + ", area=" + area + ", tipo=" + tipo + ", estado=" + estado
 				+ ", getIdUsuario()=" + getIdUsuario() + ", getApellidos()=" + getApellidos() + ", getContrasena()="
 				+ getContrasena() + ", getDepartamento()=" + getDepartamento() + ", getDocumento()=" + getDocumento()
-				+ ", getEmail()=" + getEmail() + ", getEstadoUsuario()=" + getEstadoUsuario() + ", getFecNacimiento()="
+				+ ", getEmail()=" + getEmailUtec() + ", getEstadoUsuario()=" + getEstadoUsuario() + ", getFecNacimiento()="
 				+ getFecNacimiento() + ", getGenero()=" + getGenero() + ", getLocalidad()=" + getLocalidad()
 				+ ", getNombreUsuario()=" + getNombreUsuario() + ", getNombres()=" + getNombres() + ", getTelefono()="
 				+ getTelefono() + ", getItr()=" + getItr() + "]";

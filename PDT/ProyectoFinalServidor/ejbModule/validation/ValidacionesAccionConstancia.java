@@ -8,6 +8,9 @@ public class ValidacionesAccionConstancia {
 	
 	public static ValidationObject validatAccionConstancia(AccionConstancia constancia) {
 		
+		if(constancia == null)
+			return new ValidationObject("La entidad no puede ser nula");
+		
 		ValidationObject valid = validarDetalle(constancia.getDetalle());
 		if(!valid.isValid())
 			return valid;

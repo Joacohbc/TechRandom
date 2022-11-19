@@ -92,9 +92,24 @@ public class UsuariosDAO {
 	 * 
 	 * @return Si no hay resultado retornara null
 	 */
-	public <T extends Usuario> T findByEmail(Class<T> tipoUsu, String email) {
+	public <T extends Usuario> T findByEmailUtec(Class<T> tipoUsu, String email) {
 		try {
-			return em.createQuery("SELECT u FROM " + tipoUsu.getName() + " u WHERE u.email = ?1", tipoUsu)
+			return em.createQuery("SELECT u FROM " + tipoUsu.getName() + " u WHERE u.emailUtec = ?1", tipoUsu)
+					.setParameter(1, email).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * Retorna el Tipo de Usuario (Estudiante.class, Analista.class, Tutor.class) en
+	 * base a su Email.
+	 * 
+	 * @return Si no hay resultado retornara null
+	 */
+	public <T extends Usuario> T findByEmailPersonal(Class<T> tipoUsu, String email) {
+		try {
+			return em.createQuery("SELECT u FROM " + tipoUsu.getName() + " u WHERE u.emailPersonal = ?1", tipoUsu)
 					.setParameter(1, email).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
