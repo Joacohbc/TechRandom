@@ -77,12 +77,12 @@ public class ValidacionesUsuario {
 		}
 
 		if (tipoEmail == TipoUsuarioEmail.UTEC) {
-			error = validarEmailUTEC(usuario.getEmail());
+			error = validarEmailUTEC(usuario.getEmailUtec());
 			if (!error.isValid()) {
 				return error;
 			}
 		} else {
-			error = validarEmail(usuario.getEmail());
+			error = validarEmail(usuario.getEmailUtec());
 			if (!error.isValid()) {
 				return error;
 			}

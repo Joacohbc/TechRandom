@@ -89,8 +89,8 @@ public class UsuarioBean implements UsuarioBeanRemote {
 				throw new InvalidEntityException("Ya existe un Usuario con el Documento: " + usuario.getDocumento());
 			}
 
-			if (dao.findByEmail(Usuario.class, usuario.getEmail()) != null) {
-				throw new InvalidEntityException("Ya existe un Usuario con el Email: " + usuario.getEmail());
+			if (dao.findByEmail(Usuario.class, usuario.getEmailUtec()) != null) {
+				throw new InvalidEntityException("Ya existe un Usuario con el Email: " + usuario.getEmailUtec());
 			}
 
 			if (dao.findByNombreUsuario(Usuario.class, usuario.getNombreUsuario()) != null) {
@@ -168,9 +168,9 @@ public class UsuarioBean implements UsuarioBeanRemote {
 				throw new InvalidEntityException("Ya existe un Usuario con el Documento: " + newUsu.getDocumento());
 		}
 
-		if (!newUsu.getEmail().equals(actual.getEmail())) {
-			if (dao.findByEmail(Usuario.class, newUsu.getEmail()) != null)
-				throw new InvalidEntityException("Ya existe un Usuario con el Email: " + newUsu.getEmail());
+		if (!newUsu.getEmailUtec().equals(actual.getEmailUtec())) {
+			if (dao.findByEmail(Usuario.class, newUsu.getEmailUtec()) != null)
+				throw new InvalidEntityException("Ya existe un Usuario con el Email: " + newUsu.getEmailUtec());
 		}
 
 		if (!newUsu.getNombreUsuario().equals(actual.getNombreUsuario())) {

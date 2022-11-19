@@ -41,13 +41,14 @@ import validation.ValidacionesUsuario.TipoUsuarioEmail;
 import validation.ValidacionesUsuarioEstudiante;
 import validation.ValidacionesUsuarioTutor;
 import validation.ValidationObject;
+import com.toedter.components.JSpinField;
 
 public class Registrarse extends JFrame {
 
 	private JPanel contentPane;
 
 	private JDateChooser dtFechaDeNacimiento;
-	private JPasswordField textpassword;
+	private JPasswordField textPassword;
 	private VTextBox textGeneracion;
 	private VTextBox textArea;
 	private VTextBox textLocalidad;
@@ -220,8 +221,8 @@ public class Registrarse extends JFrame {
 						estudiante.setNombres(textNombres.getText());
 						estudiante.setApellidos(textApellidos.getText());
 						estudiante.setNombreUsuario(textUsuario.getText());
-						estudiante.setContrasena(String.valueOf(textpassword.getPassword()));
-						estudiante.setEmail(textMail.getText());
+						estudiante.setContrasena(String.valueOf(textPassword.getPassword()));
+						estudiante.setEmailPersonal(textMail.getText());
 						estudiante.setDocumento(textDocumento.getText());
 						estudiante.setTelefono(textTel.getText());
 						estudiante.setFecNacimiento(fecha);
@@ -258,8 +259,8 @@ public class Registrarse extends JFrame {
 						tutor.setNombres(textNombres.getText());
 						tutor.setApellidos(textApellidos.getText());
 						tutor.setNombreUsuario(textUsuario.getText());
-						tutor.setContrasena(String.valueOf(textpassword.getPassword()));
-						tutor.setEmail(textMail.getText());
+						tutor.setContrasena(String.valueOf(textPassword.getPassword()));
+						tutor.setEmailPersonal(textMail.getText());
 						tutor.setDocumento(textDocumento.getText());
 						tutor.setTelefono(textTel.getText());
 						tutor.setFecNacimiento(fecha);
@@ -289,8 +290,8 @@ public class Registrarse extends JFrame {
 					analista.setNombres(textNombres.getText());
 					analista.setApellidos(textApellidos.getText());
 					analista.setNombreUsuario(textUsuario.getText());
-					analista.setContrasena(String.valueOf(textpassword.getPassword()));
-					analista.setEmail(textMail.getText());
+					analista.setContrasena(String.valueOf(textPassword.getPassword()));
+					analista.setEmailPersonal(textMail.getText());
 					analista.setDocumento(textDocumento.getText());
 					analista.setTelefono(textTel.getText());
 					analista.setFecNacimiento(fecha);
@@ -348,9 +349,9 @@ public class Registrarse extends JFrame {
 		dtFechaDeNacimiento.setDate(new Date());
 		contentPane.add(dtFechaDeNacimiento);
 
-		textpassword = new JPasswordField();
-		textpassword.setBounds(140, 186, 110, 16);
-		contentPane.add(textpassword);
+		textPassword = new JPasswordField();
+		textPassword.setBounds(140, 186, 110, 16);
+		contentPane.add(textPassword);
 
 		JLabel lblNewLabel_13 = new JLabel("Rol");
 		lblNewLabel_13.setBounds(10, 304, 45, 13);

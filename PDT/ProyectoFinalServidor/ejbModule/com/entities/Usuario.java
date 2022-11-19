@@ -44,8 +44,11 @@ public class Usuario implements Serializable {
 	@Column(nullable = false)
 	private String contrasena;
 
-	@Column(nullable = false, unique = true)
-	private String email;
+	@Column(nullable = false, unique = true, name = "EMAIL_UTEC")
+	private String emailUtec;
+	
+	@Column(nullable = false, unique = true, name = "EMAIL_PERSONAL")
+	private String emailPersonal;
 	
 	@Column(nullable = false)
 	private String nombres;
@@ -121,12 +124,20 @@ public class Usuario implements Serializable {
 		this.documento = documento;
 	}
 
-	public String getEmail() {
-		return this.email;
+	public String getEmailUtec() {
+		return emailUtec;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmailUtec(String emailUtec) {
+		this.emailUtec = emailUtec;
+	}
+
+	public String getEmailPersonal() {
+		return emailPersonal;
+	}
+
+	public void setEmailPersonal(String emailPersonal) {
+		this.emailPersonal = emailPersonal;
 	}
 
 	public EstadoUsuario getEstadoUsuario() {
@@ -195,11 +206,12 @@ public class Usuario implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Usuario [idUsuario=" + idUsuario + ", apellidos=" + apellidos + ", contrasena=" + contrasena
-				+ ", departamento=" + departamento + ", documento=" + documento + ", email=" + email
-				+ ", estadoUsuario=" + estadoUsuario + ", fecNacimiento=" + fecNacimiento + ", genero=" + genero
-				+ ", localidad=" + localidad + ", nombreUsuario=" + nombreUsuario + ", nombres=" + nombres
-				+ ", telefono=" + telefono + "]";
+		return "Usuario [idUsuario=" + idUsuario + ", documento=" + documento + ", nombreUsuario=" + nombreUsuario
+				+ ", contrasena=" + contrasena + ", emailUtec=" + emailUtec + ", emailPersonal=" + emailPersonal
+				+ ", nombres=" + nombres + ", apellidos=" + apellidos + ", genero=" + genero + ", fecNacimiento="
+				+ fecNacimiento + ", departamento=" + departamento + ", localidad=" + localidad + ", telefono="
+				+ telefono + ", estadoUsuario=" + estadoUsuario + ", itr=" + itr + "]";
 	}
 
+	
 }

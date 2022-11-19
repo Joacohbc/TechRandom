@@ -155,7 +155,7 @@ public class Analista extends Usuario implements Serializable {
 	public String toString() {
 		return "Analista [idAnalista=" + idAnalista + ", estado=" + estado + ", getIdUsuario()=" + getIdUsuario()
 				+ ", getApellidos()=" + getApellidos() + ", getContrasena()=" + getContrasena() + ", getDepartamento()="
-				+ getDepartamento() + ", getDocumento()=" + getDocumento() + ", getEmail()=" + getEmail()
+				+ getDepartamento() + ", getDocumento()=" + getDocumento() + ", getEmail()=" + getEmailUtec()
 				+ ", getEstadoUsuario()=" + getEstadoUsuario() + ", getFecNacimiento()=" + getFecNacimiento()
 				+ ", getGenero()=" + getGenero() + ", getLocalidad()=" + getLocalidad() + ", getNombreUsuario()="
 				+ getNombreUsuario() + ", getNombres()=" + getNombres() + ", getTelefono()=" + getTelefono()
