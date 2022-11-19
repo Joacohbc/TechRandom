@@ -59,7 +59,6 @@ public class Registrarse extends JFrame {
 	private JComboBox<Roles> comboRol;
 	private JCheckBox chckbxUruguayo;
 	private VTextBox textDocumento;
-	private VTextBox textUsuario;
 	private VTextBox textNombres;
 	private VTextBox textApellidos;
 	private VTextBox textTel;
@@ -123,24 +122,20 @@ public class Registrarse extends JFrame {
 		lblNewLabel.setBounds(10, 118, 136, 13);
 		contentPane.add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("Nombre Usuario");
-		lblNewLabel_1.setBounds(12, 163, 136, 13);
-		contentPane.add(lblNewLabel_1);
-
 		JLabel lblNewLabel_2 = new JLabel("Contraseña");
-		lblNewLabel_2.setBounds(12, 186, 136, 13);
+		lblNewLabel_2.setBounds(12, 162, 136, 13);
 		contentPane.add(lblNewLabel_2);
 
 		JLabel lblNewLabel_3 = new JLabel("Nombres");
-		lblNewLabel_3.setBounds(12, 209, 136, 13);
+		lblNewLabel_3.setBounds(12, 185, 136, 13);
 		contentPane.add(lblNewLabel_3);
 
 		JLabel lblNewLabel_4 = new JLabel("Apellidos");
-		lblNewLabel_4.setBounds(12, 232, 136, 13);
+		lblNewLabel_4.setBounds(12, 208, 136, 13);
 		contentPane.add(lblNewLabel_4);
 
 		JLabel lblNewLabel_5 = new JLabel("Fec. de Nacimiento");
-		lblNewLabel_5.setBounds(12, 256, 136, 13);
+		lblNewLabel_5.setBounds(12, 232, 136, 13);
 		contentPane.add(lblNewLabel_5);
 
 		JLabel lblNewLabel_6 = new JLabel("Telefono");
@@ -172,18 +167,13 @@ public class Registrarse extends JFrame {
 		textDocumento.setValidationFunc(text -> ValidacionesUsuario.validarDocumentoUruguayo(text));
 		contentPane.add(textDocumento);
 
-		textUsuario = new VTextBox();
-		textUsuario.setBounds(140, 163, 110, 16);
-		textUsuario.setValidationFunc(text -> ValidacionesUsuario.validarNombreUsuario(text));
-		contentPane.add(textUsuario);
-
 		textNombres = new VTextBox();
-		textNombres.setBounds(140, 209, 110, 16);
+		textNombres.setBounds(140, 185, 110, 16);
 		textNombres.setValidationFunc(text -> ValidacionesUsuario.validarNombres(text));
 		contentPane.add(textNombres);
 
 		textApellidos = new VTextBox();
-		textApellidos.setBounds(140, 232, 110, 16);
+		textApellidos.setBounds(140, 208, 110, 16);
 		textApellidos.setValidationFunc(text -> ValidacionesUsuario.validarApellido(text));
 		contentPane.add(textApellidos);
 
@@ -218,7 +208,6 @@ public class Registrarse extends JFrame {
 						Estudiante estudiante = new Estudiante();
 						estudiante.setNombres(textNombres.getText());
 						estudiante.setApellidos(textApellidos.getText());
-						estudiante.setNombreUsuario(textUsuario.getText());
 						estudiante.setContrasena(String.valueOf(textPassword.getPassword()));
 						estudiante.setEmailPersonal(textMailPersonal.getText());
 						estudiante.setEmailUtec(textMailUtec.getText());
@@ -256,7 +245,6 @@ public class Registrarse extends JFrame {
 						Tutor tutor = new Tutor();
 						tutor.setNombres(textNombres.getText());
 						tutor.setApellidos(textApellidos.getText());
-						tutor.setNombreUsuario(textUsuario.getText());
 						tutor.setContrasena(String.valueOf(textPassword.getPassword()));
 						tutor.setEmailPersonal(textMailPersonal.getText());
 						tutor.setEmailUtec(textMailUtec.getText());
@@ -277,8 +265,11 @@ public class Registrarse extends JFrame {
 							Mensajes.MostrarError(error.getErrorMessage());
 							return;
 						}
+						
 						tutor = BeanIntances.user().register(tutor, documento);
+						
 						Mensajes.MostrarExito("Se dio de alta correctamente el Tutor " + tutor.getNombres());
+						
 						dispose();
 						Login log = new Login();
 						log.setVisible(true);
@@ -288,7 +279,6 @@ public class Registrarse extends JFrame {
 					Analista analista = new Analista();
 					analista.setNombres(textNombres.getText());
 					analista.setApellidos(textApellidos.getText());
-					analista.setNombreUsuario(textUsuario.getText());
 					analista.setContrasena(String.valueOf(textPassword.getPassword()));
 					analista.setEmailPersonal(textMailPersonal.getText());
 					analista.setEmailUtec(textMailUtec.getText());					
@@ -346,12 +336,12 @@ public class Registrarse extends JFrame {
 		contentPane.add(comboGenero);
 
 		dtFechaDeNacimiento = new JDateChooser();
-		dtFechaDeNacimiento.setBounds(140, 250, 110, 19);
+		dtFechaDeNacimiento.setBounds(140, 226, 110, 19);
 		dtFechaDeNacimiento.setDate(new Date());
 		contentPane.add(dtFechaDeNacimiento);
 
 		textPassword = new JPasswordField();
-		textPassword.setBounds(140, 186, 110, 16);
+		textPassword.setBounds(140, 162, 110, 16);
 		contentPane.add(textPassword);
 
 		JLabel lblNewLabel_13 = new JLabel("Rol");
@@ -421,7 +411,7 @@ public class Registrarse extends JFrame {
 			}
 		});
 		chckbxUruguayo.setSelected(true);
-		chckbxUruguayo.setBounds(211, 141, 87, 13);
+		chckbxUruguayo.setBounds(232, 141, 87, 13);
 		contentPane.add(chckbxUruguayo);
 
 		comboItr = new JComboBox<Itr>();
@@ -443,7 +433,7 @@ public class Registrarse extends JFrame {
 		contentPane.add(textMailPersonal);
 		
 		JLabel lblNewLabel_7_1 = new JLabel(" E-Mail Personal");
-		lblNewLabel_7_1.setBounds(333, 163, 99, 13);
+		lblNewLabel_7_1.setBounds(330, 163, 102, 13);
 		contentPane.add(lblNewLabel_7_1);
 
 	}
