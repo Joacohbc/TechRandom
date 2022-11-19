@@ -16,13 +16,12 @@ import validation.ValidacionesUsuario.TipoUsuarioEmail;
 @LocalBean
 public class ValidacionesUsuarioTutor {
 
-	public static ValidationObject validarTutor(Tutor tutor, TipoUsuarioDocumento tipoDocumento,
-			TipoUsuarioEmail tipoEmail) {
+	public static ValidationObject validarTutor(Tutor tutor, TipoUsuarioDocumento tipoDocumento) {
 		
 		if(tutor == null)
 			return new ValidationObject("La entidad no puede ser nula");
 		
-		ValidationObject valid = ValidacionesUsuario.ValidarUsuario(tutor, tipoDocumento, tipoEmail);
+		ValidationObject valid = ValidacionesUsuario.ValidarUsuario(tutor, tipoDocumento);
 		if (!valid.isValid())
 			return valid;
 

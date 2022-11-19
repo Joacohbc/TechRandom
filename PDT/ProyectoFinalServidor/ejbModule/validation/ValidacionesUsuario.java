@@ -47,8 +47,7 @@ public class ValidacionesUsuario {
 		}
 	}
 
-	public static ValidationObject ValidarUsuario(Usuario usuario, TipoUsuarioDocumento tipoDocumento,
-			TipoUsuarioEmail tipoEmail) {
+	public static ValidationObject ValidarUsuario(Usuario usuario, TipoUsuarioDocumento tipoDocumento) {
 
 		if(usuario == null)
 			return new ValidationObject("La entidad no puede ser nula");
@@ -75,17 +74,15 @@ public class ValidacionesUsuario {
 		if (!error.isValid()) {
 			return error;
 		}
-
-		if (tipoEmail == TipoUsuarioEmail.UTEC) {
-			error = validarEmailUTEC(usuario.getEmailUtec());
-			if (!error.isValid()) {
-				return error;
-			}
-		} else {
-			error = validarEmail(usuario.getEmailUtec());
-			if (!error.isValid()) {
-				return error;
-			}
+		
+		error = validarEmailUTEC(usuario.getEmailUtec());
+		if (!error.isValid()) {
+			return error;
+		}
+		
+		error = validarEmail(usuario.getEmailPersonal());
+		if (!error.isValid()) {
+			return error;
 		}
 
 		error = validarNombres(usuario.getNombres());

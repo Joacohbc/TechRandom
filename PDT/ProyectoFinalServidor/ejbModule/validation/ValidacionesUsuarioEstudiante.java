@@ -16,13 +16,12 @@ import validation.ValidacionesUsuario.TipoUsuarioEmail;
 public class ValidacionesUsuarioEstudiante {
 
 
-	public static ValidationObject validarEstudiante(Estudiante estudiante, TipoUsuarioDocumento tipoDocumento,
-			TipoUsuarioEmail tipoEmail) {
+	public static ValidationObject validarEstudiante(Estudiante estudiante, TipoUsuarioDocumento tipoDocumento) {
 		
 		if(estudiante == null)
 				return new ValidationObject("La entidad no puede ser nula");
 		
-		ValidationObject valid = ValidacionesUsuario.ValidarUsuario(estudiante, tipoDocumento, tipoEmail);
+		ValidationObject valid = ValidacionesUsuario.ValidarUsuario(estudiante, tipoDocumento);
 		if (!valid.isValid())
 			return valid;
 

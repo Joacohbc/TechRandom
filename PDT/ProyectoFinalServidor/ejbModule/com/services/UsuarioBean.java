@@ -58,7 +58,7 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	}
 
 	@Override
-	public <T extends Usuario> T register(T usuario, TipoUsuarioDocumento tipoDocumento, TipoUsuarioEmail tipoEmail)
+	public <T extends Usuario> T register(T usuario, TipoUsuarioDocumento tipoDocumento)
 			throws ServiceException, InvalidEntityException {
 		try {
 			ServicesUtils.checkNull(usuario, "Al registrar un Usuario, este no puede ser nulo");
@@ -68,19 +68,19 @@ public class UsuarioBean implements UsuarioBeanRemote {
 
 			if (usuario instanceof Estudiante) {
 				Estudiante est = (Estudiante) usuario;
-				ValidationObject error = ValidacionesUsuarioEstudiante.validarEstudiante(est, tipoDocumento, tipoEmail);
+				ValidationObject error = ValidacionesUsuarioEstudiante.validarEstudiante(est, tipoDocumento);
 				if (!error.isValid())
 					throw new InvalidEntityException(error.getErrorMessage());
 
 			} else if (usuario instanceof Tutor) {
 				Tutor tut = (Tutor) usuario;
-				ValidationObject error = ValidacionesUsuarioTutor.validarTutor(tut, tipoDocumento, tipoEmail);
+				ValidationObject error = ValidacionesUsuarioTutor.validarTutor(tut, tipoDocumento);
 				if (!error.isValid())
 					throw new InvalidEntityException(error.getErrorMessage());
 
 			} else {
 				Analista ana = (Analista) usuario;
-				ValidationObject error = ValidacionesUsuario.ValidarUsuario(ana, tipoDocumento, tipoEmail);
+				ValidationObject error = ValidacionesUsuario.ValidarUsuario(ana, tipoDocumento);
 				if (!error.isValid())
 					throw new InvalidEntityException(error.getErrorMessage());
 			}
@@ -89,10 +89,14 @@ public class UsuarioBean implements UsuarioBeanRemote {
 				throw new InvalidEntityException("Ya existe un Usuario con el Documento: " + usuario.getDocumento());
 			}
 
-			if (dao.findByEmail(Usuario.class, usuario.getEmailUtec()) != null) {
-				throw new InvalidEntityException("Ya existe un Usuario con el Email: " + usuario.getEmailUtec());
+			if (dao.findByEmailUtec(Usuario.class, usuario.getEmailUtec()) != null) {
+				throw new InvalidEntityException("Ya existe un Usuario con el Email Utec: " + usuario.getEmailUtec());
 			}
 
+			if (dao.findByEmailPersonal(Usuario.class, usuario.getEmailPersonal()) != null) {
+				throw new InvalidEntityException("Ya existe un Usuario con el Email Personal: " + usuario.getEmailUtec());
+			}
+			
 			if (dao.findByNombreUsuario(Usuario.class, usuario.getNombreUsuario()) != null) {
 				throw new InvalidEntityException(
 						"Ya existe un Usuario con el Nombre de Usuario: " + usuario.getNombreUsuario());
@@ -169,7 +173,12 @@ public class UsuarioBean implements UsuarioBeanRemote {
 		}
 
 		if (!newUsu.getEmailUtec().equals(actual.getEmailUtec())) {
-			if (dao.findByEmail(Usuario.class, newUsu.getEmailUtec()) != null)
+			if (dao.findByEmailUtec(Usuario.class, newUsu.getEmailUtec()) != null)
+				throw new InvalidEntityException("Ya existe un Usuario con el Email: " + newUsu.getEmailUtec());
+		}
+
+		if (!newUsu.getEmailPersonal().equals(actual.getEmailPersonal())) {
+			if (dao.findByEmailUtec(Usuario.class, newUsu.getEmailUtec()) != null)
 				throw new InvalidEntityException("Ya existe un Usuario con el Email: " + newUsu.getEmailUtec());
 		}
 

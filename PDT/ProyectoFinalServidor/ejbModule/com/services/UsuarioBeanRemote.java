@@ -33,7 +33,7 @@ public interface UsuarioBeanRemote {
 	 * Tutor.class y Analista.class.
 	 */
 
-	<T extends Usuario> T register(T usuario, TipoUsuarioDocumento tipoDocumento, TipoUsuarioEmail tipoEmail) throws ServiceException, InvalidEntityException;
+	<T extends Usuario> T register(T usuario, TipoUsuarioDocumento tipoDocumento) throws ServiceException, InvalidEntityException;
 
 	<T extends Usuario> T login(String nombreUsuario, String password, Class<T> tipoUsu)
 			throws ServiceException, InvalidEntityException;

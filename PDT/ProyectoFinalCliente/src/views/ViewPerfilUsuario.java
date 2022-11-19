@@ -243,10 +243,6 @@ public class ViewPerfilUsuario extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				try {
-					// La siguiente sentencia es lo mismo que un If, si esta seleccionado es email
-					// utec si no es general.
-					TipoUsuarioEmail email = chckbxInstitucional.isSelected() ? TipoUsuarioEmail.UTEC
-							: TipoUsuarioEmail.GENERAL;
 					TipoUsuarioDocumento documento = chckbxUruguayo.isSelected() ? TipoUsuarioDocumento.URUGUAYO
 							: TipoUsuarioDocumento.NO_URUGAUYO;
 
@@ -271,8 +267,7 @@ public class ViewPerfilUsuario extends JFrame {
 						estudiante.setEstado(true);
 						estudiante.setGeneracion(Integer.parseInt(textGeneracion.getText()));
 
-						ValidationObject error = ValidacionesUsuarioEstudiante.validarEstudiante(estudiante, documento,
-								email);
+						ValidationObject error = ValidacionesUsuarioEstudiante.validarEstudiante(estudiante, documento);
 						if (!error.isValid()) {
 							Mensajes.MostrarError(error.getErrorMessage());
 							return;
@@ -301,7 +296,7 @@ public class ViewPerfilUsuario extends JFrame {
 						tutor.setArea(textArea.getText());
 						tutor.setTipo((TipoTutor) cmbTipoTutor.getSelectedItem());
 
-						ValidationObject error = ValidacionesUsuarioTutor.validarTutor(tutor, documento, email);
+						ValidationObject error = ValidacionesUsuarioTutor.validarTutor(tutor, documento);
 						if (!error.isValid()) {
 							Mensajes.MostrarError(error.getErrorMessage());
 							return;
@@ -327,7 +322,7 @@ public class ViewPerfilUsuario extends JFrame {
 					analista.setItr((Itr) comboItr.getSelectedItem());
 					analista.setEstado(true);
 
-					ValidationObject error = ValidacionesUsuario.ValidarUsuario(analista, documento, email);
+					ValidationObject error = ValidacionesUsuario.ValidarUsuario(analista, documento);
 					if (!error.isValid()) {
 						Mensajes.MostrarError(error.getErrorMessage());
 						return;
