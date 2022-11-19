@@ -94,7 +94,7 @@ public class UsuariosDAO {
 	 */
 	public <T extends Usuario> T findByEmailUtec(Class<T> tipoUsu, String email) {
 		try {
-			return em.createQuery("SELECT u FROM " + tipoUsu.getName() + " u WHERE u.email_utec = ?1", tipoUsu)
+			return em.createQuery("SELECT u FROM " + tipoUsu.getName() + " u WHERE u.emailUtec = ?1", tipoUsu)
 					.setParameter(1, email).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
@@ -109,7 +109,7 @@ public class UsuariosDAO {
 	 */
 	public <T extends Usuario> T findByEmailPersonal(Class<T> tipoUsu, String email) {
 		try {
-			return em.createQuery("SELECT u FROM " + tipoUsu.getName() + " u WHERE u.email_personal = ?1", tipoUsu)
+			return em.createQuery("SELECT u FROM " + tipoUsu.getName() + " u WHERE u.emailPersonal = ?1", tipoUsu)
 					.setParameter(1, email).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
