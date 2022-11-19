@@ -65,11 +65,6 @@ public class ValidacionesUsuario {
 			}
 		}
 
-		error = validarNombreUsuario(usuario.getNombreUsuario());
-		if (!error.isValid()) {
-			return error;
-		}
-
 		error = validarContrasena(usuario.getContrasena());
 		if (!error.isValid()) {
 			return error;
@@ -144,15 +139,15 @@ public class ValidacionesUsuario {
 	}
 
 	public static ValidationObject validarNombreUsuario(String nombreUsuario) {
+		if (!Validaciones.ValidarLargo(nombreUsuario, 6, 64)) {
+			return new ValidationObject("El nombre de usuario debe tener un minimo de 6 caracteres y un maximo de 64");
+		}
+
 		if (!Pattern.matches("[a-z]+(\\.)[a-z]+", nombreUsuario)
 				&& !Pattern.matches("[a-z]+(\\.)[a-z]+(\\.)[a-z]+", nombreUsuario)) {
 			return new ValidationObject("El nombre de usuario es invalido, debe tener el formato \"nombre.apellido\"");
 		}
-
-		if (!Validaciones.ValidarLargo(nombreUsuario, 3, 64)) {
-			return new ValidationObject("El nombre de usuario debe tener un minimo de 3 caracteres y un maximo de 64");
-		}
-
+		
 		return ValidationObject.VALID;
 	}
 
@@ -221,12 +216,12 @@ public class ValidacionesUsuario {
 	}
 
 	public static ValidationObject validarTelefono(String telefono) {
-		if (!Pattern.matches("[+-]?[0-9]+", telefono)) {
-			return new ValidationObject("El telefono solo debe contener numeros y tambien simbolo de \'+\' o \'-\'");
-		}
-
 		if (!Validaciones.ValidarLargo(telefono, 3, 20)) {
 			return new ValidationObject("El telefono debe tener un maximo de 20 caracteres");
+		}
+
+		if (!Pattern.matches("[+-]?[0-9]+", telefono)) {
+			return new ValidationObject("El telefono solo debe contener numeros y tambien simbolo de \'+\' o \'-\'");
 		}
 
 		return ValidationObject.VALID;
@@ -238,10 +233,17 @@ public class ValidacionesUsuario {
 		}
 
 		String[] partes = email.split("@");
-
+		
+		ValidationObject valid = validarNombreUsuario(partes[0]);
+		if(!valid.isValid()) {
+			return new ValidationObject("El email de UTEC debe contener un nombre de usuario (delante del @) en el formato: \"nombre.apellido\"");
+		}
+		
 		if (!partes[1].contains("utec.edu.uy")) {
 			return new ValidationObject("El email de UTEC debe pertener al dominio utec.edu.uy");
 		}
+		
+		
 
 		return ValidationObject.VALID;
 	}
