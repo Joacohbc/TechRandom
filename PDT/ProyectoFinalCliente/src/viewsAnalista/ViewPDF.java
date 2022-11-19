@@ -3,10 +3,13 @@ package viewsAnalista;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -21,6 +24,9 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
+import org.hibernate.boot.archive.internal.ByteArrayInputStreamAccess;
+
+import com.entities.TipoConstancia;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -33,6 +39,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.services.ConstanciaBeanRemote;
 
 import beans.BeanIntances;
+import swingutils.Mensajes;
 
 public class ViewPDF extends JFrame {
 
@@ -44,6 +51,7 @@ public class ViewPDF extends JFrame {
 	private String ubicacionPlantilla = null;
 	private String ubicacionPDF = null;
 	private JTextField txtTitulo;
+	private JTextField txtTipoContancia;
 
 	/**
 	 * Launch the application.
@@ -62,10 +70,7 @@ public class ViewPDF extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
-	 *ESTA VIEW TIENE QUE RECIBIR UN
-	 *EVENTO
-	 *ANALISTA
+	 * Create the frame. ESTA VIEW TIENE QUE RECIBIR UN EVENTO ANALISTA
 	 *
 	 */
 	public ViewPDF() {
@@ -128,7 +133,7 @@ public class ViewPDF extends JFrame {
 					int retorno_salida = fc.showSaveDialog(null);
 					if (retorno_salida == JFileChooser.APPROVE_OPTION) {
 						ubicacionPDF = fc.getCurrentDirectory().getAbsolutePath() + "/plantilla.pdf";
-						
+
 						FileOutputStream file2 = new FileOutputStream(ubicacionPDF);
 
 						// creo el documento
@@ -154,7 +159,7 @@ public class ViewPDF extends JFrame {
 						Paragraph parrafo1 = new Paragraph(txtAParrafo1.getText());
 						parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
 						documento.add(parrafo1);
-						
+
 						for (int i = 0; i < (Integer) spinner.getValue(); i++) {
 							documento.add(Chunk.NEWLINE);
 						}
@@ -163,22 +168,19 @@ public class ViewPDF extends JFrame {
 						parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
 						documento.add(parrafo2);
 
-						
-
 						documento.close();
+						
 						JOptionPane.showMessageDialog(null, "Plantilla creada correctamente en " + ubicacionPDF);
 
 					} else {
 						JOptionPane.showMessageDialog(null, "Acción cancelada");
 					}
+
 				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (DocumentException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
@@ -231,28 +233,46 @@ public class ViewPDF extends JFrame {
 		JLabel lblEspaciado = new JLabel("Espaciado");
 		lblEspaciado.setBounds(25, 265, 60, 17);
 		contentPane.add(lblEspaciado);
-		
-		//SE UTILIZA UN SPINNER PARA CONTROLAR LOS ESPACIOS DESDE EL ÚLTIMO PÁRRAFO AL FINAL DEL DOCUMENTO
+
+		// SE UTILIZA UN SPINNER PARA CONTROLAR LOS ESPACIOS DESDE EL ÚLTIMO PÁRRAFO AL
+		// FINAL DEL DOCUMENTO
 		spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(1, 1, 10010, 1));
 		spinner.setBounds(129, 268, 60, 22);
 		contentPane.add(spinner);
 
-		
 		fc = new JFileChooser();
 		fc.setLocation(0, 29);
 		getContentPane().add(fc);
-		
+
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {				
 				
-				BeanIntances.constancia().solicitar(null);
+				byte[] plantilla = obtenerPlantilla(ubicacionPlantilla);
+				if(plantilla == null) {
+					return;
+				}
 				
+				TipoConstancia tp = new TipoConstancia();
+				tp.setTipo(txtTipoContancia.getText());
+				tp.setPlantilla(plantilla);
+				tp.setEstado(true);
+				BeanIntances.tipoConstancia().insert(tp);
+
 			}
 		});
 		btnGuardar.setBounds(129, 380, 360, 27);
 		contentPane.add(btnGuardar);
+
+		txtTipoContancia = new JTextField();
+		txtTipoContancia.setColumns(10);
+		txtTipoContancia.setBounds(129, 0, 360, 21);
+		contentPane.add(txtTipoContancia);
+
+		JLabel lblTipoConstancia = new JLabel("Tipo Constancia");
+		lblTipoConstancia.setBounds(25, 2, 102, 17);
+		contentPane.add(lblTipoConstancia);
 		fc.setVisible(true);
 
 		btnCargarPlantilla.addActionListener(new ActionListener() {
@@ -270,5 +290,62 @@ public class ViewPDF extends JFrame {
 			}
 		});
 
+	}
+
+	private byte[] obtenerPlantilla(String ubicacionPlantilla) {
+		try {
+			
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			
+			// creo el documento
+			Document documento = new Document();
+			
+			PdfWriter writer = PdfWriter.getInstance(documento, baos);
+			
+			Paragraph titulo = new Paragraph(txtTitulo.getText());
+			
+			documento.open();
+			
+			titulo.setAlignment(1);
+			documento.add(titulo);
+			documento.add(Chunk.NEWLINE);
+			documento.add(Chunk.NEWLINE);
+			documento.add(Chunk.NEWLINE);
+
+			PdfContentByte canvas = writer.getDirectContentUnder();
+			Image image = Image.getInstance(ubicacionPlantilla);
+			image.scaleAbsoluteHeight(PageSize.A4.getHeight());
+			image.scaleAbsoluteWidth(PageSize.A4.getWidth());
+			image.setAbsolutePosition(0, 0);
+			canvas.addImage(image);
+
+			Paragraph parrafo1 = new Paragraph(txtAParrafo1.getText());
+			parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
+			documento.add(parrafo1);
+
+			for (int i = 0; i < (Integer) spinner.getValue(); i++) {
+				documento.add(Chunk.NEWLINE);
+			}
+
+			Paragraph parrafo2 = new Paragraph(txtAParrafo2.getText());
+			parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
+			documento.add(parrafo2);
+
+			documento.close();
+			
+			return baos.toByteArray();
+
+		} catch (FileNotFoundException e1) {
+			Mensajes.MostrarError(e1.getMessage());
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			Mensajes.MostrarError(e1.getMessage());
+			e1.printStackTrace();
+		} catch (DocumentException e1) {
+			Mensajes.MostrarError(e1.getMessage());
+			e1.printStackTrace();
+		}
+
+		return null;
 	}
 }
