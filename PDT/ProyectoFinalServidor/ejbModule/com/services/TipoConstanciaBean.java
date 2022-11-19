@@ -21,7 +21,6 @@ public class TipoConstanciaBean implements TipoConstanciaBeanRemote {
 	 * Default constructor.
 	 */
 	public TipoConstanciaBean() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@EJB
@@ -34,15 +33,13 @@ public class TipoConstanciaBean implements TipoConstanciaBeanRemote {
 
 	@Override
 	public TipoConstancia insert(TipoConstancia entity) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.insert(entity);
 	}
 
 	@Override
 	public TipoConstancia update(TipoConstancia entity)
 			throws ServiceException, NotFoundEntityException, InvalidEntityException {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.update(entity);
 	}
 
 	@Override
@@ -63,8 +60,7 @@ public class TipoConstanciaBean implements TipoConstanciaBeanRemote {
 
 	@Override
 	public byte[] descargarPlantilla(Long id) throws ServiceException, NotFoundEntityException {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findById(id).getPlantilla();
 	}
 
 }

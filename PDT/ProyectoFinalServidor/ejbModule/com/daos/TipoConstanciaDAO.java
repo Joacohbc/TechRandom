@@ -67,7 +67,7 @@ public class TipoConstanciaDAO {
 	 * campos que lleguen por parametro.
 	 * 
 	 */
-	public TipoConstancia update(Long id, TipoConstancia entidad) throws DAOException, NotFoundEntityException {
+	public TipoConstancia update(TipoConstancia entidad) throws DAOException, NotFoundEntityException {
 		try {
 			entidad = em.merge(entidad);
 			em.flush();
