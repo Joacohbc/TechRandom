@@ -21,7 +21,7 @@ import com.entities.Analista;
 
 import beans.BeanIntances;
 import views.ViewMedida;
-import views.ViewPerfilUsuario;
+import views.ViewDatosPersonales;
 
 public class ViewCentralAnalista extends JFrame implements ViewMedida{
 
@@ -120,7 +120,7 @@ public class ViewCentralAnalista extends JFrame implements ViewMedida{
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ViewPerfilUsuario vista = new ViewPerfilUsuario(analista);
+				ViewDatosPersonales vista = new ViewDatosPersonales(analista);
 				vista.setVisible(true);
 			}
 			

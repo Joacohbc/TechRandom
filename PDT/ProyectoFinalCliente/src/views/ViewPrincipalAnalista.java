@@ -70,7 +70,7 @@ public class ViewPrincipalAnalista extends JFrame {
 		btnPerfil.setIcon(new ImageIcon(ViewPrincipalAnalista.class.getResource("/images/usuario (3).png")));
 		btnPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ViewPerfilUsuario vista = new ViewPerfilUsuario(analista);
+				ViewDatosPersonales vista = new ViewDatosPersonales(analista);
 				vista.show();
 				//dispose();
 			}

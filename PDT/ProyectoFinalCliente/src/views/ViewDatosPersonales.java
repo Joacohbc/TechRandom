@@ -3,6 +3,7 @@ package views;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
@@ -13,7 +14,6 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -39,14 +39,13 @@ import swingutils.Mensajes;
 import validation.Formatos;
 import validation.ValidacionesUsuario;
 import validation.ValidacionesUsuario.TipoUsuarioDocumento;
-import validation.ValidacionesUsuario.TipoUsuarioEmail;
 import validation.ValidacionesUsuarioEstudiante;
 import validation.ValidacionesUsuarioTutor;
 import validation.ValidationObject;
 
 
 
-public class ViewPerfilUsuario extends JFrame {
+public class ViewDatosPersonales extends JPanel implements ViewMedida {
 
 	private JPanel contentPane;
 
@@ -72,24 +71,24 @@ public class ViewPerfilUsuario extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ViewPerfilUsuario frame = new ViewPerfilUsuario();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					ViewPerfilUsuario frame = new ViewPerfilUsuario();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public ViewPerfilUsuario(Usuario usu) {
-		addWindowListener(new WindowAdapter() {
+	public ViewDatosPersonales(Usuario usu) {
+		addComponentListener((ComponentListener) new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
 				for (Departamento departamento : Departamento.values()) {
@@ -143,12 +142,12 @@ public class ViewPerfilUsuario extends JFrame {
 		
 			}
 		});
-		setTitle("Mi Perfil");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 706, 543);
+//		setTitle("Datos Personales");
+//		setDefaultCloseOperation(JPanel.EXIT_ON_CLOSE);
+		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+//		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Documento");
@@ -339,9 +338,9 @@ public class ViewPerfilUsuario extends JFrame {
 
 		contentPane.add(btnRegistrarme);
 
-		JLabel lblNewLabel_12 = new JLabel("Registro de usuario");
+		JLabel lblNewLabel_12 = new JLabel("Datos personales");
 		lblNewLabel_12.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_12.setBounds(228, 39, 218, 13);
+		lblNewLabel_12.setBounds(201, 39, 218, 13);
 		contentPane.add(lblNewLabel_12);
 
 		comboDepartamento = new JComboBox<Departamento>();

@@ -29,6 +29,7 @@ import components.VTextBox;
 import swingutils.Mensajes;
 import validation.ValidacionesUsuario;
 import validation.ValidationObject;
+import viewsAnalista.ViewsAnalista;
 import viewsEstudiante.ViewsEstudiante;
 
 public class Login extends JFrame {
@@ -123,10 +124,6 @@ public class Login extends JFrame {
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 
 				// Valido el usuario
 				if (!txtUsuario.isContentValid()) {
@@ -150,7 +147,7 @@ public class Login extends JFrame {
 							return;
 
 						setVisible(false);
-						ViewAnalista viewAnalista = new ViewAnalista();
+						ViewsAnalista viewAnalista = new ViewsAnalista(ana);
 						viewAnalista.setVisible(true);
 
 					} else if (comboRol.getSelectedItem() == Roles.TUTOR) {
@@ -172,7 +169,7 @@ public class Login extends JFrame {
 							return;
 						
 						setVisible(false);
-						ViewsEstudiante ViewEstudiante = new ViewsEstudiante();
+						ViewsEstudiante ViewEstudiante = new ViewsEstudiante(est);
 						ViewEstudiante.setVisible(true);
 					}
 

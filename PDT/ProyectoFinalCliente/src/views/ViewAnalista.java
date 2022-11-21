@@ -251,7 +251,7 @@ public class ViewAnalista extends JFrame {
 					Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila, 0).toString());
 					Usuario usu = BeanIntances.user().findById(Usuario.class, id);
 					if (usu != null) {
-						ViewPerfilUsuario view = new ViewPerfilUsuario(usu);
+						ViewDatosPersonales view = new ViewDatosPersonales(usu);
 						view.setVisible(true);
 						
 					} else {
