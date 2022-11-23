@@ -26,34 +26,19 @@ public class ViewsContancia extends JPanel {
 
 	private JPanel contentPane;
 	private JTable table;
-	private Estudiante estudiante;
+	private static Estudiante estudiante;
 	
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ViewsContancia frame = new ViewsContancia(BeanIntances.user().findById(Estudiante.class, 12l));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */
-	public ViewsContancia(Estudiante e) {
+	public ViewsContancia(Estudiante estudiante) {
 		setBounds(100, 100, 679, 624);
 		setLayout(null);
-		
-		
-		estudiante = BeanIntances.user().findById(Estudiante.class, 1l);
+				
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(20, 101, 623, 192);
@@ -104,9 +89,9 @@ public class ViewsContancia extends JPanel {
 	}
 	
 	
-	public void cargarEventos (JTable table, Estudiante e) {
+	public void cargarEventos (JTable table, Estudiante estudiante) {
 		// Cargamos todos los eventos relacionados con el ID de estudiante
-		List<Evento> eventos = BeanIntances.evento().findByEstudianteId(e.getIdEstudiante());
+		List<Evento> eventos = BeanIntances.evento().findByEstudianteId(estudiante.getIdEstudiante());
 		String columns[] = { "id", "Titulo", "FechaInicio", "FechaFin", "Modalidad", "Localizacion" };
 		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0) {
 			@Override

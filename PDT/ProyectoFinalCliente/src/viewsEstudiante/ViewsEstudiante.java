@@ -21,44 +21,22 @@ import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 
 public class ViewsEstudiante extends JFrame {
-	
-	private Estudiante estudiante;
+
 	private JPanel contentPane;
 	private JPanel panelActual;
-	private final ViewsDatosPersonales panelPersonal = new ViewsDatosPersonales();
-	private final ViewsContancia panelConstancia = new ViewsContancia(estudiante);
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					System.out.println(BeanIntances.user().findById(Estudiante.class, 12l));
-					ViewsEstudiante frame = new ViewsEstudiante(BeanIntances.user().findById(Estudiante.class, 12l));
-					frame.setVisible(true);
-					
-				
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
+	private final ViewsDatosPersonales panelPersonal;
+	private final ViewsContancia panelConstancia;
 	
 
 	/**
 	 * Create the frame.
 	 */
 	
-	public ViewsEstudiante(Estudiante e) {
+	public ViewsEstudiante(Estudiante estudiante) {
+			
 		
-		
-		
-		estudiante = e;
-		
+		panelPersonal = new ViewsDatosPersonales(estudiante);
+		panelConstancia = new ViewsContancia(estudiante);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 705, 784);

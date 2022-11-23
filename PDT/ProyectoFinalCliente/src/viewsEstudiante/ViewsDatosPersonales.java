@@ -8,13 +8,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
+import com.entities.Estudiante;
+
 public class ViewsDatosPersonales extends JPanel implements ViewMedida {
 	private JTextField textField;
 
 	/**
 	 * Create the panel.
 	 */
-	public ViewsDatosPersonales() {
+	public ViewsDatosPersonales(Estudiante estudiante) {
 		
 		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
 		setLayout(null);
