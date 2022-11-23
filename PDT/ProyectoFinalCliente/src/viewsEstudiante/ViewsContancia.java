@@ -106,7 +106,7 @@ public class ViewsContancia extends JPanel {
 	
 	public void cargarEventos (JTable table, Estudiante e) {
 		// Cargamos todos los eventos relacionados con el ID de estudiante
-		List<Evento> eventos = BeanIntances.estudiante().findByEstudianteId(e.getIdEstudiante());
+		List<Evento> eventos = BeanIntances.evento().findByEstudianteId(e.getIdEstudiante());
 		String columns[] = { "id", "Titulo", "FechaInicio", "FechaFin", "Modalidad", "Localizacion" };
 		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0) {
 			@Override

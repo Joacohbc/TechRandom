@@ -14,14 +14,14 @@ import com.entities.Evento;
  */
 @Stateless
 @LocalBean
-public class Estudiante implements EstudianteRemote {
+public class EventoBean implements EventoBeanRemote {
 
 	
 
 	@EJB
 	private EventosDao dao;
 
-    public Estudiante() {
+    public EventoBean() {
         // TODO Auto-generated constructor stub
     }
     
