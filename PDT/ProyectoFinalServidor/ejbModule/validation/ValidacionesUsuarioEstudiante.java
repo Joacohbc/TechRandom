@@ -32,6 +32,22 @@ public class ValidacionesUsuarioEstudiante {
 		return ValidationObject.VALID;
 	}
 
+	public static ValidationObject validarEstudianteSinContrasenia(Estudiante estudiante, TipoUsuarioDocumento tipoDocumento) {
+		
+		if(estudiante == null)
+				return new ValidationObject("La entidad no puede ser nula");
+		
+		ValidationObject valid = ValidacionesUsuario.ValidarUsuarioSinContrasenia(estudiante, tipoDocumento);
+		if (!valid.isValid())
+			return valid;
+
+		valid = validarGeneracion(estudiante.getGeneracion().toString());
+		if (!valid.isValid())
+			return valid;
+
+		return ValidationObject.VALID;
+	}
+	
 	public static ValidationObject validarGeneracion(String generacion) {
 		if(!Validaciones.ValidarNoVacio(generacion)) {
 			return new ValidationObject("La generacion es obligatoria");

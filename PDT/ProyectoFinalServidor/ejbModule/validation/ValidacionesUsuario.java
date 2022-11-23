@@ -128,6 +128,84 @@ public class ValidacionesUsuario {
 		return ValidationObject.VALID;
 	}
 
+
+	public static ValidationObject ValidarUsuarioSinContrasenia(Usuario usuario, TipoUsuarioDocumento tipoDocumento) {
+
+		if(usuario == null)
+			return new ValidationObject("La entidad no puede ser nula");
+		
+		ValidationObject error;
+		if (tipoDocumento == TipoUsuarioDocumento.URUGUAYO) {
+			error = validarDocumentoUruguayo(usuario.getDocumento());
+			if (!error.isValid()) {
+				return error;
+			}
+		} else {
+			error = validarDocumentoNoUruguayo(usuario.getDocumento());
+			if (!error.isValid()) {
+				return error;
+			}
+		}
+		
+		error = validarEmailUTEC(usuario.getEmailUtec());
+		if (!error.isValid()) {
+			return error;
+		}
+		
+		error = validarEmail(usuario.getEmailPersonal());
+		if (!error.isValid()) {
+			return error;
+		}
+
+		error = validarNombres(usuario.getNombres());
+		if (!error.isValid()) {
+			return error;
+		}
+
+		error = validarApellido(usuario.getApellidos());
+		if (!error.isValid()) {
+			return error;
+		}
+
+		error = validarGenero(usuario.getGenero());
+		if (!error.isValid()) {
+			return error;
+		}
+
+		error = validarFechaNacimiento(usuario.getFecNacimiento());
+		if (!error.isValid()) {
+			return error;
+		}
+
+		error = validarDepartamento(usuario.getDepartamento());
+		if (!error.isValid()) {
+			return error;
+		}
+
+		error = validarLocalidad(usuario.getLocalidad());
+		if (!error.isValid()) {
+			return error;
+		}
+
+		error = validarTelefono(usuario.getTelefono());
+		if (!error.isValid()) {
+			return error;
+		}
+
+		error = validarEstadoUsuario(usuario.getEstadoUsuario());
+		if (!error.isValid()) {
+			return error;
+		}
+
+		error = validarItr(usuario.getItr());
+		if (!error.isValid()) {
+			return error;
+		}
+
+		return ValidationObject.VALID;
+	}
+
+
 	public static ValidationObject validarDocumentoUruguayo(String documento) {
 		return Validaciones.ValidarCedulaUruguaya(documento) ? ValidationObject.VALID
 				: new ValidationObject("La cedula uruguaya debe contener los puntos, guiones y el digito verificador");

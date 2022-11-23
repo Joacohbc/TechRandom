@@ -35,7 +35,30 @@ public class ValidacionesUsuarioTutor {
 		
 		return ValidationObject.VALID;
 	}
+	
 
+	public static ValidationObject validarTutorSinContrasenia(Tutor tutor, TipoUsuarioDocumento tipoDocumento) {
+		
+		if(tutor == null)
+			return new ValidationObject("La entidad no puede ser nula");
+		
+		ValidationObject valid = ValidacionesUsuario.ValidarUsuarioSinContrasenia(tutor, tipoDocumento);
+		if (!valid.isValid())
+			return valid;
+
+		valid = validarTipo(tutor.getTipo());
+		if (!valid.isValid())
+			return valid;
+
+		valid = validarArea(tutor.getArea());
+		if (!valid.isValid())
+			return valid;
+		
+		return ValidationObject.VALID;
+	}
+	
+	
+	
 	public static ValidationObject validarTipo(TipoTutor tipo) {
 		if (tipo != null) {
 			return ValidationObject.VALID;
@@ -45,8 +68,7 @@ public class ValidacionesUsuarioTutor {
 	}
 
 	public static ValidationObject validarArea(String area) {
-
-		if (Validaciones.ValidarNumerosYLetras(area, false)) {
+		if (Validaciones.ValidarNumerosYLetras(area, true)) {
 			if (area.length() <= 50) {
 				return ValidationObject.VALID;
 			} else {
