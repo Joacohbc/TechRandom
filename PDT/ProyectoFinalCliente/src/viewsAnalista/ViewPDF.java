@@ -8,7 +8,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -21,8 +23,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.entities.Constancia;
 import com.entities.TipoConstancia;
+import com.exceptions.InvalidEntityException;
+import com.exceptions.ServiceException;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -31,27 +38,27 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PRStream;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfObject;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 import beans.BeanIntances;
+import components.InfoButton;
 import swingutils.Mensajes;
+import validation.Formatos;
+import validation.ValidacionesTipoConstancia;
+import validation.ValidationObject;
 
 public class ViewPDF extends JFrame {
 
 	private JPanel contentPane;
-	JFileChooser fc;
 	private JTextArea txtAParrafo1;
 	private JTextArea txtAParrafo2;
 	private JSpinner spinner;
 	private String ubicacionPlantilla = null;
-	private String ubicacionPDF = null;
 	private JTextField txtTitulo;
 	private JTextField txtTipoContancia;
 
@@ -106,8 +113,6 @@ public class ViewPDF extends JFrame {
 		contentPane.add(lblPrrafo_1);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setToolTipText(
-				"En el texto que ingrese puede utilizar las siguientes variables  {nombre_estudiante},{documento}, {carrera},{evento},{semestre},{curso}");
 		scrollPane.setBounds(129, 63, 360, 90);
 		contentPane.add(scrollPane);
 
@@ -130,103 +135,38 @@ public class ViewPDF extends JFrame {
 		JButton btnPrevisualizar = new JButton("Previsualizar Plantilla PDF");
 		btnPrevisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-					int retorno_salida = fc.showSaveDialog(null);
-					if (retorno_salida == JFileChooser.APPROVE_OPTION) {
-						ubicacionPDF = fc.getCurrentDirectory().getAbsolutePath() + "/plantilla.pdf";
 
-						FileOutputStream file2 = new FileOutputStream(ubicacionPDF);
-
-						// creo el documento
-						Document documento = new Document();
-
-						//
-						PdfWriter writer = PdfWriter.getInstance(documento, file2);
-						Paragraph titulo = new Paragraph(txtTitulo.getText());
-						documento.open();
-						titulo.setAlignment(1);
-						documento.add(titulo);
-						documento.add(Chunk.NEWLINE);
-						documento.add(Chunk.NEWLINE);
-						documento.add(Chunk.NEWLINE);
-
-						PdfContentByte canvas = writer.getDirectContentUnder();
-						Image image = Image.getInstance(ubicacionPlantilla);
-						image.scaleAbsoluteHeight(PageSize.A4.getHeight());
-						image.scaleAbsoluteWidth(PageSize.A4.getWidth());
-						image.setAbsolutePosition(0, 0);
-						canvas.addImage(image);
-
-						Paragraph parrafo1 = new Paragraph(txtAParrafo1.getText());
-						parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
-						documento.add(parrafo1);
-
-						for (int i = 0; i < (Integer) spinner.getValue(); i++) {
-							documento.add(Chunk.NEWLINE);
-						}
-
-						Paragraph parrafo2 = new Paragraph(txtAParrafo2.getText());
-						parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
-						documento.add(parrafo2);
-
-						documento.close();
-
-						JOptionPane.showMessageDialog(null, "Plantilla creada correctamente en " + ubicacionPDF);
-
-					} else {
-						JOptionPane.showMessageDialog(null, "Acción cancelada");
-					}
-
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (DocumentException e1) {
-					e1.printStackTrace();
+				if (ubicacionPlantilla == null) {
+					Mensajes.MostrarError("Seleccione una plantilla antes de reaizar la pre-visualizacion");
+					return;
 				}
 
-				/*
-				 * try {
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * documento.add(Chunk.NEWLINE); documento.add(Chunk.NEWLINE);
-				 * documento.add(Chunk.NEWLINE); String textoAreemplazar =
-				 * "Se deja constancia que {nombre} con Cédula de Identidad N° {documento}" +
-				 * " estudiante de la carrera {carrera_est} ,asistió a {evento}  correspondiente al {semestre} semestre."
-				 * + " En la misma se realizó la evaluación final / examen del curso de {curso}"
-				 * + " en el día {fecha} en el horario de 9 a 17 horas.";
-				 * 
-				 * // Procesar el texto y reepmplazar String txtoProcesado = ""; for (int i = 0;
-				 * i < textoAreemplazar.split(" ").length; i++) { String pal =
-				 * textoAreemplazar.split(" ")[i]; if (pal.equalsIgnoreCase("{nombre}")) { pal =
-				 * " Juan Perez"; } if (pal.equalsIgnoreCase("{documento}")) { pal =
-				 * " 348695959"; } if (pal.equalsIgnoreCase("{carrera_est}")) { pal =
-				 * " Licenciatura en Tecnologías de la Información"; } if
-				 * (pal.equalsIgnoreCase("{evento}")) { pal = " Jornada presencial obligatoria";
-				 * } if (pal.equalsIgnoreCase("{semestre}")) { pal = " segundo"; } if
-				 * (pal.equalsIgnoreCase("{curso}")) { pal = " Bases de datos empresariales"; }
-				 * if (pal.equalsIgnoreCase("{fecha}")) { pal = " 18/11/2022"; } txtoProcesado
-				 * += pal + " "; }
-				 * 
-				 * Paragraph texto = new Paragraph(txtoProcesado);
-				 * 
-				 * 
-				 * } catch (FileNotFoundException e1) { // TODO Auto-generated catch block
-				 * e1.printStackTrace(); } catch (IOException e1) { // TODO Auto-generated catch
-				 * block e1.printStackTrace(); } catch (DocumentException e1) { // TODO
-				 * Auto-generated catch block e1.printStackTrace(); }
-				 * 
-				 */
+				if (txtAParrafo1.getText().isBlank()) {
+					Mensajes.MostrarError("Por lo menos el primer parrafo debe tener contenido");
+					return;
+				}
+
+				JFileChooser fc = new JFileChooser();
+				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+				if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+					String ubicacionPDF = Path.of(fc.getSelectedFile().getAbsolutePath(), "constancia-plantilla.pdf").toString();
+
+					try {
+						FileOutputStream pdf = new FileOutputStream(ubicacionPDF);
+						pdf.write(obtenerPlantilla());
+						pdf.close();
+
+						JOptionPane.showMessageDialog(null, "Plantilla creada correctamente en " + ubicacionPDF);
+					} catch (FileNotFoundException e1) {
+						Mensajes.MostrarError("La ruta: " + ubicacionPDF + " no es una ruta valida");
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						Mensajes.MostrarError("Ocurrio un error al guardar la plantilla: " + e1.getMessage());
+						e1.printStackTrace();
+					}
+
+				}
 			}
 		});
 		btnPrevisualizar.setBounds(129, 341, 360, 27);
@@ -243,24 +183,42 @@ public class ViewPDF extends JFrame {
 		spinner.setBounds(129, 268, 60, 22);
 		contentPane.add(spinner);
 
-		fc = new JFileChooser();
-		fc.setLocation(0, 29);
-		getContentPane().add(fc);
-
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				byte[] plantilla = obtenerPlantilla(ubicacionPlantilla);
+				if (ubicacionPlantilla == null) {
+					Mensajes.MostrarError("Seleccione una plantilla antes de reaizar la pre-visualizacion");
+					return;
+				}
+
+				if (txtAParrafo1.getText().isBlank()) {
+					Mensajes.MostrarError("Por lo menos el primer parrafo debe tener contenido");
+					return;
+				}
+
+				byte[] plantilla = obtenerPlantilla();
 				if (plantilla == null) {
 					return;
 				}
 
-				TipoConstancia tp = new TipoConstancia();
-				tp.setTipo(txtTipoContancia.getText());
-				tp.setPlantilla(plantilla);
-				tp.setEstado(true);
-				BeanIntances.tipoConstancia().insert(tp);
+				try {
+					TipoConstancia tp = new TipoConstancia();
+					tp.setTipo(txtTipoContancia.getText());
+					tp.setPlantilla(plantilla);
+					tp.setEstado(true);
+
+					ValidationObject valid = ValidacionesTipoConstancia.validarTipoContancia(tp);
+					if (!valid.isValid()) {
+						Mensajes.MostrarError(valid.getErrorMessage());
+						return;
+					}
+
+					BeanIntances.tipoConstancia().insert(tp);
+				} catch (Exception ex) {
+					Mensajes.MostrarError(ex.getMessage());
+					ex.printStackTrace();
+				}
 
 			}
 		});
@@ -283,142 +241,134 @@ public class ViewPDF extends JFrame {
 				byte[] plantilla = BeanIntances.tipoConstancia().descargarPlantilla(1l);
 
 				try {
+					Constancia cons = BeanIntances.constancia().findById(1l);
+
 					PdfReader reader = new PdfReader(plantilla);
-					
-					String textoAreemplazar = PdfTextExtractor.getTextFromPage(reader, 1);
-					
-					String txtoProcesado = textoAreemplazar.replace("{nombre}", "Pepito Perez");
-					
-					txtoProcesado = txtoProcesado.replace("{documento}", "LTI");
-					
-			        PdfDictionary dict = reader.getPageN(1);
-			        PdfObject object = dict.getDirectObject(PdfName.CONTENTS);
-			        if (object instanceof PRStream) {
-			            PRStream stream = (PRStream)object;
-			            byte[] data = PdfReader.getStreamBytes(stream);
-			            stream.setData(new String(data).replace("Hello World", "HELLO WORLD").getBytes());
-			        }
-			        
-			        String dest = "";
-			        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dest));
-			        stamper.close();
-			        reader.close();
-					
-//					for (int i = 0; i < textoAreemplazar.split(" ").length; i++) {
-//						
-//						textoAreemplazar.replace("{nombre}", "");
-//						String pal = textoAreemplazar.split(" ")[i];
-//						if (pal.equalsIgnoreCase("{nombre}")) {
-//							pal = " Juan Perez";
-//						}
-//
-//						if (pal.equalsIgnoreCase("{documento}")) {
-//							pal = " 348695959";
-//						}
-//
-//						if (pal.equalsIgnoreCase("{carrera_est}")) {
-//							pal = " Licenciatura en Tecnologías de la Información";
-//						}
-//
-//						if (pal.equalsIgnoreCase("{evento}")) {
-//							pal = " Jornada presencial obligatoria";
-//						}
-//
-//						if (pal.equalsIgnoreCase("{semestre}")) {
-//							pal = " segundo";
-//						}
-//
-//						if (pal.equalsIgnoreCase("{curso}")) {
-//							pal = " Bases de datos empresariales";
-//						}
-//
-//						if (pal.equalsIgnoreCase("{fecha}")) {
-//							pal = " 18/11/2022";
-//						}
-//
-//						txtoProcesado += pal + " ";
-//					}
-					
-					
+
+					PdfDictionary dict = reader.getPageN(1);
+					PdfObject object = dict.getDirectObject(PdfName.CONTENTS);
+					if (object instanceof PRStream) {
+						PRStream stream = (PRStream) object;
+						byte[] data = PdfReader.getStreamBytes(stream);
+						stream.setData(new String(data).replace("&nombre&", cons.getEstudiante().getNombres()).getBytes());
+						stream.setData(new String(data).replace("&apellido&", cons.getEstudiante().getApellidos()).getBytes());
+						stream.setData(new String(data).replace("&documento&", cons.getEstudiante().getDocumento()) .getBytes());
+						stream.setData(new String(data).replace("&generacion&", cons.getEstudiante().getGeneracion().toString()).getBytes());
+						stream.setData(new String(data).replace("&evento&", cons.getEvento().getTitulo()).getBytes());
+						stream.setData(new String(data).replace("&fechainicio&", Formatos.ToFormatedString(cons.getEvento().getFechaInicio())).getBytes());
+						stream.setData(new String(data).replace("&fechafin&", Formatos.ToFormatedString(cons.getEvento().getFechaFin())).getBytes());
+						stream.setData(new String(data).replace("&modalidad&", cons.getEvento().getModalidad().toString()).getBytes());
+						stream.setData(new String(data).replace("&lugar&", cons.getEvento().getLocalizacion()).getBytes());
+					}
+
+					String dest = "/home/joaco/Temp/result.pdf";
+					PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dest));
+					stamper.close();
+					reader.close();
+
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (DocumentException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-
-
-
 			}
 		});
 		btnProbar.setBounds(12, 380, 105, 27);
 		contentPane.add(btnProbar);
-		fc.setVisible(true);
+
+		InfoButton nfbtnespaciadoEsLa = new InfoButton();
+		nfbtnespaciadoEsLa.setText(
+				"\"Espaciado\" es la cantidad de lineas de separacion entre la imagen del modelo y los parrafos");
+		nfbtnespaciadoEsLa.setBounds(194, 269, 16, 16);
+		contentPane.add(nfbtnespaciadoEsLa);
+
+		InfoButton infoParrafo1 = new InfoButton();
+		infoParrafo1.setText(
+				"Para parametrizar la plantilla puede utilizar las siguientes expresiones\n" + "Datos del Estudiante:\n"
+						+ "- Nombre/s del Estudiante: &nombre&\n" + "- Apellidos del Estudiante: &apellido&\n"
+						+ "- Documento del estudiante: &cedula&\n" + "- Generacion del Estudiante: &generacion&\n"
+						+ "\n" + "Datos del Evento:\n" + "- Nombre del Evento: &evento&\n"
+						+ "- Fecha de Inicio del Evento: &fechainicio&\n" + "- Fecha de Fin del Evento: &fechafin&\n"
+						+ "- Modalidad del Evento: &modalidad&\n" + "- Localizacion del Evento: &lugar&\n");
+		infoParrafo1.setBounds(501, 64, 16, 16);
+		contentPane.add(infoParrafo1);
+
+		InfoButton infoParrafo2 = new InfoButton();
+		infoParrafo2.setText(
+				"Para parametrizar la plantilla puede utilizar las siguientes expresiones\n" + "Datos del Estudiante:\n"
+						+ "- Nombre/s del Estudiante: &nombre&\n" + "- Apellidos del Estudiante: &apellido&\n"
+						+ "- Documento del estudiante: &cedula&\n" + "- Generacion del Estudiante: &generacion&\n"
+						+ "\n" + "Datos del Evento:\n" + "- Nombre del Evento: &evento&\n"
+						+ "- Fecha de Inicio del Evento: &fechainicio&\n" + "- Fecha de Fin del Evento: &fechafin&\n"
+						+ "- Modalidad del Evento: &modalidad&\n" + "- Localizacion del Evento: &lugar&\n");
+		infoParrafo2.setBounds(501, 165, 16, 16);
+		contentPane.add(infoParrafo2);
 
 		btnCargarPlantilla.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				JFileChooser fc = new JFileChooser();
 				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				int retorno_plantilla = fc.showOpenDialog(null);
+				fc.setFileFilter(new FileNameExtensionFilter("Image Files", ImageIO.getReaderFileSuffixes()));
 
-				if (retorno_plantilla == JFileChooser.APPROVE_OPTION) {
-					File plantilla = fc.getSelectedFile();
-					ubicacionPlantilla = plantilla.getAbsolutePath();
-				} else {
-					JOptionPane.showMessageDialog(null, "Acción cancelada");
+				if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					ubicacionPlantilla = fc.getSelectedFile().getAbsolutePath();
 				}
 			}
 		});
 
 	}
 
-	private byte[] obtenerPlantilla(String ubicacionPlantilla) {
+	private byte[] obtenerPlantilla() {
 		try {
-
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-			// creo el documento
+			// Creo el documento
 			Document documento = new Document();
 
+			// Incio el Writter (Que se encarga de crear el PDF)
 			PdfWriter writer = PdfWriter.getInstance(documento, baos);
-
-			Paragraph titulo = new Paragraph(txtTitulo.getText());
 
 			documento.open();
 
+			// Agrego el Titulo
+			Paragraph titulo = new Paragraph(txtTitulo.getText());
 			titulo.setAlignment(1);
 			documento.add(titulo);
+
+			// Agrego el espaciado entr el Titulo y el contenido
 			documento.add(Chunk.NEWLINE);
 			documento.add(Chunk.NEWLINE);
 			documento.add(Chunk.NEWLINE);
 
-			PdfContentByte canvas = writer.getDirectContentUnder();
+			// Creo la imagen en base a la plantilla
 			Image image = Image.getInstance(ubicacionPlantilla);
 			image.scaleAbsoluteHeight(PageSize.A4.getHeight());
 			image.scaleAbsoluteWidth(PageSize.A4.getWidth());
 			image.setAbsolutePosition(0, 0);
-			canvas.addImage(image);
 
+			// Agrego la Imagen al documento
+			writer.getDirectContentUnder().addImage(image);
+
+			// Genero el primer parrafo
 			Paragraph parrafo1 = new Paragraph(txtAParrafo1.getText());
 			parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
 			documento.add(parrafo1);
 
+			// Agrego la el espaciado entre el primer parrafo y el segundo
 			for (int i = 0; i < (Integer) spinner.getValue(); i++) {
 				documento.add(Chunk.NEWLINE);
 			}
 
+			// Genero el segundo parrafo
 			Paragraph parrafo2 = new Paragraph(txtAParrafo2.getText());
 			parrafo1.setAlignment(Element.ALIGN_JUSTIFIED);
 			documento.add(parrafo2);
 
+			// Genero el archivo
 			documento.close();
 
 			return baos.toByteArray();
 
-		} catch (FileNotFoundException e1) {
-			Mensajes.MostrarError(e1.getMessage());
-			e1.printStackTrace();
 		} catch (IOException e1) {
 			Mensajes.MostrarError(e1.getMessage());
 			e1.printStackTrace();
