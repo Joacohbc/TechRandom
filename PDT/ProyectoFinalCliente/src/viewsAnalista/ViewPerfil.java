@@ -114,7 +114,6 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 
 		textDocumento = new VTextBox();
 		textDocumento.setBounds(138, 118, 110, 16);
-		textDocumento.setValidationFunc(text -> ValidacionesUsuario.validarDocumentoUruguayo(text));
 		add(textDocumento);
 
 		textUsuario = new VTextBox();
