@@ -12,7 +12,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
@@ -22,6 +21,7 @@ import com.entities.Itr;
 import com.entities.Tutor;
 import com.entities.Usuario;
 import com.entities.enums.Departamento;
+import com.entities.enums.EstadoSolicitudes;
 import com.entities.enums.EstadoUsuario;
 import com.entities.enums.Genero;
 import com.entities.enums.TipoTutor;
@@ -33,16 +33,17 @@ import components.VTextBox;
 import swingutils.Mensajes;
 import validation.Formatos;
 import validation.ValidacionesUsuario;
+import validation.ValidacionesUsuario.TipoUsuarioDocumento;
 import validation.ValidacionesUsuarioEstudiante;
 import validation.ValidacionesUsuarioTutor;
 import validation.ValidationObject;
 import views.ViewMedida;
-import validation.ValidacionesUsuario.TipoUsuarioDocumento;
 
 public class ViewPerfil extends JPanel implements ViewMedida{
 
+	private static final long serialVersionUID = 1L;
+	
 	private JDateChooser dtFechaDeNacimiento;
-	private JPasswordField textpassword;
 	private VTextBox textGeneracion;
 	private VTextBox textArea;
 	private VTextBox textLocalidad;
@@ -57,14 +58,15 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 	private VTextBox textNombres;
 	private VTextBox textApellidos;
 	private VTextBox textTel;
-	private VTextBox textMail;
-	/**
+	private VTextBox textMailUtec;
+	private VTextBox textMailPersonal;
+	
+	/*
 	 * Create the panel.
 	 */
 	public ViewPerfil(Usuario usu) {
 		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
-		
-		
+			
 		setLayout(null);
 		JLabel lblNewLabel = new JLabel("Documento");
 		lblNewLabel.setBounds(10, 118, 136, 13);
@@ -74,20 +76,16 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		lblNewLabel_1.setBounds(12, 163, 136, 13);
 		add(lblNewLabel_1);
 
-		JLabel lblNewLabel_2 = new JLabel("Contraseña");
-		lblNewLabel_2.setBounds(12, 186, 136, 13);
-		add(lblNewLabel_2);
-
 		JLabel lblNewLabel_3 = new JLabel("Nombres");
-		lblNewLabel_3.setBounds(12, 209, 136, 13);
+		lblNewLabel_3.setBounds(10, 188, 136, 13);
 		add(lblNewLabel_3);
 
 		JLabel lblNewLabel_4 = new JLabel("Apellidos");
-		lblNewLabel_4.setBounds(12, 232, 136, 13);
+		lblNewLabel_4.setBounds(10, 211, 136, 13);
 		add(lblNewLabel_4);
 
 		JLabel lblNewLabel_5 = new JLabel("Fec. de Nacimiento");
-		lblNewLabel_5.setBounds(12, 256, 136, 13);
+		lblNewLabel_5.setBounds(10, 235, 136, 13);
 		add(lblNewLabel_5);
 
 		JLabel lblNewLabel_6 = new JLabel("Telefono");
@@ -118,40 +116,33 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		textDocumento.setBounds(138, 118, 110, 16);
 		textDocumento.setValidationFunc(text -> ValidacionesUsuario.validarDocumentoUruguayo(text));
 		add(textDocumento);
-		textDocumento.setText(usu.getDocumento());
 
 		textUsuario = new VTextBox();
 		textUsuario.setBounds(140, 163, 110, 16);
 		textUsuario.setValidationFunc(text -> ValidacionesUsuario.validarNombreUsuario(text));
 		add(textUsuario);
-		textUsuario.setText(usu.getNombreUsuario());
-		textUsuario.setEnabled(false);
 
 		textNombres = new VTextBox();
-		textNombres.setBounds(140, 209, 110, 16);
+		textNombres.setBounds(138, 188, 110, 16);
 		textNombres.setValidationFunc(text -> ValidacionesUsuario.validarNombres(text));
 		add(textNombres);
-		textNombres.setText(usu.getNombres());
 
 		textApellidos = new VTextBox();
-		textApellidos.setBounds(140, 232, 110, 16);
+		textApellidos.setBounds(138, 211, 110, 16);
 		textApellidos.setValidationFunc(text -> ValidacionesUsuario.validarApellido(text));
 		add(textApellidos);
-		textApellidos.setText(usu.getApellidos());
 
 		textTel = new VTextBox();
 		textTel.setBounds(439, 97, 110, 16);
 		textTel.setBounds(439, 115, 110, 16);
 		textTel.setValidationFunc(text -> ValidacionesUsuario.validarTelefono(text));
 		add(textTel);
-		textTel.setText(usu.getTelefono());
 
-		textMail = new VTextBox();
-		textMail.setBounds(440, 140, 110, 16);
-		textMail.setBounds(439, 137, 110, 16);
-		textMail.setValidationFunc(text -> ValidacionesUsuario.validarEmailUTEC(text));
-		add(textMail);
-		textMail.setText(usu.getEmailUtec());
+		textMailUtec = new VTextBox();
+		textMailUtec.setBounds(440, 140, 110, 16);
+		textMailUtec.setBounds(439, 137, 110, 16);
+		textMailUtec.setValidationFunc(text -> ValidacionesUsuario.validarEmailUTEC(text));
+		add(textMailUtec);
 		
 		JButton btnRegistrarme = new JButton("Modificar");
 		btnRegistrarme.addActionListener(new ActionListener() {
@@ -161,16 +152,21 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 					TipoUsuarioDocumento documento = chckbxUruguayo.isSelected() ? TipoUsuarioDocumento.URUGUAYO
 							: TipoUsuarioDocumento.NO_URUGAUYO;
 
+
 					
 					Roles rol = ((Roles) comboRol.getSelectedItem());					
 					LocalDate fecha = Formatos.ToLocalDate(dtFechaDeNacimiento.getDate());
+					
+
 					if (rol == Roles.ESTUDIANTE) {
 						Estudiante estudiante = new Estudiante();
+						estudiante.setIdUsuario(usu.getIdUsuario());
 						estudiante.setNombres(textNombres.getText());
 						estudiante.setApellidos(textApellidos.getText());
 						estudiante.setNombreUsuario(textUsuario.getText());
-						estudiante.setContrasena(String.valueOf(textpassword.getPassword()));
-						estudiante.setEmailPersonal(textMail.getText());
+						estudiante.setContrasena(usu.getContrasena());
+						estudiante.setEmailUtec(textMailUtec.getText());
+						estudiante.setEmailPersonal(textMailUtec.getText());
 						estudiante.setDocumento(textDocumento.getText());
 						estudiante.setTelefono(textTel.getText());
 						estudiante.setFecNacimiento(fecha);
@@ -182,7 +178,7 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 						estudiante.setEstado(true);
 						estudiante.setGeneracion(Integer.parseInt(textGeneracion.getText()));
 
-						ValidationObject error = ValidacionesUsuarioEstudiante.validarEstudiante(estudiante, documento);
+						ValidationObject error = ValidacionesUsuarioEstudiante.validarEstudianteSinContrasenia(estudiante, documento);
 						if (!error.isValid()) {
 							Mensajes.MostrarError(error.getErrorMessage());
 							return;
@@ -194,11 +190,13 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 
 					if (rol == Roles.TUTOR) {
 						Tutor tutor = new Tutor();
+						tutor.setIdUsuario(usu.getIdUsuario());
 						tutor.setNombres(textNombres.getText());
 						tutor.setApellidos(textApellidos.getText());
 						tutor.setNombreUsuario(textUsuario.getText());
-						tutor.setContrasena(String.valueOf(textpassword.getPassword()));
-						tutor.setEmailPersonal(textMail.getText());
+						tutor.setContrasena(usu.getContrasena());
+						tutor.setEmailUtec(textMailUtec.getText());
+						tutor.setEmailPersonal(textMailUtec.getText());
 						tutor.setDocumento(textDocumento.getText());
 						tutor.setTelefono(textTel.getText());
 						tutor.setFecNacimiento(fecha);
@@ -211,7 +209,7 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 						tutor.setArea(textArea.getText());
 						tutor.setTipo((TipoTutor) cmbTipoTutor.getSelectedItem());
 
-						ValidationObject error = ValidacionesUsuarioTutor.validarTutor(tutor, documento);
+						ValidationObject error = ValidacionesUsuarioTutor.validarTutorSinContrasenia(tutor, documento);
 						if (!error.isValid()) {
 							Mensajes.MostrarError(error.getErrorMessage());
 							return;
@@ -222,11 +220,13 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 					}
 
 					Analista analista = new Analista();
+					analista.setIdUsuario(usu.getIdUsuario());
 					analista.setNombres(textNombres.getText());
 					analista.setApellidos(textApellidos.getText());
 					analista.setNombreUsuario(textUsuario.getText());
-					analista.setContrasena(String.valueOf(textpassword.getPassword()));
-					analista.setEmailPersonal(textMail.getText());
+					analista.setContrasena(usu.getContrasena());
+					analista.setEmailUtec(textMailUtec.getText());
+					analista.setEmailPersonal(textMailUtec.getText());
 					analista.setDocumento(textDocumento.getText());
 					analista.setTelefono(textTel.getText());
 					analista.setFecNacimiento(fecha);
@@ -237,7 +237,7 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 					analista.setItr((Itr) comboItr.getSelectedItem());
 					analista.setEstado(true);
 
-					ValidationObject error = ValidacionesUsuario.ValidarUsuario(analista, documento);
+					ValidationObject error = ValidacionesUsuario.ValidarUsuarioSinContrasenia(analista, documento);
 					if (!error.isValid()) {
 						Mensajes.MostrarError(error.getErrorMessage());
 						return;
@@ -266,27 +266,15 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		comboDepartamento.setBounds(439, 209, 110, 17);	
 		add(comboDepartamento);
 		
-		
-		
 		comboGenero = new JComboBox<Genero>();
 		comboGenero.setBounds(439, 232, 110, 17);
-		comboGenero.setSelectedItem(usu.getGenero());	
-		comboGenero.setSelectedItem(usu.getGenero());
 		add(comboGenero);
 		
 
 		dtFechaDeNacimiento = new JDateChooser();
-		dtFechaDeNacimiento.setBounds(140, 250, 110, 19);
+		dtFechaDeNacimiento.setBounds(138, 229, 110, 19);
 		add(dtFechaDeNacimiento);
-		Date date = Date.from(usu.getFecNacimiento().atStartOfDay(ZoneId.systemDefault()).toInstant());
-		dtFechaDeNacimiento.setDate(date);
 		
-		textpassword = new JPasswordField();
-		textpassword.setBounds(140, 186, 110, 16);
-		add(textpassword);
-		textpassword.setText(usu.getContrasena());
-		textpassword.setEnabled(false);
-
 		JLabel lblNewLabel_13 = new JLabel("Rol");
 		lblNewLabel_13.setBounds(10, 304, 45, 13);
 		add(lblNewLabel_13);
@@ -300,10 +288,6 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		textGeneracion.setEnabled(false);
 		textGeneracion.setValidationFunc(text -> ValidacionesUsuarioEstudiante.validarGeneracion(text));
 		add(textGeneracion);
-		if(usu instanceof Estudiante) {
-			Estudiante est = BeanIntances.user().findById(Estudiante.class, usu.getIdUsuario());
-			textGeneracion.setText(est.getGeneracion().toString());
-		}
 
 		JLabel lblNewLabel_6_2 = new JLabel("Area");
 		lblNewLabel_6_2.setBounds(346, 331, 94, 13);
@@ -323,19 +307,10 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		textArea.setBounds(438, 327, 111, 16);
 		textArea.setValidationFunc(text -> ValidacionesUsuarioTutor.validarArea(text));
 		add(textArea);
-		if(usu instanceof Tutor) {
-			Tutor tut = BeanIntances.user().findById(Tutor.class, usu.getIdUsuario());
-			textArea.setText(tut.getArea());
-		}
-
 
 		comboRol = new JComboBox<Roles>();
 		comboRol.setBounds(136, 300, 116, 21);
 		add(comboRol);
-		if (usu instanceof Analista) {
-			comboRol.setSelectedItem(Roles.ANALISTA);
-		}
-		comboRol.setEnabled(false);
 
 		chckbxUruguayo = new JCheckBox("Uruguayo");
 		chckbxUruguayo.addActionListener(new ActionListener() {
@@ -355,14 +330,11 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		comboItr = new JComboBox<Itr>();
 		comboItr.setBounds(438, 256, 111, 17);
 		add(comboItr);
-		comboItr.setSelectedItem(usu.getItr());
-		comboItr.setEnabled(false);
 
 		textLocalidad = new VTextBox();
 		textLocalidad.setBounds(439, 186, 110, 16);
 		textLocalidad.setValidationFunc(text -> ValidacionesUsuario.validarLocalidad(text));
 		add(textLocalidad);
-		textLocalidad.setText(usu.getLocalidad());
 
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 290, 546, 2);
@@ -372,41 +344,95 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		lblNewLabel_7_1.setBounds(347, 163, 85, 13);
 		add(lblNewLabel_7_1);
 		
-		VTextBox textMail_1 = new VTextBox();
-		textMail_1.setText((String) null);
-		textMail_1.setBounds(439, 159, 110, 16);
-		add(textMail_1);
-		textMail_1.setText(usu.getEmailPersonal());
+		textMailPersonal = new VTextBox();
+		textMailPersonal.setText((String) null);
+		textMailPersonal.setBounds(439, 159, 110, 16);
+		add(textMailPersonal);
 		
 		//Llamo procedimiento que carga los combos de los paneles
-		CargarCombos(usu);
-		
+		cargar(usu);
 	}
 
-	private void CargarCombos(Usuario usu) {
+	private void cargar(Usuario usu) {
+		textDocumento.setText(usu.getDocumento());
+
+		textUsuario.setText(usu.getNombreUsuario());
+		textUsuario.setEditable(false);
+
+		if(ValidacionesUsuario.validarDocumentoUruguayo(usu.getDocumento()).getErrorMessage() == "") {
+			chckbxUruguayo.setSelected(true);
+		}else {
+			chckbxUruguayo.setSelected(false);
+		}
+		
+		textNombres.setText(usu.getNombres());
+		textApellidos.setText(usu.getApellidos());
+		textMailPersonal.setText(usu.getEmailPersonal());
+		textMailUtec.setText(usu.getEmailUtec());
+		textTel.setText(usu.getTelefono());
+		textLocalidad.setText(usu.getLocalidad());
+
+		Date date = Date.from(usu.getFecNacimiento().atStartOfDay(ZoneId.systemDefault()).toInstant());
+		dtFechaDeNacimiento.setDate(date);
+		
 		for (Departamento departamento : Departamento.values()) {
 			comboDepartamento.addItem(departamento);
 		}
+		comboDepartamento.setSelectedItem(usu.getDepartamento());
 		
-
 		for (Genero genero : Genero.values()) {
 			comboGenero.addItem(genero);
 		}
-
-		for (Roles rol : Roles.values()) {
-			comboRol.addItem(rol);
-		}
-		comboRol.setEditable(false);
-
-		if (usu instanceof Tutor) {
-			for (TipoTutor tipo : TipoTutor.values()) {
-				cmbTipoTutor.addItem(tipo);
-			}
-		}
-
+		comboGenero.setSelectedItem(usu.getGenero());
+			
 		List<Itr> itrs = BeanIntances.itr().findAll();
 		for (Itr itr : itrs) {
 			comboItr.addItem(itr);
 		}
+		comboItr.setSelectedItem(usu.getItr());
+	
+		if(usu instanceof Estudiante) {
+			comboRol.addItem(Roles.ESTUDIANTE);
+			
+			Estudiante estudiante = (Estudiante) usu;
+			textGeneracion.setText(estudiante.getGeneracion().toString());
+			textGeneracion.setEnabled(true);
+			
+			// Deshabilito cosas de Tutor
+			textArea.setEnabled(false);
+			cmbTipoTutor.setEnabled(false);
+			return;
+		}
+		
+		if(usu instanceof Analista) {
+			comboRol.addItem(Roles.ANALISTA);
+			
+			// Deshabilito cosas de Estudiante y Tutor
+			textArea.setEnabled(false);
+			cmbTipoTutor.setEnabled(false);
+			textGeneracion.setEnabled(false);
+			return;
+		}
+		
+		if(usu instanceof Tutor) {
+			comboRol.addItem(Roles.TUTOR);
+
+			Tutor tutor = (Tutor) usu;
+			for (TipoTutor tipo : TipoTutor.values()) {
+				cmbTipoTutor.addItem(tipo);
+			}
+			
+			cmbTipoTutor.setSelectedItem(tutor.getTipo());
+			cmbTipoTutor.setEnabled(true);
+
+			textArea.setText(tutor.getArea());
+			textArea.setEnabled(true);
+			
+			// Deshabilito cosas de Estudiante
+			textGeneracion.setEnabled(false);
+			return;
+		}
+		
+
 	}
 }
