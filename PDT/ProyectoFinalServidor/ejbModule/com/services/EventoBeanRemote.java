@@ -10,4 +10,6 @@ import com.entities.Evento;
 public interface EventoBeanRemote {
 
 	List<Evento> findByEstudianteId(Long id);
+	
+	 Evento findById(Long id);
 }

@@ -1,6 +1,7 @@
 package viewsEstudiante;
 
 import java.awt.EventQueue;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -12,21 +13,25 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.daos.EventosDao;
+import com.entities.Constancia;
 import com.entities.Estudiante;
 import com.entities.Evento;
 import com.entities.Itr;
+import com.entities.TipoConstancia;
 
 import beans.BeanIntances;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
 
 public class ViewsContancia extends JPanel {
 
 	private JPanel contentPane;
 	private JTable table;
 	private static Estudiante estudiante;
+	private JComboBox <TipoConstancia> cmbTipoConstancia;
 	
 
 	/**
@@ -55,13 +60,19 @@ public class ViewsContancia extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+					
+				int row = table.getSelectedRow();
+				Long idEvento = (Long) table.getModel().getValueAt(row, 0);				
+				Constancia cons = new Constancia();
 				
+				cons.setEvento(BeanIntances.evento().findById(idEvento));
+				cons.setEstudiante(estudiante);
+				cons.setDetalle("Solicitud por el estudiante: " + estudiante.getDocumento());
+				cons.setTipoConstancia((TipoConstancia) cmbTipoConstancia.getSelectedItem());
 				
-				
-				
-				
-				
-				
+				BeanIntances.constancia().solicitar(cons);
+					
+			
 				
 			}
 		});
@@ -77,7 +88,22 @@ public class ViewsContancia extends JPanel {
 		
 		
 		
+		cmbTipoConstancia = new JComboBox();
+		cmbTipoConstancia.setToolTipText("");
+		cmbTipoConstancia.setBounds(340, 321, 145, 22);
+		add(cmbTipoConstancia);
 		
+		JLabel lblNewLabel_1 = new JLabel("Tipo de Constancia");
+		lblNewLabel_1.setBounds(229, 316, 99, 32);
+		add(lblNewLabel_1);
+		
+		List <TipoConstancia> tconstacia = BeanIntances.tipoConstancia().findAll();
+		
+		for (TipoConstancia tipoConstancia : tconstacia) {
+			
+			cmbTipoConstancia.addItem(tipoConstancia);
+			
+		}
 		
 		
 		
@@ -113,8 +139,4 @@ public class ViewsContancia extends JPanel {
 		}
 		table.setModel(modeloJTable);
 	}
-
-		
-
-	
 }

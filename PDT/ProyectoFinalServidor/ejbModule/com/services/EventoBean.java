@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 
 import com.daos.EventosDao;
 import com.entities.Evento;
+import com.exceptions.DAOException;
 
 /**
  * Session Bean implementation class Estudiante
@@ -22,7 +23,7 @@ public class EventoBean implements EventoBeanRemote {
 	private EventosDao dao;
 
     public EventoBean() {
-        // TODO Auto-generated constructor stub
+
     }
     
     public List<Evento> findByEstudianteId(Long id) {
@@ -31,6 +32,13 @@ public class EventoBean implements EventoBeanRemote {
     	
     }
 
+	@Override
+	public Evento findById(Long id) {		
+		return dao.findById(id);
+	}
+
+    
+  
         
 }
 
