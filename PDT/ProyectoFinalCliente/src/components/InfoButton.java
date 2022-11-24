@@ -1,5 +1,7 @@
 package components;
 
+import java.awt.Font;
+import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -7,6 +9,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class InfoButton extends JButton {
 
@@ -27,8 +31,18 @@ public class InfoButton extends JButton {
 		});
 	}
 
-	private void showMessage() {
-		JOptionPane.showMessageDialog(null, getToolTipText(), "Información", JOptionPane.INFORMATION_MESSAGE, messageIcon);
+	private void showMessage() {	
+		JScrollPane panel = new JScrollPane();
+		panel.setBorder(null);
+		
+		JTextArea texto = new JTextArea(getToolTipText());
+		texto.setEditable(false);
+		texto.setBackground(panel.getBackground());
+		texto.setBorder(null);
+
+		panel.setViewportView(texto);
+		
+		JOptionPane.showMessageDialog(null, panel, "Información", JOptionPane.INFORMATION_MESSAGE, messageIcon);
 	}
 	
 	@Override
