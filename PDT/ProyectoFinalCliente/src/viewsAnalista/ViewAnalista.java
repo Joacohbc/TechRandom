@@ -1,6 +1,8 @@
-package viewsEstudiante;
+package viewsAnalista;
 
-import java.awt.EventQueue;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -11,32 +13,26 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.entities.Estudiante;
+import com.entities.Analista;
 
-import beans.BeanIntances;
+import viewsEstudiante.ViewEstudiante;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JScrollPane;
-import java.awt.BorderLayout;
 
-public class ViewsEstudiante extends JFrame {
+public class ViewAnalista extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel panelActual;
-	private final ViewsDatosPersonales panelPersonal;
-	private final ViewsContancia panelConstancia;
+	private final ViewPerfil panelPersonal;
+	
 	
 
 	/**
 	 * Create the frame.
 	 */
-	
-	public ViewsEstudiante(Estudiante estudiante) {
-			
+
+	public ViewAnalista(Analista ana) {
+		panelPersonal = new ViewPerfil(ana);
 		
-		panelPersonal = new ViewsDatosPersonales(estudiante);
-		panelConstancia = new ViewsContancia(estudiante);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 705, 784);
@@ -67,7 +63,7 @@ public class ViewsEstudiante extends JFrame {
 		
 		
 		JMenuItem SolicitudConstanciaMenuItem = new JMenuItem("Solicitud Constancia");
-		SolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
+		/*SolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelActual.removeAll();
 				panelActual.repaint();
@@ -77,7 +73,7 @@ public class ViewsEstudiante extends JFrame {
 				panelActual.revalidate();
 				
 			}
-		});
+		});*/
 		mnNewMenu.add(SolicitudConstanciaMenuItem);
 		
 		
@@ -92,7 +88,7 @@ public class ViewsEstudiante extends JFrame {
 		
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(ViewsEstudiante.class.getResource("/images/logo utec (2).png")));
+		lblNewLabel.setIcon(new ImageIcon(ViewEstudiante.class.getResource("/images/logo utec (2).png")));
 		lblNewLabel.setBounds(576, 581, 180, 161);
 		contentPane.add(lblNewLabel);
 		
@@ -103,5 +99,7 @@ public class ViewsEstudiante extends JFrame {
 		panelActual.setBounds(0, 0, 679, 624);
 		contentPane.add(panelActual);
 		panelActual.setLayout(new BorderLayout(0, 0));
+		
+		
 	}
 }

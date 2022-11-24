@@ -29,8 +29,8 @@ import components.VTextBox;
 import swingutils.Mensajes;
 import validation.ValidacionesUsuario;
 import validation.ValidationObject;
-import viewsAnalista.ViewsAnalista;
-import viewsEstudiante.ViewsEstudiante;
+import viewsAnalista.ViewAnalista;
+import viewsEstudiante.ViewEstudiante;
 
 public class Login extends JFrame {
 
@@ -147,7 +147,7 @@ public class Login extends JFrame {
 							return;
 
 						setVisible(false);
-						ViewsAnalista viewAnalista = new ViewsAnalista(ana);
+						ViewAnalista viewAnalista = new ViewAnalista(ana);
 						viewAnalista.setVisible(true);
 
 					} else if (comboRol.getSelectedItem() == Roles.TUTOR) {
@@ -169,7 +169,7 @@ public class Login extends JFrame {
 							return;
 						
 						setVisible(false);
-						ViewsEstudiante ViewEstudiante = new ViewsEstudiante(est);
+						ViewEstudiante ViewEstudiante = new ViewEstudiante(est);
 						ViewEstudiante.setVisible(true);
 					}
 

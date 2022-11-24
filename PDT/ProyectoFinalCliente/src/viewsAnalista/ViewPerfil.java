@@ -152,12 +152,9 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 					TipoUsuarioDocumento documento = chckbxUruguayo.isSelected() ? TipoUsuarioDocumento.URUGUAYO
 							: TipoUsuarioDocumento.NO_URUGAUYO;
 
-
-					
 					Roles rol = ((Roles) comboRol.getSelectedItem());					
 					LocalDate fecha = Formatos.ToLocalDate(dtFechaDeNacimiento.getDate());
 					
-
 					if (rol == Roles.ESTUDIANTE) {
 						Estudiante estudiante = new Estudiante();
 						estudiante.setIdUsuario(usu.getIdUsuario());
@@ -369,6 +366,8 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		textApellidos.setText(usu.getApellidos());
 		textMailPersonal.setText(usu.getEmailPersonal());
 		textMailUtec.setText(usu.getEmailUtec());
+		textMailUtec.setEditable(false);
+		
 		textTel.setText(usu.getTelefono());
 		textLocalidad.setText(usu.getLocalidad());
 

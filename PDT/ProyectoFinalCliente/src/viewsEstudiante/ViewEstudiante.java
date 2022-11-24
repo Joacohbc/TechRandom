@@ -1,8 +1,6 @@
-package viewsAnalista;
+package viewsEstudiante;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.EventQueue;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -13,28 +11,33 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.entities.Analista;
+import com.entities.Estudiante;
 
-import viewsEstudiante.ViewsContancia;
-import viewsEstudiante.ViewsDatosPersonales;
-import viewsEstudiante.ViewsEstudiante;
+import beans.BeanIntances;
+import viewsAnalista.ViewPerfil;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import java.awt.BorderLayout;
 
-public class ViewsAnalista extends JFrame {
+public class ViewEstudiante extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel panelActual;
 	private final ViewPerfil panelPersonal;
-	
+	private final ViewContancia panelConstancia;
 	
 
 	/**
 	 * Create the frame.
 	 */
-
-	public ViewsAnalista(Analista ana) {
-		panelPersonal = new ViewPerfil(ana);
+	
+	public ViewEstudiante(Estudiante estudiante) {
+			
 		
+		panelPersonal = new ViewPerfil(estudiante);
+		panelConstancia = new ViewContancia(estudiante);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 705, 784);
@@ -65,7 +68,7 @@ public class ViewsAnalista extends JFrame {
 		
 		
 		JMenuItem SolicitudConstanciaMenuItem = new JMenuItem("Solicitud Constancia");
-		/*SolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
+		SolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelActual.removeAll();
 				panelActual.repaint();
@@ -75,7 +78,7 @@ public class ViewsAnalista extends JFrame {
 				panelActual.revalidate();
 				
 			}
-		});*/
+		});
 		mnNewMenu.add(SolicitudConstanciaMenuItem);
 		
 		
@@ -90,7 +93,7 @@ public class ViewsAnalista extends JFrame {
 		
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(ViewsEstudiante.class.getResource("/images/logo utec (2).png")));
+		lblNewLabel.setIcon(new ImageIcon(ViewEstudiante.class.getResource("/images/logo utec (2).png")));
 		lblNewLabel.setBounds(576, 581, 180, 161);
 		contentPane.add(lblNewLabel);
 		
@@ -101,7 +104,5 @@ public class ViewsAnalista extends JFrame {
 		panelActual.setBounds(0, 0, 679, 624);
 		contentPane.add(panelActual);
 		panelActual.setLayout(new BorderLayout(0, 0));
-		
-		
 	}
 }

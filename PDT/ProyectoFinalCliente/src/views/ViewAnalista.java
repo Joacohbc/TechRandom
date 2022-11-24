@@ -115,7 +115,7 @@ public class ViewAnalista extends JFrame {
 		panel.add(btnActivar);
 
 		spGeneracion = new JSpinner();
-		spGeneracion.setModel(new SpinnerNumberModel(Integer.valueOf(1000), Integer.valueOf(1000), Integer.valueOf(9999), Integer.valueOf(1)));
+		spGeneracion.setModel(new SpinnerNumberModel(Integer.valueOf(2015), Integer.valueOf(1000), Integer.valueOf(9999), Integer.valueOf(1)));
 		spGeneracion.setBounds(97, 125, 168, 22);
 		spGeneracion.addChangeListener(new ChangeListener() {	
 			@Override

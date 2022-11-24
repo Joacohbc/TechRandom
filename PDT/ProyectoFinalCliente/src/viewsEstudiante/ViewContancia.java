@@ -26,7 +26,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 
-public class ViewsContancia extends JPanel {
+public class ViewContancia extends JPanel {
 
 	private JPanel contentPane;
 	private JTable table;
@@ -40,7 +40,7 @@ public class ViewsContancia extends JPanel {
 	/**
 	 * Create the frame.
 	 */
-	public ViewsContancia(Estudiante estudiante) {
+	public ViewContancia(Estudiante estudiante) {
 		setBounds(100, 100, 679, 624);
 		setLayout(null);
 				
