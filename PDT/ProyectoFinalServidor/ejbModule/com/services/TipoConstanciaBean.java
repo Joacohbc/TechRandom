@@ -13,15 +13,16 @@ import com.exceptions.InvalidEntityException;
 import com.exceptions.NotFoundEntityException;
 import com.exceptions.ServiceException;
 
+import validation.Validaciones;
+import validation.ValidacionesTipoConstancia;
+import validation.ValidationObject;
+
 /**
  * Session Bean implementation class TipoConstanciaBean
  */
 @Stateless
 public class TipoConstanciaBean implements TipoConstanciaBeanRemote {
 
-	/**
-	 * Default constructor.
-	 */
 	public TipoConstanciaBean() {
 	}
 
@@ -35,13 +36,52 @@ public class TipoConstanciaBean implements TipoConstanciaBeanRemote {
 
 	@Override
 	public TipoConstancia insert(TipoConstancia entity) {
-		return dao.insert(entity);
+		try {
+			ServicesUtils.checkNull(entity, "Al actualizar un Tipo de Constancia el ID no puede ser nulo");
+			
+			if(entity.getIdTipoConstancia() != null)
+				throw new NotFoundEntityException("Al registrar una nueva Tipo de Constancia, esta no puede tener un ID asignado");
+			
+			ValidationObject valid = ValidacionesTipoConstancia.validarTipoContancia(entity);
+			if(!valid.isValid())
+				throw new InvalidEntityException(valid.getErrorMessage());
+				
+			if(dao.findByTipo(entity.getTipo()) != null) 
+				throw new InvalidEntityException("Ya existe un Tipo de Constancia con ese nombre");
+
+			dao.insert(entity);
+			return entity;
+		}catch(DAOException e){
+			throw new ServiceException(e);
+		}
+		
 	}
 
 	@Override
 	public TipoConstancia update(TipoConstancia entity)
 			throws ServiceException, NotFoundEntityException, InvalidEntityException {
-		return dao.update(entity);
+		try {
+			ServicesUtils.checkNull(entity, "Al actualizar un Tipo de Constancia el ID no puede ser nulo");
+			
+			TipoConstancia actual = dao.findById(entity.getIdTipoConstancia());
+			if(actual == null)
+				throw new NotFoundEntityException("No existe un Tipo Constancia con el ID: " + entity.getIdTipoConstancia());
+
+			ValidationObject valid = ValidacionesTipoConstancia.validarTipoContancia(entity);
+			if(!valid.isValid())
+				throw new InvalidEntityException(valid.getErrorMessage());
+				
+			if(!actual.getTipo().equals(entity.getTipo())) {
+				if(dao.findByTipo(entity.getTipo()) != null) 
+					throw new InvalidEntityException("Ya existe un Tipo de Constancia con ese nombre");
+			}
+			
+			entity.setEstado(actual.getEstado());
+			entity = dao.update(entity);
+			return entity;
+		}catch(DAOException e){
+			throw new ServiceException(e);
+		}
 	}
 
 	@Override
@@ -53,7 +93,8 @@ public class TipoConstanciaBean implements TipoConstanciaBeanRemote {
 			if(actual == null)
 				throw new NotFoundEntityException("No existe un TipoConstancia con el ID: " + id);
 		
-			dao.remove(actual);
+			actual.setEstado(false);
+			actual = dao.update(actual);
 			return actual;
 		}catch(DAOException e){
 			throw new ServiceException(e);

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
@@ -28,13 +29,8 @@ public class TipoConstanciaDAO {
      * Default constructor. 
      */
     public TipoConstanciaDAO() {
-        // TODO Auto-generated constructor stub
     }
     
-    /*
-	 * Periste de un TipoConstancia en la Base de datos y retorna la Entidad persistida.
-	 */
-
 	public TipoConstancia insert(TipoConstancia entidad) throws DAOException {
 		try {
 			em.persist(entidad);
@@ -45,46 +41,32 @@ public class TipoConstanciaDAO {
 		}
 	}
 
-	/*
-	 * Retorna un TipoConstancia en base al ID.
-	 * 
-	 */
 	public TipoConstancia findById(Long id) {
 		return em.find(TipoConstancia.class, id);
 	}
 
-	/*
-	 * Retorna todos los TipoConstancia.
-	 * 
-	 */
 	public List<TipoConstancia> findAll() {
-		return em.createQuery("Select i FROM Evento i", TipoConstancia.class).getResultList();
-
+		return em.createQuery("Select i FROM TipoConstancia i", TipoConstancia.class).getResultList();
+	}
+	
+	public TipoConstancia findByTipo(String tipo) {
+		try {
+			return em.createQuery("SELECT i FROM TipoConstancia i WHERE i.tipo = ?1", TipoConstancia.class)
+					.setParameter(1, tipo)
+					.getSingleResult();
+		}catch (NoResultException e) {
+			return null;
+		}
 	}
 
-	/*
-	 * Verificamos que exista una TipoConstancia por ID y luego realizamos un Update de los
-	 * campos que lleguen por parametro.
-	 * 
-	 */
 	public TipoConstancia update(TipoConstancia entidad) throws DAOException, NotFoundEntityException {
 		try {
 			entidad = em.merge(entidad);
 			em.flush();
 			return entidad;
 		} catch (Exception e) {
-			throw new DAOException("Ocurrio un error al hacer el update del Itr ", e);
+			throw new DAOException("Ocurrio un error al hacer el update del Tipo de la Constancia ", e);
 		}
 
 	}
-	public void remove(TipoConstancia entidad) throws DAOException, NotFoundEntityException {
-		try {
-			em.remove(entidad);
-			em.flush();
-		} catch (Exception e) {
-			throw new DAOException("Ocurrio un error al hacer al eliminar el TipoConstancia ", e);
-		}
-	}
-
-
 }
