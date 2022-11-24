@@ -1,25 +1,22 @@
 package viewsEstudiante;
 
-import java.awt.EventQueue;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.daos.EventosDao;
 import com.entities.Constancia;
 import com.entities.Estudiante;
 import com.entities.Evento;
-import com.entities.Itr;
 import com.entities.TipoConstancia;
+import com.exceptions.InvalidEntityException;
 
 import beans.BeanIntances;
+import swingutils.Mensajes;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
@@ -60,17 +57,35 @@ public class ViewContancia extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				try {
 					
-				int row = table.getSelectedRow();
-				Long idEvento = (Long) table.getModel().getValueAt(row, 0);				
-				Constancia cons = new Constancia();
+					int row = table.getSelectedRow();
+					if (row == -1) {
+						Mensajes.MostrarError("Debe seleccionar un Evento.");
+						return;
+					}
+					Long idEvento = (Long) table.getModel().getValueAt(row, 0);				
+					Constancia cons = new Constancia();
+					
+					cons.setEvento(BeanIntances.evento().findById(idEvento));
+					cons.setEstudiante(estudiante);
+					cons.setDetalle("Solicitud por el estudiante: " + estudiante.getDocumento());
+					cons.setTipoConstancia((TipoConstancia) cmbTipoConstancia.getSelectedItem());		
+					BeanIntances.constancia().solicitar(cons);
+					Mensajes.MostrarExito("La solicitud fue realizada con exito.");
 				
-				cons.setEvento(BeanIntances.evento().findById(idEvento));
-				cons.setEstudiante(estudiante);
-				cons.setDetalle("Solicitud por el estudiante: " + estudiante.getDocumento());
-				cons.setTipoConstancia((TipoConstancia) cmbTipoConstancia.getSelectedItem());
+					
+					
+				}catch (InvalidEntityException ex) {
+					Mensajes.MostrarError(ex.getMessage());
+					
+					
+				}	catch (Exception e2) {
+					Mensajes.MostrarError("Error desconocidos: " + e2.getMessage());
+					
+				}	
+
 				
-				BeanIntances.constancia().solicitar(cons);
 					
 			
 				

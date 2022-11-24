@@ -91,4 +91,12 @@ public class TipoConstancia implements Serializable {
 		return constancia;
 	}
 
+	@Override
+	public String toString() {
+		return tipo;
+	}
+	
+	
+	
+
 }
