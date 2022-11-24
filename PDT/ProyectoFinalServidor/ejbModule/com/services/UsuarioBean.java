@@ -178,12 +178,12 @@ public class UsuarioBean implements UsuarioBeanRemote {
 
 		if (!newUsu.getEmailUtec().equals(actual.getEmailUtec())) {
 			if (dao.findByEmailUtec(Usuario.class, newUsu.getEmailUtec()) != null)
-				throw new InvalidEntityException("Ya existe un Usuario con el Email: " + newUsu.getEmailUtec());
+				throw new InvalidEntityException("Ya existe un Usuario con el Email Institucional: " + newUsu.getEmailUtec());
 		}
 
 		if (!newUsu.getEmailPersonal().equals(actual.getEmailPersonal())) {
-			if (dao.findByEmailUtec(Usuario.class, newUsu.getEmailUtec()) != null)
-				throw new InvalidEntityException("Ya existe un Usuario con el Email: " + newUsu.getEmailUtec());
+			if (dao.findByEmailPersonal(Usuario.class, newUsu.getEmailPersonal()) != null)
+				throw new InvalidEntityException("Ya existe un Usuario con el Email Personal: " + newUsu.getEmailPersonal());
 		}
 
 		if (!newUsu.getNombreUsuario().equals(actual.getNombreUsuario())) {
