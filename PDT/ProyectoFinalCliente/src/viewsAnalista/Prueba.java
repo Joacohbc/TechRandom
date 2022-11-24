@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import viewsITR.viewAltaITR;
+import viewsITR.ViewAltaITR;
 
 public class Prueba extends JFrame {
 
@@ -39,7 +39,7 @@ public class Prueba extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		viewAltaITR itr = new viewAltaITR();
+		ViewAltaITR itr = new ViewAltaITR();
 		contentPane.add(itr);
 		
 	}

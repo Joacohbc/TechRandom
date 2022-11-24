@@ -29,7 +29,7 @@ import validation.ValidacionesItr;
 import validation.ValidationObject;
 import views.ViewMedida;
 
-public class viewAltaITR  extends JPanel implements ViewMedida  {
+public class ViewAltaITR  extends JPanel implements ViewMedida  {
 	private JTable table;
 	private JComboBox <Departamento> comboBoxAltaDepar;
 	private JComboBox <Departamento> comboBoxModDepar;
@@ -39,7 +39,7 @@ public class viewAltaITR  extends JPanel implements ViewMedida  {
 	/**
 	 * Create the panel.
 	 */
-	public viewAltaITR() {
+	public ViewAltaITR() {
 		setBounds(0,0,ANCHO_VIEW,LARGO_VIEW);
 		addComponentListener(new ComponentAdapter() {
 		});
