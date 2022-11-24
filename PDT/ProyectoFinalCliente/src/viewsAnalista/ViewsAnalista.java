@@ -1,7 +1,6 @@
 package viewsAnalista;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,43 +15,27 @@ import javax.swing.border.EmptyBorder;
 
 import com.entities.Analista;
 
-import views.ViewDatosPersonales;
 import viewsEstudiante.ViewsContancia;
+import viewsEstudiante.ViewsDatosPersonales;
+import viewsEstudiante.ViewsEstudiante;
+
 
 public class ViewsAnalista extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel panelActual;
-//	private final ViewsContancia panelConstancia = new ViewsContancia();
+	private final ViewPerfil panelPersonal;
 	
-
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					ViewsAnalista frame = new ViewsAnalista();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 	
 
 	/**
 	 * Create the frame.
 	 */
-//	public ViewsAnalista() {
-//		
-//	}
-//	
-	
+
 	public ViewsAnalista(Analista ana) {
-		setTitle("Analista");
+		panelPersonal = new ViewPerfil(ana);
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 705, 784);
 		
@@ -65,7 +48,6 @@ public class ViewsAnalista extends JFrame {
 		JMenuItem DatosPersonalesMenuItem = new JMenuItem("Datos Personales");
 		DatosPersonalesMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ViewDatosPersonales panelPersonal = new ViewDatosPersonales(ana);
 				panelActual.removeAll();
 				panelActual.repaint();
 				panelActual.revalidate();
@@ -82,19 +64,19 @@ public class ViewsAnalista extends JFrame {
 		
 		
 		
-//		JMenuItem SolicitudConstanciaMenuItem = new JMenuItem("Solicitud Constancia");
-//		SolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				panelActual.removeAll();
-//				panelActual.repaint();
-//				panelActual.revalidate();
-//				panelActual.add(panelConstancia, BorderLayout.CENTER);	
-//				panelActual.repaint();
-//				panelActual.revalidate();
-//				
-//			}
-//		});
-//		mnNewMenu.add(SolicitudConstanciaMenuItem);
+		JMenuItem SolicitudConstanciaMenuItem = new JMenuItem("Solicitud Constancia");
+		/*SolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelActual.removeAll();
+				panelActual.repaint();
+				panelActual.revalidate();
+				panelActual.add(panelConstancia, BorderLayout.CENTER);	
+				panelActual.repaint();
+				panelActual.revalidate();
+				
+			}
+		});*/
+		mnNewMenu.add(SolicitudConstanciaMenuItem);
 		
 		
 		
@@ -108,7 +90,7 @@ public class ViewsAnalista extends JFrame {
 		
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(ViewsAnalista.class.getResource("/images/logo utec (2).png")));
+		lblNewLabel.setIcon(new ImageIcon(ViewsEstudiante.class.getResource("/images/logo utec (2).png")));
 		lblNewLabel.setBounds(576, 581, 180, 161);
 		contentPane.add(lblNewLabel);
 		
@@ -119,5 +101,7 @@ public class ViewsAnalista extends JFrame {
 		panelActual.setBounds(0, 0, 679, 624);
 		contentPane.add(panelActual);
 		panelActual.setLayout(new BorderLayout(0, 0));
+		
+		
 	}
 }
