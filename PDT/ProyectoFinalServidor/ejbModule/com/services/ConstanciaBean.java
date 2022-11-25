@@ -1,5 +1,6 @@
 package com.services;
 
+import java.awt.Desktop.Action;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -72,21 +73,21 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 			if (actual == null)
 				throw new NotFoundEntityException("No existe una constancia con el ID: " + entity.getIdConstancia());
 
-			if (actual.getEstado() == EstadoSolicitudes.FINALIZADO)
-				throw new InvalidEntityException("No se puede modificar una constancia que ya esta finalizada");
+			if (actual.getEstado() != EstadoSolicitudes.INGRESADO)
+				throw new InvalidEntityException("No se puede modificar una constancia que ya esta en proceso o finalizada");
 
 			// La Fecha y Hora de emision y el Estado de la constancia no debe cambiado
 			entity.setFechaHora(actual.getFechaHora());
 			entity.setEstado(actual.getEstado());
-
+			entity.setEstudiante(actual.getEstudiante());
+			
 			ValidationObject valid = ValidacionesConstancia.validarConstancia(entity);
 			if (!valid.isValid())
 				throw new InvalidEntityException(valid.getErrorMessage());
 			
 			// La fecha no se verifica ya que la fecha no cambia
-			if (entity.getEstudiante().getIdEstudiante() == actual.getEstudiante().getIdEstudiante()
-					&& entity.getEvento().getIdEvento() == actual.getEvento().getIdEvento()
-					&& entity.getTipoConstancia().getIdTipoConstancia() == actual.getTipoConstancia().getIdTipoConstancia()) {
+			if (entity.getEvento().getIdEvento() != actual.getEvento().getIdEvento()
+					|| entity.getTipoConstancia().getIdTipoConstancia() != actual.getTipoConstancia().getIdTipoConstancia()) {
 				
 				if (dao.findUnique(entity) != null) 
 					throw new InvalidEntityException("Ya existe una Contancia con esos atributos, mismo Estudiante, Evento, Fecha y Tipo de Constancia");
