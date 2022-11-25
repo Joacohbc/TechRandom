@@ -25,7 +25,6 @@ public class ViewListadoSolicitudConstancias extends JPanel {
 	private JTable tableSolicitudes;
 	private JTable tableEstudiantes;
 	private List<Estudiante> estudiantes = BeanIntances.user().findAllEstudiantes();
-	private List<Constancia> constancias = BeanIntances.constancia().findAll();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -74,15 +73,12 @@ public class ViewListadoSolicitudConstancias extends JPanel {
 							unE=est;
 							break;
 						}
-							
-						//unE = ((est.getIdEstudiante()==id ? est:null));
-						
 					}
-					System.out.println(unE.getConstancias());
+					//System.out.println(unE.getConstancias());
 					if(unE==null) {
 						return;
 					}
-					List<Constancia> constancias = unE.getConstancias();
+					List<Constancia> constancias = BeanIntances.estudiante().getConstancias(id);
 					String columns[] = { "Id", "Detalle", "Tipo"};
 					DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0) {
 						@Override
@@ -91,6 +87,9 @@ public class ViewListadoSolicitudConstancias extends JPanel {
 						}
 					};
 					
+					if(constancias==null) {
+						return;
+					}
 					for (Constancia unaC : constancias) {
 						
 						Long idC = unaC.getIdConstancia();

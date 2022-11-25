@@ -21,7 +21,7 @@ public class ViewTutor extends JFrame {
 		setTitle("Tutor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 708, 535);
-		panelAsistencias = new ViewAsistencias(tutor);
+		panelAsistencias = new ViewAsistencias();
 		setContentPane(panelAsistencias);
 
 	}

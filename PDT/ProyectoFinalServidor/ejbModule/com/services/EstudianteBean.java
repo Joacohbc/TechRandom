@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 
 import com.daos.EstudianteDAO;
 import com.entities.Asistencia;
+import com.entities.Constancia;
 import com.entities.Estudiante;
 
 /**
@@ -28,6 +29,11 @@ public class EstudianteBean implements EstudianteBeanRemote {
 	@Override
 	public List<Asistencia> getAsistencias(Long id) {
 		return dao.getAsistencias(id);
+	}
+
+	@Override
+	public List<Constancia> getConstancias(Long id) {
+		return dao.getConstancias(id);
 	}
 
     

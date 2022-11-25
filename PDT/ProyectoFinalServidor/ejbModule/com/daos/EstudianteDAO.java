@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.entities.Asistencia;
+import com.entities.Constancia;
 
 /**
  * Session Bean implementation class EstudianteDAO
@@ -27,4 +28,10 @@ public class EstudianteDAO {
     			.setParameter(1, id)
     			.getResultList();
     }
+
+	public List<Constancia> getConstancias(Long id) {
+		return em.createQuery("SELECT c FROM Constancia c WHERE c.estudiante.idEstudiante = ?1", Constancia.class)
+    			.setParameter(1, id)
+    			.getResultList();
+	}
 }
