@@ -2,6 +2,7 @@ package com.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -202,6 +203,23 @@ public class Usuario implements Serializable {
 
 	public void setItr(Itr itr) {
 		this.itr = itr;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(idUsuario);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		return Objects.equals(idUsuario, other.idUsuario);
 	}
 
 	@Override

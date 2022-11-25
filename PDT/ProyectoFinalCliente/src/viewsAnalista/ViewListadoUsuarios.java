@@ -4,11 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,35 +22,44 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
+import com.entities.Analista;
 import com.entities.Estudiante;
 import com.entities.Itr;
+import com.entities.Tutor;
 import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
+import com.itextpdf.text.log.SysoLogger;
+import com.jgoodies.common.bean.Bean;
 
 import beans.BeanIntances;
 import components.Roles;
+import swingutils.Mensajes;
 
 public class ViewListadoUsuarios extends JPanel {
 
-	/*
-	 * Se utiliza una variable de tipo HashMap para gestionar los filtros que aplica
-	 * el usuario El HashMap permite utilizar pares de datos <Key,Value> de esta
-	 * manera cada vez que el usuario actualice los valores de los filtros, al tener
-	 * el mismo Key se reemplaza el Value
-	 */
-	private Map filtros;
+	private static final long serialVersionUID = 1L;
+
+	private List<Usuario> usuariosOriginal = BeanIntances.user().findAll(Usuario.class);
+
 	private JTable tblUsuarios;
 	private JSpinner spGeneracion;
-	private ArrayList<Usuario> usuarios;
+	private JCheckBox chkFiltroGeneracion;
+	private JCheckBox chkFiltroTipoUsuario;
+	private JCheckBox chkFiltroItr;
+	private JCheckBox chkFiltroEstado;
+	private JComboBox<Roles> comboTipoUsuario;
+	private JComboBox<Itr> comboITR;
+	private JComboBox<EstadoUsuario> comboEstado;
+	private JButton btnCargarUsuario;
 
-	/**
-	 * Create the panel.
-	 */
+	public static void main(String[] args) {
+		JFrame frame = new JFrame();
+		frame.setContentPane(new ViewListadoUsuarios());
+		frame.setBounds(0, 0, 500, 500);
+		frame.setVisible(true);
+	}
+
 	public ViewListadoUsuarios() {
-		usuarios = (ArrayList) BeanIntances.user().findAll(Usuario.class);
-
-		filtros = new HashMap();
-		
 		setBounds(100, 100, 564, 413);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(new BorderLayout(0, 0));
@@ -63,44 +71,56 @@ public class ViewListadoUsuarios extends JPanel {
 		JButton btnActivar = new JButton("Activar");
 		btnActivar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int fila = tblUsuarios.getSelectedRow();
 				try {
-
+					int fila = tblUsuarios.getSelectedRow();
+					
+					if(fila == -1) {
+						Mensajes.MostrarError("Seleccione un usuario primero");
+						return;
+					}
+					
 					Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila, 0).toString());
 					Usuario usu = BeanIntances.user().findById(Usuario.class, id);
-
-					if (usu != null && usu.getEstadoUsuario() == EstadoUsuario.SIN_VALIDAR
-							|| usu.getEstadoUsuario() == EstadoUsuario.ELIMINADO) {
-						usu.setEstadoUsuario(EstadoUsuario.VALIDADO);
-						BeanIntances.user().updateEstadoUsuario(id, usu.getEstadoUsuario());
-
-						usuarios = (ArrayList) BeanIntances.user().findAll(Usuario.class);
-						filtrarListaUsuarios(tblUsuarios, filtros);
-
-					} else {
-						JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
+					if (usu == null) {
+						Mensajes.MostrarError("No eexiste un usuario con el ID: " + id);
+						return;
 					}
+					
+					BeanIntances.user().updateEstadoUsuario(id, EstadoUsuario.VALIDADO);
+					btnCargarUsuario.doClick();
+					filtrarListaUsuarios();
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
+					Mensajes.MostrarError("Error inesperado: " + ex.getMessage());
+					ex.printStackTrace();
 				}
 			}
 		});
 		btnActivar.setBounds(12, 335, 105, 27);
 		panel.add(btnActivar);
 
+		chkFiltroGeneracion = new JCheckBox("Habilitado");
+		chkFiltroGeneracion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				spGeneracion.setEnabled(chkFiltroGeneracion.isSelected());
+				filtrarListaUsuarios();
+			}
+		});
+		chkFiltroGeneracion.setBounds(273, 123, 114, 25);
+		panel.add(chkFiltroGeneracion);
+
 		spGeneracion = new JSpinner();
-		spGeneracion.setModel(new SpinnerNumberModel(Integer.valueOf(2015), Integer.valueOf(1000), Integer.valueOf(9999), Integer.valueOf(1)));
+		spGeneracion.setModel(new SpinnerNumberModel(Integer.valueOf(2015), Integer.valueOf(1000),
+				Integer.valueOf(9999), Integer.valueOf(1)));
 		spGeneracion.setBounds(97, 125, 168, 22);
-		spGeneracion.addChangeListener(new ChangeListener() {	
+		spGeneracion.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				filtros.put("GENERACION", (Integer) spGeneracion.getValue());
-				filtrarListaUsuarios(tblUsuarios, filtros);
+				filtrarListaUsuarios();
 			}
 		});
 		panel.add(spGeneracion);
-		
-		JComboBox<Roles> comboTipoUsuario = new JComboBox();
+
+		comboTipoUsuario = new JComboBox<Roles>();
 		// Se utiliza el evento action performed para capturar cada vez que se cambia el
 		// valor del comboBox
 		comboTipoUsuario.addActionListener(new ActionListener() {
@@ -109,46 +129,43 @@ public class ViewListadoUsuarios extends JPanel {
 
 				switch (tipo) {
 				case "ESTUDIANTE": {
-					filtros.put("TIPO", "Estudiante");
 					spGeneracion.setEnabled(true);
+					chkFiltroGeneracion.setEnabled(true);
 					break;
 				}
 				case "ANALISTA": {
-					filtros.put("TIPO", "Analista");
 					spGeneracion.setEnabled(false);
+					chkFiltroGeneracion.setEnabled(false);
 					break;
 				}
 				case "TUTOR": {
-					filtros.put("TIPO", "Tutor");
 					spGeneracion.setEnabled(false);
+					chkFiltroGeneracion.setEnabled(false);
 					break;
 				}
 
 				}
-				// se llama al mÃ©todo que actualiza la lista en base a los filtros seleccionados
-				filtrarListaUsuarios(tblUsuarios, filtros);
+				// se llama al mÃ©todo que actualiza la lista en base a los filtros
+				// seleccionados
+				filtrarListaUsuarios();
 			}
 		});
 		comboTipoUsuario.setBounds(97, 13, 168, 26);
 		panel.add(comboTipoUsuario);
 
-		JComboBox comboITR = new JComboBox();
+		comboITR = new JComboBox<Itr>();
 		comboITR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				filtros.put("ITR", comboITR.getSelectedItem());
-
-				// se llama al mÃ©todo que actualiza la lista en base a los filtros seleccionados
-				filtrarListaUsuarios(tblUsuarios, filtros);
+				filtrarListaUsuarios();
 			}
 		});
 		comboITR.setBounds(97, 50, 168, 26);
 		panel.add(comboITR);
 
-		JComboBox<EstadoUsuario> comboEstado = new JComboBox();
+		comboEstado = new JComboBox<EstadoUsuario>();
 		comboEstado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				filtros.put("ESTADO", comboEstado.getSelectedItem().toString());
-				filtrarListaUsuarios(tblUsuarios, filtros);
+				filtrarListaUsuarios();
 			}
 		});
 		comboEstado.setBounds(97, 87, 168, 26);
@@ -168,46 +185,58 @@ public class ViewListadoUsuarios extends JPanel {
 		JButton btnDesactivar = new JButton("Desactivar");
 		btnDesactivar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int fila = tblUsuarios.getSelectedRow();
 				try {
+					int fila = tblUsuarios.getSelectedRow();
+					
+					if(fila == -1) {
+						Mensajes.MostrarError("Seleccione un usuario primero");
+						return;
+					}
+					
 					Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila, 0).toString());
 					Usuario usu = BeanIntances.user().findById(Usuario.class, id);
-
-					if (usu != null && usu.getEstadoUsuario() == EstadoUsuario.VALIDADO) {
-						usu.setEstadoUsuario(EstadoUsuario.ELIMINADO);
-						BeanIntances.user().updateEstadoUsuario(id, usu.getEstadoUsuario());
-
-						usuarios = (ArrayList) BeanIntances.user().findAll(Usuario.class);
-						filtrarListaUsuarios(tblUsuarios, filtros);
-
-					} else {
-						JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
+					if (usu == null) {
+						Mensajes.MostrarError("No eexiste un usuario con el ID: " + id);
+						return;
 					}
+					
+					BeanIntances.user().updateEstadoUsuario(id, EstadoUsuario.ELIMINADO);
+					btnCargarUsuario.doClick();
+					filtrarListaUsuarios();
+
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
+					Mensajes.MostrarError("Error inesperado: " + ex.getMessage());
+					ex.printStackTrace();
 				}
 			}
 		});
-		btnDesactivar.setBounds(224, 335, 105, 27);
+		btnDesactivar.setBounds(129, 335, 105, 27);
 		panel.add(btnDesactivar);
 
 		JButton btnAbrirUsuario = new JButton("Ver detalles");
 		btnAbrirUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int fila = tblUsuarios.getSelectedRow();
 				try {
+					int fila = tblUsuarios.getSelectedRow();
+					
+					if(fila == -1) {
+						Mensajes.MostrarError("Seleccione un usuario primero");
+						return;
+					}
+					
 					Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila, 0).toString());
 					Usuario usu = BeanIntances.user().findById(Usuario.class, id);
-					if (usu != null) {
-						ViewPerfil view = new ViewPerfil(usu);
-						JFrame frame = new JFrame();
-						frame.setContentPane(view);
-						frame.setVisible(true);
-					} else {
-						JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
+					if (usu == null) {
+						Mensajes.MostrarError("No eexiste un usuario con el ID: " + id);
+						return;
 					}
+				
+					ViewPerfil view = new ViewPerfil(usu);
+					JFrame frame = new JFrame();
+					frame.setContentPane(view);
+					frame.setVisible(true);
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Seleccione un usuario primero");
+					Mensajes.MostrarError("Error inesperado: " + ex.getMessage());
 					ex.printStackTrace();
 				}
 			}
@@ -225,34 +254,71 @@ public class ViewListadoUsuarios extends JPanel {
 
 		tblUsuarios = new JTable();
 		scrollPane.setViewportView(tblUsuarios);
-		String columns[] = { "id", "Documento", "Nombres", "Apellidos", "ITR", "Estado" };
-		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0);
-		tblUsuarios.setModel(modeloJTable);
-
-		// Cargo el listado de usuario a la tabla
-		cargarUsuarios(tblUsuarios, usuarios);
-
-		// cargo los combos con los valores para poder hacer los filtros
-		this.cargarCombosFiltros(comboEstado, comboTipoUsuario, comboITR);
 
 		JLabel lblNewLabel = new JLabel("ITR");
 		lblNewLabel.setBounds(12, 55, 60, 17);
 		panel.add(lblNewLabel);
-		
 
-		
-		
+		chkFiltroTipoUsuario = new JCheckBox("Habilitado");
+		chkFiltroTipoUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				comboTipoUsuario.setEnabled(chkFiltroTipoUsuario.isSelected());
+				if((Roles) comboTipoUsuario.getSelectedItem() == Roles.ESTUDIANTE) {
+					chkFiltroGeneracion.setEnabled(chkFiltroTipoUsuario.isSelected());
+					spGeneracion.setEnabled(chkFiltroTipoUsuario.isSelected());
+				}
+				filtrarListaUsuarios();
+			}
+		});
+		chkFiltroTipoUsuario.setSelected(true);
+		chkFiltroTipoUsuario.setBounds(273, 14, 114, 25);
+		panel.add(chkFiltroTipoUsuario);
 
+		chkFiltroItr = new JCheckBox("Habilitado");
+		chkFiltroItr.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				comboITR.setEnabled(chkFiltroItr.isSelected());
+				filtrarListaUsuarios();
+			}
+		});
+		chkFiltroItr.setSelected(true);
+		chkFiltroItr.setBounds(273, 51, 114, 25);
+		panel.add(chkFiltroItr);
+
+		chkFiltroEstado = new JCheckBox("Habilitado");
+		chkFiltroEstado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				comboEstado.setEnabled(chkFiltroEstado.isSelected());
+				filtrarListaUsuarios();
+			}
+		});
+		chkFiltroEstado.setSelected(true);
+		chkFiltroEstado.setBounds(273, 88, 114, 25);
+		panel.add(chkFiltroEstado);
+		
+		btnCargarUsuario = new JButton("Recargar Usuarios");
+		btnCargarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				usuariosOriginal = BeanIntances.user().findAll(Usuario.class);
+				filtrarListaUsuarios();
+			}
+		});
+		btnCargarUsuario.setBounds(246, 335, 178, 27);
+		panel.add(btnCargarUsuario);
+
+		cargarCombosFiltros();
 	}
-	public void cargarUsuarios(JTable lstUsuarios, ArrayList<Usuario> listaUsuarios) {
-		String columns[] = { "id", "Documento", "Nombres", "Apellidos", "ITR", "Estado" };
+
+	public void cargarUsuarios(List<Usuario> listaUsuarios) {
+		String columns[] = { "Id", "Documento", "Nombres", "Apellidos", "ITR", "Estado"};
 		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		};
-		if (lstUsuarios != null) {
+
+		if (tblUsuarios != null) {
 			for (Usuario usu : listaUsuarios) {
 				Long id = usu.getIdUsuario();
 				String doc = usu.getDocumento();
@@ -264,11 +330,12 @@ public class ViewListadoUsuarios extends JPanel {
 				modeloJTable.addRow(datos);
 			}
 		}
+
 		tblUsuarios.setModel(modeloJTable);
 	}
 
 	// MÃ©todo para cargar los valores que contienen los filtros
-	public void cargarCombosFiltros(JComboBox comboEstado, JComboBox comboTipoUsuario, JComboBox comboITR) {
+	public void cargarCombosFiltros() {
 
 		/*
 		 * esto queda hardcoded pero falta un mÃ©todo que traiga ITR
@@ -289,53 +356,74 @@ public class ViewListadoUsuarios extends JPanel {
 		}
 	}
 
-	public void filtrarListaUsuarios(JTable lstUsuarios, Map filtros) {
+	public void filtrarListaUsuarios() {
 
-		ArrayList<Usuario> filtrados = new ArrayList<Usuario>();
-		if (usuarios != null && !filtros.isEmpty() && filtros.get("ITR") != null) {
-
-			for (Usuario usu : usuarios) {
-				// Cargo la info del usuario necesaria para los filtros
-				Long idITR = usu.getItr().getIdItr();
-				String estado = usu.getEstadoUsuario().toString();
-				String tipo = usu.getClass().getSimpleName().trim();
-				Integer gen = 0;
-
-				if (filtros.get("TIPO").toString().equalsIgnoreCase(Roles.ESTUDIANTE.name())) {
-					ArrayList<Estudiante> estudiantes = (ArrayList) BeanIntances.user().findAllEstudiantes();
-
-					for (Estudiante est : estudiantes) {
-						if (est.getIdUsuario() == usu.getIdUsuario()) {
-							gen = est.getGeneracion();
-						}
-
-					}
-				}
-
-				// proceso que se cumplan las tres condiciones
-				if (gen != 0 && filtros.get("GENERACION") != null) {
-					
-					if (idITR == ((Itr) filtros.get("ITR")).getIdItr()
-							&& tipo.equalsIgnoreCase(filtros.get("TIPO").toString())
-							&& estado.equalsIgnoreCase(filtros.get("ESTADO").toString())
-							&& gen == Integer.parseInt(filtros.get("GENERACION").toString())) {
-
-						filtrados.add(usu);
-					}
-				} else {
-					if (idITR == ((Itr) filtros.get("ITR")).getIdItr()
-							&& tipo.equalsIgnoreCase(filtros.get("TIPO").toString())
-							&& estado.equalsIgnoreCase(filtros.get("ESTADO").toString())) {
-						filtrados.add(usu);
+		List<Usuario> usuarios = new ArrayList<>(usuariosOriginal);
+		List<Usuario> copy = new ArrayList<>(usuarios);
+		
+		if (chkFiltroTipoUsuario.isSelected()) {
+			Roles rol = (Roles) comboTipoUsuario.getSelectedItem();
+			
+			if (rol != Roles.ESTUDIANTE) {
+				for (Usuario usuario : usuarios) {
+					if(usuario instanceof Estudiante) {
+						copy.remove(usuario);
 					}
 				}
 			}
-		} else {
 
-			cargarUsuarios(tblUsuarios, usuarios);
+			if (rol != Roles.TUTOR) {
+				for (Usuario usuario : usuarios) {
+					if (usuario instanceof Tutor) {
+						copy.remove(usuario);
+					}
+				}
+			}
+
+			if (rol == Roles.ANALISTA) {
+				for (Usuario usuario : usuarios) {
+					if (usuario instanceof Analista) {
+						copy.remove(usuario);
+					}
+				}
+			}
+			
+			if (chkFiltroGeneracion.isSelected()) {
+				for (Usuario usuario : usuarios) {
+					if(!(usuario instanceof Estudiante)) 
+						continue;
+					
+					Estudiante est = (Estudiante) usuario;
+					Integer gen = (Integer) spGeneracion.getValue();
+					if (!est.getGeneracion().equals(gen)) {
+						copy.remove(usuario);
+					}
+				}
+			}
+			
+			usuarios = new ArrayList<>(copy);
 		}
 
-		cargarUsuarios(tblUsuarios, filtrados);
-	}
+		if (chkFiltroItr.isSelected()) {
+			for (Usuario usuario : usuarios) {
+				Itr itr = (Itr) comboITR.getSelectedItem();
+				if (usuario.getItr().getIdItr() != itr.getIdItr()) {
+					copy.remove(usuario);
+				}
+			}
+			usuarios = new ArrayList<>(copy);
 
+		}
+
+		if (chkFiltroEstado.isSelected()) {
+			for (Usuario usuario : usuarios) {
+				if (usuario.getEstadoUsuario() != (EstadoUsuario) comboEstado.getSelectedItem()) {
+					copy.remove(usuario);
+				}
+			}
+			usuarios = new ArrayList<>(copy);
+		}
+	
+		cargarUsuarios(usuarios);
+	}
 }
