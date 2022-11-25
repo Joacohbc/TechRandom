@@ -158,7 +158,7 @@ public class Login extends JFrame {
 							return;
 						
 						setVisible(false);
-						ViewTutor ViewTutor = new ViewTutor();
+						ViewTutor ViewTutor = new ViewTutor(tut);
 						ViewTutor.setVisible(true);
 
 					} else {
