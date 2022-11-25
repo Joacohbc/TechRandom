@@ -15,16 +15,24 @@ import javax.swing.border.EmptyBorder;
 
 import com.entities.Analista;
 
+import views.ViewBienvenida;
 import viewsEstudiante.ViewEstudiante;
+import viewsITR.ViewAltaITR;
+
+import java.awt.Component;
+import javax.swing.Box;
+import javax.swing.JButton;
 
 
 public class ViewAnalista extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel panelActual;
+	private final ViewGenerarPlantilla panelGenerarPlantilla;
 	private final ViewPerfil panelPersonal;
-	
-	
+	private final ViewBienvenida panelBienvenida;
+	private final ViewListadoUsuarios panelListadoUsuarios;
+	private final ViewAltaITR panelITR;
 
 	/**
 	 * Create the frame.
@@ -32,6 +40,11 @@ public class ViewAnalista extends JFrame {
 
 	public ViewAnalista(Analista ana) {
 		panelPersonal = new ViewPerfil(ana);
+		panelGenerarPlantilla = new ViewGenerarPlantilla();
+		panelBienvenida = new ViewBienvenida();
+		panelListadoUsuarios = new ViewListadoUsuarios();
+		panelITR = new ViewAltaITR();
+		
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,29 +53,31 @@ public class ViewAnalista extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("Funcionalidades");
-		menuBar.add(mnNewMenu);
+		JMenu mnUsuarios = new JMenu("Usuarios");
+		menuBar.add(mnUsuarios);
 		
-		JMenuItem DatosPersonalesMenuItem = new JMenuItem("Datos Personales");
-		DatosPersonalesMenuItem.addActionListener(new ActionListener() {
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Listado y mantenimiento");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				panelActual.removeAll();
 				panelActual.repaint();
 				panelActual.revalidate();
-				panelActual.add(panelPersonal, BorderLayout.CENTER);
+				panelActual.add(panelListadoUsuarios, BorderLayout.CENTER);	
 				panelActual.repaint();
 				panelActual.revalidate();
-				
-				
 			}
 		});
-		mnNewMenu.add(DatosPersonalesMenuItem);
-		
-
+		mnUsuarios.add(mntmNewMenuItem_1);
 		
 		
 		
-		JMenuItem SolicitudConstanciaMenuItem = new JMenuItem("Solicitud Constancia");
+		//MenuBar Constancias
+		JMenu mnConstancias = new JMenu("Constancias");
+		menuBar.add(mnConstancias);
+		
+		
+		JMenuItem SolicitudConstanciaMenuItem = new JMenuItem("Listado Constancias");
 		/*SolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelActual.removeAll();
@@ -74,12 +89,60 @@ public class ViewAnalista extends JFrame {
 				
 			}
 		});*/
-		mnNewMenu.add(SolicitudConstanciaMenuItem);
+		mnConstancias.add(SolicitudConstanciaMenuItem);
 		
 		
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Registro de Constancias");
-		mnNewMenu.add(mntmNewMenuItem_2);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Generar Plantilla PDF");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelActual.removeAll();
+				panelActual.repaint();
+				panelActual.revalidate();
+				panelActual.add(panelGenerarPlantilla, BorderLayout.CENTER);
+				panelActual.repaint();
+				panelActual.revalidate();
+			}
+		});
+		mnConstancias.add(mntmNewMenuItem);
+		
+		JMenu mnITR = new JMenu("Personalizar Datos ITR");
+		menuBar.add(mnITR);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Mantenimiento ITR");
+		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelActual.removeAll();
+				panelActual.repaint();
+				panelActual.revalidate();
+				panelActual.add(panelITR, BorderLayout.CENTER);
+				panelActual.repaint();
+				panelActual.revalidate();
+			}
+		});
+		mnITR.add(mntmNewMenuItem_3);
+		
+		
+		
+		Component horizontalGlue = Box.createHorizontalGlue();
+		menuBar.add(horizontalGlue);
+		
+		JButton btnNewButton = new JButton("Perfil");
+		btnNewButton.setOpaque(false);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelActual.removeAll();
+				panelActual.repaint();
+				panelActual.revalidate();
+				panelActual.add(panelPersonal, BorderLayout.CENTER);
+				panelActual.repaint();
+				panelActual.revalidate();
+			}
+		});
+		btnNewButton.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/usuario (3).png")));
+		menuBar.add(btnNewButton);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -100,6 +163,13 @@ public class ViewAnalista extends JFrame {
 		contentPane.add(panelActual);
 		panelActual.setLayout(new BorderLayout(0, 0));
 		
+		//Set de Panel de Bienvenida
+		panelActual.removeAll();
+		panelActual.repaint();
+		panelActual.revalidate();
+		panelActual.add(panelBienvenida, BorderLayout.CENTER);
+		panelActual.repaint();
+		panelActual.revalidate();
 		
 	}
 }

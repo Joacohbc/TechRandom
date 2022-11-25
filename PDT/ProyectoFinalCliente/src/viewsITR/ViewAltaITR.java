@@ -35,23 +35,20 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 	private JComboBox <Departamento> comboBoxModDepar;
 	private List<Itr> itrs;
 	private VTextBox textBoxModNombre;
+	private JComboBox comboBoxEstadoITR;
 
 	/**
 	 * Create the panel.
 	 */
 	public ViewAltaITR() {
 		setBounds(0,0,ANCHO_VIEW,LARGO_VIEW);
+		comboBoxEstadoITR = new JComboBox();
 		addComponentListener(new ComponentAdapter() {
 		});
 		setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("ITR");
-		lblNewLabel.setBounds(372, 10, 38, 28);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		add(lblNewLabel);
-		
 		JLabel lblNewLabel_1 = new JLabel("Alta ITR");
-		lblNewLabel_1.setBounds(120, 57, 56, 21);
+		lblNewLabel_1.setBounds(107, 57, 56, 21);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		add(lblNewLabel_1);
 		
@@ -76,6 +73,7 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 		add(textBoxAltaNombre);
 		
 		
+		
 		JButton btnInsertar = new JButton("Insertar");
 		btnInsertar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -93,7 +91,7 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 						}
 						itr = BeanIntances.itr().save(itr);
 						Mensajes.MostrarExito("Se dio de alta correctamente el Itr " + itr.getNombre());
-						cargarItr(table);
+						cargarItr(table,comboBoxEstadoITR.getSelectedItem().toString());
 					}
 				}catch(Exception E) {
 					Mensajes.MostrarError(E.getMessage());
@@ -110,7 +108,7 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 		add(lblNewLabel_4);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(23, 250, 318, 130);
+		scrollPane.setBounds(36, 514, 669, 198);
 		add(scrollPane);
 		
 		table = new JTable();
@@ -139,21 +137,21 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 
 		
 		// Cargo el listado de los itrs a la tabla
-		cargarItr(table);
+		cargarItr(table,comboBoxEstadoITR.getSelectedItem().toString());
 		
 		
 		JLabel lblNewLabel_5 = new JLabel("Departamento");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_5.setBounds(363, 252, 88, 13);
+		lblNewLabel_5.setBounds(48, 265, 88, 13);
 		add(lblNewLabel_5);
 		
 		JLabel lblNewLabel_6 = new JLabel("Nombre ITR");
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_6.setBounds(363, 299, 88, 13);
+		lblNewLabel_6.setBounds(48, 312, 88, 13);
 		add(lblNewLabel_6);
 		
 		comboBoxModDepar = new JComboBox<Departamento>();
-		comboBoxModDepar.setBounds(505, 246, 129, 21);
+		comboBoxModDepar.setBounds(190, 259, 129, 21);
 		add(comboBoxModDepar);
 		
 		JButton btnModificar = new JButton("Modificar");
@@ -177,7 +175,7 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 						}
 						itr = BeanIntances.itr().update(itr);
 						Mensajes.MostrarExito("Se modifico correctamente el Itr " + itr.getNombre());
-						cargarItr(table);
+						cargarItr(table,comboBoxEstadoITR.getSelectedItem().toString());
 							
 					}
 				}catch(Exception E) {
@@ -185,7 +183,7 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 				}
 			}
 		});
-		btnModificar.setBounds(571, 359, 100, 21);
+		btnModificar.setBounds(256, 372, 100, 21);
 		add(btnModificar);
 		
 		JSeparator separator = new JSeparator();
@@ -193,7 +191,7 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 		add(separator);
 		
 		textBoxModNombre = new VTextBox();
-		textBoxModNombre.setBounds(505, 291, 129, 21);
+		textBoxModNombre.setBounds(190, 304, 129, 21);
 		textBoxModNombre.setValidationFunc(text -> ValidacionesItr.validarNombre(text));
 		add(textBoxModNombre);
 		
@@ -217,13 +215,13 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 					}
 					itr = BeanIntances.itr().reactivar(itr.getIdItr());
 					Mensajes.MostrarExito("Se modifico correctamente el Itr " + itr.getNombre());
-					cargarItr(table);
+					cargarItr(table,comboBoxEstadoITR.getSelectedItem().toString());
 				}catch(Exception ex) {
 					Mensajes.MostrarError(ex.getMessage());
 				}
 			}
 		});
-		btnActivar.setBounds(351, 359, 100, 21);
+		btnActivar.setBounds(36, 372, 100, 21);
 		add(btnActivar);
 		
 		JButton btnDesactivar = new JButton("Desactivar");
@@ -245,13 +243,13 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 					}
 					itr = BeanIntances.itr().remove(itr.getIdItr());
 					Mensajes.MostrarExito("Se modifico correctamente el Itr " + itr.getNombre());
-					cargarItr(table);
+					cargarItr(table,comboBoxEstadoITR.getSelectedItem().toString());
 				}catch(Exception ex) {
 					Mensajes.MostrarError(ex.getMessage());
 				}
 			}
 		});
-		btnDesactivar.setBounds(461, 359, 100, 21);
+		btnDesactivar.setBounds(146, 372, 100, 21);
 		add(btnDesactivar);
 		
 		
@@ -259,15 +257,38 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 		VTextBox textBox = new VTextBox();
 		textBox.setBounds(10, 681, 13, 13);
 		add(textBox);
+		
+		JLabel lblNewLabel = new JLabel("Filtro");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel.setBounds(107, 440, 45, 21);
+		add(lblNewLabel);
+		
+		
+		comboBoxEstadoITR.setBounds(133, 488, 173, 21);
+		add(comboBoxEstadoITR);
+		comboBoxEstadoITR.addItem("Ver todos");
+		comboBoxEstadoITR.addItem("Habilitado");
+		comboBoxEstadoITR.addItem("Deshabilitado");
+		
+		
+		JLabel lblNewLabel_7 = new JLabel("Estado ITR");
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_7.setBounds(48, 491, 89, 13);
+		add(lblNewLabel_7);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(10, 421, 695, 2);
+		add(separator_1);
 		textBox.setVisible(false);
 		
 		for (Departamento d : Departamento.values()) {
 			comboBoxAltaDepar.addItem(d);
 			comboBoxModDepar.addItem(d);
 		}
+		
 	}
 	
-	public void cargarItr(JTable table) {
+	public void cargarItr(JTable table, String filtro) {
 		//Me cargo el arreglo de itrs con consulta findAll
 		List<Itr> itrs =  BeanIntances.itr().findAll();
 		String columns[] = { "id", "Departamento", "Nombre", "Estado" };
