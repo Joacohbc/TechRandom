@@ -1,6 +1,8 @@
 package viewsAnalista;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -12,26 +14,32 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import com.entities.Analista;
 import com.entities.Constancia;
 import com.entities.Estudiante;
 import com.entities.TipoConstancia;
+import com.entities.Usuario;
 import com.entities.enums.EstadoSolicitudes;
 
 import beans.BeanIntances;
 import views.Login;
 
 public class ViewListadoSolicitudConstancias extends JPanel {
-	
+
 	private JTable tableSolicitudes;
 	private JTable tableEstudiantes;
 	private List<Estudiante> estudiantes = BeanIntances.user().findAllEstudiantes();
-
+	private EstadoSolicitudes filtro;
+	private List<Constancia> constancias;
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Login frame = new Login();
-					ViewListadoSolicitudConstancias panel = new ViewListadoSolicitudConstancias();
+					Estudiante estudiante = BeanIntances.user().findById(Estudiante.class, 15l);
+					Analista analista = BeanIntances.user().findById(Analista.class, 9l);
+					ViewListadoSolicitudConstancias panel = new ViewListadoSolicitudConstancias(analista);
 					frame.setContentPane(panel);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -40,25 +48,40 @@ public class ViewListadoSolicitudConstancias extends JPanel {
 			}
 		});
 	}
-	
-	
+
 	/**
 	 * Create the panel.
 	 */
-	public ViewListadoSolicitudConstancias() {
+	public ViewListadoSolicitudConstancias(Usuario usu) {
 		setLayout(null);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(35, 275, 550, 171);
 		add(scrollPane);
-		
+
 		tableSolicitudes = new JTable();
 		scrollPane.setViewportView(tableSolicitudes);
-		
+
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(35, 60, 550, 155);
 		add(scrollPane_1);
+
 		
+		JComboBox comboBoxEstado = new JComboBox();
+		// comboBoxEstado.setSelectedIndex(-1);
+		comboBoxEstado.addItem(null);
+		comboBoxEstado.addItem(EstadoSolicitudes.EN_PROCESO);
+		comboBoxEstado.addItem(EstadoSolicitudes.FINALIZADO);
+		comboBoxEstado.addItem(EstadoSolicitudes.INGRESADO);
+		comboBoxEstado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				filtro = (EstadoSolicitudes) comboBoxEstado.getSelectedItem();
+				cargarConstancias(tableSolicitudes, constancias, filtro);
+			}
+		});
+		comboBoxEstado.setBounds(81, 241, 162, 26);
+		add(comboBoxEstado);
+
 		tableEstudiantes = new JTable();
 		scrollPane_1.setViewportView(tableEstudiantes);
 		tableEstudiantes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -68,59 +91,38 @@ public class ViewListadoSolicitudConstancias extends JPanel {
 					int row = tableEstudiantes.getSelectedRow();
 					Long id = Long.valueOf(tableEstudiantes.getModel().getValueAt(row, 0).toString());
 					Estudiante unE = null;
-					for(Estudiante est : estudiantes) {
-						if(est.getIdEstudiante()==id) {
-							unE=est;
+					for (Estudiante est : estudiantes) {
+						if (est.getIdEstudiante() == id) {
+							unE = est;
 							break;
 						}
 					}
-					//System.out.println(unE.getConstancias());
-					if(unE==null) {
+					// System.out.println(unE.getConstancias());
+					if (unE == null) {
 						return;
 					}
-					List<Constancia> constancias = BeanIntances.estudiante().getConstancias(id);
-					String columns[] = { "Id", "Detalle", "Tipo"};
-					DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0) {
-						@Override
-						public boolean isCellEditable(int row, int column) {
-							return false;
-						}
-					};
-					
-					if(constancias==null) {
-						return;
-					}
-					for (Constancia unaC : constancias) {
-						
-						Long idC = unaC.getIdConstancia();
-						String detalle = unaC.getDetalle();
-						TipoConstancia tipo = unaC.getTipoConstancia();
-
-						Object[] datos = { idC, detalle, tipo};
-						modeloJTable.addRow(datos);
-					}
-					tableSolicitudes.setModel(modeloJTable);
-					
+					constancias = BeanIntances.estudiante().getConstancias(id);
+					cargarConstancias(tableSolicitudes, constancias, filtro);
 				}
 			}
 		});
-		
+
 		JLabel lblEstado = new JLabel("Estado");
 		lblEstado.setBounds(35, 246, 60, 17);
 		add(lblEstado);
-		
-		JComboBox comboBoxEstado = new JComboBox();
-		comboBoxEstado.setBounds(81, 241, 162, 26);
-		add(comboBoxEstado);
-		comboBoxEstado.addItem(EstadoSolicitudes.EN_PROCESO);
-		comboBoxEstado.addItem(EstadoSolicitudes.FINALIZADO);
-		comboBoxEstado.addItem(EstadoSolicitudes.INGRESADO);
-		
-		cargarEstudiantes(tableEstudiantes);
+
+		if (usu instanceof Estudiante) {
+			cargarUnEstudiante(tableEstudiantes, (Estudiante) usu);
+		} else if (usu instanceof Analista) {
+			cargarEstudiantes(tableEstudiantes);
+			constancias = BeanIntances.constancia().findAll();
+			cargarConstancias(tableSolicitudes, constancias, filtro);
+		}
 
 	}
+
 	public void cargarEstudiantes(JTable tabla) {
-		String columns[] = { "Id", "Documento", "Nombres", "Apellidos", "ITR", "Estado"};
+		String columns[] = { "Id", "Documento", "Nombres", "Apellidos", "ITR", "Estado" };
 		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -141,5 +143,66 @@ public class ViewListadoSolicitudConstancias extends JPanel {
 			}
 		}
 		tabla.setModel(modeloJTable);
+	}
+
+	public void cargarUnEstudiante(JTable tabla, Estudiante est) {
+		String columns[] = { "Id", "Documento", "Nombres", "Apellidos", "ITR", "Estado" };
+		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+
+		if (tabla != null) {
+			Long id = est.getIdEstudiante();
+			String doc = est.getDocumento();
+			String nombres = est.getNombres();
+			String apellidos = est.getApellidos();
+			String idITR = est.getItr().getNombre();
+			String tipo = est.getEstadoUsuario().toString();
+			Object[] datos = { id, doc, nombres, apellidos, idITR, tipo };
+			modeloJTable.addRow(datos);
+
+		}
+		tabla.setModel(modeloJTable);
+	}
+
+	public void cargarConstancias(JTable tabla, List<Constancia> constancias, EstadoSolicitudes filtro) {
+
+		String columns[] = { "Id", "Detalle", "Tipo" };
+		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+
+		if (constancias == null) {
+			return;
+		}
+		System.out.println("filtro " + filtro);
+		for (Constancia unaC : constancias) {
+			if (filtro == null) {
+				Long idC = unaC.getIdConstancia();
+				String detalle = unaC.getDetalle();
+				TipoConstancia tipo = unaC.getTipoConstancia();
+
+				Object[] datos = { idC, detalle, tipo };
+				modeloJTable.addRow(datos);
+			} else {
+				if (unaC.getEstado() == filtro) {
+					System.out.println("ENTRA ");
+					Long idC = unaC.getIdConstancia();
+					String detalle = unaC.getDetalle();
+					TipoConstancia tipo = unaC.getTipoConstancia();
+
+					Object[] datos = { idC, detalle, tipo };
+					modeloJTable.addRow(datos);
+				}
+			}
+
+		}
+		tableSolicitudes.setModel(modeloJTable);
 	}
 }
