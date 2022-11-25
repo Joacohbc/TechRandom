@@ -16,6 +16,7 @@ import com.exceptions.InvalidEntityException;
 
 import beans.BeanIntances;
 import swingutils.Mensajes;
+import views.ViewMedida;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -23,13 +24,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 
-public class ViewContancia extends JPanel {
+public class ViewContancia extends JPanel implements ViewMedida {
 
 	private JPanel contentPane;
 	private JTable table;
 	private static Estudiante estudiante;
-	private JComboBox <TipoConstancia> cmbTipoConstancia;
-	
+	private JComboBox<TipoConstancia> cmbTipoConstancia;
 
 	/**
 	 * Launch the application.
@@ -38,99 +38,80 @@ public class ViewContancia extends JPanel {
 	 * Create the frame.
 	 */
 	public ViewContancia(Estudiante estudiante) {
-		setBounds(100, 100, 679, 624);
+
+		setBounds(100, 100, ANCHO_VIEW, LARGO_VIEW);
 		setLayout(null);
-				
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(20, 101, 623, 192);
 		add(scrollPane);
-		
+
 		JLabel lblNewLabel = new JLabel("Eventos Disponibles.");
 		lblNewLabel.setBounds(20, 63, 206, 14);
 		add(lblNewLabel);
-		
-		
+
 		JButton btnNewButton = new JButton("Solicitar");
 		btnNewButton.setBounds(554, 321, 89, 23);
 		add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				try {
-					
+
 					int row = table.getSelectedRow();
 					if (row == -1) {
 						Mensajes.MostrarError("Debe seleccionar un Evento.");
 						return;
 					}
-					Long idEvento = (Long) table.getModel().getValueAt(row, 0);				
+					Long idEvento = (Long) table.getModel().getValueAt(row, 0);
 					Constancia cons = new Constancia();
-					
+
 					cons.setEvento(BeanIntances.evento().findById(idEvento));
 					cons.setEstudiante(estudiante);
 					cons.setDetalle("Solicitud por el estudiante: " + estudiante.getDocumento());
-					cons.setTipoConstancia((TipoConstancia) cmbTipoConstancia.getSelectedItem());		
+					cons.setTipoConstancia((TipoConstancia) cmbTipoConstancia.getSelectedItem());
 					BeanIntances.constancia().solicitar(cons);
 					Mensajes.MostrarExito("La solicitud fue realizada con exito.");
-				
-					
-					
-				}catch (InvalidEntityException ex) {
-					Mensajes.MostrarError(ex.getMessage());
-					
-					
-				}	catch (Exception e2) {
-					Mensajes.MostrarError("Error desconocidos: " + e2.getMessage());
-					
-				}	
 
-				
-					
-			
-				
+				} catch (InvalidEntityException ex) {
+					Mensajes.MostrarError(ex.getMessage());
+
+				} catch (Exception e2) {
+					Mensajes.MostrarError("Error desconocidos: " + e2.getMessage());
+
+				}
+
 			}
 		});
 
-		
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		String columns[] = { "id", "Titulo", "Fecha de Inicio", "Fecha de Fin", "Modalidad", "Localizacion" };
+		String columns[] = { "Id", "Titulo", "Fecha de Inicio", "Fecha de Fin", "Modalidad", "Localizacion" };
 		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0);
 		table.setModel(modeloJTable);
-		
+
 		cargarEventos(table, estudiante);
-		
-		
-		
+
 		cmbTipoConstancia = new JComboBox();
 		cmbTipoConstancia.setToolTipText("");
 		cmbTipoConstancia.setBounds(340, 321, 145, 22);
 		add(cmbTipoConstancia);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Tipo de Constancia");
 		lblNewLabel_1.setBounds(229, 316, 99, 32);
 		add(lblNewLabel_1);
-		
-		List <TipoConstancia> tconstacia = BeanIntances.tipoConstancia().findAll();
-		
+
+		List<TipoConstancia> tconstacia = BeanIntances.tipoConstancia().findAll();
+
 		for (TipoConstancia tipoConstancia : tconstacia) {
-			
+
 			cmbTipoConstancia.addItem(tipoConstancia);
-			
+
 		}
-		
-		
-		
-		
-		
-		
-		
-		
+
 	}
-	
-	
-	public void cargarEventos (JTable table, Estudiante estudiante) {
+
+	public void cargarEventos(JTable table, Estudiante estudiante) {
 		// Cargamos todos los eventos relacionados con el ID de estudiante
 		List<Evento> eventos = BeanIntances.evento().findByEstudianteId(estudiante.getIdEstudiante());
 		String columns[] = { "id", "Titulo", "FechaInicio", "FechaFin", "Modalidad", "Localizacion" };

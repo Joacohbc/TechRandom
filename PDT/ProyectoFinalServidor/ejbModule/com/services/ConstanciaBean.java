@@ -136,8 +136,17 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 	}
 
 	@Override
-	public byte[] descargarConstancia(Long id) throws ServiceException, NotFoundEntityException {
-		return null;
+	public byte[] descargarConstancia(Long id) throws ServiceException, NotFoundEntityException, InvalidEntityException {
+		ServicesUtils.checkNull(id, "Al registra una Constancia el ID no puede ser nulo");
+		
+		Constancia actual = dao.findById(id);
+		if(actual == null)
+			throw new NotFoundEntityException("No existe una Constancia con el ID: " + id);
+
+		if(actual.getEstado() != EstadoSolicitudes.FINALIZADO) 
+			throw new InvalidEntityException("La solicitud de constancia no se puede descargar hasta que este finalizada");
+		
+		return actual.getArchivo();
 	}
 
 	@Override
@@ -159,5 +168,10 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 			throw new ServiceException(e);
 		}
 	}
-
+	
+	public List<Constancia> sacarConstanciaByIdEstudiante(Long id){
+		return dao.sacarConstanciaByIdEstudiante(id);
+	}
+	
+	
 }

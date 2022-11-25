@@ -40,6 +40,7 @@ import components.VTextBox;
 import swingutils.Mensajes;
 import validation.Formatos;
 import validation.ValidacionesUsuario;
+import javax.swing.JComboBox;
 
 public class ViewAsistencias extends JPanel {
 	private JTable table;
@@ -58,14 +59,14 @@ public class ViewAsistencias extends JPanel {
 		setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(36, 48, 368, 214);
+		scrollPane.setBounds(46, 115, 368, 202);
 		add(scrollPane);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
 		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.setBounds(36, 267, 183, 27);
+		btnBuscar.setBounds(46, 45, 368, 27);
 		btnBuscar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -91,11 +92,11 @@ public class ViewAsistencias extends JPanel {
 		add(btnBuscar);
 		
 		JLabel lblNewLabel = new JLabel("Documento");
-		lblNewLabel.setBounds(36, 25, 83, 17);
+		lblNewLabel.setBounds(46, 14, 83, 17);
 		add(lblNewLabel);
 		
 		txtDocumento = new VTextBox();
-		txtDocumento.setBounds(114, 23, 288, 21);
+		txtDocumento.setBounds(136, 12, 278, 21);
 		txtDocumento.setValidationFunc(text -> ValidacionesUsuario.validarDocumentoNoUruguayo(text));
 		add(txtDocumento);
 		
@@ -174,8 +175,23 @@ public class ViewAsistencias extends JPanel {
 				}
 			}
 		});
-		btnImprimir.setBounds(221, 267, 183, 27);
+		btnImprimir.setBounds(46, 323, 368, 27);
 		add(btnImprimir);
+		
+		JComboBox<Estudiante> cmbEstudiante = new JComboBox<Estudiante>();
+		cmbEstudiante.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Estudiante est = (Estudiante) cmbEstudiante.getSelectedItem();
+				txtDocumento.setText(est.getDocumento());
+				btnBuscar.doClick();
+			}
+		});
+		cmbEstudiante.setBounds(46, 80, 368, 26);
+		add(cmbEstudiante);
+		List<Estudiante> estudiante = BeanIntances.user().findAll(Estudiante.class);
+		for (Estudiante e : estudiante) {
+			cmbEstudiante.addItem(e);
+		}
 		
 	}
 	

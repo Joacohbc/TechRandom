@@ -342,11 +342,10 @@ public class ViewListadoUsuarios extends JPanel {
 
 	// MÃ©todo para cargar los valores que contienen los filtros
 	public void cargarCombosFiltros() {
-
-		/*
-		 * esto queda hardcoded pero falta un mÃ©todo que traiga ITR
-		 * 
-		 */
+		comboEstado.removeAllItems();
+		comboTipoUsuario.removeAllItems();
+		comboITR.removeAllItems();
+		
 		comboEstado.addItem(EstadoUsuario.VALIDADO);
 		comboEstado.addItem(EstadoUsuario.ELIMINADO);
 		comboEstado.addItem(EstadoUsuario.SIN_VALIDAR);
