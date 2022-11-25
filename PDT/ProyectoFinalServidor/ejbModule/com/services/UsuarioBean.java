@@ -7,6 +7,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 
 import com.daos.UsuariosDAO;
 import com.entities.Analista;
@@ -292,6 +293,15 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			dao.update(actual);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public <T extends Usuario> T findByDocumento(Class<T> tipoUsu, String documento) {
+		try {
+			return dao.findByDocumento(tipoUsu, documento);
+		}catch (NoResultException e) {
+			return null;
 		}
 	}
 

@@ -59,4 +59,6 @@ public interface UsuarioBeanRemote {
 	List<Estudiante> findAllEstudiantes();
 
 	<T extends Usuario> T findById(Class<T> tipoUsu, Long id);
+	<T extends Usuario> T findByDocumento(Class<T> tipoUsu, String documento);
+
 }
