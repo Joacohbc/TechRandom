@@ -175,11 +175,12 @@ public class Login extends JFrame {
 
 				} catch (ServiceException | InvalidEntityException ex) {
 					Mensajes.MostrarError(ex.getMessage());
-
+					ex.printStackTrace();
 				} catch (Exception ex) {
 					Mensajes.MostrarError("Error desconocido:" + ex.getMessage());
+					ex.printStackTrace();
 				}
-
+			
 			}
 		});
 		btnLogin.setBounds(397, 343, 150, 21);

@@ -357,7 +357,11 @@ public class ViewListadoUsuarios extends JPanel {
 	}
 
 	public void filtrarListaUsuarios() {
-
+		
+		if(comboEstado.getItemCount() == 0 || comboITR.getItemCount() == 0  || comboTipoUsuario.getItemCount() == 0) {
+			return;
+		}
+		
 		List<Usuario> usuarios = new ArrayList<>(usuariosOriginal);
 		List<Usuario> copy = new ArrayList<>(usuarios);
 		
