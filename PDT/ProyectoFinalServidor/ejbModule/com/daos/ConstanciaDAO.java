@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
 import com.entities.Constancia;
+import com.entities.Evento;
 import com.exceptions.DAOException;
 import com.exceptions.NotFoundEntityException;
 
@@ -68,6 +69,15 @@ public class ConstanciaDAO {
 				.setParameter(1, idEstudiante)
 				.getResultList();
 	}
+	
+	
+	public List<Constancia> sacarConstanciaByIdEstudiante(Long id) {
+		return em.createQuery("Select c FROM Constancia c INNER JOIN c.tipoConstancia a where c.estudiante.idEstudiante = ?1", Constancia.class).setParameter(1, id).getResultList();
+	}
+	
+	
+	
+	
 	
 	public Constancia findUnique(Constancia constancia) {
 		try {

@@ -159,5 +159,10 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 			throw new ServiceException(e);
 		}
 	}
-
+	
+	public List<Constancia> sacarConstanciaByIdEstudiante(Long id){
+		return dao.sacarConstanciaByIdEstudiante(id);
+	}
+	
+	
 }

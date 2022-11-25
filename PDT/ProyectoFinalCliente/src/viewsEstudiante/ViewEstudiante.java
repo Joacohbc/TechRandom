@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import com.entities.Estudiante;
 
 import beans.BeanIntances;
+import views.ViewMedida;
 import viewsAnalista.ViewPerfil;
 
 import java.awt.event.ActionListener;
@@ -21,35 +22,35 @@ import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 
-public class ViewEstudiante extends JFrame {
+public class ViewEstudiante extends JFrame implements ViewMedida {
 
 	private JPanel contentPane;
 	private JPanel panelActual;
 	private final ViewPerfil panelPersonal;
 	private final ViewContancia panelConstancia;
-	
+	private final ViewConstanciasSolicitadas registroDeSolicitud;
 
 	/**
 	 * Create the frame.
 	 */
-	
+
 	public ViewEstudiante(Estudiante estudiante) {
-			
-		
+
 		panelPersonal = new ViewPerfil(estudiante);
 		panelConstancia = new ViewContancia(estudiante);
-		
+		registroDeSolicitud = new ViewConstanciasSolicitadas(estudiante);
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 705, 784);
-		
+		setBounds(100, 100, ANCHO_VIEW, LARGO_VIEW);
+
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
+
 		JMenu mnNewMenu = new JMenu("Funcionalidades");
 		menuBar.add(mnNewMenu);
-		
-		JMenuItem DatosPersonalesMenuItem = new JMenuItem("Datos Personales");
-		DatosPersonalesMenuItem.addActionListener(new ActionListener() {
+
+		JMenuItem mbtnDatosPersonalesMenuItem = new JMenuItem("Datos Personales");
+		mbtnDatosPersonalesMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelActual.removeAll();
 				panelActual.repaint();
@@ -57,49 +58,49 @@ public class ViewEstudiante extends JFrame {
 				panelActual.add(panelPersonal, BorderLayout.CENTER);
 				panelActual.repaint();
 				panelActual.revalidate();
-				
-				
+
 			}
 		});
-		mnNewMenu.add(DatosPersonalesMenuItem);
-		
+		mnNewMenu.add(mbtnDatosPersonalesMenuItem);
 
-		
-		
-		
-		JMenuItem SolicitudConstanciaMenuItem = new JMenuItem("Solicitud Constancia");
-		SolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
+		JMenuItem mbtnSolicitudConstanciaMenuItem = new JMenuItem("Solicitud Constancia");
+		mbtnSolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelActual.removeAll();
 				panelActual.repaint();
 				panelActual.revalidate();
-				panelActual.add(panelConstancia, BorderLayout.CENTER);	
+				panelActual.add(panelConstancia, BorderLayout.CENTER);
 				panelActual.repaint();
 				panelActual.revalidate();
-				
 			}
 		});
-		mnNewMenu.add(SolicitudConstanciaMenuItem);
-		
-		
-		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Registro de Constancias");
-		mnNewMenu.add(mntmNewMenuItem_2);
+		mnNewMenu.add(mbtnSolicitudConstanciaMenuItem);
+
+		JMenuItem mbtnRegistroDeConstaciaMenuItem = new JMenuItem("Registro de Constancias");
+		mbtnRegistroDeConstaciaMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				panelActual.removeAll();
+				panelActual.repaint();
+				panelActual.revalidate();
+				panelActual.add(registroDeSolicitud, BorderLayout.CENTER);
+				panelActual.repaint();
+				panelActual.revalidate();
+
+			}
+		});
+
+		mnNewMenu.add(mbtnRegistroDeConstaciaMenuItem);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		
-		
+
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(ViewEstudiante.class.getResource("/images/logo utec (2).png")));
 		lblNewLabel.setBounds(576, 581, 180, 161);
 		contentPane.add(lblNewLabel);
-		
-		
-		
-		
+
 		panelActual = new JPanel();
 		panelActual.setBounds(0, 0, 679, 624);
 		contentPane.add(panelActual);
