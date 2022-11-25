@@ -45,7 +45,7 @@ public class ViewAnalista extends JFrame {
 		panelBienvenida = new ViewBienvenida();
 		panelListadoUsuarios = new ViewListadoUsuarios(ana);
 		panelITR = new ViewAltaITR();
-		panelSolicitudConstancias = new ViewListadoSolicitudConstancias();
+		panelSolicitudConstancias = new ViewListadoSolicitudConstancias(ana);
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

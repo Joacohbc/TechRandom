@@ -170,7 +170,7 @@ public class ViewListadoSolicitudConstancias extends JPanel {
 
 	public void cargarConstancias(JTable tabla, List<Constancia> constancias, EstadoSolicitudes filtro) {
 
-		String columns[] = { "Id", "Detalle", "Tipo" };
+		String columns[] = { "Id","Fecha de Solicitus", "Detalle", "Tipo De Constancia", "Estado" };
 		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -181,23 +181,25 @@ public class ViewListadoSolicitudConstancias extends JPanel {
 		if (constancias == null) {
 			return;
 		}
-		System.out.println("filtro " + filtro);
 		for (Constancia unaC : constancias) {
 			if (filtro == null) {
-				Long idC = unaC.getIdConstancia();
-				String detalle = unaC.getDetalle();
-				TipoConstancia tipo = unaC.getTipoConstancia();
-
-				Object[] datos = { idC, detalle, tipo };
+				Long id = unaC.getIdConstancia();
+				String evento = unaC.getEvento().getTitulo().toString();
+				String fechaSolicitud = unaC.getFechaHora().toString();
+				String detalle = unaC.getDetalle().toString();
+				String tipoConstancia = unaC.getTipoConstancia().getTipo().toString();
+				String estado = unaC.getEstado().toString();
+				Object[] datos = {id,evento ,fechaSolicitud, detalle, tipoConstancia, estado};
 				modeloJTable.addRow(datos);
 			} else {
 				if (unaC.getEstado() == filtro) {
-					System.out.println("ENTRA ");
-					Long idC = unaC.getIdConstancia();
-					String detalle = unaC.getDetalle();
-					TipoConstancia tipo = unaC.getTipoConstancia();
-
-					Object[] datos = { idC, detalle, tipo };
+					Long id = unaC.getIdConstancia();
+					String evento = unaC.getEvento().getTitulo().toString();
+					String fechaSolicitud = unaC.getFechaHora().toString();
+					String detalle = unaC.getDetalle().toString();
+					String tipoConstancia = unaC.getTipoConstancia().getTipo().toString();
+					String estado = unaC.getEstado().toString();
+					Object[] datos = {id,evento ,fechaSolicitud, detalle, tipoConstancia, estado};
 					modeloJTable.addRow(datos);
 				}
 			}
