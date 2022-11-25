@@ -4,8 +4,11 @@ import javax.swing.JPanel;
 
 import com.entities.Constancia;
 import com.entities.Estudiante;
+import com.entities.TipoConstancia;
+import com.exceptions.InvalidEntityException;
 
 import beans.BeanIntances;
+import swingutils.Mensajes;
 import views.ViewMedida;
 
 import javax.swing.JButton;
@@ -55,12 +58,42 @@ public class ViewConstanciasSolicitadas extends JPanel implements ViewMedida {
 		cargarConstancia(table, estudiante);
 		
 		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnEliminar.setBounds(375, 276, 89, 23);
 		add(btnEliminar);
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				try {
+					
+					int row = table.getSelectedRow();
+					if (row == -1) {
+						Mensajes.MostrarError("Debe Solicitar un Evento");
+						return;
+						
+					}
+					
+					
+					Long idConstancia = (Long) table.getModel().getValueAt(row, 0);
+					BeanIntances.constancia().eliminarConstancia(idConstancia);
+					Mensajes.MostrarExito("La Solicitud de constancia fue eliminada con exito.");
+					cargarConstancia(table, estudiante);
+					
+					
+					
+				} catch (InvalidEntityException ex) {
+					Mensajes.MostrarError(ex.getMessage());
+					
+					
+				}catch (Exception e2) {
+					Mensajes.MostrarError("Error desconocidos: " + e2.getMessage());
+
+				}
+
+
+				
+			}
+		});
 		
 		JLabel lblNewLabel = new JLabel("Modificar Constancia");
 		lblNewLabel.setBounds(20, 280, 124, 14);
@@ -70,9 +103,6 @@ public class ViewConstanciasSolicitadas extends JPanel implements ViewMedida {
 		lblNewLabel_1_1.setBounds(20, 331, 108, 14);
 		add(lblNewLabel_1_1);
 		
-		JComboBox cBoxTipoConstancia = new JComboBox();
-		cBoxTipoConstancia.setBounds(123, 327, 130, 23);
-		add(cBoxTipoConstancia);
 		
 		JButton btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
@@ -81,6 +111,19 @@ public class ViewConstanciasSolicitadas extends JPanel implements ViewMedida {
 		});
 		btnModificar.setBounds(164, 380, 89, 23);
 		add(btnModificar);
+		
+		
+		JComboBox cBoxTipoConstancia = new JComboBox();
+		cBoxTipoConstancia.setBounds(123, 327, 130, 23);
+		add(cBoxTipoConstancia);
+		
+		List<TipoConstancia> tconstacia = BeanIntances.tipoConstancia().findAll();
+
+		for (TipoConstancia tipoConstancia : tconstacia) {
+
+			cBoxTipoConstancia.addItem(tipoConstancia);
+
+		}
 		
 		
 
