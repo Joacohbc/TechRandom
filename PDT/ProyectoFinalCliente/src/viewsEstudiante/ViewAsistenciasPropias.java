@@ -1,4 +1,4 @@
-package views;
+package viewsEstudiante;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +28,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.Font.FontStyle;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
@@ -40,44 +41,40 @@ import components.VTextBox;
 import swingutils.Mensajes;
 import validation.Formatos;
 import validation.ValidacionesUsuario;
+import views.ViewAsistencias;
 
-public class ViewAsistencias extends JPanel {
+public class ViewAsistenciasPropias extends JPanel {
 	private JTable table;
-	private VTextBox txtDocumento;
 	private Estudiante estudiante;
 	private final String columns[] = { "Id", "Titulo", "Inicio", "Fin", "Modalidad", "Lugar", "Calif.", "Asistencia" };;
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setBounds(0, 0, 500, 500);
-		frame.setContentPane(new ViewAsistencias());
+		frame.setContentPane(new ViewAsistenciasPropias(BeanIntances.user().findById(Estudiante.class, 38l)));
 		frame.setVisible(true);
 	}
 	
-	public ViewAsistencias() {
+	public ViewAsistenciasPropias(Estudiante est) {
+		this.estudiante = est;
 		setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(36, 48, 368, 214);
+		scrollPane.setBounds(36, 12, 368, 250);
 		add(scrollPane);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
-		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.setBounds(36, 267, 183, 27);
-		btnBuscar.addActionListener(new ActionListener() {
+		JButton btnRecargar = new JButton("Recargar");
+		btnRecargar.setBounds(36, 267, 183, 27);
+		btnRecargar.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(!txtDocumento.isContentValid()) {
-					Mensajes.MostrarError(txtDocumento.getErrorMessage());
-					return;
-				}
-				
+			public void actionPerformed(ActionEvent e) {				
 				try {
-					estudiante = BeanIntances.user().findByDocumento(Estudiante.class, txtDocumento.getText());
+					estudiante = BeanIntances.user().findById(Estudiante.class, estudiante.getIdUsuario());
 					if(estudiante == null) {
-						Mensajes.MostrarError("No existe un estudiante con el Documento: " + txtDocumento.getText());
+						Mensajes.MostrarError("No existe un estudiante con el ID: " + estudiante.getIdUsuario());
 						return;
 					}
 					
@@ -88,16 +85,7 @@ public class ViewAsistencias extends JPanel {
 				}
 			}
 		});
-		add(btnBuscar);
-		
-		JLabel lblNewLabel = new JLabel("Documento");
-		lblNewLabel.setBounds(36, 25, 83, 17);
-		add(lblNewLabel);
-		
-		txtDocumento = new VTextBox();
-		txtDocumento.setBounds(114, 23, 288, 21);
-		txtDocumento.setValidationFunc(text -> ValidacionesUsuario.validarDocumentoNoUruguayo(text));
-		add(txtDocumento);
+		add(btnRecargar);
 		
 		JButton btnImprimir = new JButton("Imprimir");
 		btnImprimir.addActionListener(new ActionListener() {
@@ -176,7 +164,7 @@ public class ViewAsistencias extends JPanel {
 		});
 		btnImprimir.setBounds(221, 267, 183, 27);
 		add(btnImprimir);
-		
+		btnRecargar.doClick();
 	}
 	
 	private void cargarTabla(Estudiante estudiante) {

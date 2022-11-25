@@ -2,7 +2,11 @@ package beans;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
+import com.entities.Estudiante;
 import com.services.ConstanciaBeanRemote;
+import com.services.EstudianteBean;
+import com.services.EstudianteBeanRemote;
 import com.services.EventoBeanRemote;
 import com.services.ItrBeanRemote;
 import com.services.TipoConstanciaBeanRemote;
@@ -17,7 +21,7 @@ public class BeanIntances {
 			contanciaBean = InitialContext.doLookup("/ProyectoFinalServidor/ConstanciaBean!com.services.ConstanciaBeanRemote");
 			EventoBean = InitialContext.doLookup("/ProyectoFinalServidor/EventoBean!com.services.EventoBeanRemote");
 			tipoConstancia = InitialContext.doLookup("/ProyectoFinalServidor/TipoConstanciaBean!com.services.TipoConstanciaBeanRemote");
-			
+			estudiante = InitialContext.doLookup("/ProyectoFinalServidor/EstudianteBean!com.services.EstudianteBeanRemote");
 		} catch (NamingException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -29,6 +33,7 @@ public class BeanIntances {
 	private static ConstanciaBeanRemote contanciaBean;
 	private static EventoBeanRemote EventoBean;
 	private static TipoConstanciaBeanRemote tipoConstancia;
+	private static EstudianteBeanRemote estudiante;
 	
 	public static UsuarioBeanRemote user() {
 		return usuarioBean;
@@ -48,5 +53,8 @@ public class BeanIntances {
 	public static TipoConstanciaBeanRemote tipoConstancia() {
 		return tipoConstancia;
 	}
-
+	
+	public static EstudianteBeanRemote estudiante() {
+		return estudiante;
+	}
 }
