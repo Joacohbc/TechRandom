@@ -54,12 +54,12 @@ public class ViewListadoUsuarios extends JPanel {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		frame.setContentPane(new ViewListadoUsuarios());
+		frame.setContentPane(new ViewListadoUsuarios(BeanIntances.user().findById(Analista.class, 1l)));
 		frame.setBounds(0, 0, 500, 500);
 		frame.setVisible(true);
 	}
 
-	public ViewListadoUsuarios() {
+	public ViewListadoUsuarios(Analista ana) {
 		setBounds(100, 100, 564, 413);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(new BorderLayout(0, 0));
@@ -200,6 +200,11 @@ public class ViewListadoUsuarios extends JPanel {
 						return;
 					}
 					
+					if(usu.getIdUsuario() == ana.getIdAnalista()) {
+						Mensajes.MostrarError("No se puede dar de baja a si mismo");
+						return;
+					}
+					
 					BeanIntances.user().updateEstadoUsuario(id, EstadoUsuario.ELIMINADO);
 					btnCargarUsuario.doClick();
 					filtrarListaUsuarios();
@@ -301,6 +306,7 @@ public class ViewListadoUsuarios extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				usuariosOriginal = BeanIntances.user().findAll(Usuario.class);
 				filtrarListaUsuarios();
+				cargarCombosFiltros();
 			}
 		});
 		btnCargarUsuario.setBounds(246, 335, 178, 27);
@@ -384,7 +390,7 @@ public class ViewListadoUsuarios extends JPanel {
 				}
 			}
 
-			if (rol == Roles.ANALISTA) {
+			if (rol != Roles.ANALISTA) {
 				for (Usuario usuario : usuarios) {
 					if (usuario instanceof Analista) {
 						copy.remove(usuario);
