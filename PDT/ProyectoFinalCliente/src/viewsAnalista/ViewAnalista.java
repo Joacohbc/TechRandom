@@ -43,7 +43,7 @@ public class ViewAnalista extends JFrame {
 		panelPersonal = new ViewPerfil(ana);
 		panelGenerarPlantilla = new ViewGenerarPlantilla();
 		panelBienvenida = new ViewBienvenida();
-		panelListadoUsuarios = new ViewListadoUsuarios();
+		panelListadoUsuarios = new ViewListadoUsuarios(ana);
 		panelITR = new ViewAltaITR();
 		panelSolicitudConstancias = new ViewListadoSolicitudConstancias();
 		
