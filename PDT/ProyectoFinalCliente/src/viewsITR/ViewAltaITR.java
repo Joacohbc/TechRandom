@@ -1,5 +1,6 @@
 package viewsITR;
 
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -28,8 +30,10 @@ import swingutils.Mensajes;
 import validation.ValidacionesItr;
 import validation.ValidationObject;
 import views.ViewMedida;
+import viewsAnalista.ViewListadoUsuarios;
 
 public class ViewAltaITR  extends JPanel implements ViewMedida  {
+	
 	private JTable table;
 	private JComboBox <Departamento> comboBoxAltaDepar;
 	private JComboBox <Departamento> comboBoxModDepar;
@@ -37,15 +41,25 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 	private VTextBox textBoxModNombre;
 	private JComboBox comboBoxEstadoITR;
 
+	
 	/**
 	 * Create the panel.
 	 */
 	public ViewAltaITR() {
+		setLayout(null);
+		
 		setBounds(0,0,ANCHO_VIEW,LARGO_VIEW);
 		comboBoxEstadoITR = new JComboBox();
+		
+		comboBoxEstadoITR.setBounds(133, 488, 173, 21);
+		add(comboBoxEstadoITR);
+		comboBoxEstadoITR.addItem("Ver todos");
+		comboBoxEstadoITR.addItem("Habilitado");
+		comboBoxEstadoITR.addItem("Deshabilitado");
 		addComponentListener(new ComponentAdapter() {
+			
 		});
-		setLayout(null);
+		
 		
 		JLabel lblNewLabel_1 = new JLabel("Alta ITR");
 		lblNewLabel_1.setBounds(107, 57, 56, 21);
@@ -264,11 +278,7 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 		add(lblNewLabel);
 		
 		
-		comboBoxEstadoITR.setBounds(133, 488, 173, 21);
-		add(comboBoxEstadoITR);
-		comboBoxEstadoITR.addItem("Ver todos");
-		comboBoxEstadoITR.addItem("Habilitado");
-		comboBoxEstadoITR.addItem("Deshabilitado");
+		
 		
 		
 		JLabel lblNewLabel_7 = new JLabel("Estado ITR");
@@ -286,6 +296,14 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 			comboBoxModDepar.addItem(d);
 		}
 		
+		comboBoxEstadoITR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cargarItr(table,comboBoxEstadoITR.getSelectedItem().toString());
+				
+				
+			}
+		});
+		
 	}
 	
 	public void cargarItr(JTable table, String filtro) {
@@ -299,14 +317,42 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 			}
 		};
 		if (table != null) {
-			for (Itr itr : itrs) {
-				Long id = itr.getIdItr();
-				String departamento = itr.getDepartamento().toString();
-				String nombre = itr.getNombre();
-				String estado = itr.getEstado().toString();
-				Object[] datos = { id, departamento, nombre, estado };
-				modeloJTable.addRow(datos);
+			switch (filtro) {
+			case "Habilitado": 
+				for (Itr itr : itrs) {
+					if(itr.getEstado()==true) {
+						Long id = itr.getIdItr();
+						String departamento = itr.getDepartamento().toString();
+						String nombre = itr.getNombre();
+						String estado = itr.getEstado().toString();
+						Object[] datos = { id, departamento, nombre, estado };
+						modeloJTable.addRow(datos);
+					}		
+				}
+				break;
+			case "Deshabilitado": 
+				for (Itr itr : itrs) {
+					if(itr.getEstado()==false) {
+						Long id = itr.getIdItr();
+						String departamento = itr.getDepartamento().toString();
+						String nombre = itr.getNombre();
+						String estado = itr.getEstado().toString();
+						Object[] datos = { id, departamento, nombre, estado };
+						modeloJTable.addRow(datos);
+					}		
+				}
+				break;
+			default:
+				for (Itr itr : itrs) {
+					Long id = itr.getIdItr();
+					String departamento = itr.getDepartamento().toString();
+					String nombre = itr.getNombre();
+					String estado = itr.getEstado().toString();
+					Object[] datos = { id, departamento, nombre, estado };
+					modeloJTable.addRow(datos);
+				}
 			}
+			
 		}
 		table.setModel(modeloJTable);
 	}
