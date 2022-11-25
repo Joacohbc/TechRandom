@@ -306,7 +306,6 @@ public class ViewListadoUsuarios extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				usuariosOriginal = BeanIntances.user().findAll(Usuario.class);
 				filtrarListaUsuarios();
-				cargarCombosFiltros();
 			}
 		});
 		btnCargarUsuario.setBounds(246, 335, 178, 27);
@@ -342,10 +341,6 @@ public class ViewListadoUsuarios extends JPanel {
 
 	// MÃ©todo para cargar los valores que contienen los filtros
 	public void cargarCombosFiltros() {
-		comboEstado.removeAllItems();
-		comboTipoUsuario.removeAllItems();
-		comboITR.removeAllItems();
-		
 		comboEstado.addItem(EstadoUsuario.VALIDADO);
 		comboEstado.addItem(EstadoUsuario.ELIMINADO);
 		comboEstado.addItem(EstadoUsuario.SIN_VALIDAR);
