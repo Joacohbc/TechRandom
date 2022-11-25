@@ -48,7 +48,7 @@ public class ViewConstanciasSolicitadas extends JPanel implements ViewMedida {
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		String columns[] = { "Id", "Fecha de Solicitud", "Detalle", "Tipo De constancia",  "Estado"};
+		String columns[] = { "Id", "Evento", "Fecha de Solicitud", "Detalle", "Tipo De constancia",  "Estado"};
 		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0);
 		table.setModel(modeloJTable);
 		
@@ -74,13 +74,13 @@ public class ViewConstanciasSolicitadas extends JPanel implements ViewMedida {
 		cBoxTipoConstancia.setBounds(123, 327, 130, 23);
 		add(cBoxTipoConstancia);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton.setBounds(164, 380, 89, 23);
-		add(btnNewButton);
+		btnModificar.setBounds(164, 380, 89, 23);
+		add(btnModificar);
 		
 		
 
