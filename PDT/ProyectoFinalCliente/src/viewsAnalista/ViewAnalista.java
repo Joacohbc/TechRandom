@@ -33,6 +33,7 @@ public class ViewAnalista extends JFrame {
 	private final ViewBienvenida panelBienvenida;
 	private final ViewListadoUsuarios panelListadoUsuarios;
 	private final ViewAltaITR panelITR;
+	private final ViewListadoSolicitudConstancias panelSolicitudConstancias;
 
 	/**
 	 * Create the frame.
@@ -44,7 +45,7 @@ public class ViewAnalista extends JFrame {
 		panelBienvenida = new ViewBienvenida();
 		panelListadoUsuarios = new ViewListadoUsuarios();
 		panelITR = new ViewAltaITR();
-		
+		panelSolicitudConstancias = new ViewListadoSolicitudConstancias();
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -106,6 +107,19 @@ public class ViewAnalista extends JFrame {
 			}
 		});
 		mnConstancias.add(mntmNewMenuItem);
+		
+		JMenuItem mntmListadoSolicitudesConstancia = new JMenuItem("Listado Solicitudes");
+		mntmListadoSolicitudesConstancia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelActual.removeAll();
+				panelActual.repaint();
+				panelActual.revalidate();
+				panelActual.add(panelSolicitudConstancias, BorderLayout.CENTER);
+				panelActual.repaint();
+				panelActual.revalidate();
+			}
+		});
+		mnConstancias.add(mntmListadoSolicitudesConstancia);
 		
 		JMenu mnITR = new JMenu("Personalizar Datos ITR");
 		menuBar.add(mnITR);
