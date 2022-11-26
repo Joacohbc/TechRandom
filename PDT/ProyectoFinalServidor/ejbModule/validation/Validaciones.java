@@ -40,11 +40,10 @@ public final class Validaciones {
 	public static boolean ValidarSoloLetras(String s, boolean espacios) {
 		if (!ValidarNoVacio(s))
 			return false;
-
 		if (espacios) {
-			return Pattern.matches("[a-zA-Z ]+", s);
+			return Pattern.matches("[a-zA-ZáéíóúýÁÉÍÓÚÝñÑ ]+", s);
 		} else {
-			return Pattern.matches("[a-zA-Z]+", s);
+			return Pattern.matches("[a-zA-ZáéíóúýÁÉÍÓÚÝñÑ]+", s);
 
 		}
 	}
@@ -65,9 +64,9 @@ public final class Validaciones {
 			return false;
 
 		if (espacios) {
-			return Pattern.matches("[0-9a-zA-Z ]+", s);
+			return Pattern.matches("[0-9a-zA-ZáéíóúýÁÉÍÓÚÝñÑ ]+", s);
 		} else {
-			return Pattern.matches("[0-9a-zA-Z]+", s);
+			return Pattern.matches("[0-9a-zA-ZáéíóúýÁÉÍÓÚÝñÑ]+", s);
 		}
 	}
 	
