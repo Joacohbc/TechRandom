@@ -161,7 +161,7 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 				}
 			}
 		});
-		btnModEstCons.setBounds(400, 556, 206, 21);
+		btnModEstCons.setBounds(380, 556, 226, 21);
 		add(btnModEstCons);
 
 		JLabel lblNewLabel_1 = new JLabel("Filtro por estado");
