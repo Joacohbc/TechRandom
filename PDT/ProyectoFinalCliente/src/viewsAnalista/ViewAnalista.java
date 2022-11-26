@@ -24,12 +24,12 @@ import views.Login;
 import views.ViewAsistencias;
 import views.ViewBienvenida;
 import views.ViewCambiarContrasenia;
-import views.ViewMedida;
+import views.ViewMedidaFrame;
 import viewsEstudiante.ViewEstudiante;
 import viewsITR.ViewITR;
 
 
-public class ViewAnalista extends JFrame implements ViewMedida {
+public class ViewAnalista extends JFrame implements ViewMedidaFrame {
 
 	private JPanel contentPane;
 	private JPanel panelActual;

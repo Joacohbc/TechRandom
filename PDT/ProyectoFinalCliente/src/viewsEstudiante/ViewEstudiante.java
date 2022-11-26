@@ -22,11 +22,11 @@ import swingutils.Mensajes;
 import views.Login;
 import views.ViewBienvenida;
 import views.ViewCambiarContrasenia;
-import views.ViewMedida;
+import views.ViewMedidaFrame;
 import viewsAnalista.ViewAnalista;
 import viewsAnalista.ViewPerfil;
 
-public class ViewEstudiante extends JFrame implements ViewMedida {
+public class ViewEstudiante extends JFrame implements ViewMedidaFrame {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -59,7 +59,7 @@ public class ViewEstudiante extends JFrame implements ViewMedida {
 		panelBienvenida = new ViewBienvenida();
 
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 700, 772);
+		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);

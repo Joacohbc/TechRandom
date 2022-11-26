@@ -23,7 +23,7 @@ import viewsAnalista.ViewAnalista;
 import viewsAnalista.ViewPerfil;
 import viewsEstudiante.ViewEstudiante;
 
-public class ViewTutor extends JFrame implements ViewMedida {
+public class ViewTutor extends JFrame implements ViewMedidaFrame {
 
 	private JPanel contentPane;
 
@@ -41,7 +41,7 @@ public class ViewTutor extends JFrame implements ViewMedida {
 	public ViewTutor(Tutor tutor) {
 		setTitle("Tutor");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(0, 0, 700, 805);
+		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
 		setResizable(false);
 		panelAsistencias = new ViewAsistencias();
 		panelCambiarContrasenia = new ViewCambiarContrasenia(tutor, this);
