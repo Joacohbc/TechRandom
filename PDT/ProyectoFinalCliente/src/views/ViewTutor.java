@@ -1,11 +1,18 @@
 package views;
 
-import java.awt.EventQueue;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -13,30 +20,14 @@ import com.entities.Tutor;
 
 import swingutils.Mensajes;
 import viewsAnalista.ViewAnalista;
-import viewsAnalista.ViewGenerarPlantilla;
-import viewsAnalista.ViewListadoSolicitudConstancias;
-import viewsAnalista.ViewListadoUsuarios;
-import viewsAnalista.ViewModEstadoSolConstancia;
 import viewsAnalista.ViewPerfil;
 import viewsEstudiante.ViewEstudiante;
-import viewsITR.ViewITR;
-
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-
-import java.awt.BorderLayout;
-import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
 
 public class ViewTutor extends JFrame implements ViewMedida {
 
 	private JPanel contentPane;
 
 	private ViewAsistencias panelAsistencias;
-	private JButton btnRecargar;
 	private JButton btnCambiarContrasena;
 	private JButton btnPerfil;
 	private ViewCambiarContrasenia panelCambiarContrasenia;

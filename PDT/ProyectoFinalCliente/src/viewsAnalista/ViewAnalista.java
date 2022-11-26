@@ -39,7 +39,6 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 	private ViewListadoUsuarios panelListadoUsuarios;
 	private ViewITR panelITR;
 	private ViewListadoSolicitudConstancias panelListadoSolicitudesConstancias;
-	private ViewModEstadoSolConstancia panelModEstadoSolConstancia;
 	private ViewCambiarContrasenia panelCambiarContrasenia;
 	private ViewListadoTipoConstancias panelListadoConstancias;
 	private ViewAsistencias panelAsistencias;
@@ -55,7 +54,6 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 		panelListadoUsuarios = new ViewListadoUsuarios(ana);
 		panelITR = new ViewITR();
 		panelListadoSolicitudesConstancias = new ViewListadoSolicitudConstancias(ana);
-		panelModEstadoSolConstancia = new ViewModEstadoSolConstancia(ana);
 		panelCambiarContrasenia = new ViewCambiarContrasenia(ana, this);
 		panelListadoConstancias = new ViewListadoTipoConstancias();
 		panelAsistencias = new ViewAsistencias();
@@ -116,20 +114,6 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 			}
 		});
 		mnConstancias.add(SolicitudConstanciaMenuItem);
-		
-		JMenuItem ModificarSolicitudConstanciaMenuItem = new JMenuItem("Modificar estado Solicitud Constancia");
-		ModificarSolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelActual.removeAll();
-				panelActual.repaint();
-				panelActual.revalidate();
-				panelActual.add(panelModEstadoSolConstancia, BorderLayout.CENTER);	
-				panelActual.repaint();
-				panelActual.revalidate();
-				
-			}
-		});
-		mnConstancias.add(ModificarSolicitudConstanciaMenuItem);
 		
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Generar Tipo Constancia");
@@ -230,7 +214,6 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 				panelListadoUsuarios = new ViewListadoUsuarios(ana);
 				panelITR = new ViewITR();
 				panelListadoSolicitudesConstancias = new ViewListadoSolicitudConstancias(ana);
-				panelModEstadoSolConstancia = new ViewModEstadoSolConstancia(ana);
 				
 				panelActual.removeAll();
 				panelActual.repaint();
