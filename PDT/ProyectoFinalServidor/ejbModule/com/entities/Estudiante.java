@@ -163,12 +163,6 @@ public class Estudiante extends Usuario implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Estudiante [idEstudiante=" + idEstudiante + ", generacion=" + generacion + ", estado=" + estado
-				+ ", getIdUsuario()=" + getIdUsuario() + ", getApellidos()=" + getApellidos() + ", getContrasena()="
-				+ getContrasena() + ", getDepartamento()=" + getDepartamento() + ", getDocumento()=" + getDocumento()
-				+ ", getEmail()=" + getEmailUtec() + ", getEstadoUsuario()=" + getEstadoUsuario() + ", getFecNacimiento()="
-				+ getFecNacimiento() + ", getGenero()=" + getGenero() + ", getLocalidad()=" + getLocalidad()
-				+ ", getNombreUsuario()=" + getNombreUsuario() + ", getNombres()=" + getNombres() + ", getTelefono()="
-				+ getTelefono() + ", getItr()=" + getItr() + "]";
+		return getNombres() + " " + getApellidos() + " - " + getDocumento();
 	}
 }
