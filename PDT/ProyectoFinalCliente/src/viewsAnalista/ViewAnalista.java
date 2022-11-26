@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 import com.entities.Analista;
 
 import beans.BeanIntances;
+import views.Login;
 import views.ViewAsistencias;
 import views.ViewBienvenida;
 import views.ViewCambiarContrasenia;
@@ -58,7 +59,7 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 		panelListadoConstancias = new ViewListadoTipoConstancias();
 		panelAsistencias = new ViewAsistencias();
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -79,6 +80,19 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 			}
 		});
 		mnUsuarios.add(mntmNewMenuItem_1);
+		
+		JMenuItem mntmAsistencia = new JMenuItem("Listado Asistencias");
+		mntmAsistencia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelActual.removeAll();
+				panelActual.repaint();
+				panelActual.revalidate();
+				panelActual.add(panelAsistencias, BorderLayout.CENTER);	
+				panelActual.repaint();
+				panelActual.revalidate();
+			}
+		});
+		mnUsuarios.add(mntmAsistencia);
 		
 		
 		
@@ -230,6 +244,22 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 		menuBar.add(btnCambiarContrasena);
 		btnPerfil.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/user32.png")));
 		menuBar.add(btnPerfil);
+		
+		JButton btnLogout = new JButton("");
+		btnLogout.setToolTipText("Cambiar contraseña");
+		btnLogout.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/logout.png")));
+		btnLogout.setBorderPainted(false);
+		btnLogout.setContentAreaFilled(false);
+		btnLogout.setFocusPainted(false);
+		btnLogout.setOpaque(false);
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				Login login = new Login();
+				login.setVisible(true);
+			}
+		});
+		menuBar.add(btnLogout);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
