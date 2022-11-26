@@ -93,7 +93,7 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 			public void actionPerformed(ActionEvent e) {
 				//Alta de ITR
 				try {
-					if(textBoxAltaNombre.isValid()) {
+					if(textBoxAltaNombre.isContentValid()) {
 						Itr itr = new Itr();
 						itr.setNombre(textBoxAltaNombre.getText());
 						itr.setDepartamento((Departamento) comboBoxAltaDepar.getSelectedItem());
@@ -172,26 +172,32 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(textBoxModNombre.isValid()) {
-						Itr itr = new Itr();
-						if (table.getSelectedRow() != -1) {
-							int row = table.getSelectedRow();
-							itr.setIdItr(BeanIntances.itr().findByName(table.getModel().getValueAt(row, 2).toString()).getIdItr());
-						}
-						itr.setNombre(textBoxModNombre.getText());
-						itr.setDepartamento((Departamento) comboBoxModDepar.getSelectedItem());
-						itr.setEstado(false);
-						
-						ValidationObject error = ValidacionesItr.validarItr(itr);
-						if (!error.isValid()) {
-							Mensajes.MostrarError(error.getErrorMessage());
-							return;
-						}
-						itr = BeanIntances.itr().update(itr);
-						Mensajes.MostrarExito("Se modifico correctamente el Itr " + itr.getNombre());
-						cargarItr(table,comboBoxEstadoITR.getSelectedItem().toString());
-							
+					if(Mensajes.MostrarSioNo("¿Esta seguro que quiere modificar el usuario?") == Mensajes.OPCION_NO) 
+						return;
+					
+					if(textBoxModNombre.isContentValid()) {
+						Mensajes.MostrarError(textBoxModNombre.getErrorMessage());
+						return;
 					}
+						
+					Itr itr = new Itr();
+					if (table.getSelectedRow() != -1) {
+						int row = table.getSelectedRow();
+						itr.setIdItr(BeanIntances.itr().findByName(table.getModel().getValueAt(row, 2).toString()).getIdItr());
+					}
+					itr.setNombre(textBoxModNombre.getText());
+					itr.setDepartamento((Departamento) comboBoxModDepar.getSelectedItem());
+					itr.setEstado(false);
+					
+					ValidationObject error = ValidacionesItr.validarItr(itr);
+					if (!error.isValid()) {
+						Mensajes.MostrarError(error.getErrorMessage());
+						return;
+					}
+					itr = BeanIntances.itr().update(itr);
+					Mensajes.MostrarExito("Se modifico correctamente el Itr " + itr.getNombre());
+					cargarItr(table,comboBoxEstadoITR.getSelectedItem().toString());
+				
 				}catch(Exception E) {
 					Mensajes.MostrarError(E.getMessage());
 				}
