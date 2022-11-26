@@ -188,7 +188,6 @@ public class ViewITR  extends JPanel implements ViewMedida  {
 					}
 					itr.setNombre(textBoxModNombre.getText());
 					itr.setDepartamento((Departamento) comboBoxModDepar.getSelectedItem());
-					itr.setEstado(false);
 					
 					ValidationObject error = ValidacionesItr.validarItr(itr);
 					if (!error.isValid()) {

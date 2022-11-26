@@ -86,7 +86,8 @@ public class Registrarse extends JFrame {
 
 				List<Itr> itrs = BeanIntances.itr().findAll();
 				for (Itr itr : itrs) {
-					comboItr.addItem(itr);
+					if(itr.getEstado())
+						comboItr.addItem(itr);
 				}
 			}
 			@Override
