@@ -85,7 +85,7 @@ public class TipoConstanciaBean implements TipoConstanciaBeanRemote {
 	}
 
 	@Override
-	public TipoConstancia eliminarTipoConstancia(Long id) throws ServiceException, NotFoundEntityException {
+	public TipoConstancia eliminar(Long id) throws ServiceException, NotFoundEntityException {
 		try {
 			ServicesUtils.checkNull(id, "Al registra un TipoConstancia el ID no puede ser nulo");
 		
@@ -101,6 +101,23 @@ public class TipoConstanciaBean implements TipoConstanciaBeanRemote {
 		}
 	}
 
+	@Override
+	public TipoConstancia reactivar(Long id) throws ServiceException, NotFoundEntityException {
+		try {
+			ServicesUtils.checkNull(id, "Al registra un TipoConstancia el ID no puede ser nulo");
+		
+			TipoConstancia actual = dao.findById(id);
+			if(actual == null)
+				throw new NotFoundEntityException("No existe un Tipo de Constancia con el ID: " + id);
+		
+			actual.setEstado(true);
+			actual = dao.update(actual);
+			return actual;
+		}catch(DAOException e){
+			throw new ServiceException(e);
+		}
+	}
+	
 	@Override
 	public byte[] descargarPlantilla(Long id) throws ServiceException, NotFoundEntityException {
 		return dao.findById(id).getPlantilla();

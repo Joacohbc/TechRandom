@@ -15,7 +15,9 @@ public interface TipoConstanciaBeanRemote {
 	List<TipoConstancia> findAll();
 	TipoConstancia insert(TipoConstancia entity) throws ServiceException, InvalidEntityException;
 	TipoConstancia update(TipoConstancia entity) throws ServiceException, NotFoundEntityException, InvalidEntityException;
-	TipoConstancia eliminarTipoConstancia(Long id) throws ServiceException, NotFoundEntityException;
+	TipoConstancia eliminar(Long id) throws ServiceException, NotFoundEntityException;
+	TipoConstancia reactivar(Long id) throws ServiceException, NotFoundEntityException;
+
 	byte[] descargarPlantilla(Long id) throws ServiceException, NotFoundEntityException;
 
 
