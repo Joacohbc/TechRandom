@@ -51,7 +51,7 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 		setBounds(0,0,ANCHO_VIEW,LARGO_VIEW);
 		comboBoxEstadoITR = new JComboBox();
 		
-		comboBoxEstadoITR.setBounds(133, 488, 173, 21);
+		comboBoxEstadoITR.setBounds(241, 440, 173, 21);
 		add(comboBoxEstadoITR);
 		comboBoxEstadoITR.addItem("Ver todos");
 		comboBoxEstadoITR.addItem("Habilitado");
@@ -122,7 +122,7 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 		add(lblNewLabel_4);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(36, 514, 669, 198);
+		scrollPane.setBounds(28, 473, 606, 157);
 		add(scrollPane);
 		
 		table = new JTable();
@@ -266,12 +266,6 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 		btnDesactivar.setBounds(146, 372, 100, 21);
 		add(btnDesactivar);
 		
-		
-		//Se incorpora elemento para mitigar error en otro VTextBox
-		VTextBox textBox = new VTextBox();
-		textBox.setBounds(10, 681, 13, 13);
-		add(textBox);
-		
 		JLabel lblNewLabel = new JLabel("Filtro");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel.setBounds(107, 440, 45, 21);
@@ -283,13 +277,12 @@ public class ViewAltaITR  extends JPanel implements ViewMedida  {
 		
 		JLabel lblNewLabel_7 = new JLabel("Estado ITR");
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_7.setBounds(48, 491, 89, 13);
+		lblNewLabel_7.setBounds(156, 443, 89, 13);
 		add(lblNewLabel_7);
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(10, 421, 695, 2);
 		add(separator_1);
-		textBox.setVisible(false);
 		
 		for (Departamento d : Departamento.values()) {
 			comboBoxAltaDepar.addItem(d);
