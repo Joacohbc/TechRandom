@@ -66,7 +66,7 @@ public class Login extends JFrame {
 		if (usuario.getEstadoUsuario() == EstadoUsuario.SIN_VALIDAR
 				|| usuario.getEstadoUsuario() == EstadoUsuario.ELIMINADO) {
 			Mensajes.MostrarError("El usuario " + usuario.getNombreUsuario()
-					+ " no esta vaidado, consulte con el Analista responsable");
+					+ " no esta validado, consulte con el Analista responsable");
 			return false;
 		}
 		
@@ -222,7 +222,7 @@ public class Login extends JFrame {
 				
 				try {
 					BeanIntances.user().olvideContrasenia(txtUsuario.getText());
-					Mensajes.MostrarExito("Revise su correo electronico");
+					Mensajes.MostrarExito("Revise su correo electrónico");
 				}catch (Exception ex) {
 					 Mensajes.MostrarError(ex.getMessage());
 					 ex.printStackTrace();

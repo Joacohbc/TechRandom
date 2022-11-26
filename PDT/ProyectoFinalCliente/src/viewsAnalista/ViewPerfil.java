@@ -88,7 +88,7 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		lblNewLabel_5.setBounds(10, 235, 136, 13);
 		add(lblNewLabel_5);
 
-		JLabel lblNewLabel_6 = new JLabel("Telefono");
+		JLabel lblNewLabel_6 = new JLabel("Teléfono");
 		lblNewLabel_6.setBounds(347, 118, 85, 13);
 		add(lblNewLabel_6);
 
@@ -279,7 +279,7 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		lblNewLabel_13.setBounds(10, 304, 45, 13);
 		add(lblNewLabel_13);
 
-		JLabel lblNewLabel_6_1 = new JLabel("Generacion");
+		JLabel lblNewLabel_6_1 = new JLabel("Generación");
 		lblNewLabel_6_1.setBounds(346, 304, 94, 13);
 		add(lblNewLabel_6_1);
 

@@ -164,7 +164,7 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 		menuBar.add(horizontalGlue);
 	
 		JButton btnPerfil = new JButton("");
-		btnPerfil.setToolTipText("Ver y modificar infromacion principal");
+		btnPerfil.setToolTipText("Ver y modificar información principal");
 		btnPerfil.setBorderPainted(false);
 		btnPerfil.setContentAreaFilled(false);
 		btnPerfil.setFocusPainted(false);
@@ -200,7 +200,7 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 		
 		JButton btnRecargar = new JButton("");
 		btnRecargar.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/refresh32.png")));
-		btnRecargar.setToolTipText("Recarga la pestña actual");
+		btnRecargar.setToolTipText("Recarga la pestaña actual");
 		btnRecargar.setOpaque(false);
 		btnRecargar.setFocusPainted(false);
 		btnRecargar.setContentAreaFilled(false);

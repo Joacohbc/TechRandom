@@ -137,12 +137,12 @@ public class ViewPDF extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				if (ubicacionPlantilla == null) {
-					Mensajes.MostrarError("Seleccione una plantilla antes de reaizar la pre-visualizacion");
+					Mensajes.MostrarError("Seleccione una plantilla antes de realzar la pre-visualización");
 					return;
 				}
 
 				if (txtAParrafo1.getText().isBlank()) {
-					Mensajes.MostrarError("Por lo menos el primer parrafo debe tener contenido");
+					Mensajes.MostrarError("Por lo menos el primer párrafo debe tener contenido");
 					return;
 				}
 
@@ -162,7 +162,7 @@ public class ViewPDF extends JFrame {
 						Mensajes.MostrarError("La ruta: " + ubicacionPDF + " no es una ruta valida");
 						e1.printStackTrace();
 					} catch (IOException e1) {
-						Mensajes.MostrarError("Ocurrio un error al guardar la plantilla: " + e1.getMessage());
+						Mensajes.MostrarError("Ocurrió un error al guardar la plantilla: " + e1.getMessage());
 						e1.printStackTrace();
 					}
 
@@ -188,12 +188,12 @@ public class ViewPDF extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				if (ubicacionPlantilla == null) {
-					Mensajes.MostrarError("Seleccione una plantilla antes de reaizar la pre-visualizacion");
+					Mensajes.MostrarError("Seleccione una plantilla antes de realizar la pre-visualización");
 					return;
 				}
 
 				if (txtAParrafo1.getText().isBlank()) {
-					Mensajes.MostrarError("Por lo menos el primer parrafo debe tener contenido");
+					Mensajes.MostrarError("Por lo menos el primer párrafo debe tener contenido");
 					return;
 				}
 
@@ -236,7 +236,7 @@ public class ViewPDF extends JFrame {
 
 		InfoButton nfbtnespaciadoEsLa = new InfoButton();
 		nfbtnespaciadoEsLa.setText(
-				"\"Espaciado\" es la cantidad de lineas de separacion entre la imagen del modelo y los parrafos");
+				"\"Espaciado\" es la cantidad de lineas de separación entre la imagen del modelo y los párrafos");
 		nfbtnespaciadoEsLa.setBounds(194, 269, 16, 16);
 		contentPane.add(nfbtnespaciadoEsLa);
 
@@ -247,7 +247,7 @@ public class ViewPDF extends JFrame {
 						+ "- Documento del estudiante: &documento&\n" + "- Generacion del Estudiante: &generacion&\n"
 						+ "\n" + "Datos del Evento:\n" + "- Nombre del Evento: &evento&\n"
 						+ "- Fecha de Inicio del Evento: &fechainicio&\n" + "- Fecha de Fin del Evento: &fechafin&\n"
-						+ "- Modalidad del Evento: &modalidad&\n" + "- Localizacion del Evento: &lugar&\n");
+						+ "- Modalidad del Evento: &modalidad&\n" + "- Localización del Evento: &lugar&\n");
 		infoParrafo1.setBounds(501, 64, 16, 16);
 		contentPane.add(infoParrafo1);
 
@@ -258,7 +258,7 @@ public class ViewPDF extends JFrame {
 						+ "- Documento del estudiante: &documento&\n" + "- Generacion del Estudiante: &generacion&\n"
 						+ "\n" + "Datos del Evento:\n" + "- Nombre del Evento: &evento&\n"
 						+ "- Fecha de Inicio del Evento: &fechainicio&\n" + "- Fecha de Fin del Evento: &fechafin&\n"
-						+ "- Modalidad del Evento: &modalidad&\n" + "- Localizacion del Evento: &lugar&\n");
+						+ "- Modalidad del Evento: &modalidad&\n" + "- Localización del Evento: &lugar&\n");
 		infoParrafo2.setBounds(501, 165, 16, 16);
 		contentPane.add(infoParrafo2);
 

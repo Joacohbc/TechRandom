@@ -92,7 +92,7 @@ public class ViewListadoUsuarios extends JPanel implements ViewMedida {
 					Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila, 0).toString());
 					Usuario usu = BeanIntances.user().findById(Usuario.class, id);
 					if (usu == null) {
-						Mensajes.MostrarError("No eexiste un usuario con el ID: " + id);
+						Mensajes.MostrarError("No existe un usuario con el ID: " + id);
 						return;
 					}
 					
@@ -185,7 +185,7 @@ public class ViewListadoUsuarios extends JPanel implements ViewMedida {
 		lblNewLabel_1.setBounds(12, 89, 60, 17);
 		panel.add(lblNewLabel_1);
 
-		JLabel lblGeneracion = new JLabel("GeneraciÃ³n");
+		JLabel lblGeneracion = new JLabel("Generación");
 		lblGeneracion.setBounds(12, 127, 82, 17);
 		panel.add(lblGeneracion);
 		JLabel lblNewLabel_3 = new JLabel("Usuario");
@@ -206,7 +206,7 @@ public class ViewListadoUsuarios extends JPanel implements ViewMedida {
 					Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila, 0).toString());
 					Usuario usu = BeanIntances.user().findById(Usuario.class, id);
 					if (usu == null) {
-						Mensajes.MostrarError("No eexiste un usuario con el ID: " + id);
+						Mensajes.MostrarError("No existe un usuario con el ID: " + id);
 						return;
 					}
 					
@@ -242,7 +242,7 @@ public class ViewListadoUsuarios extends JPanel implements ViewMedida {
 					Long id = Long.parseLong(tblUsuarios.getModel().getValueAt(fila, 0).toString());
 					Usuario usu = BeanIntances.user().findById(Usuario.class, id);
 					if (usu == null) {
-						Mensajes.MostrarError("No eexiste un usuario con el ID: " + id);
+						Mensajes.MostrarError("No existe un usuario con el ID: " + id);
 						return;
 					}
 					
@@ -256,7 +256,7 @@ public class ViewListadoUsuarios extends JPanel implements ViewMedida {
 		btnAbrirUsuario.setBounds(436, 335, 105, 27);
 		panel.add(btnAbrirUsuario);
 
-		JLabel lblNewLabel_4 = new JLabel("GeneraciÃ³n");
+		JLabel lblNewLabel_4 = new JLabel("Generación");
 		lblNewLabel_4.setBounds(12, 127, 96, 17);
 		panel.add(lblNewLabel_4);
 

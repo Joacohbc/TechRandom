@@ -68,7 +68,7 @@ public class ViewContancia extends JPanel implements ViewMedida {
 					cons.setDetalle("Solicitud por el estudiante: " + estudiante.getDocumento());
 					cons.setTipoConstancia((TipoConstancia) cmbTipoConstancia.getSelectedItem());
 					BeanIntances.constancia().solicitar(cons);
-					Mensajes.MostrarExito("La solicitud fue realizada con exito.");
+					Mensajes.MostrarExito("La solicitud fue realizada con éxito.");
 
 				} catch (InvalidEntityException ex) {
 					Mensajes.MostrarError(ex.getMessage());
@@ -83,7 +83,7 @@ public class ViewContancia extends JPanel implements ViewMedida {
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		String columns[] = { "Id", "Titulo", "Fecha de Inicio", "Fecha de Fin", "Modalidad", "Localizacion" };
+		String columns[] = { "Id", "Titulo", "Fecha de Inicio", "Fecha de Fin", "Modalidad", "Localización" };
 		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0);
 		table.setModel(modeloJTable);
 
@@ -111,7 +111,7 @@ public class ViewContancia extends JPanel implements ViewMedida {
 	public void cargarEventos(JTable table, Estudiante estudiante) {
 		// Cargamos todos los eventos relacionados con el ID de estudiante
 		List<Evento> eventos = BeanIntances.evento().findByEstudianteId(estudiante.getIdEstudiante());
-		String columns[] = { "id", "Titulo", "FechaInicio", "FechaFin", "Modalidad", "Localizacion" };
+		String columns[] = { "id", "Titulo", "FechaInicio", "FechaFin", "Modalidad", "Localización" };
 		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {

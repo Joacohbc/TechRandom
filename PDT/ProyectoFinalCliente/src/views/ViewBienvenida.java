@@ -30,7 +30,7 @@ public class ViewBienvenida extends JPanel implements ViewMedida{
 		txtrbienvenidosAlSistema.setHorizontalAlignment(SwingConstants.CENTER);
 		txtrbienvenidosAlSistema.setBackground(UIManager.getColor("Panel.background"));
 		txtrbienvenidosAlSistema.setFont(new Font("Gill Sans MT Condensed", Font.ITALIC, 60));
-		txtrbienvenidosAlSistema.setText("<html>¡Bienvenidos al Sistema <br> de Gestion de la UTEC!</html>");
+		txtrbienvenidosAlSistema.setText("<html>¡Bienvenidos al Sistema <br> de Gestión de la UTEC!</html>");
 		txtrbienvenidosAlSistema.setBounds(10, 231, 497, 142);
 		add(txtrbienvenidosAlSistema, BorderLayout.CENTER);
 		

@@ -124,7 +124,7 @@ public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedid
 			}
 		});
 
-		JLabel lblEstado = new JLabel("Flitro por Estado");
+		JLabel lblEstado = new JLabel("Filtro por Estado");
 		lblEstado.setBounds(35, 294, 116, 17);
 		add(lblEstado);
 		
@@ -172,10 +172,10 @@ public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedid
 					AccionConstancia acc = new AccionConstancia();
 					acc.setAnalista((Analista) usu);
 					acc.setConstancia(cons);
-					acc.setDetalle("Se modifico la constacia al estado: " + estado.toString());
+					acc.setDetalle("Se modifico la constancia al estado: " + estado.toString());
 					
 					if(estado == EstadoSolicitudes.FINALIZADO) {
-						if(Mensajes.MostrarSioNo("¿Seguro que quiere finalziar la solicitud de constancia?") == Mensajes.OPCION_NO) 
+						if(Mensajes.MostrarSioNo("¿Seguro que quiere finalizar la solicitud de constancia?") == Mensajes.OPCION_NO) 
 							return;
 						
 						byte[] plantilla = BeanIntances.tipoConstancia().descargarPlantilla(cons.getTipoConstancia().getIdTipoConstancia());
@@ -286,7 +286,7 @@ public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedid
 
 	public void cargarConstancias(JTable tabla, List<Constancia> constancias, EstadoSolicitudes filtro) {
 		
-		String columns[] = { "Id","Evento","Fecha de Solicitus", "Detalle", "Tipo De Constancia", "Estado" };
+		String columns[] = { "Id","Evento","Fecha de Solicitud", "Detalle", "Tipo De Constancia", "Estado" };
 		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {

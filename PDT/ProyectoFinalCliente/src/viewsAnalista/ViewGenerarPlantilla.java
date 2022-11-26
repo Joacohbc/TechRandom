@@ -74,15 +74,15 @@ public class ViewGenerarPlantilla extends JPanel {
 		add(txtTitulo);
 		txtTitulo.setColumns(10);
 
-		JLabel lblTtulo = new JLabel("TÃ­tulo");
+		JLabel lblTtulo = new JLabel("Título");
 		lblTtulo.setBounds(25, 31, 60, 17);
 		add(lblTtulo);
 
-		JLabel lblPrrafo = new JLabel("PÃ¡rrafo #1");
+		JLabel lblPrrafo = new JLabel("Párrafo #1");
 		lblPrrafo.setBounds(25, 64, 86, 17);
 		add(lblPrrafo);
 
-		JLabel lblPrrafo_1 = new JLabel("PÃ¡rrafo #2");
+		JLabel lblPrrafo_1 = new JLabel("Párrafo #2");
 		lblPrrafo_1.setBounds(25, 165, 86, 17);
 		add(lblPrrafo_1);
 
@@ -111,12 +111,12 @@ public class ViewGenerarPlantilla extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				if (ubicacionPlantilla == null) {
-					Mensajes.MostrarError("Seleccione una plantilla antes de reaizar la pre-visualizacion");
+					Mensajes.MostrarError("Seleccione una plantilla antes de realizar la pre-visualización");
 					return;
 				}
 
 				if (txtAParrafo1.getText().isBlank()) {
-					Mensajes.MostrarError("Por lo menos el primer parrafo debe tener contenido");
+					Mensajes.MostrarError("Por lo menos el primer párrafo debe tener contenido");
 					return;
 				}
 
@@ -136,7 +136,7 @@ public class ViewGenerarPlantilla extends JPanel {
 						Mensajes.MostrarError("La ruta: " + ubicacionPDF + " no es una ruta valida");
 						e1.printStackTrace();
 					} catch (IOException e1) {
-						Mensajes.MostrarError("Ocurrio un error al guardar la plantilla: " + e1.getMessage());
+						Mensajes.MostrarError("Ocurrió un error al guardar la plantilla: " + e1.getMessage());
 						e1.printStackTrace();
 					}
 
@@ -150,7 +150,7 @@ public class ViewGenerarPlantilla extends JPanel {
 		lblEspaciado.setBounds(25, 265, 60, 17);
 		add(lblEspaciado);
 
-		// SE UTILIZA UN SPINNER PARA CONTROLAR LOS ESPACIOS DESDE EL ÃšLTIMO PÃRRAFO AL
+		// SE UTILIZA UN SPINNER PARA CONTROLAR LOS ESPACIOS DESDE EL ÚLTIMO PÁRRAFO AL
 		// FINAL DEL DOCUMENTO
 		spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(1, 1, 10010, 1));
@@ -162,12 +162,12 @@ public class ViewGenerarPlantilla extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				if (ubicacionPlantilla == null) {
-					Mensajes.MostrarError("Seleccione una plantilla antes de reaizar la pre-visualizacion");
+					Mensajes.MostrarError("Seleccione una plantilla antes de realizar la pre-visualización");
 					return;
 				}
 
 				if (txtAParrafo1.getText().isBlank()) {
-					Mensajes.MostrarError("Por lo menos el primer parrafo debe tener contenido");
+					Mensajes.MostrarError("Por lo menos el primer párrafo debe tener contenido");
 					return;
 				}
 
@@ -252,7 +252,7 @@ public class ViewGenerarPlantilla extends JPanel {
 
 		InfoButton nfbtnespaciadoEsLa = new InfoButton();
 		nfbtnespaciadoEsLa.setText(
-				"\"Espaciado\" es la cantidad de lineas de separacion entre la imagen del modelo y los parrafos");
+				"\"Espaciado\" es la cantidad de lineas de separación entre la imagen del modelo y los párrafos");
 		nfbtnespaciadoEsLa.setBounds(194, 269, 16, 16);
 		add(nfbtnespaciadoEsLa);
 
@@ -263,7 +263,7 @@ public class ViewGenerarPlantilla extends JPanel {
 						+ "- Documento del estudiante: &cedula&\n" + "- Generacion del Estudiante: &generacion&\n"
 						+ "\n" + "Datos del Evento:\n" + "- Nombre del Evento: &evento&\n"
 						+ "- Fecha de Inicio del Evento: &fechainicio&\n" + "- Fecha de Fin del Evento: &fechafin&\n"
-						+ "- Modalidad del Evento: &modalidad&\n" + "- Localizacion del Evento: &lugar&\n");
+						+ "- Modalidad del Evento: &modalidad&\n" + "- Localización del Evento: &lugar&\n");
 		infoParrafo1.setBounds(501, 64, 16, 16);
 		add(infoParrafo1);
 
@@ -274,7 +274,7 @@ public class ViewGenerarPlantilla extends JPanel {
 						+ "- Documento del estudiante: &cedula&\n" + "- Generacion del Estudiante: &generacion&\n"
 						+ "\n" + "Datos del Evento:\n" + "- Nombre del Evento: &evento&\n"
 						+ "- Fecha de Inicio del Evento: &fechainicio&\n" + "- Fecha de Fin del Evento: &fechafin&\n"
-						+ "- Modalidad del Evento: &modalidad&\n" + "- Localizacion del Evento: &lugar&\n");
+						+ "- Modalidad del Evento: &modalidad&\n" + "- Localización del Evento: &lugar&\n");
 		infoParrafo2.setBounds(501, 165, 16, 16);
 		add(infoParrafo2);
 

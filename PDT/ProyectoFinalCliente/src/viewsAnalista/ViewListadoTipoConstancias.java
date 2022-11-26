@@ -62,7 +62,7 @@ public class ViewListadoTipoConstancias extends JPanel implements ViewMedida{
 				Long id = Long.valueOf(table.getModel().getValueAt(row, 0).toString());
 				BeanIntances.tipoConstancia().reactivar(id);
 				cargarTipos(table);
-				Mensajes.MostrarExito("El tipo constancia se modifico con exito");
+				Mensajes.MostrarExito("El tipo constancia se modifico con éxito");
 			}
 		});
 		btnActivar.setBounds(12, 275, 105, 27);
@@ -79,7 +79,7 @@ public class ViewListadoTipoConstancias extends JPanel implements ViewMedida{
 				Long id = Long.valueOf(table.getModel().getValueAt(row, 0).toString());
 				BeanIntances.tipoConstancia().eliminar(id);
 				cargarTipos(table);
-				Mensajes.MostrarExito("El tipo constancia se modifico con exito");
+				Mensajes.MostrarExito("El tipo constancia se modifico con éxito");
 			}
 		});
 		btnDesactivar.setBounds(139, 275, 105, 27);
@@ -98,7 +98,7 @@ public class ViewListadoTipoConstancias extends JPanel implements ViewMedida{
 					
 					byte[] archivo = BeanIntances.tipoConstancia().descargarPlantilla(id);
 					if (archivo == null) {
-						Mensajes.MostrarError("El archivo esta vacio");
+						Mensajes.MostrarError("El archivo esta vació");
 						return;
 					}
 					
@@ -113,12 +113,12 @@ public class ViewListadoTipoConstancias extends JPanel implements ViewMedida{
 							pdf.write(archivo);
 							pdf.close();
 
-							JOptionPane.showMessageDialog(null, "Plantilla descaragada correctamente en " + ubicacionPDF);
+							JOptionPane.showMessageDialog(null, "Plantilla descargada correctamente en " + ubicacionPDF);
 						} catch (FileNotFoundException e1) {
 							Mensajes.MostrarError("La ruta: " + ubicacionPDF + " no es una ruta valida");
 							e1.printStackTrace();
 						} catch (IOException e1) {
-							Mensajes.MostrarError("Ocurrio un error al guardar la plantilla: " + e1.getMessage());
+							Mensajes.MostrarError("Ocurrió un error al guardar la plantilla: " + e1.getMessage());
 							e1.printStackTrace();
 						}
 

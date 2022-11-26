@@ -128,7 +128,7 @@ public class Registrarse extends JFrame {
 		lblNewLabel_5.setBounds(12, 232, 136, 13);
 		contentPane.add(lblNewLabel_5);
 
-		JLabel lblNewLabel_6 = new JLabel("Telefono");
+		JLabel lblNewLabel_6 = new JLabel("Teléfono");
 		lblNewLabel_6.setBounds(333, 118, 85, 13);
 		contentPane.add(lblNewLabel_6);
 
@@ -326,7 +326,7 @@ public class Registrarse extends JFrame {
 		lblNewLabel_13.setBounds(10, 304, 45, 13);
 		contentPane.add(lblNewLabel_13);
 
-		JLabel lblNewLabel_6_1 = new JLabel("Generacion");
+		JLabel lblNewLabel_6_1 = new JLabel("Generación");
 		lblNewLabel_6_1.setBounds(346, 304, 94, 13);
 		contentPane.add(lblNewLabel_6_1);
 

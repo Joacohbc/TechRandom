@@ -49,7 +49,7 @@ public class ViewCambiarContrasenia extends JPanel implements ViewMedida {
 					BeanIntances.user().updateContrasenia(usuario.getIdUsuario(),
 							String.valueOf(pfPassActual.getPassword()), String.valueOf(pfPassNuevo.getPassword()));
 					
-					Mensajes.MostrarExito("La contraseña fue actualizada con exito");
+					Mensajes.MostrarExito("La contraseña fue actualizada con éxito");
 					pfPassActual.setText("");
 					pfPassNuevo.setText("");
 					
@@ -59,7 +59,7 @@ public class ViewCambiarContrasenia extends JPanel implements ViewMedida {
 					Mensajes.MostrarError(ex.getMessage());
 					ex.printStackTrace();
 				} catch (Exception ex) {
-					Mensajes.MostrarError("Ocurrio un error desconodio: " + ex.getMessage());
+					Mensajes.MostrarError("Ocurrió un error desconocido: " + ex.getMessage());
 					ex.printStackTrace();
 				}
 			}
