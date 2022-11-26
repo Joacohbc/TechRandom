@@ -171,7 +171,7 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 						estudiante.setFecNacimiento(fecha);
 						estudiante.setDepartamento((Departamento) comboDepartamento.getSelectedItem());
 						estudiante.setGenero((Genero) comboGenero.getSelectedItem());
-						estudiante.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
+						estudiante.setEstadoUsuario(usu.getEstadoUsuario());
 						estudiante.setLocalidad(textLocalidad.getText());
 						estudiante.setItr((Itr) comboItr.getSelectedItem());
 						estudiante.setEstado(true);
@@ -202,7 +202,7 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 						tutor.setFecNacimiento(fecha);
 						tutor.setDepartamento((Departamento) comboDepartamento.getSelectedItem());
 						tutor.setGenero((Genero) comboGenero.getSelectedItem());
-						tutor.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
+						tutor.setEstadoUsuario(usu.getEstadoUsuario());
 						tutor.setLocalidad(textLocalidad.getText());
 						tutor.setItr((Itr) comboItr.getSelectedItem());
 						tutor.setEstado(true);
@@ -232,7 +232,7 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 					analista.setFecNacimiento(fecha);
 					analista.setDepartamento((Departamento) comboDepartamento.getSelectedItem());
 					analista.setGenero((Genero) comboGenero.getSelectedItem());
-					analista.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
+					analista.setEstadoUsuario(usu.getEstadoUsuario());
 					analista.setLocalidad(textLocalidad.getText());
 					analista.setItr((Itr) comboItr.getSelectedItem());
 					analista.setEstado(true);
