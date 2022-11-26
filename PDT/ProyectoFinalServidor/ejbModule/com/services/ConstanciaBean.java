@@ -72,8 +72,8 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 			if (actual == null)
 				throw new NotFoundEntityException("No existe una constancia con el ID: " + entity.getIdConstancia());
 
-			if (actual.getEstado() != EstadoSolicitudes.INGRESADO)
-				throw new InvalidEntityException("No se puede modificar una constancia que ya esta en proceso o finalizada");
+			if (actual.getEstado() != EstadoSolicitudes.FINALIZADO)
+				throw new InvalidEntityException("No se puede modificar una constancia que ya esta finalizada");
 
 			// La Fecha y Hora de emision y el Estado de la constancia no debe cambiado
 			entity.setFechaHora(actual.getFechaHora());
