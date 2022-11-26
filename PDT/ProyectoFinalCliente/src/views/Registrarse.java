@@ -100,7 +100,6 @@ public class Registrarse extends JFrame {
 			}
 		});
 		setTitle("Registrarse");
-		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 706, 543);
 		contentPane = new JPanel();
