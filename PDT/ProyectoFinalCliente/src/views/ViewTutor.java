@@ -48,7 +48,7 @@ public class ViewTutor extends JFrame implements ViewMedida {
 	 */
 	public ViewTutor(Tutor tutor) {
 		setTitle("Tutor");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(0, 0, 700, 805);
 		panelAsistencias = new ViewAsistencias();
 		panelCambiarContrasenia = new ViewCambiarContrasenia(tutor, this);
@@ -135,6 +135,23 @@ public class ViewTutor extends JFrame implements ViewMedida {
 			}
 		});
 		menuBar.add(btnPerfil);
+		
+		JButton btnLogout = new JButton("");
+		btnLogout.setToolTipText("Cambiar contraseña");
+		btnLogout.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/logout.png")));
+		btnLogout.setBorderPainted(false);
+		btnLogout.setContentAreaFilled(false);
+		btnLogout.setFocusPainted(false);
+		btnLogout.setOpaque(false);
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				Login login = new Login();
+				login.setVisible(true);
+			}
+		});
+		
+		menuBar.add(btnLogout);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
