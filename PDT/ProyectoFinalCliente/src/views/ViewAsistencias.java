@@ -42,7 +42,7 @@ import validation.Formatos;
 import validation.ValidacionesUsuario;
 import javax.swing.JComboBox;
 
-public class ViewAsistencias extends JPanel {
+public class ViewAsistencias extends JPanel implements ViewMedida{
 	private JTable table;
 	private VTextBox txtDocumento;
 	private Estudiante estudiante;
@@ -57,7 +57,7 @@ public class ViewAsistencias extends JPanel {
 	
 	public ViewAsistencias() {
 		setLayout(null);
-		
+		setBounds(0, 0, 700, 456);
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(46, 115, 368, 202);
 		add(scrollPane);
