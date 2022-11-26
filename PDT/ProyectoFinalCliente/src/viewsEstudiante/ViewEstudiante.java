@@ -97,7 +97,7 @@ public class ViewEstudiante extends JFrame implements ViewMedida {
 		contentPane.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(ViewEstudiante.class.getResource("/images/logo utec (2).png")));
+		lblNewLabel.setIcon(new ImageIcon(ViewEstudiante.class.getResource("/images/logo_utec.png")));
 		lblNewLabel.setBounds(576, 581, 180, 161);
 		contentPane.add(lblNewLabel);
 
