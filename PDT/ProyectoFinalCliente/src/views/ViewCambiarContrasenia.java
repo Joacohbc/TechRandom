@@ -48,7 +48,7 @@ public class ViewCambiarContrasenia extends JPanel implements ViewMedida {
 					BeanIntances.user().updateContrasenia(usuario.getIdUsuario(),
 							String.valueOf(pfPassActual.getPassword()), String.valueOf(pfPassNuevo.getPassword()));
 					
-					Mensajes.MostrarError("La contraseña fue actualizada con exito");
+					Mensajes.MostrarExito("La contraseña fue actualizada con exito");
 					pfPassActual.setText("");
 					pfPassNuevo.setText("");
 					

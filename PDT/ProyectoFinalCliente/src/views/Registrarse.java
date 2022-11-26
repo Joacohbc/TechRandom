@@ -65,25 +65,6 @@ public class Registrarse extends JFrame {
 	private VTextBox textMailUtec;
 	private VTextBox textMailPersonal;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Registrarse frame = new Registrarse();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public Registrarse() {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -204,7 +185,6 @@ public class Registrarse extends JFrame {
 					LocalDate fecha = Formatos.ToLocalDate(dtFechaDeNacimiento.getDate());
 					
 					if (rol == Roles.ESTUDIANTE) {
-						
 						Estudiante estudiante = new Estudiante();
 						estudiante.setNombres(textNombres.getText());
 						estudiante.setApellidos(textApellidos.getText());
@@ -234,11 +214,6 @@ public class Registrarse extends JFrame {
 						}
 						
 						estudiante = BeanIntances.user().register(estudiante, documento);
-						Mensajes.MostrarExito("Se dio de alta correctamente el Estudiante " + estudiante.getNombres());
-						dispose();
-						Login log = new Login();
-						log.setVisible(true);
-						return;
 					}
 
 					if (rol == Roles.TUTOR) {
@@ -267,42 +242,36 @@ public class Registrarse extends JFrame {
 						}
 						
 						tutor = BeanIntances.user().register(tutor, documento);
-						
-						Mensajes.MostrarExito("Se dio de alta correctamente el Tutor " + tutor.getNombres());
-						
-						dispose();
-						Login log = new Login();
-						log.setVisible(true);
-						return;
+					}  else {
+						Analista analista = new Analista();
+						analista.setNombres(textNombres.getText());
+						analista.setApellidos(textApellidos.getText());
+						analista.setContrasena(String.valueOf(textPassword.getPassword()));
+						analista.setEmailPersonal(textMailPersonal.getText());
+						analista.setEmailUtec(textMailUtec.getText());					
+						analista.setDocumento(textDocumento.getText());
+						analista.setTelefono(textTel.getText());
+						analista.setFecNacimiento(fecha);
+						analista.setDepartamento((Departamento) comboDepartamento.getSelectedItem());
+						analista.setGenero((Genero) comboGenero.getSelectedItem());
+						analista.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
+						analista.setLocalidad(textLocalidad.getText());
+						analista.setItr((Itr) comboItr.getSelectedItem());
+						analista.setEstado(true);
+
+						ValidationObject error = ValidacionesUsuario.ValidarUsuario(analista, documento);
+						if (!error.isValid()) {
+							Mensajes.MostrarError(error.getErrorMessage());
+							return;
+						}
+						analista = BeanIntances.user().register(analista, documento);
 					}
 
-					Analista analista = new Analista();
-					analista.setNombres(textNombres.getText());
-					analista.setApellidos(textApellidos.getText());
-					analista.setContrasena(String.valueOf(textPassword.getPassword()));
-					analista.setEmailPersonal(textMailPersonal.getText());
-					analista.setEmailUtec(textMailUtec.getText());					
-					analista.setDocumento(textDocumento.getText());
-					analista.setTelefono(textTel.getText());
-					analista.setFecNacimiento(fecha);
-					analista.setDepartamento((Departamento) comboDepartamento.getSelectedItem());
-					analista.setGenero((Genero) comboGenero.getSelectedItem());
-					analista.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
-					analista.setLocalidad(textLocalidad.getText());
-					analista.setItr((Itr) comboItr.getSelectedItem());
-					analista.setEstado(true);
-
-					ValidationObject error = ValidacionesUsuario.ValidarUsuario(analista, documento);
-					if (!error.isValid()) {
-						Mensajes.MostrarError(error.getErrorMessage());
-						return;
-					}
-					analista = BeanIntances.user().register(analista, documento);
-					Mensajes.MostrarExito("Se dio de alta correctamente el Analista " + analista.getNombres());
-					
+					Mensajes.MostrarExito("El usuario fue dado de alta correctamente, debe esperar que la cuenta sea validada por un Analista");
 					dispose();
 					Login log = new Login();
 					log.setVisible(true);
+					
 				} catch (Exception ex) {
 					Mensajes.MostrarError(ex.getMessage());
 					ex.printStackTrace();

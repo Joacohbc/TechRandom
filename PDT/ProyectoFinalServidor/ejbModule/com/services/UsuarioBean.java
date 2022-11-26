@@ -14,6 +14,7 @@ import java.util.Random;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.mail.MessagingException;
 import javax.persistence.NoResultException;
 
 import com.daos.UsuariosDAO;
@@ -334,11 +335,12 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			
 			actual.setContrasena(toMD5(nueva));
 			
-			mail.enviarConGMail(actual.getEmailUtec(), antigua, nueva);
+			mail.enviarConGMail(actual.getEmailUtec(), "Cambio de Contraseña", "Se modifico la contraseña de su Usuario");
+			mail.enviarConGMail(actual.getEmailPersonal(), "Cambio de Contraseña", "Se modifico la contraseña de su Usuario");
 			dao.update(actual);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
-		} catch (NoSuchAlgorithmException e) {
+		} catch (NoSuchAlgorithmException | MessagingException e) {
 			throw new ServiceException(e);
 		}
 	}
