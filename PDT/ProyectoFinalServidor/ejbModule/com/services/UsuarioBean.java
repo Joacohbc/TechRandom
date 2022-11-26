@@ -354,13 +354,17 @@ public class UsuarioBean implements UsuarioBeanRemote {
 		
 		try {
 			String password =  toMD5(nombreUsuario).toUpperCase() + System.currentTimeMillis() + toMD5(usuario.getContrasena()).toLowerCase();
-			mail.enviarConGMail(usuario.getEmailUtec(), "Contraseña Temporal para el usuario " +usuario.getNombreUsuario(), password.trim());
-			mail.enviarConGMail(usuario.getEmailPersonal(), "Contraseña Temporal para el usuario " + usuario.getNombreUsuario(), password.trim());
 			
 			usuario.setContrasena(toMD5(password.trim()));
 			dao.update(usuario);
-		}catch (Exception e) {
+
+			mail.enviarConGMail(usuario.getEmailUtec(), "Contraseña Temporal para el usuario " +usuario.getNombreUsuario(), password.trim());
+			mail.enviarConGMail(usuario.getEmailPersonal(), "Contraseña Temporal para el usuario " + usuario.getNombreUsuario(), password.trim());
+			
+		}catch (DAOException | NoSuchAlgorithmException e) {
 			throw new ServiceException(e);
+		} catch (MessagingException e) {
+			throw new ServiceException("No se pudo enviar el correo con al nueva contraseña, intentelo mas tarde");
 		}
 		
 	}

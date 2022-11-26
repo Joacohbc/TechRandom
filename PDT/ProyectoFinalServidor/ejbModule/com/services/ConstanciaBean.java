@@ -1,12 +1,19 @@
 package com.services;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.mail.BodyPart;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMultipart;
 
 import com.daos.ConstanciaDAO;
 import com.entities.AccionConstancia;
@@ -33,6 +40,9 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 	@EJB
 	private AccionConstanciaBean acBean;
 
+	@EJB
+	private MailBean mail;
+	
 	public ConstanciaBean() {
 	}
 
@@ -91,8 +101,8 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 				if (dao.findUnique(entity) != null) 
 					throw new InvalidEntityException("Ya existe una Contancia con esos atributos, mismo Estudiante, Evento, Fecha y Tipo de Constancia");
 			}
-
-			return dao.update(entity);
+			
+			return dao.update(entity);			
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -109,7 +119,7 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 	}
 
 	@Override
-	public Constancia updateEstado(Long id, EstadoSolicitudes estado, AccionConstancia accion)
+	public Constancia updateEstado(Long id, EstadoSolicitudes estadoNuevo, AccionConstancia accion)
 			throws ServiceException, NotFoundEntityException, InvalidEntityException {
 		try {
 			ServicesUtils.checkNull(id, "Al actualizar una Constancia, esta debe tener un ID asignado");
@@ -125,13 +135,24 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 			acBean.addAccionConstancia(accion, actual);
 
 			// Cambio el estado de la constancia
-			actual.setEstado(estado);
+			EstadoSolicitudes estadoActual = actual.getEstado();
+			actual.setEstado(estadoNuevo);
+			actual =  dao.update(actual);
 
-			return dao.update(actual);
-
+			String cuerpo = String.format("La Constancia de tipo \"%s\" al evento \"%s\" fue modificada de \"%s\" a \"%s\". Visite la aplicacion para mas informacion", 
+					actual.getTipoConstancia().getTipo(), 
+					actual.getEvento().getTitulo(),
+					estadoActual.toString(),
+					estadoNuevo.toString());
+				         
+			mail.enviarConGMail(actual.getEstudiante().getEmailUtec(), "Cambio de estando en su Constancia", cuerpo);
+			return actual;
+			
 			// Se cacha ServiceException porque se utiliza el acBean.addAccionConstancia()
 		} catch (DAOException | ServiceException e) {
 			throw new ServiceException(e);
+		} catch (MessagingException e) {
+			throw new ServiceException("La constancia se actualizo exitosamente pero no se pudo notificar al estudiante");
 		}
 	}
 
