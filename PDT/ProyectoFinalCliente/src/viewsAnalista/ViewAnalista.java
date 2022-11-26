@@ -22,11 +22,12 @@ import beans.BeanIntances;
 import views.ViewAsistencias;
 import views.ViewBienvenida;
 import views.ViewCambiarContrasenia;
+import views.ViewMedida;
 import viewsEstudiante.ViewEstudiante;
 import viewsITR.ViewAltaITR;
 
 
-public class ViewAnalista extends JFrame {
+public class ViewAnalista extends JFrame implements ViewMedida {
 
 	private JPanel contentPane;
 	private JPanel panelActual;
@@ -58,7 +59,7 @@ public class ViewAnalista extends JFrame {
 		panelAsistencias = new ViewAsistencias();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 705, 784);
+		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -199,6 +200,12 @@ public class ViewAnalista extends JFrame {
 		});
 		
 		JButton btnRecargar = new JButton("");
+		btnRecargar.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/refresh32.png")));
+		btnRecargar.setToolTipText("Recarga la pestña actual");
+		btnRecargar.setOpaque(false);
+		btnRecargar.setFocusPainted(false);
+		btnRecargar.setContentAreaFilled(false);
+		btnRecargar.setBorderPainted(false);
 		btnRecargar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelPersonal = new ViewPerfil(ana);
@@ -217,12 +224,7 @@ public class ViewAnalista extends JFrame {
 				panelActual.revalidate();
 			}
 		});
-		btnRecargar.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/refresh32.png")));
-		btnRecargar.setToolTipText("Recarga la pestña actual");
-		btnRecargar.setOpaque(false);
-		btnRecargar.setFocusPainted(false);
-		btnRecargar.setContentAreaFilled(false);
-		btnRecargar.setBorderPainted(false);
+		
 		menuBar.add(btnRecargar);
 		
 		menuBar.add(btnCambiarContrasena);
