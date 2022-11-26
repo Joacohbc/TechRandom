@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.entities.Estudiante;
 
+import views.Login;
 import views.ViewBienvenida;
 import views.ViewCambiarContrasenia;
 import views.ViewMedida;
@@ -38,6 +39,7 @@ public class ViewEstudiante extends JFrame implements ViewMedida {
 	private JButton btnPerfil;
 	private ViewCambiarContrasenia panelCambiarContrasenia;
 	private ViewBienvenida panelBienvenida;
+	private JButton btnLogout;
 
 	/**
 	 * Create the frame.
@@ -52,7 +54,7 @@ public class ViewEstudiante extends JFrame implements ViewMedida {
 		panelCambiarContrasenia = new ViewCambiarContrasenia(estudiante, this);
 		panelBienvenida = new ViewBienvenida();
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 700, 772);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -153,6 +155,22 @@ public class ViewEstudiante extends JFrame implements ViewMedida {
 			}
 		});
 		menuBar.add(btnPerfil);
+		
+		btnLogout = new JButton("");
+		btnLogout.setToolTipText("Cambiar contraseña");
+		btnLogout.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/logout.png")));
+		btnLogout.setBorderPainted(false);
+		btnLogout.setContentAreaFilled(false);
+		btnLogout.setFocusPainted(false);
+		btnLogout.setOpaque(false);
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				Login login = new Login();
+				login.setVisible(true);
+			}
+		});
+		menuBar.add(btnLogout);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
