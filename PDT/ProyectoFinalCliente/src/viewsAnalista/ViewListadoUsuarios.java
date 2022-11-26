@@ -11,7 +11,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -28,14 +27,13 @@ import com.entities.Itr;
 import com.entities.Tutor;
 import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
-import com.itextpdf.text.log.SysoLogger;
-import com.jgoodies.common.bean.Bean;
 
 import beans.BeanIntances;
 import components.Roles;
 import swingutils.Mensajes;
+import views.ViewMedida;
 
-public class ViewListadoUsuarios extends JPanel {
+public class ViewListadoUsuarios extends JPanel implements ViewMedida {
 
 	private static final long serialVersionUID = 1L;
 
@@ -51,16 +49,33 @@ public class ViewListadoUsuarios extends JPanel {
 	private JComboBox<Itr> comboITR;
 	private JComboBox<EstadoUsuario> comboEstado;
 	private JButton btnCargarUsuario;
-
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setContentPane(new ViewListadoUsuarios(BeanIntances.user().findById(Analista.class, 1l)));
-		frame.setBounds(0, 0, 500, 500);
-		frame.setVisible(true);
+	private JFrame fDetalles;
+	
+	// Es Singleton para no poder llamarlo mas de una vez
+	private void detalles(Usuario usu) {
+		if(fDetalles == null) {
+			fDetalles = new JFrame();
+			fDetalles.setAlwaysOnTop(true);
+			fDetalles.setBounds(100, 100, ANCHO_VIEW, LARGO_VIEW);
+			JPanel contentPane = new JPanel();
+			contentPane.setLayout(new BorderLayout());
+			fDetalles.setContentPane(contentPane);
+			fDetalles.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);			
+		}
+		
+//		if(fDetalles.isVisible()) {
+//			Mensajes.MostrarError("Ya tiene una ventana");
+//			return;
+//		}
+		
+		fDetalles.getContentPane().removeAll();
+		fDetalles.getContentPane().add(new ViewPerfil(usu), BorderLayout.CENTER);
+		fDetalles.setVisible(true);
 	}
-
+	
 	public ViewListadoUsuarios(Analista ana) {
-		setBounds(100, 100, 564, 413);
+
+		setBounds(100, 100, ANCHO_VIEW, LARGO_VIEW);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(new BorderLayout(0, 0));
 
@@ -235,11 +250,8 @@ public class ViewListadoUsuarios extends JPanel {
 						Mensajes.MostrarError("No eexiste un usuario con el ID: " + id);
 						return;
 					}
-				
-					ViewPerfil view = new ViewPerfil(usu);
-					JFrame frame = new JFrame();
-					frame.setContentPane(view);
-					frame.setVisible(true);
+					
+					detalles(usu);
 				} catch (Exception ex) {
 					Mensajes.MostrarError("Error inesperado: " + ex.getMessage());
 					ex.printStackTrace();
