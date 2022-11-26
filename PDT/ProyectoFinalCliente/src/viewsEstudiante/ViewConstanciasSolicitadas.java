@@ -14,16 +14,25 @@ import views.ViewMedida;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 
 public class ViewConstanciasSolicitadas extends JPanel implements ViewMedida {
 	private JTable table;
+	private JComboBox cBoxTipoConstancia;
 
 	/**
 	 * Create the panel.
@@ -44,9 +53,75 @@ public class ViewConstanciasSolicitadas extends JPanel implements ViewMedida {
 		JButton btnDescargarConstancia = new JButton("Descargar Constancia");
 		btnDescargarConstancia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				try {
+					
+					int row = table.getSelectedRow();
+					if (row == -1) {
+						Mensajes.MostrarError("Debe seleccionar un Constancia");
+						return;
+						
+					}
+					
+					
+					Long idConstancia = (Long) table.getModel().getValueAt(row, 0);
+					byte[] archivo = BeanIntances.constancia().descargarConstancia(idConstancia);
+					if (archivo == null) {
+						Mensajes.MostrarError("El archivo esta vacio");
+						return;
+					}
+					
+					JFileChooser fc = new JFileChooser();
+					fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+					if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+						String ubicacionPDF = Path.of(fc.getSelectedFile().getAbsolutePath(), "constancia.pdf").toString();
+
+						try {
+							FileOutputStream pdf = new FileOutputStream(ubicacionPDF);
+							pdf.write(archivo);
+							pdf.close();
+
+							JOptionPane.showMessageDialog(null, "Constancia descaragada correctamente en " + ubicacionPDF);
+						} catch (FileNotFoundException e1) {
+							Mensajes.MostrarError("La ruta: " + ubicacionPDF + " no es una ruta valida");
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							Mensajes.MostrarError("Ocurrio un error al guardar la constancia: " + e1.getMessage());
+							e1.printStackTrace();
+						}
+
+					}
+					
+
+					
+					
+				} catch (InvalidEntityException ex) {
+					Mensajes.MostrarError(ex.getMessage());
+					
+					
+				}catch (Exception e2) {
+					Mensajes.MostrarError("Error desconocidos: " + e2.getMessage());
+
+				}
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			}
 		});
-		btnDescargarConstancia.setBounds(494, 276, 149, 23);
+		btnDescargarConstancia.setBounds(526, 276, 149, 23);
 		add(btnDescargarConstancia);
 
 		table = new JTable();
@@ -58,7 +133,7 @@ public class ViewConstanciasSolicitadas extends JPanel implements ViewMedida {
 		cargarConstancia(table, estudiante);
 		
 		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBounds(375, 276, 89, 23);
+		btnEliminar.setBounds(427, 276, 89, 23);
 		add(btnEliminar);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -68,7 +143,7 @@ public class ViewConstanciasSolicitadas extends JPanel implements ViewMedida {
 					
 					int row = table.getSelectedRow();
 					if (row == -1) {
-						Mensajes.MostrarError("Debe Solicitar un Evento");
+						Mensajes.MostrarError("Debe seleccionar un Constancia");
 						return;
 						
 					}
@@ -107,15 +182,65 @@ public class ViewConstanciasSolicitadas extends JPanel implements ViewMedida {
 		JButton btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					
+			
+					int row = table.getSelectedRow();
+					if (row == -1) {
+						Mensajes.MostrarError("Debe seleccionar un Constancia");
+						return;
+					}
+					
+					
+					Long idConstancia = (Long) table.getModel().getValueAt(row, 0);
+					Constancia cons = BeanIntances.constancia().findById(idConstancia);
+					cons.setTipoConstancia((TipoConstancia) cBoxTipoConstancia.getSelectedItem());
+					BeanIntances.constancia().update(cons);
+					Mensajes.MostrarExito("La constancia se modifico con exito");
+					cargarConstancia(table, estudiante);
+					
+					
+					
+					
+					
+					
+					
+				} catch (InvalidEntityException ex) {
+					Mensajes.MostrarError(ex.getMessage());
+					
+					
+				}catch (Exception e2) {
+					Mensajes.MostrarError("Error desconocidos: " + e2.getMessage());
+
+				}
+				
+				
+				
+				
+				
+				
+				
 			}
 		});
 		btnModificar.setBounds(164, 380, 89, 23);
 		add(btnModificar);
 		
 		
-		JComboBox cBoxTipoConstancia = new JComboBox();
+		cBoxTipoConstancia = new JComboBox();
 		cBoxTipoConstancia.setBounds(123, 327, 130, 23);
 		add(cBoxTipoConstancia);
+		
+		JButton btnNewButton = new JButton("Actualizar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				cargarConstancia(table, estudiante);
+				
+			}
+		});
+		btnNewButton.setBounds(328, 276, 89, 23);
+		add(btnNewButton);
 		
 		List<TipoConstancia> tconstacia = BeanIntances.tipoConstancia().findAll();
 
