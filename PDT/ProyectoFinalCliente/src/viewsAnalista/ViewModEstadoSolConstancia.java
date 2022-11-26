@@ -41,7 +41,7 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(68, 179, 674, 325);
+		scrollPane.setBounds(68, 179, 541, 325);
 		add(scrollPane);
 		
 		table = new JTable();
@@ -76,7 +76,7 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 		comboBoxEstadosCons.addItem(EstadoSolicitudes.EN_PROCESO);
 		comboBoxEstadosCons.addItem(EstadoSolicitudes.FINALIZADO);
 		comboBoxEstadosCons.addItem(EstadoSolicitudes.INGRESADO);
-		comboBoxEstadosCons.setBounds(179, 557, 146, 21);
+		comboBoxEstadosCons.setBounds(126, 556, 146, 21);
 		add(comboBoxEstadosCons);
 		
 		JButton btnModEstCons = new JButton("Modificar Estado Constancia");
@@ -112,7 +112,7 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 				}
 			}
 		});
-		btnModEstCons.setBounds(536, 557, 206, 21);
+		btnModEstCons.setBounds(400, 556, 206, 21);
 		add(btnModEstCons);
 		
 		JLabel lblNewLabel_1 = new JLabel("Filtro por estado");
