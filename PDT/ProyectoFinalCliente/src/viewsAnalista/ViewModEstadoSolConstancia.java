@@ -15,15 +15,14 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import com.entities.AccionConstancia;
+import com.entities.Analista;
 import com.entities.Constancia;
-import com.entities.Itr;
-import com.entities.enums.Departamento;
 import com.entities.enums.EstadoSolicitudes;
 
 import beans.BeanIntances;
 import swingutils.Mensajes;
 import validation.ValidacionesConstancia;
-import validation.ValidacionesItr;
 import validation.ValidationObject;
 import views.ViewMedida;
 
@@ -37,7 +36,7 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 	/**
 	 * Create the panel.
 	 */
-	public ViewModEstadoSolConstancia() {
+	public ViewModEstadoSolConstancia(Analista ana) {
 		setLayout(null);
 		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
 		
@@ -97,7 +96,12 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 						Mensajes.MostrarError(error.getErrorMessage());
 						return;
 					}
-					cons = BeanIntances.constancia().update(cons);
+					AccionConstancia acc = new AccionConstancia();
+					acc.setAnalista(ana);
+					acc.setConstancia(cons);
+					acc.setDetalle("DETALLE UPODATE");
+					
+					cons = BeanIntances.constancia().updateEstado(cons.getIdConstancia(), cons.getEstado(), acc);
 					Mensajes.MostrarExito("Se modifico correctamente el estado de la constancia ");
 					constancias = BeanIntances.constancia().findAll();
 					cargarConstancias(table,constancias,(EstadoSolicitudes)comboBoxEstado.getSelectedItem());
@@ -117,13 +121,14 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 		add(lblNewLabel_1);
 		
 		comboBoxEstado = new JComboBox();
-		comboBoxEstado.addItem("Sin Filtro");
+		comboBoxEstado.addItem(null);
 		comboBoxEstado.addItem(EstadoSolicitudes.EN_PROCESO);
 		comboBoxEstado.addItem(EstadoSolicitudes.FINALIZADO);
 		comboBoxEstado.addItem(EstadoSolicitudes.INGRESADO);
 		comboBoxEstado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(comboBoxEstado.getSelectedItem() instanceof EstadoSolicitudes) {
+					constancias = BeanIntances.constancia().findAll();
 					filtro = (EstadoSolicitudes) comboBoxEstado.getSelectedItem();
 					cargarConstancias(table, constancias, filtro);
 					return;

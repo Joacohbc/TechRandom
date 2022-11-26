@@ -49,7 +49,7 @@ public class ViewAnalista extends JFrame {
 		panelListadoUsuarios = new ViewListadoUsuarios(ana);
 		panelITR = new ViewAltaITR();
 		panelListadoSolicitudesConstancias = new ViewListadoSolicitudConstancias(ana);
-		panelModEstadoSolConstancia = new ViewModEstadoSolConstancia();
+		panelModEstadoSolConstancia = new ViewModEstadoSolConstancia(ana);
 		panelSolicitudConstancias = new ViewListadoSolicitudConstancias(ana);
 		panelCambiarContrasenia = new ViewCambiarContrasenia(ana);
 
