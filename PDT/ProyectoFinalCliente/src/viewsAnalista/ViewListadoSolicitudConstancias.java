@@ -91,6 +91,7 @@ public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedid
 		comboBoxEstado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				filtro = (EstadoSolicitudes) comboBoxEstado.getSelectedItem();
+				constancias = BeanIntances.constancia().findAll();
 				cargarConstancias(tableSolicitudes, constancias, filtro);
 			}
 		});
@@ -211,10 +212,8 @@ public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedid
 					} else {
 						BeanIntances.constancia().updateEstado(id, estado, acc);
 					}
-					
-					
 					Mensajes.MostrarExito("Se modifico correctamente el estado de la constancia");
-					
+					constancias = BeanIntances.constancia().findAll();
 					cargarConstancias(tableSolicitudes, constancias, (EstadoSolicitudes) comboBoxEstado.getSelectedItem());
 				} catch (Exception ex) {
 					Mensajes.MostrarError(ex.getMessage());
@@ -284,8 +283,8 @@ public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedid
 	}
 
 	public void cargarConstancias(JTable tabla, List<Constancia> constancias, EstadoSolicitudes filtro) {
-		constancias = BeanIntances.constancia().findAll();
-		String columns[] = { "Id","Fecha de Solicitus", "Detalle", "Tipo De Constancia", "Estado" };
+		
+		String columns[] = { "Id","Evento","Fecha de Solicitus", "Detalle", "Tipo De Constancia", "Estado" };
 		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
