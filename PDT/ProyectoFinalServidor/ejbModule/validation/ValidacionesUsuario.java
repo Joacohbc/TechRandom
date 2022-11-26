@@ -230,8 +230,8 @@ public class ValidacionesUsuario {
 	}
 
 	public static ValidationObject validarContrasena(String contrasena) {
-		if (!Validaciones.ValidarLargo(contrasena, 8, 64)) 
-			return new ValidationObject("La contraseña debe tener un minimo de 8 caracteres y un maxaimo de 64 caracteres");
+		if (!Validaciones.ValidarLargo(contrasena, 8, 128)) 
+			return new ValidationObject("La contraseña debe tener un minimo de 8 caracteres y un maxaimo de 128 caracteres");
 		
 		// .* = Cualquier caracter zero o mas veces
 		
