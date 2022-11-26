@@ -1,6 +1,10 @@
-/viewsEstudiante/
-/viewsITR/
-/viewsAnalista/
+/beans/
+/components/
 /images/
+/jndi.properties
+/main/
 /swingutils/
 /views/
+/viewsAnalista/
+/viewsEstudiante/
+/viewsITR/

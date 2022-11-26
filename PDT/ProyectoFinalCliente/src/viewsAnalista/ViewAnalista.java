@@ -62,6 +62,7 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
+		setResizable(false);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);

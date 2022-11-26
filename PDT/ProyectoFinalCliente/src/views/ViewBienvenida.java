@@ -25,6 +25,7 @@ public class ViewBienvenida extends JPanel implements ViewMedida{
 		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
 		setLayout(new BorderLayout());
 		
+		
 		JLabel txtrbienvenidosAlSistema = new JLabel();
 		txtrbienvenidosAlSistema.setHorizontalAlignment(SwingConstants.CENTER);
 		txtrbienvenidosAlSistema.setBackground(UIManager.getColor("Panel.background"));

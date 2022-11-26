@@ -51,6 +51,7 @@ public class ViewITR  extends JPanel implements ViewMedida  {
 		setBounds(0,0,ANCHO_VIEW,LARGO_VIEW);
 		comboBoxEstadoITR = new JComboBox();
 		
+		
 		comboBoxEstadoITR.setBounds(241, 440, 173, 21);
 		add(comboBoxEstadoITR);
 		comboBoxEstadoITR.addItem("Ver todos");

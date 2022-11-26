@@ -51,6 +51,7 @@ public class ViewTutor extends JFrame implements ViewMedida {
 		setTitle("Tutor");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(0, 0, 700, 805);
+		setResizable(false);
 		panelAsistencias = new ViewAsistencias();
 		panelCambiarContrasenia = new ViewCambiarContrasenia(tutor, this);
 		panelPersonal = new ViewPerfil(tutor);

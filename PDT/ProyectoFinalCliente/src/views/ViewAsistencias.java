@@ -53,6 +53,8 @@ public class ViewAsistencias extends JPanel implements ViewMedida{
 		frame.setBounds(0, 0, 500, 500);
 		frame.setContentPane(new ViewAsistencias());
 		frame.setVisible(true);
+		frame.setResizable(false);
+		
 	}
 	
 	public ViewAsistencias() {
