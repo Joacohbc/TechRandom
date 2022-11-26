@@ -142,7 +142,6 @@ public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedid
 		comboBoxEstadosCons = new JComboBox();
 		comboBoxEstadosCons.setBounds(216, 591, 162, 26);
 		add(comboBoxEstadosCons);
-		comboBoxEstadosCons.addItem(null);
 		comboBoxEstadosCons.addItem(EstadoSolicitudes.EN_PROCESO);
 		comboBoxEstadosCons.addItem(EstadoSolicitudes.FINALIZADO);
 		comboBoxEstadosCons.addItem(EstadoSolicitudes.INGRESADO);
@@ -170,7 +169,7 @@ public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedid
 					}
 					
 					AccionConstancia acc = new AccionConstancia();
-					acc.setAnalista((Analista)usu);
+					acc.setAnalista((Analista) usu);
 					acc.setConstancia(cons);
 					acc.setDetalle("Se modifico la constacia al estado: " + estado.toString());
 					
@@ -206,12 +205,14 @@ public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedid
 						stamper.close();
 						reader.close();
 												
+						BeanIntances.constancia().updateEstado(id, estado, acc);
+
 						cons.setArchivo(baos.toByteArray());
 						BeanIntances.constancia().update(cons);
-						BeanIntances.constancia().updateEstado(id, estado, acc);
 					} else {
 						BeanIntances.constancia().updateEstado(id, estado, acc);
 					}
+					
 					Mensajes.MostrarExito("Se modifico correctamente el estado de la constancia");
 					constancias = BeanIntances.constancia().findAll();
 					cargarConstancias(tableSolicitudes, constancias, (EstadoSolicitudes) comboBoxEstado.getSelectedItem());
