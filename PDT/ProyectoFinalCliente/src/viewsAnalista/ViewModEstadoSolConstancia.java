@@ -177,7 +177,6 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 		comboBoxEstado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (comboBoxEstado.getSelectedItem() instanceof EstadoSolicitudes) {
-					// constancias = BeanIntances.constancia().findAll();
 					filtro = (EstadoSolicitudes) comboBoxEstado.getSelectedItem();
 					cargarConstancias(table, constancias, filtro);
 					return;

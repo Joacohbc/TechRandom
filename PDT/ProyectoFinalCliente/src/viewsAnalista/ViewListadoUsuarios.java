@@ -63,11 +63,6 @@ public class ViewListadoUsuarios extends JPanel implements ViewMedida {
 			fDetalles.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);			
 		}
 		
-//		if(fDetalles.isVisible()) {
-//			Mensajes.MostrarError("Ya tiene una ventana");
-//			return;
-//		}
-		
 		fDetalles.getContentPane().removeAll();
 		fDetalles.getContentPane().add(new ViewPerfil(usu), BorderLayout.CENTER);
 		fDetalles.setVisible(true);

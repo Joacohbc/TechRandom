@@ -1,32 +1,33 @@
 package viewsAnalista;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.entities.Constancia;
 import com.entities.TipoConstancia;
 import com.exceptions.InvalidEntityException;
 
 import beans.BeanIntances;
 import swingutils.Mensajes;
 import views.ViewMedida;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-
-import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.awt.event.ActionEvent;
 
 public class ViewListadoTipoConstancias extends JPanel implements ViewMedida{
+	
+	private static final long serialVersionUID = 1L;
+	
 	private JTable table;
 	private List<TipoConstancia> tipos;
 
@@ -90,8 +91,6 @@ public class ViewListadoTipoConstancias extends JPanel implements ViewMedida{
 				try {					
 					int row = table.getSelectedRow();
 					Long id = Long.valueOf(table.getModel().getValueAt(row, 0).toString());
-					TipoConstancia tc = BeanIntances.tipoConstancia().findById(id);
-
 					if (row == -1) {
 						Mensajes.MostrarError("Debe seleccionar un Constancia");
 						return;						

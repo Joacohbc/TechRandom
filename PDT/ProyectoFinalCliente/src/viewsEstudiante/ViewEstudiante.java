@@ -1,8 +1,13 @@
 package viewsEstudiante;
 
-import java.awt.EventQueue;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -13,24 +18,16 @@ import javax.swing.border.EmptyBorder;
 
 import com.entities.Estudiante;
 
-import beans.BeanIntances;
-import views.ViewAsistencias;
 import views.ViewBienvenida;
 import views.ViewCambiarContrasenia;
 import views.ViewMedida;
 import viewsAnalista.ViewAnalista;
 import viewsAnalista.ViewPerfil;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JScrollPane;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.JButton;
-
 public class ViewEstudiante extends JFrame implements ViewMedida {
 
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	private JPanel panelActual;
 	private ViewPerfil panelPersonal;

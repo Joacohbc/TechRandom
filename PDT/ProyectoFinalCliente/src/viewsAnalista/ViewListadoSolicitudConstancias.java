@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,7 +21,6 @@ import com.entities.AccionConstancia;
 import com.entities.Analista;
 import com.entities.Constancia;
 import com.entities.Estudiante;
-import com.entities.TipoConstancia;
 import com.entities.Usuario;
 import com.entities.enums.EstadoSolicitudes;
 import com.itextpdf.text.pdf.PRStream;
@@ -35,10 +35,11 @@ import swingutils.Mensajes;
 import validation.Formatos;
 import views.Login;
 import views.ViewMedida;
-import javax.swing.JButton;
 
 public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedida{
 
+	private static final long serialVersionUID = 1L;
+	
 	private JTable tableSolicitudes;
 	private JTable tableEstudiantes;
 	private List<Estudiante> estudiantes = BeanIntances.user().findAllEstudiantes();

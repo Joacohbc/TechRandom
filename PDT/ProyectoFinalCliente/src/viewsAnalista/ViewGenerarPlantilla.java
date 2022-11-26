@@ -11,7 +11,6 @@ import java.nio.file.Path;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -48,6 +47,8 @@ import validation.ValidacionesTipoConstancia;
 import validation.ValidationObject;
 
 public class ViewGenerarPlantilla extends JPanel {
+	private static final long serialVersionUID = 1L;
+	
 	private JTextArea txtAParrafo1;
 	private JTextArea txtAParrafo2;
 	private JSpinner spinner;

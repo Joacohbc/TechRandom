@@ -1,8 +1,12 @@
 package viewsEstudiante;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,17 +22,10 @@ import beans.BeanIntances;
 import swingutils.Mensajes;
 import views.ViewMedida;
 
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
-
 public class ViewContancia extends JPanel implements ViewMedida {
 
-	private JPanel contentPane;
+	private static final long serialVersionUID = 1L;
 	private JTable table;
-	private static Estudiante estudiante;
 	private JComboBox<TipoConstancia> cmbTipoConstancia;
 
 	/**
@@ -92,7 +89,7 @@ public class ViewContancia extends JPanel implements ViewMedida {
 
 		cargarEventos(table, estudiante);
 
-		cmbTipoConstancia = new JComboBox();
+		cmbTipoConstancia = new JComboBox<TipoConstancia>();
 		cmbTipoConstancia.setToolTipText("");
 		cmbTipoConstancia.setBounds(340, 321, 145, 22);
 		add(cmbTipoConstancia);

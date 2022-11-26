@@ -10,11 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
-import javax.transaction.Transactional.TxType;
 
 import com.entities.Analista;
 import com.entities.Estudiante;
@@ -23,7 +21,6 @@ import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
 import com.exceptions.InvalidEntityException;
 import com.exceptions.ServiceException;
-import com.itextpdf.text.BadElementException;
 
 import beans.BeanIntances;
 import components.Roles;

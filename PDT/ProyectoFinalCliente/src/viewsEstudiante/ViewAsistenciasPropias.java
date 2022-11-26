@@ -11,24 +11,19 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.entities.Analista;
 import com.entities.Asistencia;
 import com.entities.Estudiante;
-import com.entities.Evento;
-import com.entities.Usuario;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Font.FontFamily;
-import com.itextpdf.text.Font.FontStyle;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
@@ -37,13 +32,13 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import beans.BeanIntances;
-import components.VTextBox;
 import swingutils.Mensajes;
 import validation.Formatos;
-import validation.ValidacionesUsuario;
-import views.ViewAsistencias;
 
 public class ViewAsistenciasPropias extends JPanel {
+	
+	private static final long serialVersionUID = 1L;
+	
 	private JTable table;
 	private Estudiante estudiante;
 	private final String columns[] = { "Id", "Titulo", "Inicio", "Fin", "Modalidad", "Lugar", "Calif.", "Asistencia" };;
