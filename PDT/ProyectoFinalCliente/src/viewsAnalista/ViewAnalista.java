@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 import com.entities.Analista;
 
 import beans.BeanIntances;
+import views.ViewAsistencias;
 import views.ViewBienvenida;
 import views.ViewCambiarContrasenia;
 import viewsEstudiante.ViewEstudiante;
@@ -38,6 +39,7 @@ public class ViewAnalista extends JFrame {
 	private ViewModEstadoSolConstancia panelModEstadoSolConstancia;
 	private ViewCambiarContrasenia panelCambiarContrasenia;
 	private ViewListadoTipoConstancias panelListadoConstancias;
+	private ViewAsistencias panelAsistencias;
 	
 	public static void main(String[] args) {
 		new ViewAnalista(BeanIntances.user().findById(Analista.class, 1l)).setVisible(true);
@@ -51,8 +53,9 @@ public class ViewAnalista extends JFrame {
 		panelITR = new ViewAltaITR();
 		panelListadoSolicitudesConstancias = new ViewListadoSolicitudConstancias(ana);
 		panelModEstadoSolConstancia = new ViewModEstadoSolConstancia(ana);
-		panelCambiarContrasenia = new ViewCambiarContrasenia(ana);
+		panelCambiarContrasenia = new ViewCambiarContrasenia(ana, this);
 		panelListadoConstancias = new ViewListadoTipoConstancias();
+		panelAsistencias = new ViewAsistencias();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 705, 784);
@@ -205,7 +208,6 @@ public class ViewAnalista extends JFrame {
 				panelITR = new ViewAltaITR();
 				panelListadoSolicitudesConstancias = new ViewListadoSolicitudConstancias(ana);
 				panelModEstadoSolConstancia = new ViewModEstadoSolConstancia(ana);
-				panelCambiarContrasenia = new ViewCambiarContrasenia(ana);
 				
 				panelActual.removeAll();
 				panelActual.repaint();
