@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="libs/hibernate-core-5.3.24.Final.jar"/>
 	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
 	<classpathentry kind="lib" path="libs/itext.jar"/>
+	<classpathentry kind="lib" path="libs/javax.mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
