@@ -234,48 +234,6 @@ public class ViewPDF extends JFrame {
 		lblTipoConstancia.setBounds(25, 2, 102, 17);
 		contentPane.add(lblTipoConstancia);
 
-		JButton btnProbar = new JButton("Probar");
-		btnProbar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				byte[] plantilla = BeanIntances.tipoConstancia().descargarPlantilla(1l);
-
-				try {
-					Constancia cons = BeanIntances.constancia().findById(1l);
-
-					PdfReader reader = new PdfReader(plantilla);
-
-					PdfDictionary dict = reader.getPageN(1);
-					PdfObject object = dict.getDirectObject(PdfName.CONTENTS);
-					if (object instanceof PRStream) {
-						PRStream stream = (PRStream) object;
-						byte[] data = PdfReader.getStreamBytes(stream);
-						stream.setData(new String(data).replace("&nombre&", cons.getEstudiante().getNombres()).getBytes());
-						stream.setData(new String(data).replace("&apellido&", cons.getEstudiante().getApellidos()).getBytes());
-						stream.setData(new String(data).replace("&documento&", cons.getEstudiante().getDocumento()) .getBytes());
-						stream.setData(new String(data).replace("&generacion&", cons.getEstudiante().getGeneracion().toString()).getBytes());
-						stream.setData(new String(data).replace("&evento&", cons.getEvento().getTitulo()).getBytes());
-						stream.setData(new String(data).replace("&fechainicio&", Formatos.ToFormatedString(cons.getEvento().getFechaInicio())).getBytes());
-						stream.setData(new String(data).replace("&fechafin&", Formatos.ToFormatedString(cons.getEvento().getFechaFin())).getBytes());
-						stream.setData(new String(data).replace("&modalidad&", cons.getEvento().getModalidad().toString()).getBytes());
-						stream.setData(new String(data).replace("&lugar&", cons.getEvento().getLocalizacion()).getBytes());
-					}
-
-					String dest = "/home/joaco/Temp/result.pdf";
-					PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dest));
-					stamper.close();
-					reader.close();
-
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (DocumentException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnProbar.setBounds(12, 380, 105, 27);
-		contentPane.add(btnProbar);
-
 		InfoButton nfbtnespaciadoEsLa = new InfoButton();
 		nfbtnespaciadoEsLa.setText(
 				"\"Espaciado\" es la cantidad de lineas de separacion entre la imagen del modelo y los parrafos");
