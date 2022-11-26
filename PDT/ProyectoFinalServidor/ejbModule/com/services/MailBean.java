@@ -1,7 +1,9 @@
-package views;
+package com.services;
 
 import java.util.Properties;
 
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -9,11 +11,15 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+@Stateless
+@LocalBean
+public class MailBean {
 
-
-public class Mail {
-
-	public static void enviarConGMail(String destinatario, String asunto, String cuerpo) throws MessagingException {
+	public MailBean() {
+		
+	}
+	
+	public void enviarConGMail(String destinatario, String asunto, String cuerpo) throws MessagingException {
 	    //La dirección de correo de envío
 	    String remitente = "techrandom2022@gmail.com";
 	    //La clave de aplicación obtenida según se explica en este artículo:
@@ -30,18 +36,13 @@ public class Mail {
 	    Session session = Session.getDefaultInstance(props);
 	    MimeMessage message = new MimeMessage(session);
 
-	    try {
-	        message.setFrom(new InternetAddress(remitente));
-	        message.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));   //Se podrían añadir varios de la misma manera
-	        message.setSubject(asunto);
-	        message.setText(cuerpo);
-	        Transport transport = session.getTransport("smtp");
-	        transport.connect("smtp.gmail.com", remitente, claveemail);
-	        transport.sendMessage(message, message.getAllRecipients());
-	        transport.close();
-	    }
-	    catch (MessagingException me) {
-	        me.printStackTrace();   //Si se produce un error
-	    }
+        message.setFrom(new InternetAddress(remitente));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario)); //Se podrían añadir varios de la misma manera
+        message.setSubject(asunto);
+        message.setText(cuerpo);
+        Transport transport = session.getTransport("smtp");
+        transport.connect("smtp.gmail.com", remitente, claveemail);
+        transport.sendMessage(message, message.getAllRecipients());
+        transport.close();
 	  }
 }

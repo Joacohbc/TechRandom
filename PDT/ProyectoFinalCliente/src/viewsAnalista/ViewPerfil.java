@@ -146,7 +146,10 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		JButton btnRegistrarme = new JButton("Modificar");
 		btnRegistrarme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				
+				if(Mensajes.MostrarSioNo("¿Esta seguro que quiere modificar el usuario?") == Mensajes.OPCION_NO) 
+					return;
+				
 				try {
 					TipoUsuarioDocumento documento = chckbxUruguayo.isSelected() ? TipoUsuarioDocumento.URUGUAYO
 							: TipoUsuarioDocumento.NO_URUGAUYO;
@@ -179,6 +182,7 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 							Mensajes.MostrarError(error.getErrorMessage());
 							return;
 						}
+						
 						BeanIntances.user().updateEstudiante(estudiante);
 						Mensajes.MostrarExito("Se modificó correctamente el Estudiante " + estudiante.getNombres());
 						return;

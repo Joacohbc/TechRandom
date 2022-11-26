@@ -1,12 +1,20 @@
 package com.services;
 
+import java.lang.reflect.Array;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.mail.MessagingException;
 import javax.persistence.NoResultException;
 
 import com.daos.UsuariosDAO;
@@ -37,6 +45,9 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	@EJB
 	private UsuariosDAO dao;
 
+	@EJB
+	private MailBean mail;
+	
 	public UsuarioBean() {
 	}
 
@@ -323,12 +334,35 @@ public class UsuarioBean implements UsuarioBeanRemote {
 				throw new InvalidEntityException(valid.getErrorMessage());
 			
 			actual.setContrasena(toMD5(nueva));
+			
+			mail.enviarConGMail(actual.getEmailUtec(), "Cambio de Contraseña", "Se modifico la contraseña de su Usuario");
+			mail.enviarConGMail(actual.getEmailPersonal(), "Cambio de Contraseña", "Se modifico la contraseña de su Usuario");
 			dao.update(actual);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
-		} catch (NoSuchAlgorithmException e) {
+		} catch (NoSuchAlgorithmException | MessagingException e) {
 			throw new ServiceException(e);
 		}
+	}
+
+	@Override
+	public void olvideContrasenia(String nombreUsuario) throws ServiceException, NotFoundEntityException{
+		
+		Usuario usuario = dao.findByNombreUsuario(Usuario.class, nombreUsuario);
+		if(usuario == null) 
+			throw new NotFoundEntityException("No existe un usuario con el Nombre de Usuario: "+ nombreUsuario);
+		
+		try {
+			String password =  toMD5(nombreUsuario).toUpperCase() + System.currentTimeMillis() + toMD5(usuario.getContrasena()).toLowerCase();
+			mail.enviarConGMail(usuario.getEmailUtec(), "Contraseña Temporal para el usuario " +usuario.getNombreUsuario(), password.trim());
+			mail.enviarConGMail(usuario.getEmailPersonal(), "Contraseña Temporal para el usuario " + usuario.getNombreUsuario(), password.trim());
+			
+			usuario.setContrasena(toMD5(password.trim()));
+			dao.update(usuario);
+		}catch (Exception e) {
+			throw new ServiceException(e);
+		}
+		
 	}
 
 }

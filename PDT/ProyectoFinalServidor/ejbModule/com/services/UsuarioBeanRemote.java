@@ -62,5 +62,5 @@ public interface UsuarioBeanRemote {
 
 	<T extends Usuario> T findById(Class<T> tipoUsu, Long id);
 	<T extends Usuario> T findByDocumento(Class<T> tipoUsu, String documento);
-
+	void olvideContrasenia(String nombreUsuario) throws ServiceException, NotFoundEntityException;
 }

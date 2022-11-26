@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
+import javax.transaction.Transactional.TxType;
 
 import com.entities.Analista;
 import com.entities.Estudiante;
@@ -22,6 +23,7 @@ import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
 import com.exceptions.InvalidEntityException;
 import com.exceptions.ServiceException;
+import com.itextpdf.text.BadElementException;
 
 import beans.BeanIntances;
 import components.Roles;
@@ -212,8 +214,22 @@ public class Login extends JFrame {
 		JButton btnRestorePassword = new JButton("Restablecer contrasena");
 		btnRestorePassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null,
-						"Contactese con el Analista correspondiente para reiniciar su clave.");
+				
+				if(Mensajes.MostrarSioNo("¿Seguro que quiere restablecer la contraseña?") == Mensajes.OPCION_NO)
+					return;
+				
+				if(!txtUsuario.isContentValid()) {
+					Mensajes.MostrarError(txtUsuario.getErrorMessage());
+					return;
+				}
+				
+				try {
+					BeanIntances.user().olvideContrasenia(txtUsuario.getText());
+					Mensajes.MostrarExito("Revise su correo electronico");
+				}catch (Exception ex) {
+					 Mensajes.MostrarError(ex.getMessage());
+					 ex.printStackTrace();
+				}
 			}
 		});
 		btnRestorePassword.setBounds(355, 303, 192, 21);
