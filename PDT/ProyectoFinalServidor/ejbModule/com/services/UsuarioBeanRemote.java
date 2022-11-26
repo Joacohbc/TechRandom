@@ -51,7 +51,9 @@ public interface UsuarioBeanRemote {
 	void updateEstadoAnalista(Long id, boolean estado) throws ServiceException, NotFoundEntityException;
 	
 	void updateEstadoTutor(Long id, boolean estado) throws ServiceException, NotFoundEntityException;
-		
+	
+	void updateContrasenia(Long id, String antigua, String nueva) throws ServiceException, NotFoundEntityException, InvalidEntityException;
+	
 	<T extends Usuario> List<T> findAll(Class<T> tipoUsu);
 
 	<T extends Usuario> List<T> findAll(Class<T> tipoUsu, EstadoUsuario estado, Itr itr);

@@ -1,13 +1,12 @@
 package com.services;
 
-import java.awt.Desktop.Action;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.validation.ValidationException;
 
 import com.daos.ConstanciaDAO;
 import com.entities.AccionConstancia;

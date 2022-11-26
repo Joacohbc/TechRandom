@@ -1,10 +1,13 @@
 package viewsAnalista;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -16,12 +19,9 @@ import javax.swing.border.EmptyBorder;
 import com.entities.Analista;
 
 import views.ViewBienvenida;
+import views.ViewCambiarContrasenia;
 import viewsEstudiante.ViewEstudiante;
 import viewsITR.ViewAltaITR;
-
-import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.JButton;
 
 
 public class ViewAnalista extends JFrame {
@@ -36,6 +36,8 @@ public class ViewAnalista extends JFrame {
 	private final ViewListadoSolicitudConstancias panelListadoSolicitudesConstancias;
 	private final ViewModEstadoSolConstancia panelModEstadoSolConstancia;
 
+	private final ViewListadoSolicitudConstancias panelSolicitudConstancias;
+	private final ViewCambiarContrasenia panelCambiarContrasenia;
 	/**
 	 * Create the frame.
 	 */
@@ -48,7 +50,9 @@ public class ViewAnalista extends JFrame {
 		panelITR = new ViewAltaITR();
 		panelListadoSolicitudesConstancias = new ViewListadoSolicitudConstancias(ana);
 		panelModEstadoSolConstancia = new ViewModEstadoSolConstancia();
-		
+		panelSolicitudConstancias = new ViewListadoSolicitudConstancias(ana);
+		panelCambiarContrasenia = new ViewCambiarContrasenia(ana);
+
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 705, 784);
@@ -95,7 +99,7 @@ public class ViewAnalista extends JFrame {
 		mnConstancias.add(SolicitudConstanciaMenuItem);
 		
 		JMenuItem ModificarSolicitudConstanciaMenuItem = new JMenuItem("Modificar estado Solicitud Constancia");
-		SolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
+		ModificarSolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelActual.removeAll();
 				panelActual.repaint();
@@ -143,10 +147,10 @@ public class ViewAnalista extends JFrame {
 		
 		Component horizontalGlue = Box.createHorizontalGlue();
 		menuBar.add(horizontalGlue);
-		
-		JButton btnNewButton = new JButton("Perfil");
-		btnNewButton.setOpaque(false);
-		btnNewButton.addActionListener(new ActionListener() {
+	
+		JButton btnPerfil = new JButton("Perfil");
+		btnPerfil.setOpaque(false);
+		btnPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelActual.removeAll();
 				panelActual.repaint();
@@ -156,8 +160,23 @@ public class ViewAnalista extends JFrame {
 				panelActual.revalidate();
 			}
 		});
-		btnNewButton.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/usuario (3).png")));
-		menuBar.add(btnNewButton);
+		
+		JButton btnCambiarContrasena = new JButton("Cambiar Contraseña");
+		btnCambiarContrasena.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelActual.removeAll();
+				panelActual.repaint();
+				panelActual.revalidate();
+				panelActual.add(panelCambiarContrasenia, BorderLayout.CENTER);
+				panelActual.repaint();
+				panelActual.revalidate();
+			}
+		});
+		btnCambiarContrasena.setOpaque(false);
+		
+		menuBar.add(btnCambiarContrasena);
+		btnPerfil.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/usuario (3).png")));
+		menuBar.add(btnPerfil);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -170,9 +189,6 @@ public class ViewAnalista extends JFrame {
 		lblNewLabel.setIcon(new ImageIcon(ViewEstudiante.class.getResource("/images/logo utec (2).png")));
 		lblNewLabel.setBounds(576, 581, 180, 161);
 		contentPane.add(lblNewLabel);
-		
-		
-		
 		
 		panelActual = new JPanel();
 		panelActual.setBounds(0, 0, 679, 624);

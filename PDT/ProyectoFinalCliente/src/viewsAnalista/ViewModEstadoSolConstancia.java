@@ -117,14 +117,18 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 		add(lblNewLabel_1);
 		
 		comboBoxEstado = new JComboBox();
-		comboBoxEstado.addItem(null);
+		comboBoxEstado.addItem("Sin Filtro");
 		comboBoxEstado.addItem(EstadoSolicitudes.EN_PROCESO);
 		comboBoxEstado.addItem(EstadoSolicitudes.FINALIZADO);
 		comboBoxEstado.addItem(EstadoSolicitudes.INGRESADO);
 		comboBoxEstado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				filtro = (EstadoSolicitudes) comboBoxEstado.getSelectedItem();
-				cargarConstancias(table, constancias, filtro);
+				if(comboBoxEstado.getSelectedItem() instanceof EstadoSolicitudes) {
+					filtro = (EstadoSolicitudes) comboBoxEstado.getSelectedItem();
+					cargarConstancias(table, constancias, filtro);
+					return;
+				}
+				cargarConstancias(table, constancias, null);
 			}
 		});
 		comboBoxEstado.setBounds(210, 90, 175, 21);

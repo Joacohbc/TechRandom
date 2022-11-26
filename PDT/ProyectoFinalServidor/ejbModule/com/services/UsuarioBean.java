@@ -23,7 +23,6 @@ import com.exceptions.ServiceException;
 
 import validation.ValidacionesUsuario;
 import validation.ValidacionesUsuario.TipoUsuarioDocumento;
-import validation.ValidacionesUsuario.TipoUsuarioEmail;
 import validation.ValidacionesUsuarioEstudiante;
 import validation.ValidacionesUsuarioTutor;
 import validation.ValidationObject;
@@ -302,6 +301,33 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			return dao.findByDocumento(tipoUsu, documento);
 		}catch (NoResultException e) {
 			return null;
+		}
+	}
+
+	@Override
+	public void updateContrasenia(Long id, String antigua, String nueva)
+			throws ServiceException, NotFoundEntityException, InvalidEntityException {
+		try {
+			ServicesUtils.checkNull(id, "Al actualizar un Usuario, su ID no puede ser nulo");
+
+			Usuario actual = dao.findById(Usuario.class, id);
+			if (actual == null)
+				throw new NotFoundEntityException("No existe un usuario con el ID: " + id);
+				
+			if(!actual.getContrasena().equals(toMD5(antigua))) {
+				throw new InvalidEntityException("La contraseña antigua ingresada no es igual a la actual");
+			}
+			
+			ValidationObject valid = ValidacionesUsuario.validarContrasena(nueva);
+			if(!valid.isValid())
+				throw new InvalidEntityException(valid.getErrorMessage());
+			
+			actual.setContrasena(toMD5(nueva));
+			dao.update(actual);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		} catch (NoSuchAlgorithmException e) {
+			throw new ServiceException(e);
 		}
 	}
 
