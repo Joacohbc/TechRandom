@@ -148,7 +148,10 @@ public class ViewAnalista extends JFrame {
 		Component horizontalGlue = Box.createHorizontalGlue();
 		menuBar.add(horizontalGlue);
 	
-		JButton btnPerfil = new JButton("Perfil");
+		JButton btnPerfil = new JButton("");
+		btnPerfil.setBorderPainted(false);
+		btnPerfil.setContentAreaFilled(false);
+		btnPerfil.setFocusPainted(false);
 		btnPerfil.setOpaque(false);
 		btnPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -161,7 +164,12 @@ public class ViewAnalista extends JFrame {
 			}
 		});
 		
-		JButton btnCambiarContrasena = new JButton("Cambiar Contraseña");
+		JButton btnCambiarContrasena = new JButton("");
+		btnCambiarContrasena.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/protection32.png")));
+		btnCambiarContrasena.setBorderPainted(false);
+		btnCambiarContrasena.setContentAreaFilled(false);
+		btnCambiarContrasena.setFocusPainted(false);
+		btnCambiarContrasena.setOpaque(false);
 		btnCambiarContrasena.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelActual.removeAll();
@@ -172,10 +180,9 @@ public class ViewAnalista extends JFrame {
 				panelActual.revalidate();
 			}
 		});
-		btnCambiarContrasena.setOpaque(false);
 		
 		menuBar.add(btnCambiarContrasena);
-		btnPerfil.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/usuario (3).png")));
+		btnPerfil.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/user32.png")));
 		menuBar.add(btnPerfil);
 		
 		contentPane = new JPanel();
@@ -186,7 +193,7 @@ public class ViewAnalista extends JFrame {
 		
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(ViewEstudiante.class.getResource("/images/logo utec (2).png")));
+		lblNewLabel.setIcon(new ImageIcon(ViewEstudiante.class.getResource("/images/logo_utec.png")));
 		lblNewLabel.setBounds(576, 581, 180, 161);
 		contentPane.add(lblNewLabel);
 		
