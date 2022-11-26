@@ -187,12 +187,12 @@ public class Login extends JFrame {
 		contentPane.add(btnLogin);
 
 		JLabel lblNewLabel_4 = new JLabel("");
-		lblNewLabel_4.setIcon(new ImageIcon(Login.class.getResource("/images/logo utec (2).png")));
+		lblNewLabel_4.setIcon(new ImageIcon(Login.class.getResource("/images/logo_utec.png")));
 		lblNewLabel_4.setBounds(570, 10, 117, 105);
 		contentPane.add(lblNewLabel_4);
 
 		JLabel lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setIcon(new ImageIcon(Login.class.getResource("/images/usuario (3).png")));
+		lblNewLabel_3.setIcon(new ImageIcon(Login.class.getResource("/images/user32.png")));
 		lblNewLabel_3.setBounds(398, 108, 32, 41);
 		contentPane.add(lblNewLabel_3);
 
