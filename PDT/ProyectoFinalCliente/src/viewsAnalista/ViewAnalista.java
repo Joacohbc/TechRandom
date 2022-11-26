@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 import com.entities.Analista;
 
 import beans.BeanIntances;
+import swingutils.Mensajes;
 import views.Login;
 import views.ViewAsistencias;
 import views.ViewBienvenida;
@@ -246,7 +247,7 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 		menuBar.add(btnPerfil);
 		
 		JButton btnLogout = new JButton("");
-		btnLogout.setToolTipText("Cambiar contraseña");
+		btnLogout.setToolTipText("Salir");
 		btnLogout.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/logout.png")));
 		btnLogout.setBorderPainted(false);
 		btnLogout.setContentAreaFilled(false);
@@ -254,6 +255,8 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 		btnLogout.setOpaque(false);
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(Mensajes.MostrarSioNo("¿Esta seguro que quiere salir?") == Mensajes.OPCION_NO) 
+					return;
 				dispose();
 				Login login = new Login();
 				login.setVisible(true);

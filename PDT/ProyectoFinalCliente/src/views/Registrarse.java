@@ -91,6 +91,8 @@ public class Registrarse extends JFrame {
 			}
 			@Override
 			public void windowClosing(WindowEvent e) {
+				if(Mensajes.MostrarSioNo("¿Esta seguro que quiere salir?") == Mensajes.OPCION_NO) 
+					return;
 				dispose();
 				Login login = new Login();
 				login.setVisible(true);
