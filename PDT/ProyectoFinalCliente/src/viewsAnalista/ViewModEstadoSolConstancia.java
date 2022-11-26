@@ -54,6 +54,8 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 					for (EstadoSolicitudes estados : EstadoSolicitudes.values()) {
 						if(nombreEstado == estados.toString()) {
 							comboBoxEstadosCons.setSelectedItem(estados);
+							//constancias = BeanIntances.constancia().findAll();
+							cargarConstancias(table,constancias,(EstadoSolicitudes)comboBoxEstado.getSelectedItem());
 							break;
 						}
 					}
@@ -103,7 +105,7 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 					
 					cons = BeanIntances.constancia().updateEstado(cons.getIdConstancia(), cons.getEstado(), acc);
 					Mensajes.MostrarExito("Se modifico correctamente el estado de la constancia ");
-					constancias = BeanIntances.constancia().findAll();
+					//constancias = BeanIntances.constancia().findAll();
 					cargarConstancias(table,constancias,(EstadoSolicitudes)comboBoxEstado.getSelectedItem());
 							
 					
@@ -128,7 +130,7 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 		comboBoxEstado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(comboBoxEstado.getSelectedItem() instanceof EstadoSolicitudes) {
-					constancias = BeanIntances.constancia().findAll();
+					//constancias = BeanIntances.constancia().findAll();
 					filtro = (EstadoSolicitudes) comboBoxEstado.getSelectedItem();
 					cargarConstancias(table, constancias, filtro);
 					return;
@@ -143,34 +145,11 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_2.setBounds(68, 94, 45, 13);
 		add(lblNewLabel_2);
-		
-		
-		/*table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if (table.getSelectedRow() != -1) {
-					int row = table.getSelectedRow();
-					String nombreDepto = table.getModel().getValueAt(row, 1).toString();
-					for (Departamento deptos : Departamento.values()) {
-						if(nombreDepto == deptos.toString()) {
-							comboBoxModDepar.setSelectedItem(deptos);
-							break;
-						}
-					}
-					String nombreItr = (String) table.getModel().getValueAt(row, 2);
-					textBoxModNombre.setText(nombreItr);
-				}
-			}
-		});
-		scrollPane.setViewportView(table);
-		String columns[] = { "id", "Departamento", "Nombre", "Estado" };
-		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0);
-		table.setModel(modeloJTable);*/
-		
+		cargarConstancias(table,constancias,filtro);
 	}
 	
 	public void cargarConstancias(JTable tabla, List<Constancia> constancias, EstadoSolicitudes filtro) {
-
+		constancias = BeanIntances.constancia().findAll();
 		String columns[] = { "Id","Fecha de Solicitus", "Detalle", "Tipo De Constancia", "Estado" };
 		DefaultTableModel modeloJTable = new DefaultTableModel(columns, 0) {
 			@Override
