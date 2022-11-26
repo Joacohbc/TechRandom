@@ -116,7 +116,7 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 		mnConstancias.add(ModificarSolicitudConstanciaMenuItem);
 		
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Generar Plantilla PDF");
+		JMenuItem mntmNewMenuItem = new JMenuItem("Generar Tipo Constancia");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelActual.removeAll();
