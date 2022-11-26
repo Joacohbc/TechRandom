@@ -28,11 +28,12 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
 
 public class ViewTutor extends JFrame implements ViewMedida {
 
 	private JPanel contentPane;
-	
+
 	private ViewAsistencias panelAsistencias;
 	private JButton btnRecargar;
 	private JButton btnCambiarContrasena;
@@ -40,6 +41,7 @@ public class ViewTutor extends JFrame implements ViewMedida {
 	private ViewCambiarContrasenia panelCambiarContrasenia;
 	private ViewPerfil panelPersonal;
 	private JPanel panelActual;
+	private ViewBienvenida panelBienvenida;
 	
 	/**
 	 * Create the frame.
@@ -47,30 +49,34 @@ public class ViewTutor extends JFrame implements ViewMedida {
 	public ViewTutor(Tutor tutor) {
 		setTitle("Tutor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 700, 615);
+		setBounds(0, 0, 700, 805);
 		panelAsistencias = new ViewAsistencias();
 		panelCambiarContrasenia = new ViewCambiarContrasenia(tutor, this);
 		panelPersonal = new ViewPerfil(tutor);
+		panelBienvenida = new ViewBienvenida(); 
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
+
+		JMenu mnAccion = new JMenu("Listado");
+		menuBar.add(mnAccion);
 		
-		JMenu mnAccion = new JMenu("Listado Asistencias");
-		mnAccion.addActionListener(new ActionListener() {
+		JMenuItem mntmListadoAsistencias = new JMenuItem("Listado Asistencias");
+		mntmListadoAsistencias.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelActual.removeAll();
 				panelActual.repaint();
 				panelActual.revalidate();
 				panelActual.add(panelAsistencias, BorderLayout.CENTER);
 				panelActual.repaint();
-				panelActual.revalidate();
+				panelActual.revalidate();		
 			}
 		});
-		menuBar.add(mnAccion);
-		
+		mnAccion.add(mntmListadoAsistencias);
+
 		Component horizontalGlue = Box.createHorizontalGlue();
 		menuBar.add(horizontalGlue);
-		
+
 		JButton btnRecargar = new JButton("");
 		btnRecargar.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/refresh32.png")));
 		btnRecargar.setToolTipText("Recarga la pestña actual");
@@ -82,16 +88,15 @@ public class ViewTutor extends JFrame implements ViewMedida {
 			public void actionPerformed(ActionEvent e) {
 				panelAsistencias = new ViewAsistencias();
 				panelPersonal = new ViewPerfil(tutor);
-				
 				panelActual.removeAll();
 				panelActual.repaint();
 				panelActual.revalidate();
-				panelActual.add(panelAsistencias, BorderLayout.CENTER);
+				panelActual.add(panelBienvenida, BorderLayout.CENTER);
 				panelActual.repaint();
 				panelActual.revalidate();
 			}
 		});
-		
+
 		menuBar.add(btnRecargar);
 		btnCambiarContrasena = new JButton("");
 		btnCambiarContrasena.setToolTipText("Cambiar contraseña");
@@ -111,7 +116,7 @@ public class ViewTutor extends JFrame implements ViewMedida {
 			}
 		});
 		menuBar.add(btnCambiarContrasena);
-		
+
 		btnPerfil = new JButton("");
 		btnPerfil.setToolTipText("Ver y modificar infromacion principal");
 		btnPerfil.setBorderPainted(false);
@@ -130,32 +135,29 @@ public class ViewTutor extends JFrame implements ViewMedida {
 			}
 		});
 		menuBar.add(btnPerfil);
-		
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		
-		
+
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(ViewEstudiante.class.getResource("/images/logo_utec.png")));
 		lblNewLabel.setBounds(576, 581, 180, 161);
+		lblNewLabel.setIcon(new ImageIcon(ViewEstudiante.class.getResource("/images/logo_utec.png")));
 		contentPane.add(lblNewLabel);
-		
+
 		panelActual = new JPanel();
 		panelActual.setBounds(0, 0, 679, 624);
 		contentPane.add(panelActual);
 		panelActual.setLayout(new BorderLayout(0, 0));
-		
-		//Set de Panel de Bienvenida
+
+		// Set de Panel de Bienvenida
 		panelActual.removeAll();
 		panelActual.repaint();
 		panelActual.revalidate();
-		panelActual.add(panelAsistencias, BorderLayout.CENTER);
+		panelActual.add(panelBienvenida, BorderLayout.CENTER);
 		panelActual.repaint();
 		panelActual.revalidate();
-		
 
 	}
 }
