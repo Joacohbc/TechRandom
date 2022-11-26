@@ -23,8 +23,9 @@ import com.entities.enums.EstadoSolicitudes;
 
 import beans.BeanIntances;
 import views.Login;
+import views.ViewMedida;
 
-public class ViewListadoSolicitudConstancias extends JPanel {
+public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedida{
 
 	private JTable tableSolicitudes;
 	private JTable tableEstudiantes;
@@ -54,16 +55,16 @@ public class ViewListadoSolicitudConstancias extends JPanel {
 	 */
 	public ViewListadoSolicitudConstancias(Usuario usu) {
 		setLayout(null);
-
+		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(35, 275, 550, 171);
+		scrollPane.setBounds(35, 427, 719, 258);
 		add(scrollPane);
 
 		tableSolicitudes = new JTable();
 		scrollPane.setViewportView(tableSolicitudes);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(35, 60, 550, 155);
+		scrollPane_1.setBounds(35, 60, 719, 276);
 		add(scrollPane_1);
 
 		
@@ -79,7 +80,7 @@ public class ViewListadoSolicitudConstancias extends JPanel {
 				cargarConstancias(tableSolicitudes, constancias, filtro);
 			}
 		});
-		comboBoxEstado.setBounds(81, 241, 162, 26);
+		comboBoxEstado.setBounds(81, 358, 162, 26);
 		add(comboBoxEstado);
 
 		tableEstudiantes = new JTable();
@@ -108,7 +109,7 @@ public class ViewListadoSolicitudConstancias extends JPanel {
 		});
 
 		JLabel lblEstado = new JLabel("Estado");
-		lblEstado.setBounds(35, 246, 60, 17);
+		lblEstado.setBounds(35, 363, 60, 17);
 		add(lblEstado);
 
 		if (usu instanceof Estudiante) {

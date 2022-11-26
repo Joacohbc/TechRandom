@@ -33,7 +33,8 @@ public class ViewAnalista extends JFrame {
 	private final ViewBienvenida panelBienvenida;
 	private final ViewListadoUsuarios panelListadoUsuarios;
 	private final ViewAltaITR panelITR;
-	private final ViewListadoSolicitudConstancias panelSolicitudConstancias;
+	private final ViewListadoSolicitudConstancias panelListadoSolicitudesConstancias;
+	private final ViewModEstadoSolConstancia panelModEstadoSolConstancia;
 
 	/**
 	 * Create the frame.
@@ -45,7 +46,8 @@ public class ViewAnalista extends JFrame {
 		panelBienvenida = new ViewBienvenida();
 		panelListadoUsuarios = new ViewListadoUsuarios(ana);
 		panelITR = new ViewAltaITR();
-		panelSolicitudConstancias = new ViewListadoSolicitudConstancias(ana);
+		panelListadoSolicitudesConstancias = new ViewListadoSolicitudConstancias(ana);
+		panelModEstadoSolConstancia = new ViewModEstadoSolConstancia();
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,20 +81,32 @@ public class ViewAnalista extends JFrame {
 		
 		
 		JMenuItem SolicitudConstanciaMenuItem = new JMenuItem("Listado Constancias");
-		/*SolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
+		SolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelActual.removeAll();
 				panelActual.repaint();
 				panelActual.revalidate();
-				panelActual.add(panelConstancia, BorderLayout.CENTER);	
+				panelActual.add(panelListadoSolicitudesConstancias, BorderLayout.CENTER);	
 				panelActual.repaint();
 				panelActual.revalidate();
 				
 			}
-		});*/
+		});
 		mnConstancias.add(SolicitudConstanciaMenuItem);
 		
-		
+		JMenuItem ModificarSolicitudConstanciaMenuItem = new JMenuItem("Modificar estado Solicitud Constancia");
+		SolicitudConstanciaMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelActual.removeAll();
+				panelActual.repaint();
+				panelActual.revalidate();
+				panelActual.add(panelModEstadoSolConstancia, BorderLayout.CENTER);	
+				panelActual.repaint();
+				panelActual.revalidate();
+				
+			}
+		});
+		mnConstancias.add(ModificarSolicitudConstanciaMenuItem);
 		
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Generar Plantilla PDF");
@@ -108,18 +122,6 @@ public class ViewAnalista extends JFrame {
 		});
 		mnConstancias.add(mntmNewMenuItem);
 		
-		JMenuItem mntmListadoSolicitudesConstancia = new JMenuItem("Listado Solicitudes");
-		mntmListadoSolicitudesConstancia.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelActual.removeAll();
-				panelActual.repaint();
-				panelActual.revalidate();
-				panelActual.add(panelSolicitudConstancias, BorderLayout.CENTER);
-				panelActual.repaint();
-				panelActual.revalidate();
-			}
-		});
-		mnConstancias.add(mntmListadoSolicitudesConstancia);
 		
 		JMenu mnITR = new JMenu("Personalizar Datos ITR");
 		menuBar.add(mnITR);
