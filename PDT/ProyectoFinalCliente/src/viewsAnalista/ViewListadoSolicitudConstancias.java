@@ -57,14 +57,14 @@ public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedid
 		setLayout(null);
 		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(35, 427, 719, 258);
+		scrollPane.setBounds(35, 357, 560, 214);
 		add(scrollPane);
 
 		tableSolicitudes = new JTable();
 		scrollPane.setViewportView(tableSolicitudes);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(35, 60, 719, 276);
+		scrollPane_1.setBounds(35, 70, 560, 214);
 		add(scrollPane_1);
 
 		
@@ -80,7 +80,7 @@ public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedid
 				cargarConstancias(tableSolicitudes, constancias, filtro);
 			}
 		});
-		comboBoxEstado.setBounds(81, 358, 162, 26);
+		comboBoxEstado.setBounds(81, 309, 162, 26);
 		add(comboBoxEstado);
 
 		tableEstudiantes = new JTable();
@@ -109,7 +109,7 @@ public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedid
 		});
 
 		JLabel lblEstado = new JLabel("Estado");
-		lblEstado.setBounds(35, 363, 60, 17);
+		lblEstado.setBounds(35, 314, 60, 17);
 		add(lblEstado);
 
 		if (usu instanceof Estudiante) {
