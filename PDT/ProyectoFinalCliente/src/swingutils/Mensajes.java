@@ -12,7 +12,7 @@ public class Mensajes {
 	}
 
 	public static int MostrarSioNo(String msg) {
-		return JOptionPane.showConfirmDialog(null, msg, "Confirmacion", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
+		return JOptionPane.showConfirmDialog(null, msg, "Confirmacion", JOptionPane.YES_NO_OPTION);
 	}
 	
 	public static void MostrarAdvertencia(String msg) {
