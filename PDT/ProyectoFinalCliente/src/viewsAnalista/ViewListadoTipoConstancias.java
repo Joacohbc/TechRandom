@@ -59,10 +59,9 @@ public class ViewListadoTipoConstancias extends JPanel implements ViewMedida{
 					return;						
 				}	
 				Long id = Long.valueOf(table.getModel().getValueAt(row, 0).toString());
-				TipoConstancia tc = BeanIntances.tipoConstancia().findById(id);
-				tc.setEstado(true);
-				BeanIntances.tipoConstancia().update(tc);
+				BeanIntances.tipoConstancia().reactivar(id);
 				cargarTipos(table);
+				Mensajes.MostrarExito("El tipo constancia se modifico con exito");
 			}
 		});
 		btnActivar.setBounds(12, 275, 105, 27);
@@ -77,8 +76,9 @@ public class ViewListadoTipoConstancias extends JPanel implements ViewMedida{
 					return;						
 				}	
 				Long id = Long.valueOf(table.getModel().getValueAt(row, 0).toString());
-				BeanIntances.tipoConstancia().eliminarTipoConstancia(id);
+				BeanIntances.tipoConstancia().eliminar(id);
 				cargarTipos(table);
+				Mensajes.MostrarExito("El tipo constancia se modifico con exito");
 			}
 		});
 		btnDesactivar.setBounds(139, 275, 105, 27);
