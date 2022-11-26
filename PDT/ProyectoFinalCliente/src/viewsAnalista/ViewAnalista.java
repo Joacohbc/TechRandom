@@ -37,6 +37,7 @@ public class ViewAnalista extends JFrame {
 	private ViewListadoSolicitudConstancias panelListadoSolicitudesConstancias;
 	private ViewModEstadoSolConstancia panelModEstadoSolConstancia;
 	private ViewCambiarContrasenia panelCambiarContrasenia;
+	private ViewListadoTipoConstancias panelListadoConstancias;
 	
 	public static void main(String[] args) {
 		new ViewAnalista(BeanIntances.user().findById(Analista.class, 1l)).setVisible(true);
@@ -51,7 +52,7 @@ public class ViewAnalista extends JFrame {
 		panelListadoSolicitudesConstancias = new ViewListadoSolicitudConstancias(ana);
 		panelModEstadoSolConstancia = new ViewModEstadoSolConstancia(ana);
 		panelCambiarContrasenia = new ViewCambiarContrasenia(ana);
-
+		panelListadoConstancias = new ViewListadoTipoConstancias();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 705, 784);
@@ -123,6 +124,19 @@ public class ViewAnalista extends JFrame {
 			}
 		});
 		mnConstancias.add(mntmNewMenuItem);
+		
+		JMenuItem mntmListadoTupoConstancias = new JMenuItem("Listado Tipo Constancias");
+		mntmListadoTupoConstancias.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelActual.removeAll();
+				panelActual.repaint();
+				panelActual.revalidate();
+				panelActual.add(panelListadoConstancias, BorderLayout.CENTER);
+				panelActual.repaint();
+				panelActual.revalidate();
+			}
+		});
+		mnConstancias.add(mntmListadoTupoConstancias);
 		
 		
 		JMenu mnITR = new JMenu("Personalizar Datos ITR");
