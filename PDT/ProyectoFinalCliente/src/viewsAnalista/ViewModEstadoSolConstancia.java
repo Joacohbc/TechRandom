@@ -3,8 +3,8 @@ package viewsAnalista;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -21,7 +21,6 @@ import com.entities.AccionConstancia;
 import com.entities.Analista;
 import com.entities.Constancia;
 import com.entities.enums.EstadoSolicitudes;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PRStream;
 import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfName;
@@ -41,7 +40,7 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 	private List<Constancia> constancias;
 	private JComboBox comboBoxEstado;
 
-	/**
+	/**w
 	 * Create the panel.
 	 */
 	public ViewModEstadoSolConstancia(Analista ana) {
@@ -87,9 +86,11 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 		comboBoxEstadosCons.setBounds(126, 556, 146, 21);
 		add(comboBoxEstadosCons);
 
+		
 		JButton btnModEstCons = new JButton("Modificar Estado Constancia");
 		btnModEstCons.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+		
 				try {
 					int row = table.getSelectedRow();
 					if (row == -1) {
@@ -115,40 +116,39 @@ public class ViewModEstadoSolConstancia extends JPanel implements ViewMedida {
 						if(Mensajes.MostrarSioNo("¿Seguro que quiere finalziar la solicitud de constancia?") == Mensajes.OPCION_NO) 
 							return;
 						
-						BeanIntances.constancia().updateEstado(id, estado, acc);
+						byte[] plantilla = BeanIntances.tipoConstancia().descargarPlantilla(cons.getTipoConstancia().getIdTipoConstancia());
 						
+						PdfReader reader = new PdfReader(plantilla);
 
-						try {
-							byte[] plantilla = BeanIntances.tipoConstancia().descargarPlantilla(cons.getTipoConstancia().getIdTipoConstancia());
+						PdfDictionary dict = reader.getPageN(1);
+						PdfObject object = dict.getDirectObject(PdfName.CONTENTS);
+						if (object instanceof PRStream) {
+							PRStream stream = (PRStream) object;
+							byte[] data = PdfReader.getStreamBytes(stream);
+							String replacedData = new String(data).
+									replace("&nombre&", cons.getEstudiante().getNombres()).
+									replace("&apellido&", cons.getEstudiante().getApellidos()).
+									replace("&documento&", cons.getEstudiante().getDocumento()).
+									replace("&generacion&", cons.getEstudiante().getGeneracion().toString()).
+									replace("&evento&", cons.getEvento().getTitulo()).
+									replace("&fechainicio&", Formatos.ToFormatedString(cons.getEvento().getFechaInicio())).
+									replace("&fechafin&", Formatos.ToFormatedString(cons.getEvento().getFechaFin())).
+									replace("&modalidad&", cons.getEvento().getModalidad().toString()).
+									replace("&lugar&", cons.getEvento().getLocalizacion());
 							
-							PdfReader reader = new PdfReader(plantilla);
-
-							PdfDictionary dict = reader.getPageN(1);
-							PdfObject object = dict.getDirectObject(PdfName.CONTENTS);
-							if (object instanceof PRStream) {
-								PRStream stream = (PRStream) object;
-								byte[] data = PdfReader.getStreamBytes(stream);
-								stream.setData(new String(data).replace("&nombre&", cons.getEstudiante().getNombres()).getBytes());
-								stream.setData(new String(data).replace("&apellido&", cons.getEstudiante().getApellidos()).getBytes());
-								stream.setData(new String(data).replace("&documento&", cons.getEstudiante().getDocumento()) .getBytes());
-								stream.setData(new String(data).replace("&generacion&", cons.getEstudiante().getGeneracion().toString()).getBytes());
-								stream.setData(new String(data).replace("&evento&", cons.getEvento().getTitulo()).getBytes());
-								stream.setData(new String(data).replace("&fechainicio&", Formatos.ToFormatedString(cons.getEvento().getFechaInicio())).getBytes());
-								stream.setData(new String(data).replace("&fechafin&", Formatos.ToFormatedString(cons.getEvento().getFechaFin())).getBytes());
-								stream.setData(new String(data).replace("&modalidad&", cons.getEvento().getModalidad().toString()).getBytes());
-								stream.setData(new String(data).replace("&lugar&", cons.getEvento().getLocalizacion()).getBytes());
-							}
-
-							String dest = "/home//Temp/result.pdf";
-							PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dest));
-							stamper.close();
-							reader.close();
-
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						} catch (DocumentException e1) {
-							e1.printStackTrace();
+							stream.setData(replacedData.getBytes(StandardCharsets.UTF_8));
 						}
+						
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+						PdfStamper stamper = new PdfStamper(reader, baos);
+						stamper.close();
+						reader.close();
+												
+						cons.setArchivo(baos.toByteArray());
+						BeanIntances.constancia().update(cons);
+						BeanIntances.constancia().updateEstado(id, estado, acc);
+					} else {
+						BeanIntances.constancia().updateEstado(id, estado, acc);
 					}
 					
 					

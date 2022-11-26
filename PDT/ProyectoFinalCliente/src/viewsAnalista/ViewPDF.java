@@ -244,7 +244,7 @@ public class ViewPDF extends JFrame {
 		infoParrafo1.setText(
 				"Para parametrizar la plantilla puede utilizar las siguientes expresiones\n" + "Datos del Estudiante:\n"
 						+ "- Nombre/s del Estudiante: &nombre&\n" + "- Apellidos del Estudiante: &apellido&\n"
-						+ "- Documento del estudiante: &cedula&\n" + "- Generacion del Estudiante: &generacion&\n"
+						+ "- Documento del estudiante: &documento&\n" + "- Generacion del Estudiante: &generacion&\n"
 						+ "\n" + "Datos del Evento:\n" + "- Nombre del Evento: &evento&\n"
 						+ "- Fecha de Inicio del Evento: &fechainicio&\n" + "- Fecha de Fin del Evento: &fechafin&\n"
 						+ "- Modalidad del Evento: &modalidad&\n" + "- Localizacion del Evento: &lugar&\n");
@@ -255,7 +255,7 @@ public class ViewPDF extends JFrame {
 		infoParrafo2.setText(
 				"Para parametrizar la plantilla puede utilizar las siguientes expresiones\n" + "Datos del Estudiante:\n"
 						+ "- Nombre/s del Estudiante: &nombre&\n" + "- Apellidos del Estudiante: &apellido&\n"
-						+ "- Documento del estudiante: &cedula&\n" + "- Generacion del Estudiante: &generacion&\n"
+						+ "- Documento del estudiante: &documento&\n" + "- Generacion del Estudiante: &generacion&\n"
 						+ "\n" + "Datos del Evento:\n" + "- Nombre del Evento: &evento&\n"
 						+ "- Fecha de Inicio del Evento: &fechainicio&\n" + "- Fecha de Fin del Evento: &fechafin&\n"
 						+ "- Modalidad del Evento: &modalidad&\n" + "- Localizacion del Evento: &lugar&\n");
