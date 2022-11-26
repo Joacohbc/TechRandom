@@ -18,7 +18,7 @@ import viewsAnalista.ViewListadoUsuarios;
 import viewsAnalista.ViewModEstadoSolConstancia;
 import viewsAnalista.ViewPerfil;
 import viewsEstudiante.ViewEstudiante;
-import viewsITR.ViewAltaITR;
+import viewsITR.ViewITR;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;

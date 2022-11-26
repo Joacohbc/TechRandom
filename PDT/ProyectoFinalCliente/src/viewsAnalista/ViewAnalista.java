@@ -24,7 +24,7 @@ import views.ViewBienvenida;
 import views.ViewCambiarContrasenia;
 import views.ViewMedida;
 import viewsEstudiante.ViewEstudiante;
-import viewsITR.ViewAltaITR;
+import viewsITR.ViewITR;
 
 
 public class ViewAnalista extends JFrame implements ViewMedida {
@@ -35,7 +35,7 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 	private ViewPerfil panelPersonal;
 	private ViewBienvenida panelBienvenida;
 	private ViewListadoUsuarios panelListadoUsuarios;
-	private ViewAltaITR panelITR;
+	private ViewITR panelITR;
 	private ViewListadoSolicitudConstancias panelListadoSolicitudesConstancias;
 	private ViewModEstadoSolConstancia panelModEstadoSolConstancia;
 	private ViewCambiarContrasenia panelCambiarContrasenia;
@@ -51,7 +51,7 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 		panelGenerarPlantilla = new ViewGenerarPlantilla();
 		panelBienvenida = new ViewBienvenida();
 		panelListadoUsuarios = new ViewListadoUsuarios(ana);
-		panelITR = new ViewAltaITR();
+		panelITR = new ViewITR();
 		panelListadoSolicitudesConstancias = new ViewListadoSolicitudConstancias(ana);
 		panelModEstadoSolConstancia = new ViewModEstadoSolConstancia(ana);
 		panelCambiarContrasenia = new ViewCambiarContrasenia(ana, this);
@@ -212,7 +212,7 @@ public class ViewAnalista extends JFrame implements ViewMedida {
 				panelGenerarPlantilla = new ViewGenerarPlantilla();
 				panelBienvenida = new ViewBienvenida();
 				panelListadoUsuarios = new ViewListadoUsuarios(ana);
-				panelITR = new ViewAltaITR();
+				panelITR = new ViewITR();
 				panelListadoSolicitudesConstancias = new ViewListadoSolicitudConstancias(ana);
 				panelModEstadoSolConstancia = new ViewModEstadoSolConstancia(ana);
 				
