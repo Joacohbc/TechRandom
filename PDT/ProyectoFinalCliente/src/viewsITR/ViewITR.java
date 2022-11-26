@@ -176,7 +176,7 @@ public class ViewITR  extends JPanel implements ViewMedida  {
 					if(Mensajes.MostrarSioNo("¿Esta seguro que quiere modificar el usuario?") == Mensajes.OPCION_NO) 
 						return;
 					
-					if(textBoxModNombre.isContentValid()) {
+					if(!textBoxModNombre.isContentValid()) {
 						Mensajes.MostrarError(textBoxModNombre.getErrorMessage());
 						return;
 					}
