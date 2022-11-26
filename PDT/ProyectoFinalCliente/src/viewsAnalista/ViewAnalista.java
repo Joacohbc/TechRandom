@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.entities.Analista;
 
+import beans.BeanIntances;
 import views.ViewBienvenida;
 import views.ViewCambiarContrasenia;
 import viewsEstudiante.ViewEstudiante;
@@ -28,19 +29,18 @@ public class ViewAnalista extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel panelActual;
-	private final ViewGenerarPlantilla panelGenerarPlantilla;
-	private final ViewPerfil panelPersonal;
-	private final ViewBienvenida panelBienvenida;
-	private final ViewListadoUsuarios panelListadoUsuarios;
-	private final ViewAltaITR panelITR;
-	private final ViewListadoSolicitudConstancias panelListadoSolicitudesConstancias;
-	private final ViewModEstadoSolConstancia panelModEstadoSolConstancia;
-
-	private final ViewListadoSolicitudConstancias panelSolicitudConstancias;
-	private final ViewCambiarContrasenia panelCambiarContrasenia;
-	/**
-	 * Create the frame.
-	 */
+	private ViewGenerarPlantilla panelGenerarPlantilla;
+	private ViewPerfil panelPersonal;
+	private ViewBienvenida panelBienvenida;
+	private ViewListadoUsuarios panelListadoUsuarios;
+	private ViewAltaITR panelITR;
+	private ViewListadoSolicitudConstancias panelListadoSolicitudesConstancias;
+	private ViewModEstadoSolConstancia panelModEstadoSolConstancia;
+	private ViewCambiarContrasenia panelCambiarContrasenia;
+	
+	public static void main(String[] args) {
+		new ViewAnalista(BeanIntances.user().findById(Analista.class, 1l)).setVisible(true);
+	}
 
 	public ViewAnalista(Analista ana) {
 		panelPersonal = new ViewPerfil(ana);
@@ -50,7 +50,6 @@ public class ViewAnalista extends JFrame {
 		panelITR = new ViewAltaITR();
 		panelListadoSolicitudesConstancias = new ViewListadoSolicitudConstancias(ana);
 		panelModEstadoSolConstancia = new ViewModEstadoSolConstancia(ana);
-		panelSolicitudConstancias = new ViewListadoSolicitudConstancias(ana);
 		panelCambiarContrasenia = new ViewCambiarContrasenia(ana);
 
 		
@@ -66,7 +65,6 @@ public class ViewAnalista extends JFrame {
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Listado y mantenimiento");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				panelActual.removeAll();
 				panelActual.repaint();
 				panelActual.revalidate();
@@ -149,6 +147,7 @@ public class ViewAnalista extends JFrame {
 		menuBar.add(horizontalGlue);
 	
 		JButton btnPerfil = new JButton("");
+		btnPerfil.setToolTipText("Ver y modificar infromacion principal");
 		btnPerfil.setBorderPainted(false);
 		btnPerfil.setContentAreaFilled(false);
 		btnPerfil.setFocusPainted(false);
@@ -165,6 +164,7 @@ public class ViewAnalista extends JFrame {
 		});
 		
 		JButton btnCambiarContrasena = new JButton("");
+		btnCambiarContrasena.setToolTipText("Cambiar contraseña");
 		btnCambiarContrasena.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/protection32.png")));
 		btnCambiarContrasena.setBorderPainted(false);
 		btnCambiarContrasena.setContentAreaFilled(false);
@@ -180,6 +180,34 @@ public class ViewAnalista extends JFrame {
 				panelActual.revalidate();
 			}
 		});
+		
+		JButton btnRecargar = new JButton("");
+		btnRecargar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelPersonal = new ViewPerfil(ana);
+				panelGenerarPlantilla = new ViewGenerarPlantilla();
+				panelBienvenida = new ViewBienvenida();
+				panelListadoUsuarios = new ViewListadoUsuarios(ana);
+				panelITR = new ViewAltaITR();
+				panelListadoSolicitudesConstancias = new ViewListadoSolicitudConstancias(ana);
+				panelModEstadoSolConstancia = new ViewModEstadoSolConstancia(ana);
+				panelCambiarContrasenia = new ViewCambiarContrasenia(ana);
+				
+				panelActual.removeAll();
+				panelActual.repaint();
+				panelActual.revalidate();
+				panelActual.add(panelBienvenida, BorderLayout.CENTER);
+				panelActual.repaint();
+				panelActual.revalidate();
+			}
+		});
+		btnRecargar.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/refresh32.png")));
+		btnRecargar.setToolTipText("Recarga la pestña actual");
+		btnRecargar.setOpaque(false);
+		btnRecargar.setFocusPainted(false);
+		btnRecargar.setContentAreaFilled(false);
+		btnRecargar.setBorderPainted(false);
+		menuBar.add(btnRecargar);
 		
 		menuBar.add(btnCambiarContrasena);
 		btnPerfil.setIcon(new ImageIcon(ViewAnalista.class.getResource("/images/user32.png")));
