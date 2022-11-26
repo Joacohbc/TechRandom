@@ -41,6 +41,7 @@ public class ViewEstudiante extends JFrame implements ViewMedida {
 	private ViewCambiarContrasenia panelCambiarContrasenia;
 	private ViewBienvenida panelBienvenida;
 	private JButton btnLogout;
+	private ViewAsistenciasPropias panelAsistencias;
 
 	/**
 	 * Create the frame.
@@ -53,6 +54,8 @@ public class ViewEstudiante extends JFrame implements ViewMedida {
 		registroDeSolicitud = new ViewConstanciasSolicitadas(estudiante);
 
 		panelCambiarContrasenia = new ViewCambiarContrasenia(estudiante, this);
+		panelAsistencias = new ViewAsistenciasPropias(estudiante);
+		
 		panelBienvenida = new ViewBienvenida();
 
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -92,6 +95,20 @@ public class ViewEstudiante extends JFrame implements ViewMedida {
 		});
 
 		mnNewMenu.add(mbtnRegistroDeConstaciaMenuItem);
+		
+		JMenuItem mntmListadoAsistencias = new JMenuItem("Listado Asistencias");
+		mntmListadoAsistencias.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelActual.removeAll();
+				panelActual.repaint();
+				panelActual.revalidate();
+				panelActual.add(panelAsistencias, BorderLayout.CENTER);
+				panelActual.repaint();
+				panelActual.revalidate();
+				
+			}
+		});
+		mnNewMenu.add(mntmListadoAsistencias);
 
 		Component horizontalGlue = Box.createHorizontalGlue();
 		menuBar.add(horizontalGlue);
