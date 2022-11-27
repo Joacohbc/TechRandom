@@ -215,6 +215,8 @@ public class ViewPDF extends JFrame {
 					}
 
 					BeanIntances.tipoConstancia().insert(tp);
+					
+					Mensajes.MostrarExito("Se dio de alta el Tipo de Constancias exitosamente");
 				} catch (Exception ex) {
 					Mensajes.MostrarError(ex.getMessage());
 					ex.printStackTrace();
