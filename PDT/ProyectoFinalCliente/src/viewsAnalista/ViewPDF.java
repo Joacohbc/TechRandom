@@ -62,26 +62,6 @@ public class ViewPDF extends JFrame {
 	private JTextField txtTitulo;
 	private JTextField txtTipoContancia;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ViewPDF frame = new ViewPDF();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame. ESTA VIEW TIENE QUE RECIBIR UN EVENTO ANALISTA
-	 *
-	 */
 	public ViewPDF() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 540, 461);
