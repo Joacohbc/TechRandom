@@ -1,8 +1,10 @@
 package viewsAnalista;
 
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,6 +13,7 @@ import java.nio.file.Path;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,10 +23,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.entities.Constancia;
 import com.entities.TipoConstancia;
+import com.exceptions.InvalidEntityException;
+import com.exceptions.ServiceException;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -45,49 +51,45 @@ import swingutils.Mensajes;
 import validation.Formatos;
 import validation.ValidacionesTipoConstancia;
 import validation.ValidationObject;
+import views.ViewMedida;
 
-public class ViewGenerarPlantilla extends JPanel {
-	private static final long serialVersionUID = 1L;
-	
+public class ViewGenerarPlantilla extends JPanel implements ViewMedida {
+
 	private JTextArea txtAParrafo1;
 	private JTextArea txtAParrafo2;
 	private JSpinner spinner;
 	private String ubicacionPlantilla = null;
 	private JTextField txtTitulo;
 	private JTextField txtTipoContancia;
-	/**
-	 * Create the panel.
-	 */
-	public ViewGenerarPlantilla() {
-		
-		setBounds(100, 100, 540, 461);
-		setBorder(new EmptyBorder(5, 5, 5, 5));
 
+	public ViewGenerarPlantilla() {
+		setBounds(100, 100, ANCHO_VIEW, LARGO_VIEW);
+		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
 
 		JButton btnCargarPlantilla = new JButton("Cargar Modelo Plantilla");
-		btnCargarPlantilla.setBounds(129, 302, 360, 27);
+		btnCargarPlantilla.setBounds(129, 322, 360, 27);
 		add(btnCargarPlantilla);
 
 		txtTitulo = new JTextField();
-		txtTitulo.setBounds(129, 29, 360, 21);
+		txtTitulo.setBounds(129, 51, 360, 21);
 		add(txtTitulo);
 		txtTitulo.setColumns(10);
 
 		JLabel lblTtulo = new JLabel("Título");
-		lblTtulo.setBounds(25, 31, 60, 17);
+		lblTtulo.setBounds(25, 53, 60, 17);
 		add(lblTtulo);
 
 		JLabel lblPrrafo = new JLabel("Párrafo #1");
-		lblPrrafo.setBounds(25, 64, 86, 17);
+		lblPrrafo.setBounds(25, 84, 86, 17);
 		add(lblPrrafo);
 
 		JLabel lblPrrafo_1 = new JLabel("Párrafo #2");
-		lblPrrafo_1.setBounds(25, 165, 86, 17);
+		lblPrrafo_1.setBounds(25, 185, 86, 17);
 		add(lblPrrafo_1);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(129, 63, 360, 90);
+		scrollPane.setBounds(129, 83, 360, 90);
 		add(scrollPane);
 
 		txtAParrafo1 = new JTextArea();
@@ -95,7 +97,7 @@ public class ViewGenerarPlantilla extends JPanel {
 		scrollPane.setViewportView(txtAParrafo1);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(129, 165, 360, 82);
+		scrollPane_1.setBounds(129, 185, 360, 82);
 		add(scrollPane_1);
 
 		txtAParrafo2 = new JTextArea();
@@ -103,7 +105,7 @@ public class ViewGenerarPlantilla extends JPanel {
 		scrollPane_1.setViewportView(txtAParrafo2);
 
 		JLabel lblPlantilla = new JLabel("Plantilla");
-		lblPlantilla.setBounds(25, 307, 60, 17);
+		lblPlantilla.setBounds(25, 327, 60, 17);
 		add(lblPlantilla);
 
 		JButton btnPrevisualizar = new JButton("Previsualizar Plantilla PDF");
@@ -111,7 +113,7 @@ public class ViewGenerarPlantilla extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				if (ubicacionPlantilla == null) {
-					Mensajes.MostrarError("Seleccione una plantilla antes de realizar la pre-visualización");
+					Mensajes.MostrarError("Seleccione una plantilla antes de realzar la pre-visualización");
 					return;
 				}
 
@@ -143,18 +145,18 @@ public class ViewGenerarPlantilla extends JPanel {
 				}
 			}
 		});
-		btnPrevisualizar.setBounds(129, 341, 360, 27);
+		btnPrevisualizar.setBounds(129, 361, 360, 27);
 		add(btnPrevisualizar);
 
 		JLabel lblEspaciado = new JLabel("Espaciado");
-		lblEspaciado.setBounds(25, 265, 60, 17);
+		lblEspaciado.setBounds(25, 285, 60, 17);
 		add(lblEspaciado);
 
 		// SE UTILIZA UN SPINNER PARA CONTROLAR LOS ESPACIOS DESDE EL ÚLTIMO PÁRRAFO AL
 		// FINAL DEL DOCUMENTO
 		spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(1, 1, 10010, 1));
-		spinner.setBounds(129, 268, 60, 22);
+		spinner.setBounds(129, 288, 60, 22);
 		add(spinner);
 
 		JButton btnGuardar = new JButton("Guardar");
@@ -189,6 +191,8 @@ public class ViewGenerarPlantilla extends JPanel {
 					}
 
 					BeanIntances.tipoConstancia().insert(tp);
+					
+					Mensajes.MostrarExito("Se dio de alta el Tipo de Constancias exitosamente");
 				} catch (Exception ex) {
 					Mensajes.MostrarError(ex.getMessage());
 					ex.printStackTrace();
@@ -196,86 +200,44 @@ public class ViewGenerarPlantilla extends JPanel {
 
 			}
 		});
-		btnGuardar.setBounds(129, 380, 360, 27);
+		btnGuardar.setBounds(129, 400, 360, 27);
 		add(btnGuardar);
 
 		txtTipoContancia = new JTextField();
 		txtTipoContancia.setColumns(10);
-		txtTipoContancia.setBounds(129, 0, 360, 21);
+		txtTipoContancia.setBounds(129, 18, 360, 21);
 		add(txtTipoContancia);
 
 		JLabel lblTipoConstancia = new JLabel("Tipo Constancia");
-		lblTipoConstancia.setBounds(25, 2, 102, 17);
+		lblTipoConstancia.setBounds(25, 20, 102, 17);
 		add(lblTipoConstancia);
-
-		JButton btnProbar = new JButton("Probar");
-		btnProbar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				byte[] plantilla = BeanIntances.tipoConstancia().descargarPlantilla(1l);
-
-				try {
-					Constancia cons = BeanIntances.constancia().findById(1l);
-
-					PdfReader reader = new PdfReader(plantilla);
-
-					PdfDictionary dict = reader.getPageN(1);
-					PdfObject object = dict.getDirectObject(PdfName.CONTENTS);
-					if (object instanceof PRStream) {
-						PRStream stream = (PRStream) object;
-						byte[] data = PdfReader.getStreamBytes(stream);
-						stream.setData(new String(data).replace("&nombre&", cons.getEstudiante().getNombres()).getBytes());
-						stream.setData(new String(data).replace("&apellido&", cons.getEstudiante().getApellidos()).getBytes());
-						stream.setData(new String(data).replace("&documento&", cons.getEstudiante().getDocumento()) .getBytes());
-						stream.setData(new String(data).replace("&generacion&", cons.getEstudiante().getGeneracion().toString()).getBytes());
-						stream.setData(new String(data).replace("&evento&", cons.getEvento().getTitulo()).getBytes());
-						stream.setData(new String(data).replace("&fechainicio&", Formatos.ToFormatedString(cons.getEvento().getFechaInicio())).getBytes());
-						stream.setData(new String(data).replace("&fechafin&", Formatos.ToFormatedString(cons.getEvento().getFechaFin())).getBytes());
-						stream.setData(new String(data).replace("&modalidad&", cons.getEvento().getModalidad().toString()).getBytes());
-						stream.setData(new String(data).replace("&lugar&", cons.getEvento().getLocalizacion()).getBytes());
-					}
-
-					String dest = "/home/joaco/Temp/result.pdf";
-					PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dest));
-					stamper.close();
-					reader.close();
-
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (DocumentException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnProbar.setBounds(12, 380, 105, 27);
-		add(btnProbar);
 
 		InfoButton nfbtnespaciadoEsLa = new InfoButton();
 		nfbtnespaciadoEsLa.setText(
 				"\"Espaciado\" es la cantidad de lineas de separación entre la imagen del modelo y los párrafos");
-		nfbtnespaciadoEsLa.setBounds(194, 269, 16, 16);
+		nfbtnespaciadoEsLa.setBounds(194, 289, 16, 16);
 		add(nfbtnespaciadoEsLa);
 
 		InfoButton infoParrafo1 = new InfoButton();
 		infoParrafo1.setText(
 				"Para parametrizar la plantilla puede utilizar las siguientes expresiones\n" + "Datos del Estudiante:\n"
 						+ "- Nombre/s del Estudiante: &nombre&\n" + "- Apellidos del Estudiante: &apellido&\n"
-						+ "- Documento del estudiante: &cedula&\n" + "- Generacion del Estudiante: &generacion&\n"
+						+ "- Documento del estudiante: &documento&\n" + "- Generacion del Estudiante: &generacion&\n"
 						+ "\n" + "Datos del Evento:\n" + "- Nombre del Evento: &evento&\n"
 						+ "- Fecha de Inicio del Evento: &fechainicio&\n" + "- Fecha de Fin del Evento: &fechafin&\n"
 						+ "- Modalidad del Evento: &modalidad&\n" + "- Localización del Evento: &lugar&\n");
-		infoParrafo1.setBounds(501, 64, 16, 16);
+		infoParrafo1.setBounds(501, 84, 16, 16);
 		add(infoParrafo1);
 
 		InfoButton infoParrafo2 = new InfoButton();
 		infoParrafo2.setText(
 				"Para parametrizar la plantilla puede utilizar las siguientes expresiones\n" + "Datos del Estudiante:\n"
 						+ "- Nombre/s del Estudiante: &nombre&\n" + "- Apellidos del Estudiante: &apellido&\n"
-						+ "- Documento del estudiante: &cedula&\n" + "- Generacion del Estudiante: &generacion&\n"
+						+ "- Documento del estudiante: &documento&\n" + "- Generacion del Estudiante: &generacion&\n"
 						+ "\n" + "Datos del Evento:\n" + "- Nombre del Evento: &evento&\n"
 						+ "- Fecha de Inicio del Evento: &fechainicio&\n" + "- Fecha de Fin del Evento: &fechafin&\n"
 						+ "- Modalidad del Evento: &modalidad&\n" + "- Localización del Evento: &lugar&\n");
-		infoParrafo2.setBounds(501, 165, 16, 16);
+		infoParrafo2.setBounds(501, 185, 16, 16);
 		add(infoParrafo2);
 
 		btnCargarPlantilla.addActionListener(new ActionListener() {
@@ -289,10 +251,9 @@ public class ViewGenerarPlantilla extends JPanel {
 				}
 			}
 		});
-		
-		
 
 	}
+
 	private byte[] obtenerPlantilla() {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -354,5 +315,4 @@ public class ViewGenerarPlantilla extends JPanel {
 
 		return null;
 	}
-
 }
