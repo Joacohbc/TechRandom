@@ -213,6 +213,8 @@ public class ViewAnalista extends JFrame implements ViewMedidaFrame {
 				panelListadoUsuarios = new ViewListadoUsuarios(ana);
 				panelITR = new ViewITR();
 				panelListadoSolicitudesConstancias = new ViewListadoSolicitudConstancias(ana);
+				panelListadoConstancias = new ViewListadoTipoConstancias();
+				panelAsistencias = new ViewAsistencias();
 				
 				panelActual.removeAll();
 				panelActual.repaint();

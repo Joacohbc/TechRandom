@@ -39,7 +39,7 @@ public class Login extends JFrame {
 	private JPasswordField textPassword;
 	private VTextBox txtUsuario;
 	
-	public static final String VERSION = "v2.0";
+	public static final String VERSION = "v2.1";
 
 	/**
 	 * Launch the application.
