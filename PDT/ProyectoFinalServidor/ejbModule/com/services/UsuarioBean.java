@@ -108,6 +108,10 @@ public class UsuarioBean implements UsuarioBeanRemote {
 				throw new InvalidEntityException("Ya existe un Usuario con el Email Personal: " + usuario.getEmailUtec());
 			}
 			
+			// El nombre de usuario se obtiene a partir de email
+			String nombreUsu = usuario.getEmailUtec().split("@")[0];
+			usuario.setNombreUsuario(nombreUsu);
+			
 			if (dao.findByNombreUsuario(Usuario.class, usuario.getNombreUsuario()) != null) {
 				throw new InvalidEntityException(
 						"Ya existe un Usuario con el Nombre de Usuario: " + usuario.getNombreUsuario());
@@ -116,10 +120,8 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			usuario.setContrasena(toMD5(usuario.getContrasena()));
 			usuario.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
 			
-			// El nombre de usuario se obtiene a partir de email
-			String nombreUsu = usuario.getEmailUtec().split("@")[0];
-			usuario.setNombreUsuario(nombreUsu);
-			
+
+	
 			return dao.insert(usuario);
 
 		} catch (DAOException e) {

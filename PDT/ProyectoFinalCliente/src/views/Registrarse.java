@@ -223,9 +223,7 @@ public class Registrarse extends JFrame {
 						}
 						
 						estudiante = BeanIntances.user().register(estudiante, documento);
-					}
-
-					if (rol == Roles.TUTOR) {
+					} else if (rol == Roles.TUTOR) {
 						Tutor tutor = new Tutor();
 						tutor.setNombres(textNombres.getText());
 						tutor.setApellidos(textApellidos.getText());
