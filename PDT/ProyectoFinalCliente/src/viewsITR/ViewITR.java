@@ -173,7 +173,7 @@ public class ViewITR  extends JPanel implements ViewMedida  {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(Mensajes.MostrarSioNo("¿Esta seguro que quiere modificar el usuario?") == Mensajes.OPCION_NO) 
+					if(Mensajes.MostrarSioNo("¿Esta seguro que quiere modificar el ITR") == Mensajes.OPCION_NO) 
 						return;
 					
 					if(!textBoxModNombre.isContentValid()) {
