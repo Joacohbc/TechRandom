@@ -129,16 +129,61 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 				throw new NotFoundEntityException("No existe una constancia con el ID: " + id);
 
 			if (actual.getEstado() == EstadoSolicitudes.FINALIZADO)
-				throw new NotFoundEntityException("No se puede modificar una constancia que ya esta finalizada");
+				throw new InvalidEntityException("No se puede modificar una constancia que ya esta finalizada");
 
 			// Agrego la accion constancia a la Constancia
 			acBean.addAccionConstancia(accion, actual);
 
 			// Cambio el estado de la constancia
+			if(estadoNuevo == EstadoSolicitudes.FINALIZADO) 
+				throw new InvalidEntityException("Cuando se actualiza el estado de la constancia a Finalizado se debe agregar el archivo descargable para el estudiante");
+
+			actual.setEstado(estadoNuevo);
+			actual = dao.update(actual);
+
+			String cuerpo = String.format("La Constancia de tipo \"%s\" al evento \"%s\" fue modificada de \"%s\" a \"%s\". Visite la aplicacion para mas informacion", 
+					actual.getTipoConstancia().getTipo(), 
+					actual.getEvento().getTitulo(),
+					actual.getEstado().toString(),
+					estadoNuevo.toString());
+				         
+			mail.enviarConGMail(actual.getEstudiante().getEmailUtec(), "Cambio de estando en su Constancia", cuerpo);
+			return actual;
+			
+			// Se cacha ServiceException porque se utiliza el acBean.addAccionConstancia()
+		} catch (DAOException | ServiceException e) {
+			throw new ServiceException(e);
+		} catch (MessagingException e) {
+			throw new ServiceException("La constancia se actualizo exitosamente pero no se pudo notificar al estudiante");
+		}
+	}
+
+
+	@Override
+	public Constancia updateEstado(Long id, EstadoSolicitudes estadoNuevo, AccionConstancia accion, byte[] archivo)
+			throws ServiceException, NotFoundEntityException, InvalidEntityException {
+		try {
+			ServicesUtils.checkNull(id, "Al actualizar una Constancia, esta debe tener un ID asignado");
+
+			Constancia actual = findById(id);
+			if (actual == null)
+				throw new NotFoundEntityException("No existe una constancia con el ID: " + id);
+
+			if (actual.getEstado() == EstadoSolicitudes.FINALIZADO)
+				throw new InvalidEntityException("No se puede modificar una constancia que ya esta finalizada");
+			
+			if(archivo == null)
+				throw new InvalidEntityException("Cuando se carga el la constancia al Estudiante el archivo no puede ser vacio");
+
+			// Agrego la accion constancia a la Constancia
+			acBean.addAccionConstancia(accion, actual);
+			
+			// Cambio el estado de la constancia y cargo el Estado
 			EstadoSolicitudes estadoActual = actual.getEstado();
 			actual.setEstado(estadoNuevo);
-			actual =  dao.update(actual);
-
+			actual.setArchivo(archivo);
+			actual = dao.update(actual);
+			
 			String cuerpo = String.format("La Constancia de tipo \"%s\" al evento \"%s\" fue modificada de \"%s\" a \"%s\". Visite la aplicacion para mas informacion", 
 					actual.getTipoConstancia().getTipo(), 
 					actual.getEvento().getTitulo(),
@@ -156,6 +201,7 @@ public class ConstanciaBean implements ConstanciaBeanRemote {
 		}
 	}
 
+	
 	@Override
 	public byte[] descargarConstancia(Long id) throws ServiceException, NotFoundEntityException, InvalidEntityException {
 		ServicesUtils.checkNull(id, "Al registra una Constancia el ID no puede ser nulo");

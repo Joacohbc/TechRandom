@@ -160,7 +160,7 @@ public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedid
 						return;
 					}
 
-					Long id = Long.valueOf(tableSolicitudes.getModel().getValueAt(row, 0).toString());
+					Long id = (Long) tableSolicitudes.getModel().getValueAt(row, 0);
 					EstadoSolicitudes estado = (EstadoSolicitudes) comboBoxEstadosCons.getSelectedItem();
 
 					Constancia cons = BeanIntances.constancia().findById(id);
@@ -206,10 +206,7 @@ public class ViewListadoSolicitudConstancias extends JPanel implements ViewMedid
 						stamper.close();
 						reader.close();
 												
-						BeanIntances.constancia().updateEstado(id, estado, acc);
-
-						cons.setArchivo(baos.toByteArray());
-						BeanIntances.constancia().update(cons);
+						BeanIntances.constancia().updateEstado(id, estado, acc, baos.toByteArray());
 					} else {
 						BeanIntances.constancia().updateEstado(id, estado, acc);
 					}
