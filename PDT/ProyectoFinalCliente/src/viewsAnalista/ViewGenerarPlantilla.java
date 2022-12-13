@@ -68,11 +68,11 @@ public class ViewGenerarPlantilla extends JPanel implements ViewMedida {
 		setLayout(null);
 
 		JButton btnCargarPlantilla = new JButton("Cargar Modelo Plantilla");
-		btnCargarPlantilla.setBounds(129, 322, 360, 27);
+		btnCargarPlantilla.setBounds(129, 504, 491, 27);
 		add(btnCargarPlantilla);
 
 		txtTitulo = new JTextField();
-		txtTitulo.setBounds(129, 51, 360, 21);
+		txtTitulo.setBounds(129, 51, 491, 21);
 		add(txtTitulo);
 		txtTitulo.setColumns(10);
 
@@ -85,11 +85,11 @@ public class ViewGenerarPlantilla extends JPanel implements ViewMedida {
 		add(lblPrrafo);
 
 		JLabel lblPrrafo_1 = new JLabel("Párrafo #2");
-		lblPrrafo_1.setBounds(25, 185, 86, 17);
+		lblPrrafo_1.setBounds(25, 282, 86, 17);
 		add(lblPrrafo_1);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(129, 83, 360, 90);
+		scrollPane.setBounds(129, 83, 491, 170);
 		add(scrollPane);
 
 		txtAParrafo1 = new JTextArea();
@@ -97,7 +97,7 @@ public class ViewGenerarPlantilla extends JPanel implements ViewMedida {
 		scrollPane.setViewportView(txtAParrafo1);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(129, 185, 360, 82);
+		scrollPane_1.setBounds(129, 277, 491, 183);
 		add(scrollPane_1);
 
 		txtAParrafo2 = new JTextArea();
@@ -105,7 +105,7 @@ public class ViewGenerarPlantilla extends JPanel implements ViewMedida {
 		scrollPane_1.setViewportView(txtAParrafo2);
 
 		JLabel lblPlantilla = new JLabel("Plantilla");
-		lblPlantilla.setBounds(25, 327, 60, 17);
+		lblPlantilla.setBounds(25, 509, 60, 17);
 		add(lblPlantilla);
 
 		JButton btnPrevisualizar = new JButton("Previsualizar Plantilla PDF");
@@ -145,18 +145,18 @@ public class ViewGenerarPlantilla extends JPanel implements ViewMedida {
 				}
 			}
 		});
-		btnPrevisualizar.setBounds(129, 361, 360, 27);
+		btnPrevisualizar.setBounds(129, 543, 491, 27);
 		add(btnPrevisualizar);
 
 		JLabel lblEspaciado = new JLabel("Espaciado");
-		lblEspaciado.setBounds(25, 285, 60, 17);
+		lblEspaciado.setBounds(25, 467, 60, 17);
 		add(lblEspaciado);
 
 		// SE UTILIZA UN SPINNER PARA CONTROLAR LOS ESPACIOS DESDE EL ÚLTIMO PÁRRAFO AL
 		// FINAL DEL DOCUMENTO
 		spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(1, 1, 10010, 1));
-		spinner.setBounds(129, 288, 60, 22);
+		spinner.setBounds(129, 470, 60, 22);
 		add(spinner);
 
 		JButton btnGuardar = new JButton("Guardar");
@@ -200,12 +200,12 @@ public class ViewGenerarPlantilla extends JPanel implements ViewMedida {
 
 			}
 		});
-		btnGuardar.setBounds(129, 400, 360, 27);
+		btnGuardar.setBounds(129, 582, 491, 27);
 		add(btnGuardar);
 
 		txtTipoContancia = new JTextField();
 		txtTipoContancia.setColumns(10);
-		txtTipoContancia.setBounds(129, 18, 360, 21);
+		txtTipoContancia.setBounds(129, 18, 491, 21);
 		add(txtTipoContancia);
 
 		JLabel lblTipoConstancia = new JLabel("Tipo Constancia");
@@ -215,7 +215,7 @@ public class ViewGenerarPlantilla extends JPanel implements ViewMedida {
 		InfoButton nfbtnespaciadoEsLa = new InfoButton();
 		nfbtnespaciadoEsLa.setText(
 				"\"Espaciado\" es la cantidad de lineas de separación entre la imagen del modelo y los párrafos");
-		nfbtnespaciadoEsLa.setBounds(194, 289, 16, 16);
+		nfbtnespaciadoEsLa.setBounds(194, 471, 16, 16);
 		add(nfbtnespaciadoEsLa);
 
 		InfoButton infoParrafo1 = new InfoButton();
@@ -226,7 +226,7 @@ public class ViewGenerarPlantilla extends JPanel implements ViewMedida {
 						+ "\n" + "Datos del Evento:\n" + "- Nombre del Evento: &evento&\n"
 						+ "- Fecha de Inicio del Evento: &fechainicio&\n" + "- Fecha de Fin del Evento: &fechafin&\n"
 						+ "- Modalidad del Evento: &modalidad&\n" + "- Localización del Evento: &lugar&\n");
-		infoParrafo1.setBounds(501, 84, 16, 16);
+		infoParrafo1.setBounds(625, 85, 16, 16);
 		add(infoParrafo1);
 
 		InfoButton infoParrafo2 = new InfoButton();
@@ -237,7 +237,7 @@ public class ViewGenerarPlantilla extends JPanel implements ViewMedida {
 						+ "\n" + "Datos del Evento:\n" + "- Nombre del Evento: &evento&\n"
 						+ "- Fecha de Inicio del Evento: &fechainicio&\n" + "- Fecha de Fin del Evento: &fechafin&\n"
 						+ "- Modalidad del Evento: &modalidad&\n" + "- Localización del Evento: &lugar&\n");
-		infoParrafo2.setBounds(501, 185, 16, 16);
+		infoParrafo2.setBounds(630, 284, 16, 16);
 		add(infoParrafo2);
 
 		btnCargarPlantilla.addActionListener(new ActionListener() {

@@ -193,11 +193,11 @@ public class ViewConstanciasSolicitadas extends JPanel implements ViewMedida {
 
 			}
 		});
-		btnModificar.setBounds(166, 387, 130, 23);
+		btnModificar.setBounds(166, 387, 256, 23);
 		add(btnModificar);
 
 		cmbTipoConstancia = new JComboBox();
-		cmbTipoConstancia.setBounds(166, 357, 130, 23);
+		cmbTipoConstancia.setBounds(166, 357, 256, 23);
 		add(cmbTipoConstancia);
 
 		JButton btnNewButton = new JButton("Actualizar");

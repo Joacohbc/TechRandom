@@ -91,11 +91,11 @@ public class ViewContancia extends JPanel implements ViewMedida {
 
 		cmbTipoConstancia = new JComboBox<TipoConstancia>();
 		cmbTipoConstancia.setToolTipText("");
-		cmbTipoConstancia.setBounds(340, 321, 145, 22);
+		cmbTipoConstancia.setBounds(297, 321, 206, 22);
 		add(cmbTipoConstancia);
 
 		JLabel lblNewLabel_1 = new JLabel("Tipo de Constancia");
-		lblNewLabel_1.setBounds(229, 316, 99, 32);
+		lblNewLabel_1.setBounds(162, 316, 127, 32);
 		add(lblNewLabel_1);
 
 		List<TipoConstancia> tconstacia = BeanIntances.tipoConstancia().findAll();

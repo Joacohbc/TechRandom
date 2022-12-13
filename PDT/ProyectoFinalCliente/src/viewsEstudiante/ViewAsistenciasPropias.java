@@ -34,8 +34,9 @@ import com.itextpdf.text.pdf.PdfWriter;
 import beans.BeanIntances;
 import swingutils.Mensajes;
 import validation.Formatos;
+import views.ViewMedida;
 
-public class ViewAsistenciasPropias extends JPanel {
+public class ViewAsistenciasPropias extends JPanel implements ViewMedida{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -45,7 +46,7 @@ public class ViewAsistenciasPropias extends JPanel {
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		frame.setBounds(0, 0, 500, 500);
+		frame.setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
 		frame.setContentPane(new ViewAsistenciasPropias(BeanIntances.user().findById(Estudiante.class, 38l)));
 		frame.setVisible(true);
 	}
@@ -53,16 +54,16 @@ public class ViewAsistenciasPropias extends JPanel {
 	public ViewAsistenciasPropias(Estudiante est) {
 		this.estudiante = est;
 		setLayout(null);
-		
+		setBounds(0, 0, ANCHO_VIEW, LARGO_VIEW);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(36, 12, 368, 250);
+		scrollPane.setBounds(36, 12, 624, 521);
 		add(scrollPane);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
 		JButton btnRecargar = new JButton("Recargar");
-		btnRecargar.setBounds(36, 267, 183, 27);
+		btnRecargar.setBounds(36, 543, 297, 27);
 		btnRecargar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {				
@@ -157,7 +158,7 @@ public class ViewAsistenciasPropias extends JPanel {
 				}
 			}
 		});
-		btnImprimir.setBounds(221, 267, 183, 27);
+		btnImprimir.setBounds(350, 543, 310, 27);
 		add(btnImprimir);
 		btnRecargar.doClick();
 	}

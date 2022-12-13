@@ -113,33 +113,31 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		add(lblNewLabel_11);
 
 		textDocumento = new VTextBox();
-		textDocumento.setBounds(138, 118, 110, 16);
+		textDocumento.setBounds(138, 118, 149, 16);
 		add(textDocumento);
 
 		textUsuario = new VTextBox();
-		textUsuario.setBounds(140, 163, 110, 16);
+		textUsuario.setBounds(140, 163, 147, 16);
 		textUsuario.setValidationFunc(text -> ValidacionesUsuario.validarNombreUsuario(text));
 		add(textUsuario);
 
 		textNombres = new VTextBox();
-		textNombres.setBounds(138, 188, 110, 16);
+		textNombres.setBounds(138, 188, 149, 16);
 		textNombres.setValidationFunc(text -> ValidacionesUsuario.validarNombres(text));
 		add(textNombres);
 
 		textApellidos = new VTextBox();
-		textApellidos.setBounds(138, 211, 110, 16);
+		textApellidos.setBounds(138, 211, 149, 16);
 		textApellidos.setValidationFunc(text -> ValidacionesUsuario.validarApellido(text));
 		add(textApellidos);
 
 		textTel = new VTextBox();
-		textTel.setBounds(439, 97, 110, 16);
-		textTel.setBounds(439, 115, 110, 16);
+		textTel.setBounds(439, 115, 160, 16);
 		textTel.setValidationFunc(text -> ValidacionesUsuario.validarTelefono(text));
 		add(textTel);
 
 		textMailUtec = new VTextBox();
-		textMailUtec.setBounds(440, 140, 110, 16);
-		textMailUtec.setBounds(439, 137, 110, 16);
+		textMailUtec.setBounds(439, 137, 160, 16);
 		textMailUtec.setValidationFunc(text -> ValidacionesUsuario.validarEmailUTEC(text));
 		add(textMailUtec);
 		
@@ -253,7 +251,7 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		
 		
 		
-		btnRegistrarme.setBounds(440, 388, 110, 21);
+		btnRegistrarme.setBounds(440, 388, 159, 21);
 
 		add(btnRegistrarme);
 
@@ -263,16 +261,16 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		add(lblNewLabel_12);
 
 		comboDepartamento = new JComboBox<Departamento>();
-		comboDepartamento.setBounds(439, 209, 110, 17);	
+		comboDepartamento.setBounds(439, 209, 160, 17);	
 		add(comboDepartamento);
 		
 		comboGenero = new JComboBox<Genero>();
-		comboGenero.setBounds(439, 232, 110, 17);
+		comboGenero.setBounds(439, 232, 160, 17);
 		add(comboGenero);
 		
 
 		dtFechaDeNacimiento = new JDateChooser();
-		dtFechaDeNacimiento.setBounds(138, 229, 110, 19);
+		dtFechaDeNacimiento.setBounds(138, 229, 149, 19);
 		add(dtFechaDeNacimiento);
 		
 		JLabel lblNewLabel_13 = new JLabel("Rol");
@@ -284,7 +282,7 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		add(lblNewLabel_6_1);
 
 		textGeneracion = new VTextBox();
-		textGeneracion.setBounds(438, 300, 111, 16);
+		textGeneracion.setBounds(438, 300, 161, 16);
 		textGeneracion.setEnabled(false);
 		textGeneracion.setValidationFunc(text -> ValidacionesUsuarioEstudiante.validarGeneracion(text));
 		add(textGeneracion);
@@ -299,17 +297,17 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 
 		cmbTipoTutor = new JComboBox<TipoTutor>();
 		cmbTipoTutor.setEnabled(false);
-		cmbTipoTutor.setBounds(438, 349, 111, 16);
+		cmbTipoTutor.setBounds(438, 349, 161, 16);
 		add(cmbTipoTutor);
 		
 		textArea = new VTextBox();
 		textArea.setEnabled(false);
-		textArea.setBounds(438, 327, 111, 16);
+		textArea.setBounds(438, 327, 161, 16);
 		textArea.setValidationFunc(text -> ValidacionesUsuarioTutor.validarArea(text));
 		add(textArea);
 
 		comboRol = new JComboBox<Roles>();
-		comboRol.setBounds(136, 300, 116, 21);
+		comboRol.setBounds(136, 300, 151, 21);
 		add(comboRol);
 
 		chckbxUruguayo = new JCheckBox("Uruguayo");
@@ -324,20 +322,20 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 			}
 		});
 		chckbxUruguayo.setSelected(true);
-		chckbxUruguayo.setBounds(211, 141, 87, 13);
+		chckbxUruguayo.setBounds(219, 141, 87, 13);
 		add(chckbxUruguayo);
 
 		comboItr = new JComboBox<Itr>();
-		comboItr.setBounds(438, 256, 111, 17);
+		comboItr.setBounds(438, 256, 161, 17);
 		add(comboItr);
 
 		textLocalidad = new VTextBox();
-		textLocalidad.setBounds(439, 186, 110, 16);
+		textLocalidad.setBounds(439, 186, 160, 16);
 		textLocalidad.setValidationFunc(text -> ValidacionesUsuario.validarLocalidad(text));
 		add(textLocalidad);
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 290, 546, 2);
+		separator.setBounds(10, 290, 662, 2);
 		add(separator);
 		
 		JLabel lblNewLabel_7_1 = new JLabel("E-Mail Personal");
@@ -346,7 +344,7 @@ public class ViewPerfil extends JPanel implements ViewMedida{
 		
 		textMailPersonal = new VTextBox();
 		textMailPersonal.setText((String) null);
-		textMailPersonal.setBounds(439, 159, 110, 16);
+		textMailPersonal.setBounds(439, 159, 160, 16);
 		add(textMailPersonal);
 		
 		//Llamo procedimiento que carga los combos de los paneles
