@@ -1,25 +1,29 @@
-@charset "ISO-8859-1";
+*{
+    font-family: 'Calibri', sans-serif;
+}
+
 html {
     box-sizing: border-box;
     min-height: 100%;
     scroll-snap-type: y mandatory;
+    font-family: 'Calibri', sans-serif;
 }
 *, *:before, *:after {
     box-sizing: inherit;
 }
 
-.header{
+header{
     display: grid;
     grid-template-columns: 400px 800px;
     text-align: center;
 }
+
 
 h1{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: end;
-    padding-top: 90px;
     margin: 0 0 0 0;
     font-size: 50px;
     font-family: 'Calibri', sans-serif;
@@ -33,71 +37,57 @@ h1{
 }
 
 
-.formulario{
-    display: grid;
-    grid-template-columns: 150px 200px 600px;
-    background-color: #E1E4E4;
-}
-
-
-.form_label{
+.header-content {
     display: flex;
-    flex-direction: column;
-    text-align: left;
-    padding-left: 20px;
-    padding-top: 20px;
-}
-
-.form_label label{
-    padding-bottom: 3px;
-    font-family: 'Calibri', sans-serif;
-    width: 150px;
-}
-
-.inputs{
-    display: flex;
-    flex-direction: column;
-    padding-left: 10px;
-    padding-top: 20px;
-    padding-bottom: 5px;
-}
-
-.inputs input{
-    width: 200px;
-    height: 20px;
+    align-items: center;
 }
 
 .boton_contenedor{
-    display: flex;
-    flex-direction: column;
-    padding-left: 160px;
-    padding-bottom: 20px;
+   margin-left: 160px;
 }
 
-.boton_contenedor button{
-    height: 22px;
-    width: 100px;
-}
-
-.form_notas{
-    display: flex;
-    flex-direction: column;
+p{
     padding-left: 20px;
-    padding-top: 20px;
-    text-align: left;
 }
 
-.form_notas label{
-    padding-bottom: 2px;
-    font-family: 'Calibri', sans-serif;
+
+.flex-container {
+    display: flex;
+    background: #ccc;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.label-form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+label {
+    width: 150px;
+    margin-right: 10px;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 200px;
+}
+
+p {
+    margin: 5px 0;
 }
 
 .note{
     font-family: 'Calibri', sans-serif;
     padding-bottom: 400px;
+    padding-top:50px;
+
 }
 
 footer{
     font-family: 'Calibri', sans-serif;
     border-top: 2px solid #0CC3EF;
+    
 }
