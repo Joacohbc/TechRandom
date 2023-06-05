@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Page Title</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel='stylesheet' type='text/css' media='screen' href='css/style.css'>
+  <script src='main.js'></script>
+ 
+</head>
+<body>
+
+    <div class="top">
+    <header>
+        <img class="utec" src="img/utec.jpg">
+        <h1 class="titulo">Sistema de Gestión de Alumnos</h1>
+    </header>
+    </div>
+
+<h2 class="separacion">
+    Selección de Alumnos
+</h2>
+
+<div class="flex-container">
+    <form action="buscarAlumnos" method="get">
+        <div class="label-form">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre">
+            <p>Puede seleccionar por parte del nombre (no distingue mayúsculas y minúsculas)</p>
+        </div>
+
+        <div class="label-form">
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido">
+            <p>Puede seleccionar por parte del apellido (no distingue mayúsculas y minúsculas)</p>
+        </div>
+
+        <div class="label-form">
+            <label for="cedula">Cédula de identidad:</label>
+            <input type="number" id="cedula" name="cedula">
+            <p>Númerico. La cédula debe ingresarse completa y solo se admiten dígitos</p>
+        </div>
+        <input class="boton_contenedor" type="submit" value="Buscar Alumno">
+    </form>
+</div>
+</body>
+<p class="note">Nota: Es de destacar que se seleccionara el primer alumno que satisfaga el criterio de seleccion</p>
+
+<footer>
+    Unidad Curricular de Programacion de Aplicaciones Web - UTEC - 2023
+</footer>
+
+</html>
