@@ -1,9 +1,12 @@
-package com.entities;
+package entites;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import javax.inject.Named;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,9 +20,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.entities.enums.Departamento;
-import com.entities.enums.EstadoUsuario;
-import com.entities.enums.Genero;
 
 /**
  * The persistent class for the USUARIOS database table.
@@ -27,10 +27,27 @@ import com.entities.enums.Genero;
  */
 @Entity
 @Table(name = "USUARIOS")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	
+	public static String toMD5(String password) throws NoSuchAlgorithmException {
+		MessageDigest md = MessageDigest.getInstance("MD5");
+
+		// Convierto la contraseña a HASH y guardo el HASH a Bytes
+		// Guarda el HASH en un array de bytes en Hexadecimal
+		byte[] bytes = md.digest(password.getBytes());
+
+		// Paso el HASH de Hexadecimal a String
+		StringBuilder passString = new StringBuilder();
+		for (int i = 0; i < bytes.length; i++) {
+			passString.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+		}
+
+		// Y retorno el HASH en String
+		return passString.toString();
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID_USUARIO")
@@ -74,13 +91,13 @@ public class Usuario implements Serializable {
 	@Column(nullable = false)
 	private String telefono;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, name = "ESTADO")
-	private EstadoUsuario estadoUsuario;
+//	@Enumerated(EnumType.STRING)
+//	@Column(nullable = false, name = "ESTADO")
+//	private EstadoUsuario estadoUsuario;
 	
-	@ManyToOne
-	@JoinColumn(name = "ID_ITR")
-	private Itr itr;
+//	@ManyToOne
+//	@JoinColumn(name = "ID_ITR")
+//	private Itr itr;
 
 	public Usuario() {
 	}
@@ -141,13 +158,13 @@ public class Usuario implements Serializable {
 		this.emailPersonal = emailPersonal;
 	}
 
-	public EstadoUsuario getEstadoUsuario() {
-		return this.estadoUsuario;
-	}
-
-	public void setEstadoUsuario(EstadoUsuario estado) {
-		this.estadoUsuario = estado;
-	}
+//	public EstadoUsuario getEstadoUsuario() {
+//		return this.estadoUsuario;
+//	}
+//
+//	public void setEstadoUsuario(EstadoUsuario estado) {
+//		this.estadoUsuario = estado;
+//	}
 
 	public LocalDate getFecNacimiento() {
 		return this.fecNacimiento;
@@ -197,13 +214,13 @@ public class Usuario implements Serializable {
 		this.telefono = telefono;
 	}
 
-	public Itr getItr() {
-		return this.itr;
-	}
-
-	public void setItr(Itr itr) {
-		this.itr = itr;
-	}
+//	public Itr getItr() {
+//		return this.itr;
+//	}
+//
+//	public void setItr(Itr itr) {
+//		this.itr = itr;
+//	}
 	
 	@Override
 	public int hashCode() {
@@ -222,14 +239,14 @@ public class Usuario implements Serializable {
 		return Objects.equals(idUsuario, other.idUsuario);
 	}
 
-	@Override
-	public String toString() {
-		return "Usuario [idUsuario=" + idUsuario + ", documento=" + documento + ", nombreUsuario=" + nombreUsuario
-				+ ", contrasena=" + contrasena + ", emailUtec=" + emailUtec + ", emailPersonal=" + emailPersonal
-				+ ", nombres=" + nombres + ", apellidos=" + apellidos + ", genero=" + genero + ", fecNacimiento="
-				+ fecNacimiento + ", departamento=" + departamento + ", localidad=" + localidad + ", telefono="
-				+ telefono + ", estadoUsuario=" + estadoUsuario + ", itr=" + itr + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Usuario [idUsuario=" + idUsuario + ", documento=" + documento + ", nombreUsuario=" + nombreUsuario
+//				+ ", contrasena=" + contrasena + ", emailUtec=" + emailUtec + ", emailPersonal=" + emailPersonal
+//				+ ", nombres=" + nombres + ", apellidos=" + apellidos + ", genero=" + genero + ", fecNacimiento="
+//				+ fecNacimiento + ", departamento=" + departamento + ", localidad=" + localidad + ", telefono="
+//				+ telefono + ", estadoUsuario=" + estadoUsuario + ", itr=" + itr + "]";
+//	}
 
 	
 }
