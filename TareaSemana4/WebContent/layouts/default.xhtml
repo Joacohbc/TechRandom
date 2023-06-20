@@ -11,17 +11,14 @@
 
 <h:body>
 	<p:tabMenu activeIndex="#{param.i}">
-		<p:menuitem value="Listado usuario" icon="pi pi-list" outcome="/pages/listadoUsuario.xhtml">
+		<p:menuitem value="Remover usuario" icon="pi pi-trash" outcome="/pages/listadoUsuario.xhtml">
 			<f:param name="i" value="0" />
 		</p:menuitem>
 		<p:menuitem value="Nuevo usuario" icon="pi pi-plus" outcome="/pages/nuevoUsuario.xhtml">
 			<f:param name="i" value="1" />
 		</p:menuitem>
-		<p:menuitem value="Remover usuario" icon="pi pi-trash" outcome="/pages/borrarUsuario.xhtml">
-			<f:param name="i" value="2" />
-		</p:menuitem>
 		<p:menuitem value="Modificar usuario" icon="pi pi-refresh" outcome="/pages/modificarUsuario.xhtml">
-			<f:param name="i" value="3" />
+			<f:param name="i" value="2" />
 		</p:menuitem>
 	</p:tabMenu>
 

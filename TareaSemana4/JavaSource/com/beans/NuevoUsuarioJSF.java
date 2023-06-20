@@ -22,7 +22,7 @@ import com.validation.ValidacionesUsuario.TipoUsuarioDocumento;
 
 @Named("usuario")
 @SessionScoped
-public class UsuarioJSF implements Serializable {
+public class NuevoUsuarioJSF implements Serializable {
 	
 	@EJB
 	private UsuarioBean bean;

@@ -4,8 +4,34 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-
+	
 	<ui:define name="content">
-
+		<h:form>
+	        <p:messages id="messages" showDetail="true" showIcon="false" closable="true">
+	            <p:autoUpdate/>
+	        </p:messages>
+			
+			<p:panel header="Informacion del Usuario">
+				<p:panelGrid columns="6"  styleClass="ui-noborder">
+					<p:outputLabel>ID a Modificar</p:outputLabel>
+					<p:inputNumber value="#{modificarUsuario.idModificar}">
+						<p:ajax/>
+					</p:inputNumber>
+					<p:commandButton action="#{modificarUsuario.modificarusuario}" value="Modificar"></p:commandButton>
+				
+					<p:selectOneMenu value="#{modificarUsuario.rol}">
+		                <p:ajax update="@this" process="@this"/>
+                    	<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true"/>
+						<f:selectItems value="#{enumBean.roles}" var="rol"
+							itemValue="#{rol}" itemLabel="#{rol}"></f:selectItems>
+					</p:selectOneMenu>
+					
+					<p:outputLabel for="@next">Telefono:</p:outputLabel>
+					<p:inputText placeholder="095123456" value="#{modificarUsuario.telefono}">
+						<p:ajax/>
+					</p:inputText>
+				</p:panelGrid>
+			</p:panel>
+		</h:form>
 	</ui:define>
 </ui:composition>

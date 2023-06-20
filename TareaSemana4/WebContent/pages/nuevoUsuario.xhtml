@@ -49,7 +49,6 @@
                     	<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true"/>
 						<f:selectItems value="#{enumBean.departamentos}" var="departamento"
 										itemValue="#{departamento}" itemLabel="#{departamento}"></f:selectItems>
-	
 					</p:selectOneMenu>
 					
 					<p:outputLabel for="@next">Localidad:</p:outputLabel>
@@ -66,12 +65,12 @@
 					</p:selectOneMenu>
 				
 					<p:outputLabel for="@next">Email UTEC:</p:outputLabel>
-					<p:inputText placeholder="juan.perez@utec.edu.com.uy" type="email" value="#{usuario.usuario.emailUtec}">
+					<p:inputText placeholder="juan.perez@utec.edu.uy" type="email" value="#{usuario.usuario.emailUtec}">
 						<p:ajax/>
 					</p:inputText>	
 				
 					<p:outputLabel for="@next">Contraseña:</p:outputLabel>
-        			<p:password value="#{usuario.usuario.contrasena}" feedback="true"
+        			<p:password value="#{usuario.usuario.contrasena}" placeholder="Contraseña" feedback="true"
 		                    promptLabel="Ingresa tu contraseña" weakLabel="Débil"
 		                    goodLabel="Buena" strongLabel="Fuerte">
 						<p:ajax/>

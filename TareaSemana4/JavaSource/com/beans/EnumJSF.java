@@ -8,6 +8,7 @@ import javax.inject.Named;
 
 import com.entities.enums.Departamento;
 import com.entities.enums.Genero;
+import com.entities.enums.Rol;
 import com.entities.enums.TipoTutor;
 import com.validation.ValidacionesUsuario.TipoUsuarioDocumento;
 
@@ -48,5 +49,13 @@ public class EnumJSF {
 	
 	public TipoTutor toTipoTutor(String tipoTutor) {
 		return Arrays.asList(TipoTutor.values()).stream().filter(t -> t.toString().equals(tipoTutor)).findFirst().orElse(null);
+	}
+	
+	public List<String> getRoles() {
+		return Arrays.asList(Rol.values()).stream().map(t -> t.toString()).toList();
+	}
+	
+	public Rol toRol(String rol) {
+		return Arrays.asList(Rol.values()).stream().filter(t -> t.toString().equals(rol)).findFirst().orElse(null);
 	}
 }
