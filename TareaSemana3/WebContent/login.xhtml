@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+    <title>Login JSF</title>
+</h:head>
+
+<h:body>
+    <h1>Login</h1>
+    
+    <h:form>
+        <h:outputLabel for="nombre" value="Nombre de Usuario:" />
+        <h:inputText id="nombre" value="#{usuario.nombreUsuario}" /> <br/>
+        
+        <h:outputLabel for="contrasenia" value="Contraseña:" />
+        <h:inputSecret id="contrasenia" value="#{usuario.contrasenia}" /> <br/>
+        
+        <h:commandButton value="Login" action="#{usuario.login}" /> <br/>
+    	<h:outputText value="#{usuario.error}" style="color: red;" /> 
+    </h:form>
+</h:body>
+
+</html>

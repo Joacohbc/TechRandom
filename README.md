@@ -2,7 +2,7 @@
 
 ![UTEC](./images/UTEC_Icon.jpg)
 
-Repostiorio del Grupo *TechRandom* de LTI Durazno A.
+Repostiorio del Grupo *Tech Random Solutions* de LTI Durazno A.
 
 Integrantes:
 
@@ -11,5 +11,5 @@ Integrantes:
 - Bruno Gonzalez
 - Santiago Soberal
 - Cristopher Fontes
-- Juan Andrés Graña
+- Daiana Silvera
 

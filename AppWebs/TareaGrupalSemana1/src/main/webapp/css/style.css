@@ -1,0 +1,93 @@
+*{
+    font-family: 'Calibri', sans-serif;
+}
+
+html {
+    box-sizing: border-box;
+    min-height: 100%;
+    scroll-snap-type: y mandatory;
+    font-family: 'Calibri', sans-serif;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+header{
+    display: grid;
+    grid-template-columns: 400px 800px;
+    text-align: center;
+}
+
+
+h1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    margin: 0 0 0 0;
+    font-size: 50px;
+    font-family: 'Calibri', sans-serif;
+}
+
+.separacion{
+    border-top: 2px solid #0CC3EF;
+    font-family: 'Calibri', sans-serif;
+    padding-top: 20px;
+    padding-left: 10px;
+}
+
+
+.header-content {
+    display: flex;
+    align-items: center;
+}
+
+.boton_contenedor{
+   margin-left: 160px;
+}
+
+p{
+    padding-left: 20px;
+}
+
+
+.flex-container {
+    display: flex;
+    background: #ccc;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.label-form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+label {
+    width: 150px;
+    margin-right: 10px;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 200px;
+}
+
+p {
+    margin: 5px 0;
+}
+
+.note{
+    font-family: 'Calibri', sans-serif;
+    padding-bottom: 400px;
+    padding-top:50px;
+
+}
+
+footer{
+    font-family: 'Calibri', sans-serif;
+    border-top: 2px solid #0CC3EF;
+    
+}

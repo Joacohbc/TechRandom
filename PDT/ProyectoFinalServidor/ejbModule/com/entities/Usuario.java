@@ -32,7 +32,7 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_USUARIOS")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID_USUARIO")
 	private Long idUsuario;
 

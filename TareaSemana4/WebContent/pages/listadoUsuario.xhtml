@@ -1,0 +1,53 @@
+<ui:composition template="/layouts/default.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<ui:param name="" value="" />
+		
+		<p:panel header="Informacion de busqueda">
+			<h:form>
+				<p:selectManyMenu value="#{listadoUsuario.roles}"
+					showCheckbox="true" styleClass="manymenu-advanced">
+					<p:ajax update="listaUsuarios" listener="${listadoUsuario.onRoleUpdate}"/>
+					<f:selectItems value="#{enumBean.roles}" var="rol"
+						itemValue="#{rol}" itemLabel="#{rol}"></f:selectItems>
+				</p:selectManyMenu>
+			</h:form>
+		</p:panel>
+		
+		<p:dataTable id="listaUsuarios" var="usu" value="${listadoUsuario.usuarios}" rowKey="#{usu.idUsuario}" selectionMode="single">
+			<p:column sortBy="${usu.idUsuario}" headerText="Id">
+				<h:outputText value="${usu.idUsuario}" />
+			</p:column>
+			
+			<p:column sortBy="${usu.documento}" headerText="Documentos">
+				<h:outputText value="${usu.documento}" />
+			</p:column>
+
+			<p:column sortBy="${usu.nombres}" headerText="Nombres">
+				<h:outputText value="${usu.nombres}" />
+			</p:column>
+			
+			<p:column sortBy="${usu.apellidos}" headerText="Apellidos">
+				<h:outputText value="${usu.apellidos}" />
+			</p:column>	
+			
+			<p:column sortBy="#{usu.estadoUsuario}" headerText="Estado">
+				<h:outputText value="#{usu.estadoUsuario.toString()}"/>
+			</p:column>	
+			
+            <p:column headerText="Acciones">
+                <p:commandButton action="#{listadoUsuario.deleteUsuario}" value="Borrar" update="listaUsuarios">
+                    <f:setPropertyActionListener value="#{usu}"
+                                                 target="#{listadoUsuario.usuarioSeleccionado}" />
+					<p:ajax update="listaUsuarios"/>
+                </p:commandButton>
+            </p:column>
+		</p:dataTable>
+
+	</ui:define>
+</ui:composition>
