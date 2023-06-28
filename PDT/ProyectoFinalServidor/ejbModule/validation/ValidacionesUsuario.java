@@ -1,4 +1,4 @@
-package validation;
+package com.validation;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -9,8 +9,7 @@ import com.entities.Usuario;
 import com.entities.enums.Departamento;
 import com.entities.enums.EstadoUsuario;
 import com.entities.enums.Genero;
-
-import validation.Validaciones.ValidacionesFecha;
+import com.validation.Validaciones.ValidacionesFecha;
 
 public class ValidacionesUsuario {
 
@@ -307,7 +306,7 @@ public class ValidacionesUsuario {
 
 	public static ValidationObject validarEmailUTEC(String email) {
 		if (!Validaciones.ValidarMail(email)) {
-			return new ValidationObject("El email tiene un formato invalido");
+			return new ValidationObject("El email de UTEC tiene un formato invalido");
 		}
 
 		String[] partes = email.split("@");
@@ -317,18 +316,16 @@ public class ValidacionesUsuario {
 			return new ValidationObject("El email de UTEC debe contener un nombre de usuario (delante del @) en el formato: \"nombre.apellido\"");
 		}
 		
-		if (!partes[1].contains("utec.edu.uy")) {
+		if (!partes[1].endsWith("utec.edu.uy")) {
 			return new ValidationObject("El email de UTEC debe pertener al dominio utec.edu.uy");
 		}
 		
-		
-
 		return ValidationObject.VALID;
 	}
 
 	public static ValidationObject validarEmail(String email) {
 		if (!Validaciones.ValidarMail(email)) {
-			return new ValidationObject("El email tiene un formato invalido");
+			return new ValidationObject("El email personal tiene un formato invalido");
 		}
 
 		return ValidationObject.VALID;

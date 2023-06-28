@@ -105,7 +105,7 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			}
 
 			if (dao.findByEmailPersonal(Usuario.class, usuario.getEmailPersonal()) != null) {
-				throw new InvalidEntityException("Ya existe un Usuario con el Email Personal: " + usuario.getEmailUtec());
+				throw new InvalidEntityException("Ya existe un Usuario con el Email Personal: " + usuario.getEmailPersonal());
 			}
 			
 			// El nombre de usuario se obtiene a partir de email
