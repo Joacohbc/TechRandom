@@ -15,7 +15,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Singleton
 public class JWTUtils {
-	public static final long JWT_DURATION = 60 * 60 * 24;
+	
+	// 1000 Milisegundos, 60 Segundos, 60 Minutos, 1 Hora
+	public static final long JWT_DURATION = 1000 * 60 * 60 * 1;
 
 	private String SECRET_KEY = "SoySuperMegaUltraDificil";
 
@@ -41,7 +43,7 @@ public class JWTUtils {
 				.setClaims(claims) // Le asignos las Claims
 				.setSubject(subject) // Username (que seria la idetenfificacion del JWT)
 				.setIssuedAt(new Date(System.currentTimeMillis())) // Fecha de creacion
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_DURATION * 1000)) // Que dure solo 24hs
+				.setExpiration(new Date(System.currentTimeMillis() + JWT_DURATION))
 				.signWith(SignatureAlgorithm.HS512, SECRET_KEY) // Inscripto el Token con la key 
 				.compact();
 	}
@@ -51,6 +53,8 @@ public class JWTUtils {
 		UserDetails ud = new UserDetails();
 		ud.setNombreUsuario(claims.getSubject());
 		ud.setRol(Rol.valueOf(String.valueOf(claims.get("rol"))));
+		ud.setIdUsuario(Long.valueOf(String.valueOf(claims.get("idUsuario"))));
+		ud.setIdRol(Long.valueOf(String.valueOf(claims.get("idRol"))));
 		return ud;
 	}
 	
@@ -68,15 +72,19 @@ public class JWTUtils {
 	public String generateToken(UserDetails userDetails) {
 		Map<String, Object> claims = new HashMap<>();
 		claims.put("rol", userDetails.getRol().name());
+		claims.put("idUsuario", userDetails.getIdUsuario());
+		claims.put("idRol", userDetails.getIdRol());
 		return doGenerateToken(claims, userDetails.getNombreUsuario());
 	}
 	
 	// validate token
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		UserDetails ud = getUserDetails(token);
-		if(!ud.equals(userDetails.getNombreUsuario())) return false;
-		if(!ud.equals(userDetails.getRol())) return false;
 		if(isTokenExpired(token)) return false;
+		if(!ud.getIdUsuario().equals(userDetails.getIdUsuario())) return false;
+		if(!ud.getIdRol().equals(userDetails.getIdRol())) return false;
+		if(!ud.getNombreUsuario().equals(userDetails.getNombreUsuario())) return false;
+		if(!ud.getRol().equals(userDetails.getRol())) return false;
 		return true;
 	}	
 	
