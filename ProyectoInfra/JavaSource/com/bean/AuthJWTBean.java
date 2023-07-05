@@ -1,5 +1,7 @@
 package com.bean;
 
+import java.io.Serializable;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -10,7 +12,7 @@ import com.entities.enums.Rol;
 
 @SessionScoped
 @Named("authBean")
-public class AuthJWTBean {
+public class AuthJWTBean implements Serializable {
 	
 	@EJB
 	private TokenManagmentBean jwt;
