@@ -1,15 +1,6 @@
 package com.services;
 
-import java.lang.reflect.Array;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -28,6 +19,9 @@ import com.exceptions.DAOException;
 import com.exceptions.InvalidEntityException;
 import com.exceptions.NotFoundEntityException;
 import com.exceptions.ServiceException;
+import com.password4j.Argon2Function;
+import com.password4j.Password;
+import com.password4j.types.Argon2;
 
 import validation.ValidacionesUsuario;
 import validation.ValidacionesUsuario.TipoUsuarioDocumento;
@@ -35,9 +29,6 @@ import validation.ValidacionesUsuarioEstudiante;
 import validation.ValidacionesUsuarioTutor;
 import validation.ValidationObject;
 
-/**
- * Session Bean implementation class UsuarioBean
- */
 @Stateless
 @LocalBean
 public class UsuarioBean implements UsuarioBeanRemote {
@@ -51,23 +42,21 @@ public class UsuarioBean implements UsuarioBeanRemote {
 	public UsuarioBean() {
 	}
 
-	private String toMD5(String password) throws NoSuchAlgorithmException {
-		MessageDigest md = MessageDigest.getInstance("MD5");
+	final Argon2Function hashFunction = Argon2Function.getInstance(1024, 3, 2, 64, Argon2.ID);
 
-		// Convierto la contraseña a HASH y guardo el HASH a Bytes
-		// Guarda el HASH en un array de bytes en Hexadecimal
-		byte[] bytes = md.digest(password.getBytes());
-
-		// Paso el HASH de Hexadecimal a String
-		StringBuilder passString = new StringBuilder();
-		for (int i = 0; i < bytes.length; i++) {
-			passString.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-		}
-
-		// Y retorno el HASH en String
-		return passString.toString();
+	private String encriptar(String password) {	
+		return Password.hash(password)
+				.addRandomSalt(64)
+				.addPepper(password)
+				.with(hashFunction).getResult();
 	}
 
+	private boolean verificar(String userPassword, String hashedPassword) {
+		return Password.check(userPassword, hashedPassword)
+				.addPepper(userPassword)
+				.with(hashFunction);
+	}
+	
 	@Override
 	public <T extends Usuario> T register(T usuario, TipoUsuarioDocumento tipoDocumento)
 			throws ServiceException, InvalidEntityException {
@@ -117,32 +106,28 @@ public class UsuarioBean implements UsuarioBeanRemote {
 						"Ya existe un Usuario con el Nombre de Usuario: " + usuario.getNombreUsuario());
 			}
 
-			usuario.setContrasena(toMD5(usuario.getContrasena()));
+			usuario.setContrasena(encriptar(usuario.getContrasena()));
 			usuario.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
-			
-
 	
 			return dao.insert(usuario);
 
 		} catch (DAOException e) {
 			throw new ServiceException(e);
-		} catch (NoSuchAlgorithmException e) {
-			throw new ServiceException("No se pudo inscripar la contraseña del usuario: " + e.getMessage());
 		}
 	}
 
 	@Override
 	public <T extends Usuario> T login(String nombreUsuario, String password, Class<T> tipoUsu)
 			throws ServiceException, InvalidEntityException {
-		try {
-			Long id = dao.getUserID(nombreUsuario, toMD5(password));
-			if (id == null)
-				throw new InvalidEntityException("El nombre o la contraseña del usuario son incorrectos");
-
-			return dao.findById(tipoUsu, id);
-		} catch (NoSuchAlgorithmException e) {
-			throw new ServiceException("Ocurrió un error intentar iniciar sesion: " + e.getMessage());
-		}
+		
+		T usu = dao.findByNombreUsuario(tipoUsu, nombreUsuario);
+		if(usu == null) 
+			throw new InvalidEntityException("El nombre o la contraseña del usuario son incorrectos");
+		
+		if(!verificar(password, usu.getContrasena()))
+			throw new InvalidEntityException("El nombre o la contraseña del usuario son incorrectos");
+		
+		return usu;
 	}
 
 	@Override
@@ -326,8 +311,8 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			Usuario actual = dao.findById(Usuario.class, id);
 			if (actual == null)
 				throw new NotFoundEntityException("No existe un usuario con el ID: " + id);
-				
-			if(!actual.getContrasena().equals(toMD5(antigua))) {
+			
+			if(!verificar(actual.getContrasena(), encriptar(antigua))) {
 				throw new InvalidEntityException("La contraseña antigua ingresada no es igual a la actual");
 			}
 			
@@ -335,35 +320,33 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			if(!valid.isValid())
 				throw new InvalidEntityException(valid.getErrorMessage());
 			
-			actual.setContrasena(toMD5(nueva));
+			actual.setContrasena(encriptar(nueva));
 			
-			mail.enviarConGMail(actual.getEmailUtec(), "Cambio de Contraseña", "Se modifico la contraseña de su Usuario");
-			mail.enviarConGMail(actual.getEmailPersonal(), "Cambio de Contraseña", "Se modifico la contraseña de su Usuario");
+			mail.enviarConGMail(actual.getEmailUtec(), "Cambio de Contraseña - CETU", "Se modifico la contraseña de su Usuario");
+			mail.enviarConGMail(actual.getEmailPersonal(), "Cambio de Contraseña - CETU", "Se modifico la contraseña de su Usuario");
 			dao.update(actual);
-		} catch (DAOException e) {
-			throw new ServiceException(e);
-		} catch (NoSuchAlgorithmException | MessagingException e) {
+		} catch (DAOException | MessagingException e) {
 			throw new ServiceException(e);
 		}
 	}
 
 	@Override
-	public void olvideContrasenia(String nombreUsuario) throws ServiceException, NotFoundEntityException{
+	public void olvideContrasenia(String nombreUsuario) throws ServiceException, NotFoundEntityException {
 		
 		Usuario usuario = dao.findByNombreUsuario(Usuario.class, nombreUsuario);
 		if(usuario == null) 
 			throw new NotFoundEntityException("No existe un usuario con el Nombre de Usuario: "+ nombreUsuario);
 		
 		try {
-			String password =  toMD5(nombreUsuario).toUpperCase() + System.currentTimeMillis() + toMD5(usuario.getContrasena()).toLowerCase();
+			String password =  System.currentTimeMillis() + usuario.getContrasena().toLowerCase();
 			
-			usuario.setContrasena(toMD5(password.trim()));
+			usuario.setContrasena(encriptar(password.trim()));
 			dao.update(usuario);
 
-			mail.enviarConGMail(usuario.getEmailUtec(), "Contraseña Temporal para el usuario " +usuario.getNombreUsuario(), password.trim());
-			mail.enviarConGMail(usuario.getEmailPersonal(), "Contraseña Temporal para el usuario " + usuario.getNombreUsuario(), password.trim());
+			mail.enviarConGMail(usuario.getEmailUtec(), "Contraseña Temporal - CETU" , password.trim());
+			mail.enviarConGMail(usuario.getEmailPersonal(), "Contraseña Temporal - CETU", password.trim());
 			
-		}catch (DAOException | NoSuchAlgorithmException e) {
+		}catch (DAOException e) {
 			throw new ServiceException(e);
 		} catch (MessagingException e) {
 			throw new ServiceException("No se pudo enviar el correo con al nueva contraseña, intentelo mas tarde");

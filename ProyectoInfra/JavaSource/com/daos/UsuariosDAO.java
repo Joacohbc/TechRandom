@@ -47,21 +47,6 @@ public class UsuariosDAO {
 	}
 
 	/**
-	 * Retorna el ID de un usuario (de la Entidad Usuario) en base a su nombre de
-	 * usuario y contraseña (sin inscriptar).
-	 * 
-	 * @return Si no hay resultado retornara null
-	 */
-	public Long getUserID(String username, String password) {
-		try {
-			return em.createQuery("SELECT u.idUsuario FROM Usuario u WHERE u.nombreUsuario = ?1 AND u.contrasena = ?2",
-					Long.class).setParameter(1, username).setParameter(2, password).getSingleResult();
-		} catch (NoResultException e) {
-			return null;
-		}
-	}
-
-	/**
 	 * Retorna el Tipo de Usuario (Estudiante.class, Analista.class, Tutor.class) en
 	 * base a su ID.
 	 * 
