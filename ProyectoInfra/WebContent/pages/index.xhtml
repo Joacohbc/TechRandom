@@ -6,6 +6,31 @@
 	xmlns:p="http://primefaces.org/ui">
 	
 	<ui:define name="content">
-		<p:button value="Hola Mundo!"></p:button>
+	<h:form>
+       <p:messages id="messages" showDetail="true" showIcon="false">
+            <p:autoUpdate/>
+        </p:messages>
+        
+		<p:panelGrid columns="2" styleClass="ui-noborder">
+			<p:outputLabel value="Nombre de Usuario:"></p:outputLabel>
+			<p:inputText value="#{loginBean.nombreUsuario}" >
+				<p:ajax/>
+			</p:inputText>
+
+			<p:outputLabel value="Contraseña:"></p:outputLabel>
+			<p:password value="#{loginBean.contrasenia}">
+				<p:ajax/>
+			</p:password>
+			
+			<p:outputLabel value="Rol"></p:outputLabel>
+			<p:selectOneMenu value="#{loginBean.rol}">
+				<f:selectItems value="#{enumBean.roles}" var="rol"
+					itemValue="#{rol}" itemLabel="#{rol}"></f:selectItems>
+			</p:selectOneMenu>
+
+			<p:commandButton action="#{loginBean.login()}" value="Login"></p:commandButton>
+			<p:commandButton action="#{loginBean.info()}" value="Info"></p:commandButton>
+		</p:panelGrid>	
+	</h:form>
 	</ui:define>
 </ui:composition>
