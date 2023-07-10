@@ -1,8 +1,5 @@
 package com.bean;
 
-import java.util.Arrays;
-import java.util.List;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
@@ -19,44 +16,24 @@ public class EnumJSF {
 
 	public EnumJSF() {
 	}
-	
-	public List<String> getDepartamentos() {
-		return Arrays.asList(Departamento.values()).stream().map(t -> t.toString()).toList();
+
+	public Departamento[] getDepartamentos() {
+		return Departamento.values();
 	}
-	
-	public Departamento toDepartamento(String departamento) {
-		return Arrays.asList(Departamento.values()).stream().filter(t -> t.toString().equals(departamento)).findFirst().orElse(null);
+
+	public Genero[] getGeneros() {
+		return Genero.values();
 	}
-	
-	public List<String> getGeneros() {
-		return Arrays.asList(Genero.values()).stream().map(t -> t.toString()).toList();
+
+	public TipoUsuarioDocumento[] getTiposDocumentos() {
+		return TipoUsuarioDocumento.values();
 	}
-	
-	public Genero toGenero(String genero) {
-		return Arrays.asList(Genero.values()).stream().filter(t -> t.toString().equals(genero)).findFirst().orElse(null);
+
+	public TipoTutor[] getTipoTutores() {
+		return TipoTutor.values();
 	}
-	
-	public List<String> getTiposDocumentos() {
-		return Arrays.asList(TipoUsuarioDocumento.values()).stream().map(t -> t.toString()).toList();
-	}
-	
-	public TipoUsuarioDocumento toTipoUsuarioDocumento(String tipoUsuarioDocumento) {
-		return Arrays.asList(TipoUsuarioDocumento.values()).stream().filter(t -> t.toString().equals(tipoUsuarioDocumento)).findFirst().orElse(null);
-	}
-	
-	public List<String> getTipoTutores() {
-		return Arrays.asList(TipoTutor.values()).stream().map(t -> t.toString()).toList();
-	}
-	
-	public TipoTutor toTipoTutor(String tipoTutor) {
-		return Arrays.asList(TipoTutor.values()).stream().filter(t -> t.toString().equals(tipoTutor)).findFirst().orElse(null);
-	}
-	
-	public List<String> getRoles() {
-		return Arrays.asList(Rol.values()).stream().map(t -> t.toString()).toList();
-	}
-	
-	public Rol toRol(String rol) {
-		return Arrays.asList(Rol.values()).stream().filter(t -> t.toString().equals(rol)).findFirst().orElse(null);
+
+	public Rol[] getRoles() {
+		return Rol.values();
 	}
 }

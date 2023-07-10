@@ -1,10 +1,8 @@
 @charset "UTF-8";
 
-.flex-row {
-	display: flex;
-	flex-direction: row;
-}
-
-.flex-row-item {
-	flex-grow: 1;
+.prime-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
 }

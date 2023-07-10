@@ -31,24 +31,22 @@ public class LoginBean implements Serializable {
 	
 	private String nombreUsuario;
 	private String contrasenia;
-	private String rol;
+	private Rol rol;
 	
 	public LoginBean() {}
 
 	public void login() {
 		try {
-			Rol r = enums.toRol(rol);
-			
 			auth.borrar();
-			if(r == Rol.ANALISTA) {
+			if(rol == Rol.ANALISTA) {
 				Analista usu = user.login(nombreUsuario, contrasenia, Analista.class);
-				auth.generar(usu.getIdUsuario(), usu.getIdAnalista(), nombreUsuario, r);
-			} else if(r == Rol.ESTUDIANTE) {
+				auth.generar(usu.getIdUsuario(), usu.getIdAnalista(), nombreUsuario, rol);
+			} else if(rol == Rol.ESTUDIANTE) {
 				Estudiante usu = user.login(nombreUsuario, contrasenia, Estudiante.class);
-				auth.generar(usu.getIdUsuario(), usu.getIdEstudiante(), nombreUsuario, r);
-			} else if(r == Rol.TUTOR) {
+				auth.generar(usu.getIdUsuario(), usu.getIdEstudiante(), nombreUsuario, rol);
+			} else if(rol == Rol.TUTOR) {
 				Tutor usu = user.login(nombreUsuario, contrasenia, Tutor.class);
-				auth.generar(usu.getIdUsuario(), usu.getIdTutor(), nombreUsuario, r);
+				auth.generar(usu.getIdUsuario(), usu.getIdTutor(), nombreUsuario, rol);
 			}
 
 			addMessage(FacesMessage.SEVERITY_INFO, "Incio de sesion exitoso:", "El usuario " + nombreUsuario + " inicio sesion con exito");
@@ -83,11 +81,11 @@ public class LoginBean implements Serializable {
 		this.contrasenia = contrasenia;
 	}
 
-	public String getRol() {
+	public Rol getRol() {
 		return rol;
 	}
 
-	public void setRol(String rol) {
+	public void setRol(Rol rol) {
 		this.rol = rol;
 	}
 }
