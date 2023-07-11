@@ -9,12 +9,9 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:outputStylesheet value="primeflex.min.css" library="css" />
-		<h:outputStylesheet value="containers.css" library="css" />
-			
-		<div class="prime-center">
+		<div class="flex justify-content-center align-items-center flex-column">
 			<div>
-				<p:graphicImage name="images/utec_logo.png" width="500px" />
+				<p:graphicImage name="images/utec_logo.png" width="300px" />
 			</div>
 			<div>
 				<h:form>
@@ -40,8 +37,8 @@
 						</p:selectOneMenu>
 
 						<p:commandButton action="#{loginBean.login()}" value="Login"></p:commandButton>
-						<p:commandButton action="#{loginBean.info()}" value="Info"></p:commandButton>
 					</p:panelGrid>
+					<p:commandLink value="¿No estas registrado?"></p:commandLink>
 				</h:form>
 			</div>
 		</div>

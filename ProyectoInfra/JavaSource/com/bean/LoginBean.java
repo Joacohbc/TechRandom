@@ -35,23 +35,25 @@ public class LoginBean implements Serializable {
 	
 	public LoginBean() {}
 
-	public void login() {
+	public String login() {
 		try {
 			auth.borrar();
 			if(rol == Rol.ANALISTA) {
 				Analista usu = user.login(nombreUsuario, contrasenia, Analista.class);
-				auth.generar(usu.getIdUsuario(), usu.getIdAnalista(), nombreUsuario, rol);
+				auth.generar(usu.getIdUsuario(), usu.getIdAnalista(), nombreUsuario, rol, usu);
 			} else if(rol == Rol.ESTUDIANTE) {
 				Estudiante usu = user.login(nombreUsuario, contrasenia, Estudiante.class);
-				auth.generar(usu.getIdUsuario(), usu.getIdEstudiante(), nombreUsuario, rol);
+				auth.generar(usu.getIdUsuario(), usu.getIdEstudiante(), nombreUsuario, rol, usu);
 			} else if(rol == Rol.TUTOR) {
 				Tutor usu = user.login(nombreUsuario, contrasenia, Tutor.class);
-				auth.generar(usu.getIdUsuario(), usu.getIdTutor(), nombreUsuario, rol);
+				auth.generar(usu.getIdUsuario(), usu.getIdTutor(), nombreUsuario, rol, usu);
 			}
 
 			addMessage(FacesMessage.SEVERITY_INFO, "Incio de sesion exitoso:", "El usuario " + nombreUsuario + " inicio sesion con exito");
+			return "inicio.xhtml";
 		} catch (Exception e) {
 			addMessage(FacesMessage.SEVERITY_ERROR, "Error al inicar sesion:", e.getMessage());
+			return "";
 		}
 	}
 	

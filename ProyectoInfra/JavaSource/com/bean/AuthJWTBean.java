@@ -8,6 +8,7 @@ import javax.inject.Named;
 
 import com.auth.TokenManagmentBean;
 import com.auth.UserDetails;
+import com.entities.Usuario;
 import com.entities.enums.Rol;
 
 @SessionScoped
@@ -21,11 +22,13 @@ public class AuthJWTBean implements Serializable {
 		
 	private String token;
 	private UserDetails userInfo;
-
-	public void generar( Long idUsuario, Long idRol, String nombreUsuario, Rol rol) {
+	private Usuario user;
+	
+	public void generar( Long idUsuario, Long idRol, String nombreUsuario, Rol rol, Usuario user) {
 		if(token != null && userInfo != null) return;
 		this.userInfo = new UserDetails(idUsuario, idRol, nombreUsuario, rol);
 		this.token = jwt.generarToken(idUsuario, idRol, nombreUsuario, rol);
+		this.user = user;
 	}
 	
 	public void renovar() {
@@ -84,5 +87,13 @@ public class AuthJWTBean implements Serializable {
 		if(token == null || userInfo == null) return null;
 		if(!jwt.isLogged(token, userInfo)) return null;
 		return userInfo.getNombreUsuario();
+	}
+
+	public Usuario getUser() {
+		return user;
+	}
+	
+	public String getNombreCompleto() {
+		return user.getNombres() + " " + user.getApellidos();
 	}
 }
