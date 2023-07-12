@@ -8,14 +8,13 @@
 
 <h:head>
 	<h:outputStylesheet name="primeflex.min.css" library="css" />
-	<h:outputStylesheet name="containers.css" library="css" />
 </h:head>
 
-<h:body>	
-	<ui:insert name="header">
-		
-	</ui:insert>
-	
+<h:body>
+	<c:if test="#{authBean.yaGenerado()}">
+		<ui:include src="/pages/header.xhtml" />
+	</c:if>	
+
 	<ui:insert name="content">
 		
 	</ui:insert>

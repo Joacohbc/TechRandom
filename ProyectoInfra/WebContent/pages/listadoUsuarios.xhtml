@@ -1,0 +1,29 @@
+<ui:composition template="/layouts/default.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+
+		<div class="card"></div>
+		<h:form>
+			<p:dataTable var="usuario" value="#{listadoUsuariosBean.usuarios}"
+				id="listaUsuarios"
+				emptyMessage="No customers found with given criteria"
+				filteredValue="#{listadoUsuariosBean.usuariosFiltrados}">
+
+				<p:column headerText="Documento" sortBy="#{usuario.documento}"
+					filterBy="#{usuario.documento}" filterMatchMode="contains">
+					<h:outputText value="#{usuario.documento}" />
+				</p:column>
+
+				<p:column headerText="Nombres" sortBy="#{usuario.nombres}"
+					filterBy="#{usuario.nombres}" filterMatchMode="contains">
+					<h:outputText value="#{usuario.nombres}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

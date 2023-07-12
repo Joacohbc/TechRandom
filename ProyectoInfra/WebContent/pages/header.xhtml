@@ -1,0 +1,58 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+		<div class="card">
+			<h:form>
+				<p:growl id="messages" showIcon="false"/>
+
+				<p:menubar>
+					<c:if test="#{authBean.esAnalista() || authBean.esTutor()}">
+						<p:submenu label="Usuarios" icon="pi pi-fw pi-user">
+							<c:if test="#{authBean.esAnalista()}">
+								<p:menuitem value="Nuevo" icon="pi pi-fw pi-user-plus" />
+								<p:menuitem value="Borrar" icon="pi pi-fw pi-user-minus" />		
+							</c:if>
+							<p:menuitem value="Buscar" icon="pi pi-fw pi-search" outcome="listadoUsuarios.xhtml"/>
+						</p:submenu>
+					</c:if>
+
+					<c:if test="#{authBean.esAnalista()}">
+						<p:submenu label="Mantenimiento" icon="pi pi-fw pi-cog">
+							<p:menuitem value="De ITR" icon="pi pi-fw pi-building" disabled="true"/>
+							<p:menuitem value="De Constancias" icon="pi pi-fw pi-file-pdf" disabled="true"/>
+						</p:submenu>
+					</c:if>
+
+					<c:if test="#{authBean.esEstudiante()}">
+						<p:submenu label="Constancias" icon="pi pi-fw pi-file-pdf">
+							<p:menuitem value="Solicitar" icon="pi pi-fw pi-plus-circle" disabled="true"/>
+							<p:menuitem value="Visualizar" icon="pi pi-fw pi-search" disabled="true"/>
+						</p:submenu>
+					</c:if>
+					
+					<f:facet name="options">
+						<p:avatar id="dynaButton" label="JG" styleClass="mr-2"
+							size="large" shape="circle" class='cursor-pointer' />
+						<p:menu overlay="true" my="left top" trigger="dynaButton"
+							at="left bottom">
+
+							<p:menuitem value="#{authBean.nombreCompleto}" disabled="true"
+								icon="pi pi-user" />
+							<p:menuitem value="#{authBean.rol.toString()}" disabled="true"
+								icon="pi pi-id-card" />
+							<p:submenu label="Opciones">
+								<p:menuitem value="Mi Perfil" icon="pi pi-user-edit" />
+							</p:submenu>
+							<p:submenu label="Sesion">
+								<p:menuitem value="Cambiar contraseña" icon="pi pi-lock" />
+								<p:menuitem value="Logout" icon="pi pi-power-off" />
+							</p:submenu>
+						</p:menu>
+					</f:facet>
+				</p:menubar>
+			</h:form>
+		</div>
+</ui:composition>

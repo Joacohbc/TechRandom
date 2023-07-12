@@ -35,7 +35,7 @@ public class LoginBean implements Serializable {
 	
 	public LoginBean() {}
 
-	public String login() {
+	public void login() {
 		try {
 			auth.borrar();
 			if(rol == Rol.ANALISTA) {
@@ -49,11 +49,10 @@ public class LoginBean implements Serializable {
 				auth.generar(usu.getIdUsuario(), usu.getIdTutor(), nombreUsuario, rol, usu);
 			}
 
-			addMessage(FacesMessage.SEVERITY_INFO, "Incio de sesion exitoso:", "El usuario " + nombreUsuario + " inicio sesion con exito");
-			return "inicio.xhtml";
+			addMessage(FacesMessage.SEVERITY_INFO, "Incio de sesion exitoso", "");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("inicio.xhtml");
 		} catch (Exception e) {
 			addMessage(FacesMessage.SEVERITY_ERROR, "Error al inicar sesion:", e.getMessage());
-			return "";
 		}
 	}
 	
