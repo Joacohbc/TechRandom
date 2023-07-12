@@ -2,7 +2,9 @@ package com.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -12,7 +14,9 @@ import javax.inject.Named;
 
 import com.entities.Analista;
 import com.entities.Estudiante;
+import com.entities.Tutor;
 import com.entities.Usuario;
+import com.entities.enums.Genero;
 import com.services.UsuarioBean;
 
 @Named("listadoUsuariosBean")
@@ -34,7 +38,7 @@ public class ListadoUsuarios implements Serializable {
 		this.usuarios = new ArrayList<>();
 		usuarios.addAll(bean.findAll(Estudiante.class));
 		usuarios.addAll(bean.findAll(Analista.class));
-		usuarios.addAll(bean.findAll(Estudiante.class));
+		usuarios.addAll(bean.findAll(Tutor.class));
 	}
 
 	public List<Usuario> getUsuarios() {
@@ -48,6 +52,4 @@ public class ListadoUsuarios implements Serializable {
 	public void setUsuariosFiltrados(List<Usuario> usuariosFiltrados) {
 		this.usuariosFiltrados = usuariosFiltrados;
 	}
-	
-	
 }

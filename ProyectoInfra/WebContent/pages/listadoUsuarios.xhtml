@@ -11,8 +11,22 @@
 		<h:form>
 			<p:dataTable var="usuario" value="#{listadoUsuariosBean.usuarios}"
 				id="listaUsuarios"
-				emptyMessage="No customers found with given criteria"
-				filteredValue="#{listadoUsuariosBean.usuariosFiltrados}">
+				emptyMessage="No se encontro ninguno usuario con este criterio"
+				resizableColumns="true" liveResize="true" showGridlines="true">
+
+				<f:facet name="header">
+					<div class="flex justify-content-between align-items-center">
+						Lista de Usuarios
+
+						<div>
+							<p:commandButton id="toggler" type="button" value="Columns"
+								icon="pi pi-align-justify" />
+							<p:columnToggler datasource="listaUsuarios" trigger="toggler">
+								<p:ajax />
+							</p:columnToggler>
+						</div>
+					</div>
+				</f:facet>
 
 				<p:column headerText="Documento" sortBy="#{usuario.documento}"
 					filterBy="#{usuario.documento}" filterMatchMode="contains">
@@ -22,6 +36,49 @@
 				<p:column headerText="Nombres" sortBy="#{usuario.nombres}"
 					filterBy="#{usuario.nombres}" filterMatchMode="contains">
 					<h:outputText value="#{usuario.nombres}" />
+				</p:column>
+
+				<p:column headerText="Apellidos" sortBy="#{usuario.apellidos}"
+					filterBy="#{usuario.apellidos}" filterMatchMode="contains">
+					<h:outputText value="#{usuario.apellidos}" />
+				</p:column>
+
+				<p:column headerText="Email Personal"
+					sortBy="#{usuario.emailPersonal}"
+					filterBy="#{usuario.emailPersonal}" filterMatchMode="contains">
+					<h:outputText value="#{usuario.emailPersonal}" />
+				</p:column>
+
+				<p:column headerText="Email Utec" sortBy="#{usuario.emailUtec}"
+					filterBy="#{usuario.emailUtec}" filterMatchMode="contains">
+					<h:outputText value="#{usuario.emailUtec}" />
+				</p:column>
+
+				<p:column headerText="Nombre Usuario"
+					sortBy="#{usuario.nombreUsuario}"
+					filterBy="#{usuario.nombreUsuario}" filterMatchMode="contains">
+					<h:outputText value="#{usuario.nombreUsuario}" />
+				</p:column>
+
+				<p:column headerText="Genero" sortBy="#{usuario.genero}"
+					filterBy="#{usuario.genero}" filterMatchMode="contains">
+					<h:outputText value="#{usuario.genero.toString()}" />
+				</p:column>
+
+				<p:column headerText="Departamento" sortBy="#{usuario.departamento}"
+					filterBy="#{usuario.departamento}" filterMatchMode="contains">
+					<h:outputText value="#{usuario.departamento.toString()}" />
+				</p:column>
+
+				<p:column headerText="Estado Usuario"
+					sortBy="#{usuario.estadoUsuario}"
+					filterBy="#{usuario.estadoUsuario}" filterMatchMode="contains">
+					<h:outputText value="#{usuario.estadoUsuario.toString()}" />
+				</p:column>
+
+				<p:column headerText="Rol" sortBy="#{usuario.class.simpleName}"
+					filterBy="#{usuario.class.simpleName}" filterMatchMode="contains">
+					<h:outputText value="#{usuario.getClass().getSimpleName()}" />
 				</p:column>
 			</p:dataTable>
 		</h:form>

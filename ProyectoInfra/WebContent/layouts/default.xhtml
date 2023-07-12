@@ -13,14 +13,13 @@
 <h:body>
 	<c:if test="#{authBean.yaGenerado()}">
 		<ui:include src="/pages/header.xhtml" />
-	</c:if>	
-
-	<ui:insert name="content">
+				
+		<ui:insert name="content">
+			
+		</ui:insert>
 		
-	</ui:insert>
-	
-	<ui:insert name="footer">
-		
-	</ui:insert>
+		<ui:insert name="footer">
+		</ui:insert>
+	</c:if>		
 </h:body>
 </html>
