@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import com.entities.Analista;
@@ -20,25 +21,16 @@ import com.services.UsuarioBean;
 
 import validation.ValidacionesUsuario.TipoUsuarioDocumento;
 
-
-
-
 @Named("register")
-@SessionScoped
+@ViewScoped
 public class RegistroBean implements Serializable {
+	
 		@EJB
 		private UsuarioBean bean;
-		
-		@Inject
-		private EnumJSF enumJSF;
 
 		// Datos del usuario
 		private Usuario usuario;
-		
-		// Datos del Departamento y Genero
-		private String departamento;
-		private String genero;
-		
+				
 		// Datos del Tutor
 		private String area;
 		private TipoTutor tipoTutor;
@@ -65,7 +57,6 @@ public class RegistroBean implements Serializable {
 			a.setDepartamento(usuario.getDepartamento());
 			a.setGenero(usuario.getGenero());
 
-			
 			//Harcodeado
 			a.setEstado(true);
 			a.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
@@ -75,7 +66,6 @@ public class RegistroBean implements Serializable {
 			
 			//Implementar para que se seleccione el ITR.
 			a.setItr(itr);
-			
 			
 			try {
 				bean.register(a, TipoUsuarioDocumento.URUGUAYO);
@@ -164,36 +154,8 @@ public class RegistroBean implements Serializable {
 			this.bean = bean;
 		}
 
-		public EnumJSF getEnumJSF() {
-			return enumJSF;
-		}
-
-		public void setEnumJSF(EnumJSF enumJSF) {
-			this.enumJSF = enumJSF;
-		}
-
 		public Usuario getUsuario() {
 			return usuario;
-		}
-
-		public void setUsuario(Usuario usuario) {
-			this.usuario = usuario;
-		}
-
-		public String getDepartamento() {
-			return departamento;
-		}
-
-		public void setDepartamento(String departamento) {
-			this.departamento = departamento;
-		}
-
-		public String getGenero() {
-			return genero;
-		}
-
-		public void setGenero(String genero) {
-			this.genero = genero;
 		}
 
 		public String getArea() {
