@@ -6,7 +6,7 @@
 
 		<div class="card">
 			<h:form>
-				<p:growl id="messages" showIcon="false"/>
+				<p:growl id="messages" showDetail="true" showIcon="false" closable="true"/>
 
 				<p:menubar>
 					<c:if test="#{authBean.esAnalista() || authBean.esTutor()}">

@@ -127,6 +127,24 @@ public class UsuarioBean implements UsuarioBeanRemote {
 		if(!verificar(password, usu.getContrasena()))
 			throw new InvalidEntityException("El nombre o la contraseña del usuario son incorrectos");
 		
+		if(usu.getEstadoUsuario() == EstadoUsuario.SIN_VALIDAR || usu.getEstadoUsuario() == EstadoUsuario.ELIMINADO)
+			throw new InvalidEntityException("Las crendenciales de usuario ingreasdas no tiene acceso al sistema, consulto con su Analista");
+		
+		if (usu instanceof Estudiante) {
+			Estudiante est = (Estudiante) usu;
+			if(!est.getEstado())
+				throw new InvalidEntityException("Las crendenciales de usuario ingreasdas no tiene acceso al sistema, consulto con su Analista");
+
+		} else if (usu instanceof Tutor) {
+			Tutor tut = (Tutor) usu;
+			if(!tut.getEstado())
+				throw new InvalidEntityException("Las crendenciales de usuario ingreasdas no tiene acceso al sistema, consulto con su Analista");
+		} else {
+			Analista ana = (Analista) usu;
+			if(!ana.getEstado())
+				throw new InvalidEntityException("Las crendenciales de usuario ingreasdas no tiene acceso al sistema, consulto con su Analista");
+		}
+		
 		return usu;
 	}
 

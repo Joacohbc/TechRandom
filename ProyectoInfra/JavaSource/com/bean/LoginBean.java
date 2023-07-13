@@ -12,6 +12,7 @@ import javax.inject.Named;
 import com.entities.Analista;
 import com.entities.Estudiante;
 import com.entities.Tutor;
+import com.entities.enums.EstadoUsuario;
 import com.entities.enums.Rol;
 import com.services.UsuarioBean;
 

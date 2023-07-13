@@ -52,6 +52,9 @@ public class ListadoUsuarios implements Serializable {
 	}
 
 	private void updateEstado(Usuario usuario, Boolean estado) {
+		if (!auth.esAnalista())
+			return;
+		
 		if (usuarioSeleccionado instanceof Analista) {
 			bean.updateEstadoAnalista(usuarioSeleccionado.getIdUsuario(), estado);
 			((Analista) usuarioSeleccionado).setEstado(estado);
@@ -98,6 +101,7 @@ public class ListadoUsuarios implements Serializable {
 	public void editarUsuario() {
 		if (!auth.esAnalista())
 			return;
+		
 		ValidationObject error = ValidacionesUsuario.ValidarUsuarioSinContrasenia(usuarioSeleccionado,
 				TipoUsuarioDocumento.URUGUAYO);
 		if (!error.isValid()) {

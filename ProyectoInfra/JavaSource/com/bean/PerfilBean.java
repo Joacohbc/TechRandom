@@ -15,19 +15,19 @@ import com.entities.Tutor;
 import com.entities.Usuario;
 import com.services.UsuarioBean;
 
-@Named
+@Named("perfilBean")
 @ViewScoped
-public class PerfilBean  implements Serializable{
+public class PerfilBean implements Serializable {
 
 	public PerfilBean() {
-		
+
 	}
-	
+
 	private Usuario usuario;
-	
+
 	@EJB
 	private UsuarioBean usuariobean;
-	
+
 	@Inject
 	private AuthJWTBean auth;
 
@@ -38,36 +38,34 @@ public class PerfilBean  implements Serializable{
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
+
 	@PostConstruct
-	public void init(){
+	public void init() {
 		if (auth.esAnalista()) {
 			usuario = usuariobean.findById(Analista.class, auth.getIdUsuario());
-		}else {
+		} else {
 			if (auth.esTutor()) {
 				usuario = usuariobean.findById(Tutor.class, auth.getIdUsuario());
-			}else {
+			} else {
 				usuario = usuariobean.findById(Estudiante.class, auth.getIdUsuario());
 			}
 		}
 	}
 	
-	public void guardarDatos(){
+	public void guardarDatos() {
 		try {
 			if (auth.esAnalista()) {
-				
 				usuariobean.updateAnalista((Analista) usuario);
-			}else {
-				if (auth.esTutor()) {
-					usuariobean.updateTutor((Tutor) usuario);
-				}else {
-					usuariobean.updateEstudiante((Estudiante) usuario);
-				}
+			} else if (auth.esTutor()) {
+				usuariobean.updateTutor((Tutor) usuario);
+			} else {
+				usuariobean.updateEstudiante((Estudiante) usuario);
 			}
+			
+			JSFUtils.addMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado con exito", "");
 		} catch (Exception e) {
 			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
 		}
 	}
-	
 
 }
