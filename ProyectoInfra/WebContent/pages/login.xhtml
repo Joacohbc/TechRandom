@@ -40,7 +40,9 @@
 
 					<p:commandButton action="#{loginBean.login()}" value="Login"></p:commandButton>
 				</p:panelGrid>
-				<p:commandLink value="¿No estas registrado?"></p:commandLink>
+				<h:form>
+				<p:commandLink value="¿No estas registrado?"  action="/pages/register.xhtml"></p:commandLink>
+				</h:form>
 			</h:form>
 		</div>
 	</div>
