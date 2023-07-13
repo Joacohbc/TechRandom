@@ -56,8 +56,7 @@
             </p:password>
             
             <p:outputLabel for="@next">Departamento:</p:outputLabel>
-					<p:selectOneMenu>
-		                <p:ajax update="@this" process="@this"/>
+					<p:selectOneMenu value="#{register.usuario.departamento}">
                     	<f:selectItem itemLabel="Seleccione uno"  noSelectionOption="true"/>
 						<f:selectItems value="#{enumBean.departamentos}" var="departamento"
 										itemValue="#{departamento}" itemLabel="#{departamento}"></f:selectItems>
@@ -68,14 +67,12 @@
 						<p:ajax/>
 					</p:inputText>
 								
-					<p:outputLabel value="Genero" for="@next">Genero:</p:outputLabel>
-					<p:selectOneMenu >
+					<p:outputLabel for="@next">Genero:</p:outputLabel>
+					<p:selectOneMenu value ="#{register.usuario.genero}">
                     	<f:selectItem itemLabel="Seleccione uno" noSelectionOption="true"/>
 						<f:selectItems value="#{enumBean.generos}" var="genero"
 										itemValue="#{genero}" itemLabel="#{genero}"></f:selectItems>
-					</p:selectOneMenu>
-          
-            
+					</p:selectOneMenu>                    
             	
         </p:panelGrid>
     </p:panel>
@@ -94,7 +91,7 @@
 							<f:selectItems value="#{enumBean.tipoTutores}" var="tipoTutor"
 											itemValue="#{tipoTutor}" itemLabel="#{tipoTutor}"></f:selectItems>
 						</p:selectOneMenu>					
-						<p:commandButton value="Validar" immediate="true"  action="#{register.crearTutor}"/>			
+						<h:commandButton value="Validar" action="#{register.crearTutor}"/>			
 					</p:panelGrid>
 				</p:tab>
 				
@@ -104,13 +101,13 @@
 						<p:inputNumber placeholder="2023" decimalPlaces="0" value="#{register.generacion}">
 							<p:ajax/>
 						</p:inputNumber>							
-						<p:commandButton value="Crear" immediate="true"  action="#{register.crearEstudiante}"/>			
+						<h:commandButton value="Crear"  action="#{register.crearEstudiante}"/>			
 					</p:panelGrid>
 				</p:tab>
 				
 				<p:tab title="Analista">
 					<p>No es necesario ingresar mas informacion</p>
-					<p:commandButton value="Crear" immediate="true"  action="#{register.crearAnalista}"/>			
+					<h:commandButton value="Crear"   action="#{register.crearAnalista}"/>			
 				</p:tab>
 			</p:accordionPanel>
     

@@ -14,8 +14,12 @@ import com.entities.Itr;
 import com.entities.Tutor;
 import com.entities.Usuario;
 import com.entities.enums.EstadoUsuario;
+import com.entities.enums.TipoTutor;
 import com.exceptions.InvalidEntityException;
 import com.services.UsuarioBean;
+
+import validation.ValidacionesUsuario.TipoUsuarioDocumento;
+
 
 
 
@@ -37,7 +41,7 @@ public class RegistroBean implements Serializable {
 		
 		// Datos del Tutor
 		private String area;
-		private String tipoTutor;
+		private TipoTutor tipoTutor;
 		
 		// Datos del estudiante
 		private Integer generacion;
@@ -60,18 +64,25 @@ public class RegistroBean implements Serializable {
 			a.setContrasena(usuario.getContrasena());
 			a.setDepartamento(usuario.getDepartamento());
 			a.setGenero(usuario.getGenero());
+
 			
 			//Harcodeado
 			a.setEstado(true);
 			a.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
-			
-			
+
 			Itr itr = new Itr();
 			itr.setIdItr(1l);
 			
 			//Implementar para que se seleccione el ITR.
 			a.setItr(itr);
 			
+			
+			try {
+				bean.register(a, TipoUsuarioDocumento.URUGUAYO);
+				JSFUtils.addMessage(FacesMessage.SEVERITY_INFO, "Usuario creado con exito:", String.format("El Analista %s %s fue creado con exito", a.getNombres(), a.getApellidos()));
+			} catch (InvalidEntityException e) {
+				JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error de ingreso:", e.getMessage());
+			}
 
 		}	
 		
@@ -86,12 +97,30 @@ public class RegistroBean implements Serializable {
 			e.setFecNacimiento(usuario.getFecNacimiento());
 			e.setLocalidad(usuario.getLocalidad());
 			e.setContrasena(usuario.getContrasena());
-          // Falta departamento y Genero no se como setearlo como String.
-			
+			e.setDepartamento(usuario.getDepartamento());
+			e.setGenero(usuario.getGenero());
+ 
 			// Datos de Estudiante
 			e.setGeneracion(generacion);
 			
+			// Harcodeado
+			e.setEstado(true);
+			e.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
+			
+			Itr itr = new Itr();
+			itr.setIdItr(1l);
+			e.setItr(itr);
+			
+			try {
+				bean.register(e, TipoUsuarioDocumento.URUGUAYO);
+				JSFUtils.addMessage(FacesMessage.SEVERITY_INFO, "Usuario creado con exito:", String.format("El Estudiante %s %s fue creado con exito", e.getNombres(), e.getApellidos()));
+			} catch (InvalidEntityException ex) {
+				JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error de ingreso:", ex.getMessage());
+			}
+			
 		}		
+		
+		
 		public void crearTutor() {
 			Tutor t = new Tutor();
 			t.setDocumento(usuario.getDocumento());
@@ -103,16 +132,30 @@ public class RegistroBean implements Serializable {
 			t.setFecNacimiento(usuario.getFecNacimiento());
 			t.setLocalidad(usuario.getLocalidad());
 			t.setContrasena(usuario.getContrasena());
-	          // Falta departamento y Genero no se como setearlo como String.
-			
-			
-			// Datos de tutor
-			t.setArea(area);
-			//Setear el tipo de tutor de manera correcta 
-			//t.setTipo(enumJSF.toTipoTutor(tipoTutor));
-			
+			t.setDepartamento(usuario.getDepartamento());
+			t.setGenero(usuario.getGenero());
 
+			// Datos de tutor
+			t.setArea(getArea());
+			t.setTipo(tipoTutor);
+			
+			// Harcodeado
+			t.setEstado(true);
+			t.setEstadoUsuario(EstadoUsuario.SIN_VALIDAR);
+			
+			Itr itr = new Itr();
+			itr.setIdItr(1l);
+			t.setItr(itr);
+			
+			try {
+				bean.register(t, TipoUsuarioDocumento.URUGUAYO);
+				JSFUtils.addMessage(FacesMessage.SEVERITY_INFO, "Usuario creado con exito:", String.format("El Tutor %s %s fue creado con exito", t.getNombres(), t.getApellidos()));
+			} catch (InvalidEntityException e) {
+				JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error de ingreso:", e.getMessage());
+			}
 		}
+
+		
 		public UsuarioBean getBean() {
 			return bean;
 		}
@@ -161,11 +204,12 @@ public class RegistroBean implements Serializable {
 			this.area = area;
 		}
 
-		public String getTipoTutor() {
+
+		public TipoTutor getTipoTutor() {
 			return tipoTutor;
 		}
 
-		public void setTipoTutor(String tipoTutor) {
+		public void setTipoTutor(TipoTutor tipoTutor) {
 			this.tipoTutor = tipoTutor;
 		}
 
