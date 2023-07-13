@@ -12,49 +12,49 @@
 		<h:form>
     <p:panel id="panel" header="Mis Datos Personales" style="margin-bottom:10px;">
         <p:messages id="messages" />
- 
+ 	
         <h:panelGrid columns="8" cellpadding="8">
             
             <h:outputLabel for="txt1" value="Nombres:" />
-            <p:inputText id="txt1" value="#{authBean.user.nombres}" required="true" label="Text 1" />
+            <p:inputText id="txt1" value="#{perfilBean.usuario.nombres}" required="true" label="Text 1" />
             <p:message for="txt1" />
             <h:outputText value="#{selectorView.text1}" />
             
             <h:outputLabel for="txt2" value="Apellidos:" />
-            <p:inputText id="txt2" value="#{authBean.user.apellidos}" required="true" label="Text 4" />
+            <p:inputText id="txt2" value="#{perfilBean.usuario.apellidos}" required="true" label="Text 4" />
             <p:message for="txt2" />
             <h:outputText value="#{selectorView.text4}" />
             
             <h:outputLabel for="txt3" value="Documento:" />
-            <p:inputText id="txt3" value="#{authBean.user.documento}" required="true" label="Text 6" />
+            <p:inputText id="txt3" value="#{perfilBean.usuario.documento}" required="true" label="Text 6" />
             <p:message for="txt3" />
             <h:outputText value="#{selectorView.text6}" />
             
             <h:outputLabel for="txt4" value="E-mail Personal:" />
-            <p:inputText id="txt4" value="#{authBean.user.emailPersonal}" required="true" label="Text 7" />
+            <p:inputText id="txt4" value="#{perfilBean.usuario.emailPersonal}" required="true" label="Text 7" />
             <p:message for="txt4" />
             <h:outputText value="#{selectorView.text7}" />
             
             <h:outputLabel for="txt5" value="E-mail Utec:" />
-            <p:inputText id="txt5" value="#{authBean.user.emailUtec}" required="true" label="Text 8" />
+            <p:inputText id="txt5" value="#{perfilBean.usuario.emailUtec}" required="true" label="Text 8" />
             <p:message for="txt5" />
             <h:outputText value="#{selectorView.text5}" />
             
            	<h:outputLabel for="txt6" value="Telefono:" />
-            <p:inputText id="txt6" value="#{authBean.user.telefono}" required="true" label="Text 13" />
+            <p:inputText id="txt6" value="#{perfilBean.usuario.telefono}" required="true" label="Text 13" />
             <p:message for="txt6" />
             <h:outputText value="#{selectorView.text6}" />
             
             <h:outputLabel for="txt7" value="Localidad:" />
-            <p:inputText id="txt7" value="#{authBean.user.localidad}" required="true" label="Text 12" />
+            <p:inputText id="txt7" value="#{perfilBean.usuario.localidad}" required="true" label="Text 12" />
             <p:message for="txt7" />
             <h:outputText value="#{selectorView.text7}" />
             
             <h:outputLabel for="txt8" value="Fecha de Nacimiento:" />
-            <p:datePicker id="txt8" value="#{authBean.user.fecNacimiento}" monthNavigator="true"/>
+            <p:datePicker id="txt8" value="#{perfilBean.usuario.fecNacimiento}" monthNavigator="true"/>
             <p:message for="txt8" />
             <h:outputText value="#{selectorView.text8}" />
-			
+   
 			<p:outputLabel value="Departamento:"></p:outputLabel>
 				<p:selectOneMenu id="txt9">
 					<f:selectItems value="#{enumBean.departamentos}" var="departamentos"
@@ -70,10 +70,34 @@
 			</p:selectOneMenu>
             <p:message for="txt10" />
             <h:outputText value="#{selectorView.txt10}" />
-			
+            
+            <c:if test="#{authBean.esTutor()}">
+	            <p:outputLabel value="Tipo de Tutor:"></p:outputLabel>
+					<p:selectOneMenu id="txt11">
+						<f:selectItems value="#{enumBean.tipoTutores}" var="tipoTutores"
+							itemValue="#{tipoTutores}" itemLabel="#{tipoTutores}"></f:selectItems>
+				</p:selectOneMenu>
+	            <p:message for="txt11" />
+	            <h:outputText value="#{selectorView.txt11}" />
+	        </c:if>
+            
+            <c:if test="#{authBean.esTutor()}">
+	            <h:outputLabel for="txt12" value="Área:" />
+	            <p:inputText id="txt12" value="#{perfilBean.usuario.area}" required="true" label="Text 12" />
+	            <p:message for="txt12" />
+	            <h:outputText value="#{selectorView.text12}" />
+            </c:if>
+            
+            <c:if test="#{authBean.esEstudiante()}">
+	            <h:outputLabel for="txt13" value="Generación:" />
+	            <p:inputText id="txt13" value="#{perfilBean.usuario.generacion}" required="true" label="Text 13" />
+	            <p:message for="txt13" />
+	            <h:outputText value="#{selectorView.text13}" />
+	        </c:if>
+    
         </h:panelGrid>
     </p:panel>
- 
+ 	
     <h:panelGrid columns="1">
         <p:commandButton update="@(form)" value="Guardar Datos" />
     </h:panelGrid>
