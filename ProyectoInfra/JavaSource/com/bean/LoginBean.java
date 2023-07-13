@@ -1,5 +1,6 @@
 package com.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.ejb.EJB;
@@ -54,6 +55,10 @@ public class LoginBean implements Serializable {
 		} catch (Exception e) {
 			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error al inicar sesion:", e.getMessage());
 		}
+	}
+	
+	public void register() throws IOException {
+		FacesContext.getCurrentInstance().getExternalContext().redirect("register.xhtml");
 	}
 	
 	public void info() {

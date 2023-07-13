@@ -7,32 +7,30 @@
 
 	<ui:define name="content">
 		<h:form>
-			<p:panel header="Mis Datos Personales"
-				style="margin-bottom:10px;">
-
-				<h:panelGrid columns="4" cellpadding="8">
-					<h:outputLabel value="Nombres:" />
+			<p:panel header="Mis Datos Personales">
+				<p:panelGrid columns="4" styleClass="ui-noborder">
+					<p:outputLabel value="Nombres:" />
 					<p:inputText value="#{perfilBean.usuario.nombres}" />
 
-					<h:outputLabel value="Apellidos:" />
+					<p:outputLabel value="Apellidos:" />
 					<p:inputText value="#{perfilBean.usuario.apellidos}" />
 
-					<h:outputLabel value="Documento:" />
+					<p:outputLabel value="Documento:" />
 					<p:inputText value="#{perfilBean.usuario.documento}" />
 
-					<h:outputLabel value="E-mail Personal:" />
+					<p:outputLabel value="E-mail Personal:" />
 					<p:inputText value="#{perfilBean.usuario.emailPersonal}" />
 
-					<h:outputLabel value="E-mail Utec:" />
+					<p:outputLabel value="E-mail Utec:" />
 					<p:inputText value="#{perfilBean.usuario.emailUtec}" />
 
-					<h:outputLabel value="Telefono:" />
+					<p:outputLabel value="Telefono:" />
 					<p:inputText value="#{perfilBean.usuario.telefono}" />
 
-					<h:outputLabel value="Localidad:" />
+					<p:outputLabel value="Localidad:" />
 					<p:inputText value="#{perfilBean.usuario.localidad}" />
 
-					<h:outputLabel value="Fecha de Nacimiento:" />
+					<p:outputLabel value="Fecha de Nacimiento:" />
 					<p:datePicker value="#{perfilBean.usuario.fecNacimiento}"
 						monthNavigator="true" yearNavigator="true"/>
 
@@ -58,18 +56,17 @@
 					</c:if>
 
 					<c:if test="#{authBean.esTutor()}">
-						<h:outputLabel value="Área:" />
+						<p:outputLabel value="Área:" />
 						<p:inputText value="#{perfilBean.usuario.area}" />
 					</c:if>
 
 					<c:if test="#{authBean.esEstudiante()}">
-						<h:outputLabel value="Generación:"/>
+						<p:outputLabel value="Generación:"/>
 						<p:inputText value="#{perfilBean.usuario.generacion}" />
 					</c:if>
 						
-					<h:commandButton action="#{perfilBean.guardarDatos}" value="Guardar Datos" />
-					<p:commandButton action="#{perfilBean.guardarDatos()}" value="Guardar Datos" disabled="true"/>
-				</h:panelGrid>
+					<h:commandButton action="#{perfilBean.guardarDatos}" value="Guardar Datos"/>
+				</p:panelGrid>
 			</p:panel>
 		</h:form>
 	</ui:define>
