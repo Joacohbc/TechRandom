@@ -20,6 +20,13 @@
 		
 		<ui:insert name="footer">
 		</ui:insert>
+	</c:if>
+	
+	<c:if test="#{!authBean.yaGenerado()}">
+		<h1>Debe inciar sesion para usar la aplicacion</h1>
+		<h:form>
+			<p:commandLink value="Ir al Login" action="/pages/login.xhtml"></p:commandLink>
+		</h:form>
 	</c:if>		
 </h:body>
 </html>

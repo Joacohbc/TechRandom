@@ -20,53 +20,57 @@
             <p:message for="txt1" />
             <h:outputText value="#{selectorView.text1}" />
             
-            <h:outputLabel for="txt4" value="Apellidos:" />
-            <p:inputText id="txt4" value="#{authBean.user.apellidos}" required="true" label="Text 4" />
-            <p:message for="txt4" />
+            <h:outputLabel for="txt2" value="Apellidos:" />
+            <p:inputText id="txt2" value="#{authBean.user.apellidos}" required="true" label="Text 4" />
+            <p:message for="txt2" />
             <h:outputText value="#{selectorView.text4}" />
             
-            <h:outputLabel for="txt6" value="Documento:" />
-            <p:inputText id="txt6" value="#{authBean.user.documento}" required="true" label="Text 6" />
+            <h:outputLabel for="txt3" value="Documento:" />
+            <p:inputText id="txt3" value="#{authBean.user.documento}" required="true" label="Text 6" />
+            <p:message for="txt3" />
+            <h:outputText value="#{selectorView.text6}" />
+            
+            <h:outputLabel for="txt4" value="E-mail Personal:" />
+            <p:inputText id="txt4" value="#{authBean.user.emailPersonal}" required="true" label="Text 7" />
+            <p:message for="txt4" />
+            <h:outputText value="#{selectorView.text7}" />
+            
+            <h:outputLabel for="txt5" value="E-mail Utec:" />
+            <p:inputText id="txt5" value="#{authBean.user.emailUtec}" required="true" label="Text 8" />
+            <p:message for="txt5" />
+            <h:outputText value="#{selectorView.text5}" />
+            
+           	<h:outputLabel for="txt6" value="Telefono:" />
+            <p:inputText id="txt6" value="#{authBean.user.telefono}" required="true" label="Text 13" />
             <p:message for="txt6" />
             <h:outputText value="#{selectorView.text6}" />
             
-            <h:outputLabel for="txt7" value="E-mail Personal:" />
-            <p:inputText id="txt7" value="#{authBean.user.emailPersonal}" required="true" label="Text 7" />
+            <h:outputLabel for="txt7" value="Localidad:" />
+            <p:inputText id="txt7" value="#{authBean.user.localidad}" required="true" label="Text 12" />
             <p:message for="txt7" />
             <h:outputText value="#{selectorView.text7}" />
             
-            <h:outputLabel for="txt8" value="E-mail Utec:" />
-            <p:inputText id="txt8" value="#{authBean.user.emailUtec}" required="true" label="Text 8" />
+            <h:outputLabel for="txt8" value="Fecha de Nacimiento:" />
+            <p:datePicker id="txt8" value="#{authBean.user.fecNacimiento}" monthNavigator="true"/>
             <p:message for="txt8" />
             <h:outputText value="#{selectorView.text8}" />
-            
-           	<h:outputLabel for="txt13" value="Telefono:" />
-            <p:inputText id="txt13" value="#{authBean.user.telefono}" required="true" label="Text 13" />
-            <p:message for="txt13" />
-            <h:outputText value="#{selectorView.text13}" />
-            
-            <h:outputLabel for="txt12" value="Localidad:" />
-            <p:inputText id="txt12" value="#{authBean.user.localidad}" required="true" label="Text 12" />
-            <p:message for="txt12" />
-            <h:outputText value="#{selectorView.text12}" />
-            
-            <h:outputLabel for="txt10" value="Fecha de Nacimiento:" />
-            <p:datePicker id="txt10" value="#{authBean.user.fecNacimiento}" monthNavigator="true"/>
-            <p:message for="txt10" />
-            <h:outputText value="#{selectorView.text10}" />
 			
 			<p:outputLabel value="Departamento:"></p:outputLabel>
-				<p:selectOneMenu>
+				<p:selectOneMenu id="txt9">
 					<f:selectItems value="#{enumBean.departamentos}" var="departamentos"
 						itemValue="#{departamentos}" itemLabel="#{departamentos}"></f:selectItems>
 			</p:selectOneMenu>
+           	<p:message for="txt9" />
+            <h:outputText value="#{selectorView.text9}" />
 			
             <p:outputLabel value="Genero:"></p:outputLabel>
-				<p:selectOneMenu>
+				<p:selectOneMenu id="txt10">
 					<f:selectItems value="#{enumBean.generos}" var="genero"
 						itemValue="#{genero}" itemLabel="#{genero}"></f:selectItems>
 			</p:selectOneMenu>
-           
+            <p:message for="txt10" />
+            <h:outputText value="#{selectorView.txt10}" />
+			
         </h:panelGrid>
     </p:panel>
  

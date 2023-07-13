@@ -34,7 +34,7 @@ public class ListadoUsuarios implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		if(!auth.yaGenerado()) return;
+		if(!auth.esAnalista() && !auth.esTutor()) return;
 		this.usuarios = new ArrayList<>();
 		usuarios.addAll(bean.findAll(Estudiante.class));
 		usuarios.addAll(bean.findAll(Analista.class));

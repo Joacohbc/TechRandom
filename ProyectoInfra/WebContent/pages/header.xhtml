@@ -34,21 +34,21 @@
 					</c:if>
 					
 					<f:facet name="options">
-						<p:avatar id="dynaButton" label="JG" styleClass="mr-2"
+						<p:avatar id="dynaButton" label="#{headerBean.getIniciales()}" styleClass="mr-2"
 							size="large" shape="circle" class='cursor-pointer' />
 						<p:menu overlay="true" my="left top" trigger="dynaButton"
 							at="left bottom">
 
-							<p:menuitem value="#{authBean.nombreCompleto}" disabled="true"
+							<p:menuitem value="#{headerBean.nombreCompleto}" disabled="true"
 								icon="pi pi-user" />
-							<p:menuitem value="#{authBean.rol.toString()}" disabled="true"
+							<p:menuitem value="#{headerBean.rol}" disabled="true"
 								icon="pi pi-id-card" />
 							<p:submenu label="Opciones">
-								<p:menuitem value="Mi Perfil" icon="pi pi-user-edit" />
+								<p:menuitem value="Mi Perfil" icon="pi pi-user-edit" action="#{headerBean.verPerfil()}"/>
 							</p:submenu>
 							<p:submenu label="Sesion">
-								<p:menuitem value="Cambiar contraseña" icon="pi pi-lock" />
-								<p:menuitem value="Logout" icon="pi pi-power-off" />
+								<p:menuitem value="Cambiar contraseña" icon="pi pi-lock" disabled="true"/>
+								<p:menuitem value="Logout" icon="pi pi-power-off" action="#{headerBean.logout()}"/>
 							</p:submenu>
 						</p:menu>
 					</f:facet>

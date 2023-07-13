@@ -46,7 +46,7 @@ public class AuthJWTBean implements Serializable {
 		this.token = null;
 		this.userInfo = null;
 	}
-	
+		
 	public boolean esTutor() {
 		if(token == null || userInfo == null) return false;
 		if(userInfo.getRol() != Rol.TUTOR) return false;
@@ -92,8 +92,5 @@ public class AuthJWTBean implements Serializable {
 	public Usuario getUser() {
 		return user;
 	}
-	
-	public String getNombreCompleto() {
-		return user.getNombres() + " " + user.getApellidos();
-	}
+
 }
