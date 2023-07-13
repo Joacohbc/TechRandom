@@ -2,22 +2,26 @@ package com.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.PrimeFaces;
 
 import com.entities.Analista;
 import com.entities.Estudiante;
 import com.entities.Tutor;
 import com.entities.Usuario;
-import com.entities.enums.Genero;
 import com.services.UsuarioBean;
+
+import validation.ValidacionesUsuario;
+import validation.ValidacionesUsuario.TipoUsuarioDocumento;
+import validation.ValidationObject;
 
 @Named("listadoUsuariosBean")
 @ViewScoped
@@ -30,7 +34,8 @@ public class ListadoUsuarios implements Serializable {
 	private AuthJWTBean auth;
 	
 	private List<Usuario> usuarios;
-	private List<Usuario> usuariosFiltrados = new ArrayList<>();
+	private List<Usuario> usuariosSeleccionados = new ArrayList<>();
+	private Usuario usuarioSeleccionado;
 	
 	@PostConstruct
 	public void init() {
@@ -45,11 +50,56 @@ public class ListadoUsuarios implements Serializable {
 		return usuarios;
 	}
 
-	public List<Usuario> getUsuariosFiltrados() {
-		return usuariosFiltrados;
+	public void eliminarUsuario() {
+		if(!auth.esAnalista()) return;
+		
+	}
+	
+	public void editarUsuario() {
+		if(!auth.esAnalista()) return;
+		ValidationObject error = ValidacionesUsuario.ValidarUsuarioSinContrasenia(usuarioSeleccionado, TipoUsuarioDocumento.URUGUAYO);
+		if(!error.isValid()) {
+			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, error.getErrorMessage(), null);
+			return;
+		}
+		
+		try {
+			if(usuarioSeleccionado instanceof Analista) {
+				bean.updateAnalista((Analista) usuarioSeleccionado);
+			}
+			
+			if(usuarioSeleccionado instanceof Tutor) {
+				bean.updateTutor((Tutor) usuarioSeleccionado);
+			}
+			
+			if(usuarioSeleccionado instanceof Estudiante) {
+				bean.updateEstudiante((Estudiante) usuarioSeleccionado);
+			}
+			
+	        PrimeFaces.current().executeScript("PF('altaUsuarioDialog').hide()");
+	        PrimeFaces.current().ajax().update("form:listaUsuarios");
+		} catch (Exception e) {
+			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error:", e.getMessage());
+		}
 	}
 
-	public void setUsuariosFiltrados(List<Usuario> usuariosFiltrados) {
-		this.usuariosFiltrados = usuariosFiltrados;
+	public List<Usuario> getUsuariosSeleccionados() {
+		return usuariosSeleccionados;
 	}
+
+	public void setUsuariosSeleccionados(List<Usuario> usuariosSeleccionados) {
+		this.usuariosSeleccionados = usuariosSeleccionados;
+	}
+
+	public Usuario getUsuarioSeleccionado() {
+		return usuarioSeleccionado;
+	}
+
+	public void setUsuarioSeleccionado(Usuario usuarioSeleccionado) {
+		this.usuarioSeleccionado = usuarioSeleccionado;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}	
 }

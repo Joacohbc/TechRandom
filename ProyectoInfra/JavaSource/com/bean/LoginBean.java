@@ -12,7 +12,6 @@ import javax.inject.Named;
 import com.entities.Analista;
 import com.entities.Estudiante;
 import com.entities.Tutor;
-import com.entities.Usuario;
 import com.entities.enums.Rol;
 import com.services.UsuarioBean;
 
@@ -49,22 +48,17 @@ public class LoginBean implements Serializable {
 				auth.generar(usu.getIdUsuario(), usu.getIdTutor(), nombreUsuario, rol, usu);
 			}
 
-			addMessage(FacesMessage.SEVERITY_INFO, "Incio de sesion exitoso", "");
+			JSFUtils.addMessage(FacesMessage.SEVERITY_INFO, "Incio de sesion exitoso", "");
 			FacesContext.getCurrentInstance().getExternalContext().redirect("inicio.xhtml");
 		} catch (Exception e) {
-			addMessage(FacesMessage.SEVERITY_ERROR, "Error al inicar sesion:", e.getMessage());
+			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error al inicar sesion:", e.getMessage());
 		}
 	}
 	
 	public void info() {
 		if(!auth.yaGenerado()) return;
-		addMessage(FacesMessage.SEVERITY_INFO, "Informacion de Usuario:", auth.getRol().toString() + " " + auth.getNombreUsuario() + " " + auth.getIdUsuario() + " " + auth.getIdRol());
+		JSFUtils.addMessage(FacesMessage.SEVERITY_INFO, "Informacion de Usuario:", auth.getRol().toString() + " " + auth.getNombreUsuario() + " " + auth.getIdUsuario() + " " + auth.getIdRol());
 	}
-
-    public void addMessage(FacesMessage.Severity severity, String summary, String detail) {
-        FacesContext.getCurrentInstance().
-                addMessage(null, new FacesMessage(severity, summary, detail));
-    }
     
 	public String getNombreUsuario() {
 		return nombreUsuario;
