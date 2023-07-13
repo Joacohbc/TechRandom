@@ -29,17 +29,18 @@ public class ListadoUsuarios implements Serializable {
 
 	@EJB
 	private UsuarioBean bean;
-	
+
 	@Inject
 	private AuthJWTBean auth;
-	
+
 	private List<Usuario> usuarios;
 	private List<Usuario> usuariosSeleccionados = new ArrayList<>();
 	private Usuario usuarioSeleccionado;
-	
+
 	@PostConstruct
 	public void init() {
-		if(!auth.esAnalista() && !auth.esTutor()) return;
+		if (!auth.esAnalista() && !auth.esTutor())
+			return;
 		this.usuarios = new ArrayList<>();
 		usuarios.addAll(bean.findAll(Estudiante.class));
 		usuarios.addAll(bean.findAll(Analista.class));
@@ -50,36 +51,73 @@ public class ListadoUsuarios implements Serializable {
 		return usuarios;
 	}
 
-	public void eliminarUsuario() {
-		if(!auth.esAnalista()) return;
-		
+	private void updateEstado(Usuario usuario, Boolean estado) {
+		if (usuarioSeleccionado instanceof Analista) {
+			bean.updateEstadoAnalista(usuarioSeleccionado.getIdUsuario(), estado);
+			((Analista) usuarioSeleccionado).setEstado(estado);
+		} else if (usuarioSeleccionado instanceof Tutor) {
+			bean.updateEstadoTutor(usuarioSeleccionado.getIdUsuario(), estado);
+			((Tutor) usuarioSeleccionado).setEstado(estado);
+		} else {
+			bean.updateEstadoEstudiante(usuarioSeleccionado.getIdUsuario(), estado);
+			((Estudiante) usuarioSeleccionado).setEstado(estado);
+		}
+
 	}
 	
+	public void bajaUsuario() {
+		if (!auth.esAnalista())
+			return;
+		
+		try {
+			updateEstado(usuarioSeleccionado, false);
+			usuarios.set(usuarios.indexOf(usuarioSeleccionado), usuarioSeleccionado);
+			
+			PrimeFaces.current().executeScript("PF('bajaUsuarioDialog').hide()");
+			PrimeFaces.current().ajax().update("form:listaUsuarios");
+		} catch (Exception e) {
+			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
+		}
+	}
+	
+	public void altaUsuario() {
+		if (!auth.esAnalista())
+			return;
+		
+		try {
+			updateEstado(usuarioSeleccionado, true);
+			usuarios.set(usuarios.indexOf(usuarioSeleccionado), usuarioSeleccionado);
+
+			PrimeFaces.current().executeScript("PF('altaUsuarioDialog').hide()");
+			PrimeFaces.current().ajax().update("form:listaUsuarios");
+		} catch (Exception e) {
+			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
+		}
+	}
+
 	public void editarUsuario() {
-		if(!auth.esAnalista()) return;
-		ValidationObject error = ValidacionesUsuario.ValidarUsuarioSinContrasenia(usuarioSeleccionado, TipoUsuarioDocumento.URUGUAYO);
-		if(!error.isValid()) {
+		if (!auth.esAnalista())
+			return;
+		ValidationObject error = ValidacionesUsuario.ValidarUsuarioSinContrasenia(usuarioSeleccionado,
+				TipoUsuarioDocumento.URUGUAYO);
+		if (!error.isValid()) {
 			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, error.getErrorMessage(), null);
 			return;
 		}
-		
+
 		try {
-			if(usuarioSeleccionado instanceof Analista) {
+			if (usuarioSeleccionado instanceof Analista) {
 				bean.updateAnalista((Analista) usuarioSeleccionado);
-			}
-			
-			if(usuarioSeleccionado instanceof Tutor) {
+			} else if (usuarioSeleccionado instanceof Tutor) {
 				bean.updateTutor((Tutor) usuarioSeleccionado);
-			}
-			
-			if(usuarioSeleccionado instanceof Estudiante) {
+			} else {
 				bean.updateEstudiante((Estudiante) usuarioSeleccionado);
 			}
-			
-	        PrimeFaces.current().executeScript("PF('altaUsuarioDialog').hide()");
-	        PrimeFaces.current().ajax().update("form:listaUsuarios");
+
+			PrimeFaces.current().executeScript("PF('editarUsuarioDialog').hide()");
+			PrimeFaces.current().ajax().update("form:listaUsuarios");
 		} catch (Exception e) {
-			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error:", e.getMessage());
+			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
 		}
 	}
 
@@ -101,5 +139,5 @@ public class ListadoUsuarios implements Serializable {
 
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
-	}	
+	}
 }
