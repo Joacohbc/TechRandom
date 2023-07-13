@@ -1,0 +1,73 @@
+package com.bean;
+
+import java.io.Serializable;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import com.entities.Analista;
+import com.entities.Estudiante;
+import com.entities.Tutor;
+import com.entities.Usuario;
+import com.services.UsuarioBean;
+
+@Named
+@ViewScoped
+public class PerfilBean  implements Serializable{
+
+	public PerfilBean() {
+		
+	}
+	
+	private Usuario usuario;
+	
+	@EJB
+	private UsuarioBean usuariobean;
+	
+	@Inject
+	private AuthJWTBean auth;
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
+	@PostConstruct
+	public void init(){
+		if (auth.esAnalista()) {
+			usuario = usuariobean.findById(Analista.class, auth.getIdUsuario());
+		}else {
+			if (auth.esTutor()) {
+				usuario = usuariobean.findById(Tutor.class, auth.getIdUsuario());
+			}else {
+				usuario = usuariobean.findById(Estudiante.class, auth.getIdUsuario());
+			}
+		}
+	}
+	
+	public void guardarDatos(){
+		try {
+			if (auth.esAnalista()) {
+				
+				usuariobean.updateAnalista((Analista) usuario);
+			}else {
+				if (auth.esTutor()) {
+					usuariobean.updateTutor((Tutor) usuario);
+				}else {
+					usuariobean.updateEstudiante((Estudiante) usuario);
+				}
+			}
+		} catch (Exception e) {
+			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
+		}
+	}
+	
+
+}
