@@ -12,8 +12,8 @@
 			<p:dataTable var="usuario" value="#{listadoUsuariosBean.usuarios}"
 				id="listaUsuarios"
 				emptyMessage="No se encontro ninguno usuario con este criterio"
-				resizableColumns="true" liveResize="true" showGridlines="true">
-
+				resizableColumns="true" liveResize="true" showGridlines="true"
+			 rowKey="#{usuario.documento}" paginator="true" rows="20" rowSelectMode="add" paginatorPosition="bottom">
 				<f:facet name="header">
 					<div class="flex justify-content-between align-items-center">
 						Lista de Usuarios
@@ -27,7 +27,9 @@
 						</div>
 					</div>
 				</f:facet>
-
+				
+				   <p:column toggleable="false" resizable="false" selectionMode="multiple"  exportable="false"></p:column>
+				
 				<p:column headerText="Documento" sortBy="#{usuario.documento}"
 					filterBy="#{usuario.documento}" filterMatchMode="contains">
 					<h:outputText value="#{usuario.documento}" />
@@ -80,6 +82,18 @@
 					filterBy="#{usuario.class.simpleName}" filterMatchMode="contains">
 					<h:outputText value="#{usuario.getClass().getSimpleName()}" />
 				</p:column>
+				
+				<p:column toggleable="false" headerText="Acciones" >
+                <p:commandButton icon="pi pi-pencil"                     
+                    styleClass="edit-button rounded-button ui-button-success" >
+                 <!--  <f:setPropertyActionListener value="#{product}" target="#{crudView.selectedProduct}" />
+                    <p:resetInput target=":dialogs:manage-product-content" />-->
+                </p:commandButton>
+				 <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash">
+                  
+                </p:commandButton>	
+				</p:column>
+				
 			</p:dataTable>
 		</h:form>
 	</ui:define>
