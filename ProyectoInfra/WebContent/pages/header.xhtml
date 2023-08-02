@@ -11,10 +11,6 @@
 				<p:menubar>
 					<c:if test="#{authBean.esAnalista() || authBean.esTutor()}">
 						<p:submenu label="Usuarios" icon="pi pi-fw pi-user">
-							<c:if test="#{authBean.esAnalista()}">
-								<p:menuitem value="Nuevo" icon="pi pi-fw pi-user-plus" />
-								<p:menuitem value="Borrar" icon="pi pi-fw pi-user-minus" />		
-							</c:if>
 							<p:menuitem value="Buscar" icon="pi pi-fw pi-search" outcome="listadoUsuarios.xhtml"/>
 						</p:submenu>
 					</c:if>

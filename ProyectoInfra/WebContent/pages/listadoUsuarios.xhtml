@@ -15,10 +15,31 @@
 				rowKey="#{usuario.documento}" paginator="true" rows="20"
 				rowSelectMode="add" paginatorPosition="bottom"
 				tableStyle="width:auto">
+				
+			
 				<f:facet name="header">
-					<div class="flex justify-content-between align-items-center">
-						Lista de Usuarios
+				
+				<p:toolbar>
+            		<p:toolbarGroup>
+						
+						<span style="font-weight: bold">Lista de Usuarios</span>
+						
+					</p:toolbarGroup>					
+					<p:toolbarGroup>
 
+				<p:commandButton id="delete-products-button" value="#{crudView.deleteButtonMessage}"
+                    icon="pi pi-trash" actionListener="#{crudView.deleteSelectedProducts}"
+                    styleClass="ui-button-danger" disabled="#{!crudView.hasSelectedProducts()}" update="@this">
+                    <p:confirm header="Confirmation" message="Delete the selected products?"
+                        icon="pi pi-exclamation-triangle" />
+                </p:commandButton>
+                
+                <p:commandButton id="add-products-button" value="#{crudView.deleteButtonMessage}"
+                    icon="pi pi-plus" actionListener="#{crudView.deleteSelectedProducts}"
+                    styleClass="ui-button-success" disabled="#{!crudView.hasSelectedProducts()}" update="@this">
+                    <p:confirm header="Confirmation" message="Delete the selected products?"
+                        icon="pi pi-exclamation-triangle" />
+                </p:commandButton>                                    	  
 						<div>
 							<p:commandButton id="toggler" type="button" value="Columns"
 								icon="pi pi-align-justify" />
@@ -26,7 +47,10 @@
 								<p:ajax />
 							</p:columnToggler>
 						</div>
-					</div>
+		            </p:toolbarGroup>
+		        </p:toolbar>
+
+					
 				</f:facet>
 
 				<p:column toggleable="false" resizable="false"
