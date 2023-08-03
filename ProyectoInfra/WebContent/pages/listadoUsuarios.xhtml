@@ -14,7 +14,7 @@
 				resizableColumns="true" liveResize="true" showGridlines="true"
 				rowKey="#{usuario.documento}" paginator="true" rows="20"
 				rowSelectMode="add" paginatorPosition="bottom"
-				tableStyle="width:auto">
+				tableStyle="width:auto" selection="#{listadoUsuariosBean.usuariosSeleccionados}">
 				
 			
 				<f:facet name="header">
@@ -27,16 +27,16 @@
 					</p:toolbarGroup>					
 					<p:toolbarGroup>
 
-				<p:commandButton id="delete-products-button" value="#{crudView.deleteButtonMessage}"
-                    icon="pi pi-trash" actionListener="#{crudView.deleteSelectedProducts}"
-                    styleClass="ui-button-danger" disabled="#{!crudView.hasSelectedProducts()}" update="@this">
+				<p:commandButton id="delete-products-button" value="#{listadoUsuariosBean.botonBajaMensaje}"
+                    icon="pi pi-trash" actionListener="#{listadoUsuariosBean.bajaUsuarios()}"
+                    styleClass="ui-button-danger" disabled="#{listadoUsuariosBean.usuariosSeleccionados.isEmpty()}" update=":form:delete-products-button">
                     <p:confirm header="Confirmation" message="Delete the selected products?"
                         icon="pi pi-exclamation-triangle" />
                 </p:commandButton>
                 
-                <p:commandButton id="add-products-button" value="#{crudView.deleteButtonMessage}"
-                    icon="pi pi-plus" actionListener="#{crudView.deleteSelectedProducts}"
-                    styleClass="ui-button-success" disabled="#{!crudView.hasSelectedProducts()}" update="@this">
+                <p:commandButton id="add-products-button" value="#{listadoUsuariosBean.botonAltaMensaje}"
+                    icon="pi pi-plus" actionListener="#{listadoUsuariosBean.altaUsuarios()}"
+                    styleClass="ui-button-success" disabled="#{listadoUsuariosBean.usuariosSeleccionados.isEmpty()}" update=":form:delete-products-button">
                     <p:confirm header="Confirmation" message="Delete the selected products?"
                         icon="pi pi-exclamation-triangle" />
                 </p:commandButton>                                    	  
@@ -52,6 +52,12 @@
 
 					
 				</f:facet>
+				
+				<p:ajax event="rowSelect" update=":form:delete-products-button" />
+	            <p:ajax event="rowUnselect" update=":form:delete-products-button" />
+	            <p:ajax event="rowSelectCheckbox" update=":form:delete-products-button" />
+	            <p:ajax event="rowUnselectCheckbox" update=":form:delete-products-button" />
+	            <p:ajax event="toggleSelect" update=":form:delete-products-button" />
 
 				<p:column toggleable="false" resizable="false"
 					selectionMode="multiple" exportable="false"></p:column>
@@ -210,7 +216,7 @@
 					header="Confirm" severity="warn">
 					<p:commandButton value="Yes" icon="pi pi-check"
 						actionListener="#{listadoUsuariosBean.bajaUsuario}"
-						process="@this" oncomplete="PF('bajaUsuarioDialog').hide()" />
+						process="@this"  update=":form:delete-products-button" oncomplete="PF('bajaUsuarioDialog').hide()" />
 					<p:commandButton value="No" type="button"
 						styleClass="ui-button-secondary" icon="pi pi-times"
 						onclick="PF('bajaUsuarioDialog').hide()" />

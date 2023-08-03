@@ -2,6 +2,7 @@ package com.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -83,6 +84,67 @@ public class ListadoUsuarios implements Serializable {
 		}
 	}
 	
+	public void bajaUsuarios() {
+		if (!auth.esAnalista())
+			return;
+		
+		try {
+			
+			for(Usuario usu : usuariosSeleccionados) {
+			
+			updateEstado(usu, false);
+			usuarios.set(usuarios.indexOf(usu), usu);
+			
+		}
+			
+			//PrimeFaces.current().executeScript("PF('bajaUsuarioDialog').hide()");
+			PrimeFaces.current().ajax().update("form:listaUsuarios");
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+	}
+	
+    public String getBotonBajaMensaje() {
+        if (!usuariosSeleccionados.isEmpty()) {
+            int size = this.usuariosSeleccionados.size();
+            return size > 1 ? size + " Usuarios Seleccionados" : "1 Usuario Seleccionado";
+        }
+
+        return "Delete";
+    }
+	
+	public void altaUsuarios() {
+		if (!auth.esAnalista())
+			return;
+		
+		try {
+			
+			for(Usuario usu : usuariosSeleccionados) {
+			updateEstado(usuarioSeleccionado, true);
+			usuarios.set(usuarios.indexOf(usuarioSeleccionado), usuarioSeleccionado);
+
+			}
+			
+			//PrimeFaces.current().executeScript("PF('altaUsuarioDialog').hide()");
+			PrimeFaces.current().ajax().update("form:listaUsuarios");
+		} catch (Exception e) {
+			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
+		}
+	}
+	
+    public String getBotonAltaMensaje() {
+        if (!usuariosSeleccionados.isEmpty()) {
+            int size = this.usuariosSeleccionados.size();
+            return size > 1 ? size + " Usuarios Seleccionados" : "1 Usuario Seleccionado";
+        }
+
+        return "Alta";
+    }
+	
+	
 	public void altaUsuario() {
 		if (!auth.esAnalista())
 			return;
@@ -124,6 +186,9 @@ public class ListadoUsuarios implements Serializable {
 			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
 		}
 	}
+	
+
+	
 
 	public List<Usuario> getUsuariosSeleccionados() {
 		return usuariosSeleccionados;
