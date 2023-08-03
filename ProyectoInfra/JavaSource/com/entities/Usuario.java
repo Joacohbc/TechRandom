@@ -2,6 +2,7 @@ package com.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -83,6 +84,11 @@ public class Usuario implements Serializable {
 	private Itr itr;
 
 	public Usuario() {
+	}
+	
+	public int getEdad() {
+		Period periodo = Period.between(getFecNacimiento(), LocalDate.now());
+		return periodo.getYears();
 	}
 
 	public Long getIdUsuario() {
