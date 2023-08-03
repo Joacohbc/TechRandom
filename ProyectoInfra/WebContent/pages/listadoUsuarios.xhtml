@@ -7,6 +7,7 @@
 
 	<ui:define name="content">
 		<div class="card"></div>
+
 		<h:form id="form">
 			<p:dataTable var="usuario" value="#{listadoUsuariosBean.usuarios}"
 				id="listaUsuarios"
@@ -14,50 +15,54 @@
 				resizableColumns="true" liveResize="true" showGridlines="true"
 				rowKey="#{usuario.documento}" paginator="true" rows="20"
 				rowSelectMode="add" paginatorPosition="bottom"
-				tableStyle="width:auto" selection="#{listadoUsuariosBean.usuariosSeleccionados}">
+				tableStyle="width:auto"
+				selection="#{listadoUsuariosBean.usuariosSeleccionados}">				
 				
-			
 				<f:facet name="header">
-				
-				<p:toolbar>
-            		<p:toolbarGroup>
-						
-						<span style="font-weight: bold">Lista de Usuarios</span>
-						
-					</p:toolbarGroup>					
-					<p:toolbarGroup>
+					<p:toolbar>
+						<p:toolbarGroup>
+							<span style="font-weight: bold">Lista de Usuarios</span>
+						</p:toolbarGroup>
+						<p:toolbarGroup>
+							<p:commandButton id="borrar-usuarios-button"
+								value="#{listadoUsuariosBean.botonBajaMensaje}"
+								icon="pi pi-trash"
+								actionListener="#{listadoUsuariosBean.bajaUsuarios}"
+								styleClass="ui-button-danger"
+								disabled="#{listadoUsuariosBean.usuariosSeleccionados.isEmpty()}"
+								update=":form:listaUsuarios:borrar-usuarios-button">
+							</p:commandButton>
 
-				<p:commandButton id="delete-products-button" value="#{listadoUsuariosBean.botonBajaMensaje}"
-                    icon="pi pi-trash" actionListener="#{listadoUsuariosBean.bajaUsuarios()}"
-                    styleClass="ui-button-danger" disabled="#{listadoUsuariosBean.usuariosSeleccionados.isEmpty()}" update=":form:delete-products-button">
-                    <p:confirm header="Confirmation" message="Delete the selected products?"
-                        icon="pi pi-exclamation-triangle" />
-                </p:commandButton>
-                
-                <p:commandButton id="add-products-button" value="#{listadoUsuariosBean.botonAltaMensaje}"
-                    icon="pi pi-plus" actionListener="#{listadoUsuariosBean.altaUsuarios()}"
-                    styleClass="ui-button-success" disabled="#{listadoUsuariosBean.usuariosSeleccionados.isEmpty()}" update=":form:delete-products-button">
-                    <p:confirm header="Confirmation" message="Delete the selected products?"
-                        icon="pi pi-exclamation-triangle" />
-                </p:commandButton>                                    	  
-						<div>
-							<p:commandButton id="toggler" type="button" value="Columns"
-								icon="pi pi-align-justify" />
-							<p:columnToggler datasource="listaUsuarios" trigger="toggler">
-								<p:ajax />
-							</p:columnToggler>
-						</div>
-		            </p:toolbarGroup>
-		        </p:toolbar>
+							<p:commandButton id="add-products-button"
+								value="#{listadoUsuariosBean.botonAltaMensaje}"
+								icon="pi pi-plus"
+								actionListener="#{listadoUsuariosBean.altaUsuarios()}"
+								styleClass="ui-button-success"
+								disabled="#{listadoUsuariosBean.usuariosSeleccionados.isEmpty()}"
+								update=":form:listaUsuarios:borrar-usuarios-button">
+								<p:confirm header="Confirmation"
+									message="Delete the selected products?"
+									icon="pi pi-exclamation-triangle" />
+							</p:commandButton>
+							
+							<div>
+								<p:commandButton id="toggler" type="button" value="Columns"
+									icon="pi pi-align-justify" />
+								<p:columnToggler datasource="listaUsuarios" trigger="toggler">
+									<p:ajax />
+								</p:columnToggler>
+							</div>
+						</p:toolbarGroup>
+					</p:toolbar>
 
-					
+
 				</f:facet>
-				
-				<p:ajax event="rowSelect" update=":form:delete-products-button" />
-	            <p:ajax event="rowUnselect" update=":form:delete-products-button" />
-	            <p:ajax event="rowSelectCheckbox" update=":form:delete-products-button" />
-	            <p:ajax event="rowUnselectCheckbox" update=":form:delete-products-button" />
-	            <p:ajax event="toggleSelect" update=":form:delete-products-button" />
+
+				<p:ajax event="rowSelect" update=":form:listaUsuarios:borrar-usuarios-button" />
+				<p:ajax event="rowUnselect" update=":form:listaUsuarios:borrar-usuarios-button" />
+				<p:ajax event="rowSelectCheckbox" update=":form:listaUsuarios:borrar-usuarios-button" />
+				<p:ajax event="rowUnselectCheckbox" update=":form:listaUsuarios:borrar-usuarios-button" />
+				<p:ajax event="toggleSelect" update=":form:listaUsuarios:borrar-usuarios-button" />
 
 				<p:column toggleable="false" resizable="false"
 					selectionMode="multiple" exportable="false"></p:column>
@@ -103,18 +108,28 @@
 					filterBy="#{usuario.estadoUsuario}" filterMatchMode="contains">
 					<h:outputText value="#{usuario.estadoUsuario.toString()}" />
 				</p:column>
+				
+				<p:column headerText="Edad"
+					sortBy="#{usuario.edad}"
+					filterBy="#{usuario.edad}" filterMatchMode="exact">
+					<h:outputText value="#{usuario.edad}" />
+				</p:column>
+				
 
 				<p:column headerText="Rol" sortBy="#{usuario.class.simpleName}"
 					filterBy="#{usuario.class.simpleName}" filterMatchMode="contains">
 					<h:outputText value="#{usuario.getClass().getSimpleName()}" />
 				</p:column>
 
-				<p:column headerText="¿Eliminado?" toggleable="false" resizable="false" sortBy="#{usuario.estado}">
+				<p:column headerText="¿Eliminado?" toggleable="false"
+					resizable="false" sortBy="#{usuario.estado}">
 					<div class="justify-content-center flex">
-	    				 <p:badge value='#{usuario.estado ? "ALTA" : "BAJA"}' severity='#{usuario.estado ? "success" : "danger"}' styleClass="mr-2"></p:badge>
+						<p:badge value='#{usuario.estado ? "ALTA" : "BAJA"}'
+							severity='#{usuario.estado ? "success" : "danger"}'
+							styleClass="mr-2"></p:badge>
 					</div>
 				</p:column>
-				
+
 				<c:if test="#{authBean.esAnalista()}">
 					<p:column toggleable="false" headerText="Acciones">
 						<p:commandButton icon="pi pi-pencil"
@@ -214,18 +229,19 @@
 				<p:confirmDialog widgetVar="bajaUsuarioDialog" showEffect="fade"
 					width="300" message="¿Quieres dar de baja al Usuario?"
 					header="Confirm" severity="warn">
-					<p:commandButton value="Yes" icon="pi pi-check"
+					<p:commandButton value="Si" icon="pi pi-check"
 						actionListener="#{listadoUsuariosBean.bajaUsuario}"
-						process="@this"  update=":form:delete-products-button" oncomplete="PF('bajaUsuarioDialog').hide()" />
+						process="@this" update=":form:listaUsuarios:borrar-usuarios-button"
+						oncomplete="PF('bajaUsuarioDialog').hide()" />
 					<p:commandButton value="No" type="button"
 						styleClass="ui-button-secondary" icon="pi pi-times"
 						onclick="PF('bajaUsuarioDialog').hide()" />
 				</p:confirmDialog>
-				
+
 				<p:confirmDialog widgetVar="altaUsuarioDialog" showEffect="fade"
 					width="300" message="¿Quieres dar de alta al Usuario?"
 					header="Confirm" severity="warn">
-					<p:commandButton value="Yes" icon="pi pi-check"
+					<p:commandButton value="Si" icon="pi pi-check"
 						actionListener="#{listadoUsuariosBean.altaUsuario}"
 						process="@this" oncomplete="PF('altaUsuarioDialog').hide()" />
 					<p:commandButton value="No" type="button"

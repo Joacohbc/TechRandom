@@ -55,100 +55,89 @@ public class ListadoUsuarios implements Serializable {
 	private void updateEstado(Usuario usuario, Boolean estado) {
 		if (!auth.esAnalista())
 			return;
-		
-		if (usuarioSeleccionado instanceof Analista) {
-			bean.updateEstadoAnalista(usuarioSeleccionado.getIdUsuario(), estado);
-			((Analista) usuarioSeleccionado).setEstado(estado);
-		} else if (usuarioSeleccionado instanceof Tutor) {
-			bean.updateEstadoTutor(usuarioSeleccionado.getIdUsuario(), estado);
-			((Tutor) usuarioSeleccionado).setEstado(estado);
+
+		if (usuario instanceof Analista) {
+			bean.updateEstadoAnalista(usuario.getIdUsuario(), estado);
+			((Analista) usuario).setEstado(estado);
+		} else if (usuario instanceof Tutor) {
+			bean.updateEstadoTutor(usuario.getIdUsuario(), estado);
+			((Tutor) usuario).setEstado(estado);
 		} else {
-			bean.updateEstadoEstudiante(usuarioSeleccionado.getIdUsuario(), estado);
-			((Estudiante) usuarioSeleccionado).setEstado(estado);
+			bean.updateEstadoEstudiante(usuario.getIdUsuario(), estado);
+			((Estudiante) usuario).setEstado(estado);
 		}
 
 	}
-	
+
 	public void bajaUsuario() {
 		if (!auth.esAnalista())
 			return;
-		
+
 		try {
 			updateEstado(usuarioSeleccionado, false);
 			usuarios.set(usuarios.indexOf(usuarioSeleccionado), usuarioSeleccionado);
-			
+
 			PrimeFaces.current().executeScript("PF('bajaUsuarioDialog').hide()");
 			PrimeFaces.current().ajax().update("form:listaUsuarios");
 		} catch (Exception e) {
 			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
 		}
 	}
-	
+
 	public void bajaUsuarios() {
 		if (!auth.esAnalista())
 			return;
-		
-		try {
-			
-			for(Usuario usu : usuariosSeleccionados) {
-			
-			updateEstado(usu, false);
-			usuarios.set(usuarios.indexOf(usu), usu);
-			
-		}
-			
-			//PrimeFaces.current().executeScript("PF('bajaUsuarioDialog').hide()");
-			PrimeFaces.current().ajax().update("form:listaUsuarios");
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-		
-	}
-	
-    public String getBotonBajaMensaje() {
-        if (!usuariosSeleccionados.isEmpty()) {
-            int size = this.usuariosSeleccionados.size();
-            return size > 1 ? size + " Usuarios Seleccionados" : "1 Usuario Seleccionado";
-        }
 
-        return "Delete";
-    }
-	
-	public void altaUsuarios() {
-		if (!auth.esAnalista())
-			return;
-		
 		try {
-			
-			for(Usuario usu : usuariosSeleccionados) {
-			updateEstado(usuarioSeleccionado, true);
-			usuarios.set(usuarios.indexOf(usuarioSeleccionado), usuarioSeleccionado);
-
+			for (Usuario usu : usuariosSeleccionados) {
+				updateEstado(usu, false);
+				usuarios.set(usuarios.indexOf(usu), usu);
 			}
-			
-			//PrimeFaces.current().executeScript("PF('altaUsuarioDialog').hide()");
 			PrimeFaces.current().ajax().update("form:listaUsuarios");
 		} catch (Exception e) {
 			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
 		}
 	}
-	
-    public String getBotonAltaMensaje() {
-        if (!usuariosSeleccionados.isEmpty()) {
-            int size = this.usuariosSeleccionados.size();
-            return size > 1 ? size + " Usuarios Seleccionados" : "1 Usuario Seleccionado";
-        }
 
-        return "Alta";
-    }
-	
-	
+	public String getBotonBajaMensaje() {
+		if (!usuariosSeleccionados.isEmpty()) {
+			int size = this.usuariosSeleccionados.size();
+			return size > 1 ? size + " Usuarios Seleccionados" : "1 Usuario Seleccionado";
+		}
+
+		return "Borrar";
+	}
+
+	public void altaUsuarios() {
+		if (!auth.esAnalista())
+			return;
+
+		try {
+
+			for (Usuario usu : usuariosSeleccionados) {
+				updateEstado(usuarioSeleccionado, true);
+				usuarios.set(usuarios.indexOf(usuarioSeleccionado), usuarioSeleccionado);
+
+			}
+			PrimeFaces.current().ajax().update("form:listaUsuarios");
+		} catch (Exception e) {
+			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
+		}
+	}
+
+	public String getBotonAltaMensaje() {
+		if (!usuariosSeleccionados.isEmpty()) {
+			int size = this.usuariosSeleccionados.size();
+			return size > 1 ? size + " Usuarios Seleccionados" : "1 Usuario Seleccionado";
+		}
+
+		return "Alta";
+	}
+
 	public void altaUsuario() {
 		if (!auth.esAnalista())
 			return;
-		
+
 		try {
 			updateEstado(usuarioSeleccionado, true);
 			usuarios.set(usuarios.indexOf(usuarioSeleccionado), usuarioSeleccionado);
@@ -163,7 +152,7 @@ public class ListadoUsuarios implements Serializable {
 	public void editarUsuario() {
 		if (!auth.esAnalista())
 			return;
-		
+
 		ValidationObject error = ValidacionesUsuario.ValidarUsuarioSinContrasenia(usuarioSeleccionado,
 				TipoUsuarioDocumento.URUGUAYO);
 		if (!error.isValid()) {
@@ -186,9 +175,6 @@ public class ListadoUsuarios implements Serializable {
 			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
 		}
 	}
-	
-
-	
 
 	public List<Usuario> getUsuariosSeleccionados() {
 		return usuariosSeleccionados;
