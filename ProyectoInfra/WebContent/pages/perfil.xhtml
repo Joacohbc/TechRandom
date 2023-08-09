@@ -7,6 +7,7 @@
 
 	<ui:define name="content">
 		<h:form>
+			
 			<p:panel header="Mis Datos Personales">
 				<p:panelGrid columns="4" styleClass="ui-noborder">
 					<p:outputLabel value="Nombres:" />
@@ -64,8 +65,9 @@
 						<p:outputLabel value="Generación:"/>
 						<p:inputText value="#{perfilBean.usuario.generacion}" />
 					</c:if>
-						
-					<h:commandButton action="#{perfilBean.guardarDatos}" value="Guardar Datos"/>
+					
+					<p:commandButton action="#{perfilBean.guardarDatos}" value="Guardar Datos"/>
+
 				</p:panelGrid>
 			</p:panel>
 		</h:form>

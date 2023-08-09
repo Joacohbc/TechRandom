@@ -15,6 +15,12 @@ import com.entities.Tutor;
 import com.entities.Usuario;
 import com.services.UsuarioBean;
 
+import validation.ValidacionesUsuario;
+import validation.ValidacionesUsuario.TipoUsuarioDocumento;
+import validation.ValidacionesUsuarioEstudiante;
+import validation.ValidacionesUsuarioTutor;
+import validation.ValidationObject;
+
 @Named("perfilBean")
 @ViewScoped
 public class PerfilBean implements Serializable {
@@ -55,10 +61,25 @@ public class PerfilBean implements Serializable {
 	public void guardarDatos() {
 		try {
 			if (auth.esAnalista()) {
+				ValidationObject validation = ValidacionesUsuario.ValidarUsuarioSinContrasenia(usuario,TipoUsuarioDocumento.URUGUAYO);
+				if (!validation.isValid()) {
+					JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error", validation.getErrorMessage());
+					return;
+				}
 				usuariobean.updateAnalista((Analista) usuario);
 			} else if (auth.esTutor()) {
+				ValidationObject validation = ValidacionesUsuarioTutor.validarTutorSinContrasenia((Tutor) usuario,TipoUsuarioDocumento.URUGUAYO);
+				if (!validation.isValid()) {
+					JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error", validation.getErrorMessage());
+					return;
+				}
 				usuariobean.updateTutor((Tutor) usuario);
 			} else {
+				ValidationObject validation = ValidacionesUsuarioEstudiante.validarEstudianteSinContrasenia((Estudiante) usuario,TipoUsuarioDocumento.URUGUAYO);
+				if (!validation.isValid()) {
+					JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error", validation.getErrorMessage());
+					return;
+				}
 				usuariobean.updateEstudiante((Estudiante) usuario);
 			}
 			
