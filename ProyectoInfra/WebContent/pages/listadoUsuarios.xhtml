@@ -33,16 +33,13 @@
 								update=":form:listaUsuarios:borrar-usuarios-button">
 							</p:commandButton>
 
-							<p:commandButton id="add-products-button"
+							<p:commandButton id="alta-usuarios-button"
 								value="#{listadoUsuariosBean.botonAltaMensaje}"
 								icon="pi pi-plus"
-								actionListener="#{listadoUsuariosBean.altaUsuarios()}"
+								actionListener="#{listadoUsuariosBean.altaUsuarios}"
 								styleClass="ui-button-success"
 								disabled="#{listadoUsuariosBean.usuariosSeleccionados.isEmpty()}"
-								update=":form:listaUsuarios:borrar-usuarios-button">
-								<p:confirm header="Confirmation"
-									message="Delete the selected products?"
-									icon="pi pi-exclamation-triangle" />
+								update=":form:listaUsuarios:alta-usuarios-button">
 							</p:commandButton>
 							
 							<div>
@@ -63,6 +60,12 @@
 				<p:ajax event="rowSelectCheckbox" update=":form:listaUsuarios:borrar-usuarios-button" />
 				<p:ajax event="rowUnselectCheckbox" update=":form:listaUsuarios:borrar-usuarios-button" />
 				<p:ajax event="toggleSelect" update=":form:listaUsuarios:borrar-usuarios-button" />
+				
+				<p:ajax event="rowSelect" update=":form:listaUsuarios:alta-usuarios-button" />
+				<p:ajax event="rowUnselect" update=":form:listaUsuarios:alta-usuarios-button" />
+				<p:ajax event="rowSelectCheckbox" update=":form:listaUsuarios:alta-usuarios-button" />
+				<p:ajax event="rowUnselectCheckbox" update=":form:listaUsuarios:alta-usuarios-button" />
+				<p:ajax event="toggleSelect" update=":form:listaUsuarios:alta-usuarios-button" />
 
 				<p:column toggleable="false" resizable="false"
 					selectionMode="multiple" exportable="false"></p:column>
@@ -160,8 +163,6 @@
 					<p:outputPanel id="alta-usuario-content" class="ui-fluid grid">
 						<p:outputPanel
 							rendered="#{not empty listadoUsuariosBean.usuarioSeleccionado}">
-
-							<p:messages showIcon="false" closable="true" />
 							<p:panelGrid columns="4" styleClass="ui-noborder">
 								<h:outputLabel value="Nombres:" />
 								<p:inputText
@@ -211,6 +212,14 @@
 									<f:selectItems value="#{enumBean.generos}" var="genero"
 										itemValue="#{genero}" itemLabel="#{genero}"></f:selectItems>
 								</p:selectOneMenu>
+								
+								<p:outputLabel value="Estado:"></p:outputLabel>								
+								<p:selectOneMenu
+									value="#{listadoUsuariosBean.usuarioSeleccionado.estadoUsuario}">
+									<f:selectItems value="#{enumBean.estadoUsuario}" var="estadoUsuario"
+										itemValue="#{estadoUsuario}" itemLabel="#{estadoUsuario}"></f:selectItems>
+								</p:selectOneMenu>		
+																																																	
 							</p:panelGrid>
 						</p:outputPanel>
 					</p:outputPanel>

@@ -207,6 +207,13 @@ public class UsuarioBean implements UsuarioBeanRemote {
 				throw new InvalidEntityException(
 						"Ya existe un Usuario con el Nombre de Usuario: " + newUsu.getNombreUsuario());
 		}
+		
+	    if (newUsu.getEstadoUsuario() == EstadoUsuario.SIN_VALIDAR && 
+	            (actual.getEstadoUsuario() == EstadoUsuario.VALIDADO || actual.getEstadoUsuario() == EstadoUsuario.ELIMINADO)) {
+	            throw new InvalidEntityException("No se puede cambiar el estado a 'Sin Validar' si el usuario está en estado 'Validado' o 'Eliminado'");
+	        }
+		
+		
 	}
 
 	@Override

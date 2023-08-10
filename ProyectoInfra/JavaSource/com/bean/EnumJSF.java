@@ -4,6 +4,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
 import com.entities.enums.Departamento;
+import com.entities.enums.EstadoUsuario;
 import com.entities.enums.Genero;
 import com.entities.enums.Rol;
 import com.entities.enums.TipoTutor;
@@ -36,4 +37,9 @@ public class EnumJSF {
 	public Rol[] getRoles() {
 		return Rol.values();
 	}
+	
+	public EstadoUsuario[] getEstadoUsuario() {
+		return EstadoUsuario.values();
+	}
+	
 }

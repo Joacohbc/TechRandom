@@ -115,8 +115,8 @@ public class ListadoUsuarios implements Serializable {
 		try {
 
 			for (Usuario usu : usuariosSeleccionados) {
-				updateEstado(usuarioSeleccionado, true);
-				usuarios.set(usuarios.indexOf(usuarioSeleccionado), usuarioSeleccionado);
+				updateEstado(usu, true);
+				usuarios.set(usuarios.indexOf(usu), usu);
 
 			}
 			PrimeFaces.current().ajax().update("form:listaUsuarios");
@@ -175,6 +175,8 @@ public class ListadoUsuarios implements Serializable {
 			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
 		}
 	}
+	
+	
 
 	public List<Usuario> getUsuariosSeleccionados() {
 		return usuariosSeleccionados;
