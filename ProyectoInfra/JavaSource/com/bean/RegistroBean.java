@@ -1,5 +1,6 @@
 package com.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -68,10 +69,14 @@ public class RegistroBean implements Serializable {
 			a.setItr(itr);
 			
 			try {
-				bean.register(a, TipoUsuarioDocumento.URUGUAYO);
+				bean.register(a, TipoUsuarioDocumento.URUGUAYO);				
+				FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
 				JSFUtils.addMessage(FacesMessage.SEVERITY_INFO, "Usuario creado con exito:", String.format("El Analista %s %s fue creado con exito", a.getNombres(), a.getApellidos()));
 			} catch (InvalidEntityException e) {
 				JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error de ingreso:", e.getMessage());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				JSFUtils.addMessage(FacesMessage.SEVERITY_INFO, "No fue posible volver al Login", "Recague la pagina");
 			}
 
 		}	
@@ -103,9 +108,13 @@ public class RegistroBean implements Serializable {
 			
 			try {
 				bean.register(e, TipoUsuarioDocumento.URUGUAYO);
-				JSFUtils.addMessage(FacesMessage.SEVERITY_INFO, "Usuario creado con exito:", String.format("El Estudiante %s %s fue creado con exito", e.getNombres(), e.getApellidos()));
+				FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+				JSFUtils.addMessage(FacesMessage.SEVERITY_INFO, "Usuario creado con exito:", String.format("El Estudiante %s %s fue creado con exito", e.getNombres(), e.getApellidos()));				
 			} catch (InvalidEntityException ex) {
 				JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error de ingreso:", ex.getMessage());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				JSFUtils.addMessage(FacesMessage.SEVERITY_INFO, "No fue posible volver al Login", "Recague la pagina");
 			}
 			
 		}		
@@ -139,12 +148,16 @@ public class RegistroBean implements Serializable {
 			
 			try {
 				bean.register(t, TipoUsuarioDocumento.URUGUAYO);
-				JSFUtils.addMessage(FacesMessage.SEVERITY_INFO, "Usuario creado con exito:", String.format("El Tutor %s %s fue creado con exito", t.getNombres(), t.getApellidos()));
+				FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+				JSFUtils.addMessage(FacesMessage.SEVERITY_INFO, "Usuario creado con exito:", String.format("El Tutor %s %s fue creado con exito", t.getNombres(), t.getApellidos()));				
 			} catch (InvalidEntityException e) {
 				JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Error de ingreso:", e.getMessage());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				JSFUtils.addMessage(FacesMessage.SEVERITY_INFO, "No fue posible volver al Login", "Recague la pagina");
 			}
 		}
-
+		
 		
 		public UsuarioBean getBean() {
 			return bean;
