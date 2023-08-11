@@ -17,8 +17,8 @@
 
 					<c:if test="#{authBean.esAnalista()}">
 						<p:submenu label="Mantenimiento" icon="pi pi-fw pi-cog">
-							<p:menuitem value="De ITR" icon="pi pi-fw pi-building" disabled="true"/>
-							<p:menuitem value="De Constancias" icon="pi pi-fw pi-file-pdf" disabled="true"/>
+							<p:menuitem value="De ITR" icon="pi pi-fw pi-building" outcome="mantenimientoItr.xhtml"/>
+							<p:menuitem value="De Constancias" icon="pi pi-fw pi-file-pdf" outcome="mantenimientoConstancia.xhtml"/>
 						</p:submenu>
 					</c:if>
 
