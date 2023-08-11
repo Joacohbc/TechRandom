@@ -176,6 +176,36 @@ public class ListadoUsuarios implements Serializable {
 		}
 	}
 	
+	public int buscarIndicePorValor(List<Usuario> Lista, Long idUsuarioABuscar) {
+	    for (int i = 0; i < Lista.size(); i++) {
+	        Usuario usuario = Lista.get(i);
+	        if (usuario.getIdUsuario().equals(idUsuarioABuscar)) {
+	            return i; // Se encontró el índice
+	        }
+	    }
+	    return -1; // No se encontró el valor en la lista
+	}
+
+	public void cancelarEdicion() {	
+	 System.out.println("HOLAAAA POR LO MENOS FUNCIONA"); 
+	 Usuario usu = bean.findById(usuarioSeleccionado.getClass(), usuarioSeleccionado.getIdUsuario());
+	 int indice	= buscarIndicePorValor(usuariosSeleccionados, usuarioSeleccionado.getIdUsuario());
+	 
+	   
+	 System.out.println("ID de Usuario a Buscar: " + usuarioSeleccionado.getIdUsuario()); // Imprimir el ID a buscar
+
+	 
+	 if (indice != -1) {
+	 usuariosSeleccionados.set(indice, usu);
+	 PrimeFaces.current().ajax().update("form:listaUsuarios");
+	 JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Hola estoy aca", null);
+	 }else {
+		 JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "No funciono", null);
+		 System.out.println("No tengo el incide");
+	}
+		
+	}
+	
 	
 
 	public List<Usuario> getUsuariosSeleccionados() {
