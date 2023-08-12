@@ -150,17 +150,18 @@ public class ListadoUsuarios implements Serializable {
 	}
 
 	public void editarUsuario() {
-		if (!auth.esAnalista())
-			return;
-
-		ValidationObject error = ValidacionesUsuario.ValidarUsuarioSinContrasenia(usuarioSeleccionado,
-				TipoUsuarioDocumento.URUGUAYO);
-		if (!error.isValid()) {
-			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, error.getErrorMessage(), null);
-			return;
-		}
 
 		try {
+			if (!auth.esAnalista())
+				return;
+			
+			ValidationObject error = ValidacionesUsuario.ValidarUsuarioSinContrasenia(usuarioSeleccionado,
+					TipoUsuarioDocumento.URUGUAYO);
+			if (!error.isValid()) {
+				JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, error.getErrorMessage(), null);
+				return;
+			}
+
 			if (usuarioSeleccionado instanceof Analista) {
 				bean.updateAnalista((Analista) usuarioSeleccionado);
 			} else if (usuarioSeleccionado instanceof Tutor) {
@@ -173,40 +174,29 @@ public class ListadoUsuarios implements Serializable {
 			PrimeFaces.current().ajax().update("form:listaUsuarios");
 		} catch (Exception e) {
 			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
+		
+		} finally {
+			// Esto es para que no se rompa el JSF
+			Usuario bd = bean.findById(usuarioSeleccionado.getClass(), usuarioSeleccionado.getIdUsuario());
+			for (int i = 0; i < usuarios.size(); i++) {
+				if(usuarios.get(i).getIdUsuario() == usuarioSeleccionado.getIdUsuario()) {
+					usuarios.set(i, bd);
+					break;
+				}
+			}
+			PrimeFaces.current().ajax().update("form:listaUsuarios");
 		}
 	}
-	
+
 	public int buscarIndicePorValor(List<Usuario> Lista, Long idUsuarioABuscar) {
-	    for (int i = 0; i < Lista.size(); i++) {
-	        Usuario usuario = Lista.get(i);
-	        if (usuario.getIdUsuario().equals(idUsuarioABuscar)) {
-	            return i; // Se encontró el índice
-	        }
-	    }
-	    return -1; // No se encontró el valor en la lista
+		for (int i = 0; i < Lista.size(); i++) {
+			Usuario usuario = Lista.get(i);
+			if (usuario.getIdUsuario().equals(idUsuarioABuscar)) {
+				return i; // Se encontró el índice
+			}
+		}
+		return -1; // No se encontró el valor en la lista
 	}
-
-	public void cancelarEdicion() {	
-	 System.out.println("HOLAAAA POR LO MENOS FUNCIONA"); 
-	 Usuario usu = bean.findById(usuarioSeleccionado.getClass(), usuarioSeleccionado.getIdUsuario());
-	 int indice	= buscarIndicePorValor(usuariosSeleccionados, usuarioSeleccionado.getIdUsuario());
-	 
-	   
-	 System.out.println("ID de Usuario a Buscar: " + usuarioSeleccionado.getIdUsuario()); // Imprimir el ID a buscar
-
-	 
-	 if (indice != -1) {
-	 usuariosSeleccionados.set(indice, usu);
-	 PrimeFaces.current().ajax().update("form:listaUsuarios");
-	 JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "Hola estoy aca", null);
-	 }else {
-		 JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, "No funciono", null);
-		 System.out.println("No tengo el incide");
-	}
-		
-	}
-	
-	
 
 	public List<Usuario> getUsuariosSeleccionados() {
 		return usuariosSeleccionados;

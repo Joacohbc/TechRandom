@@ -109,7 +109,15 @@
 				<p:column headerText="Estado Usuario"
 					sortBy="#{usuario.estadoUsuario}"
 					filterBy="#{usuario.estadoUsuario}" filterMatchMode="contains">
-					<h:outputText value="#{usuario.estadoUsuario.toString()}" />
+					
+					<div class="justify-content-center flex">
+						<p:badge value='#{usuario.estadoUsuario.toString()}'
+							severity='#{usuario.estadoUsuario == "VALIDADO" ? "success" : 
+										 usuario.estadoUsuario == "SIN_VALIDAR" ? "warning" 
+										 : "danger"}'
+							styleClass="mr-2"></p:badge>
+					</div>
+
 				</p:column>
 				
 				<p:column headerText="Edad"
@@ -228,14 +236,11 @@
 						<p:commandButton value="Guardar" icon="pi pi-check"
 							actionListener="#{listadoUsuariosBean.editarUsuario}"
 							update="alta-usuario-content"
-							process="alta-usuario-content @this" />
+							process="alta-usuario-content @this"/>
 							
 						<p:commandButton value="Cancel" icon="pi pi-times"
 							onclick="PF('editarUsuarioDialog').hide()"
-							class="ui-button-secondary" type="button" 
-							actionListener="#{listadoUsuariosBean.cancelarEdicion}"/>
-							
-							
+							class="ui-button-secondary" type="button" />
 					</f:facet>
 				</p:dialog>
 

@@ -229,6 +229,10 @@ public class UsuarioBean implements UsuarioBeanRemote {
 
 			estudiante.setIdEstudiante(estActual.getIdEstudiante());
 			validarUpdate(estudiante, estActual);
+			
+			if(estudiante.getEstadoUsuario() == EstadoUsuario.ELIMINADO) 
+				estudiante.setEstado(false);
+			
 			dao.update(estudiante);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -247,6 +251,10 @@ public class UsuarioBean implements UsuarioBeanRemote {
 
 			analista.setIdAnalista(anaActual.getIdAnalista());
 			validarUpdate(analista, anaActual);
+				
+			if(analista.getEstadoUsuario() == EstadoUsuario.ELIMINADO) 
+				analista.setEstado(false);
+			
 			dao.update(analista);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -264,6 +272,10 @@ public class UsuarioBean implements UsuarioBeanRemote {
 
 			tutor.setIdTutor(tutActual.getIdTutor());
 			validarUpdate(tutor, tutActual);
+			
+			if(tutor.getEstadoUsuario() == EstadoUsuario.ELIMINADO) 
+				tutor.setEstado(false);
+			
 			dao.update(tutor);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
