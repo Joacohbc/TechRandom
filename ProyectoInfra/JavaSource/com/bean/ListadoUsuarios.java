@@ -1,5 +1,6 @@
 package com.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,16 +9,20 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 
+import com.auth.AuthRenderedControl;
 import com.entities.Analista;
 import com.entities.Estudiante;
 import com.entities.Tutor;
 import com.entities.Usuario;
+import com.entities.enums.Rol;
 import com.services.UsuarioBean;
 
 import validation.ValidacionesUsuario;
@@ -26,7 +31,7 @@ import validation.ValidationObject;
 
 @Named("listadoUsuariosBean")
 @ViewScoped
-public class ListadoUsuarios implements Serializable {
+public class ListadoUsuarios implements Serializable, AuthRenderedControl{
 
 	@EJB
 	private UsuarioBean bean;
@@ -46,10 +51,6 @@ public class ListadoUsuarios implements Serializable {
 		usuarios.addAll(bean.findAll(Estudiante.class));
 		usuarios.addAll(bean.findAll(Analista.class));
 		usuarios.addAll(bean.findAll(Tutor.class));
-	}
-
-	public List<Usuario> getUsuarios() {
-		return usuarios;
 	}
 
 	private void updateEstado(Usuario usuario, Boolean estado) {
@@ -150,7 +151,6 @@ public class ListadoUsuarios implements Serializable {
 	}
 
 	public void editarUsuario() {
-
 		try {
 			if (!auth.esAnalista())
 				return;
@@ -176,7 +176,7 @@ public class ListadoUsuarios implements Serializable {
 			JSFUtils.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
 		
 		} finally {
-			// Esto es para que no se rompa el JSF
+			// Esto es para que no se rompa el JSF del front end cuando se modifica un campo y no se guarda en la BD
 			Usuario bd = bean.findById(usuarioSeleccionado.getClass(), usuarioSeleccionado.getIdUsuario());
 			for (int i = 0; i < usuarios.size(); i++) {
 				if(usuarios.get(i).getIdUsuario() == usuarioSeleccionado.getIdUsuario()) {
@@ -188,16 +188,10 @@ public class ListadoUsuarios implements Serializable {
 		}
 	}
 
-	public int buscarIndicePorValor(List<Usuario> Lista, Long idUsuarioABuscar) {
-		for (int i = 0; i < Lista.size(); i++) {
-			Usuario usuario = Lista.get(i);
-			if (usuario.getIdUsuario().equals(idUsuarioABuscar)) {
-				return i; // Se encontró el índice
-			}
-		}
-		return -1; // No se encontró el valor en la lista
+	public List<Usuario> getUsuarios() {
+		return usuarios;
 	}
-
+	
 	public List<Usuario> getUsuariosSeleccionados() {
 		return usuariosSeleccionados;
 	}
@@ -216,5 +210,12 @@ public class ListadoUsuarios implements Serializable {
 
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
+	}
+
+	@Override
+	public void checkUser() throws IOException {
+		if(!auth.es(Rol.ANALISTA, Rol.TUTOR)) {
+	        JSFUtils.redirect("/noAuth.xhtml");
+		}
 	}
 }

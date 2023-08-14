@@ -65,6 +65,14 @@ public class AuthJWTBean implements Serializable {
  		return jwt.isLogged(token, userInfo);
 	}
 	
+	public boolean es(Rol ...roles) {
+		if(token == null || userInfo == null) return false;
+		for (Rol rol : roles) {
+			if(userInfo.getRol() == rol) return jwt.isLogged(token, userInfo);
+		}
+		return false;
+	}
+	
 	public Rol getRol() {
 		if(token == null || userInfo == null) return null;
 		if(!jwt.isLogged(token, userInfo)) return null;

@@ -6,8 +6,8 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="content">
-		<div class="card"></div>
-
+		<f:event type="preRenderView" listener="#{listadoUsuariosBean.checkUser}" />
+	
 		<h:form id="form">
 			<p:dataTable var="usuario" value="#{listadoUsuariosBean.usuarios}"
 				id="listaUsuarios"
@@ -24,23 +24,26 @@
 							<span style="font-weight: bold">Lista de Usuarios</span>
 						</p:toolbarGroup>
 						<p:toolbarGroup>
-							<p:commandButton id="borrar-usuarios-button"
-								value="#{listadoUsuariosBean.botonBajaMensaje}"
-								icon="pi pi-trash"
-								actionListener="#{listadoUsuariosBean.bajaUsuarios}"
-								styleClass="ui-button-danger"
-								disabled="#{listadoUsuariosBean.usuariosSeleccionados.isEmpty()}"
-								update=":form:listaUsuarios:borrar-usuarios-button">
-							</p:commandButton>
-
-							<p:commandButton id="alta-usuarios-button"
-								value="#{listadoUsuariosBean.botonAltaMensaje}"
-								icon="pi pi-plus"
-								actionListener="#{listadoUsuariosBean.altaUsuarios}"
-								styleClass="ui-button-success"
-								disabled="#{listadoUsuariosBean.usuariosSeleccionados.isEmpty()}"
-								update=":form:listaUsuarios:alta-usuarios-button">
-							</p:commandButton>
+						
+							<c:if test="#{authBean.esAnalista()}">
+								<p:commandButton id="borrar-usuarios-button"
+									value="#{listadoUsuariosBean.botonBajaMensaje}"
+									icon="pi pi-trash"
+									actionListener="#{listadoUsuariosBean.bajaUsuarios}"
+									styleClass="ui-button-danger"
+									disabled="#{listadoUsuariosBean.usuariosSeleccionados.isEmpty()}"
+									update="@this">
+								</p:commandButton>
+	
+								<p:commandButton id="alta-usuarios-button"
+									value="#{listadoUsuariosBean.botonAltaMensaje}"
+									icon="pi pi-plus"
+									actionListener="#{listadoUsuariosBean.altaUsuarios}"
+									styleClass="ui-button-success"
+									disabled="#{listadoUsuariosBean.usuariosSeleccionados.isEmpty()}"
+									update="@this">
+								</p:commandButton>
+							</c:if>
 							
 							<div>
 								<p:commandButton id="toggler" type="button" value="Columns"
@@ -51,21 +54,21 @@
 							</div>
 						</p:toolbarGroup>
 					</p:toolbar>
-
-
 				</f:facet>
 
-				<p:ajax event="rowSelect" update=":form:listaUsuarios:borrar-usuarios-button" />
-				<p:ajax event="rowUnselect" update=":form:listaUsuarios:borrar-usuarios-button" />
-				<p:ajax event="rowSelectCheckbox" update=":form:listaUsuarios:borrar-usuarios-button" />
-				<p:ajax event="rowUnselectCheckbox" update=":form:listaUsuarios:borrar-usuarios-button" />
-				<p:ajax event="toggleSelect" update=":form:listaUsuarios:borrar-usuarios-button" />
-				
-				<p:ajax event="rowSelect" update=":form:listaUsuarios:alta-usuarios-button" />
-				<p:ajax event="rowUnselect" update=":form:listaUsuarios:alta-usuarios-button" />
-				<p:ajax event="rowSelectCheckbox" update=":form:listaUsuarios:alta-usuarios-button" />
-				<p:ajax event="rowUnselectCheckbox" update=":form:listaUsuarios:alta-usuarios-button" />
-				<p:ajax event="toggleSelect" update=":form:listaUsuarios:alta-usuarios-button" />
+				<c:if test="#{authBean.esAnalista()}">
+					<p:ajax event="rowSelect" update=":form:listaUsuarios:borrar-usuarios-button" />
+					<p:ajax event="rowUnselect" update=":form:listaUsuarios:borrar-usuarios-button" />
+					<p:ajax event="rowSelectCheckbox" update=":form:listaUsuarios:borrar-usuarios-button" />
+					<p:ajax event="rowUnselectCheckbox" update=":form:listaUsuarios:borrar-usuarios-button" />
+					<p:ajax event="toggleSelect" update=":form:listaUsuarios:borrar-usuarios-button" />
+					
+					<p:ajax event="rowSelect" update=":form:listaUsuarios:alta-usuarios-button" />
+					<p:ajax event="rowUnselect" update=":form:listaUsuarios:alta-usuarios-button" />
+					<p:ajax event="rowSelectCheckbox" update=":form:listaUsuarios:alta-usuarios-button" />
+					<p:ajax event="rowUnselectCheckbox" update=":form:listaUsuarios:alta-usuarios-button" />
+					<p:ajax event="toggleSelect" update=":form:listaUsuarios:alta-usuarios-button" />
+				</c:if>
 
 				<p:column toggleable="false" resizable="false"
 					selectionMode="multiple" exportable="false"></p:column>
