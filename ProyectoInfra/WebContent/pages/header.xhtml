@@ -24,7 +24,7 @@
 
 					<c:if test="#{authBean.esEstudiante()}">
 						<p:submenu label="Constancias" icon="pi pi-fw pi-file-pdf">
-							<p:menuitem value="Solicitar" icon="pi pi-fw pi-plus-circle" disabled="true"/>
+							<p:menuitem value="Solicitar" icon="pi pi-fw pi-plus-circle" outcome="eventoEstudiante.xhtml"/>
 							<p:menuitem value="Visualizar" icon="pi pi-fw pi-search" disabled="true"/>
 						</p:submenu>
 					</c:if>
