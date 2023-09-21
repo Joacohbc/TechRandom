@@ -45,8 +45,6 @@ public class ListadoUsuarios implements Serializable, AuthRenderedControl{
 
 	@PostConstruct
 	public void init() {
-		if (!auth.esAnalista() && !auth.esTutor())
-			return;
 		this.usuarios = new ArrayList<>();
 		usuarios.addAll(bean.findAll(Estudiante.class));
 		usuarios.addAll(bean.findAll(Analista.class));

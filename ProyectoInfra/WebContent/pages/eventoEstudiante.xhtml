@@ -6,39 +6,41 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="content">
+		<f:event type="preRenderView"
+			listener="#{listadoEventosBean.checkUser}" />
+
 		<div class="card">
 			<h:form id="form">
-				<p:dataTable id="products" var="product"
-					value="#{dtContextMenuView.products}" rowKey="#{product.id}"
-					selection="#{dtContextMenuView.selectedProduct}"
+				<p:dataTable var="evento" value="#{listadoEventosBean.eventos}"
+					resizableColumns="true" liveResize="true" showGridlines="true"
+					emptyMessage="No se encontro ninguno evento con este criterio"
+					selection="#{listadoEventosBean.eventoSeleccionado}"
+					rowSelectMode="add" paginatorPosition="bottom"
+					rowKey="#{evento.idEvento}" paginator="true" rows="20"
 					selectionMode="single">
 					<f:facet name="header">
                 Eventos Disponibles
-            </f:facet>
-
+            	</f:facet>
 					<p:column headerText="Titulo">
-						<h:outputText value="#{product.code}" />
+						<h:outputText value="#{evento.titulo}" />
 					</p:column>
 					<p:column headerText="Fecha de Inicio">
-						<h:outputText value="#{product.name}" />
+						<h:outputText value="#{evento.fechaInicio}" />
 					</p:column>
 					<p:column headerText="Fecha De Fin">
-						<h:outputText value="#{product.category}" />
+						<h:outputText value="#{evento.fechaFin}" />
 					</p:column>
 					<p:column headerText="Modalidad">
-						<h:outputText value="#{product.quantity}" />
-					</p:column>			
+						<h:outputText value="#{evento.modalidad}" />
+					</p:column>
 					<p:column headerText="Localizacion">
-						<h:outputText value="#{product.quantity}" />
+						<h:outputText value="#{evento.localizacion}" />
+					</p:column>
+					<p:column headerText="Tipo de Constancia">
+						<h:outputText value="#{evento.localizacion}" />
 					</p:column>
 				</p:dataTable>
 
-				<p:contextMenu for="products">
-					<p:menuitem value="View" update="productDetail" icon="pi pi-search"
-						oncomplete="PF('productDialog').show()" />
-					<p:menuitem value="Delete" update="products" icon="pi pi-times"
-						action="#{dtContextMenuView.deleteProduct}" />
-				</p:contextMenu>
 
 				<p:dialog header="Product Info" widgetVar="productDialog"
 					modal="true" showEffect="fade" hideEffect="fade" resizable="false">
