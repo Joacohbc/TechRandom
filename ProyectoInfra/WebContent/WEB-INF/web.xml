@@ -32,4 +32,14 @@
     <param-name>primefaces.THEME</param-name>
     <param-value>saga</param-value>
 </context-param>
+
+<filter>
+    <filter-name>TokenWebFilter</filter-name>
+    <filter-class>com.rest.TokenWebFilter</filter-class>
+</filter>
+
+<filter-mapping>
+    <filter-name>TokenWebFilter</filter-name>
+    <url-pattern>/api/</url-pattern>
+</filter-mapping>
 </web-app>

@@ -7,6 +7,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import com.auth.TokenManagmentBean;
+import com.auth.TokenWrapper;
 import com.auth.UserDetails;
 import com.entities.Usuario;
 import com.entities.enums.Rol;
@@ -20,85 +21,66 @@ public class AuthJWTBean implements Serializable {
 	
 	public AuthJWTBean() {}
 		
-	private String token;
-	private UserDetails userInfo;
+	private TokenWrapper token;
 	private Usuario user;
 	
-	public void generar( Long idUsuario, Long idRol, String nombreUsuario, Rol rol, Usuario user) {
-		if(token != null && userInfo != null) return;
-		this.userInfo = new UserDetails(idUsuario, idRol, nombreUsuario, rol);
-		this.token = jwt.generarToken(idUsuario, idRol, nombreUsuario, rol);
+	public void generar(Long idUsuario, Long idRol, String nombreUsuario, Rol rol, Usuario user) {
+		if(token != null) return;
+		this.token = new TokenWrapper();
+		token.setToken(jwt.generarToken(idUsuario, idRol, nombreUsuario, rol));
+		token.setUserInfo(new UserDetails(idUsuario, idRol, nombreUsuario, rol));
 		this.user = user;
 	}
 	
 	public void renovar() {
-		if(token == null || userInfo == null) return;
-		this.token = jwt.generarToken(userInfo.getIdUsuario(), userInfo.getIdRol(), userInfo.getNombreUsuario(), userInfo.getRol());
+		if(token == null) return;
+		this.token = new TokenWrapper();
+		token.setToken(jwt.generarToken(token.getIdUsuario(), token.getIdRol(), token.getNombreUsuario(), token.getRol()));
+		token.setUserInfo(new UserDetails(token.getIdUsuario(), token.getIdRol(), token.getNombreUsuario(), token.getRol()));	
 	}
 	
 	public boolean yaGenerado() {
-		if(token == null || userInfo == null) return false;
-		if(!jwt.isLogged(token, userInfo)) return false;
-		return true;
+		return token != null && !jwt.isTokenExpired(token.getToken());
 	}
 	
 	public void borrar() {
 		this.token = null;
-		this.userInfo = null;
+		this.user = null;
 	}
 		
 	public boolean esTutor() {
-		if(token == null || userInfo == null) return false;
-		if(userInfo.getRol() != Rol.TUTOR) return false;
- 		return jwt.isLogged(token, userInfo);
+ 		return !jwt.isTokenExpired(token.getToken()) ? token.esTutor() : null;
 	}
 	
 	public boolean esAnalista() {
-		if(token == null || userInfo == null) return false;
-		if(userInfo.getRol() != Rol.ANALISTA) return false;
- 		return jwt.isLogged(token, userInfo);
+ 		return !jwt.isTokenExpired(token.getToken()) ? token.esAnalista() : null;
 	}
 	
 	public boolean esEstudiante() {
-		if(token == null || userInfo == null) return false;
-		if(userInfo.getRol() != Rol.ESTUDIANTE) return false;
- 		return jwt.isLogged(token, userInfo);
+ 		return !jwt.isTokenExpired(token.getToken()) ? token.esEstudiante() : null;
 	}
 	
 	public boolean es(Rol ...roles) {
-		if(token == null || userInfo == null) return false;
-		for (Rol rol : roles) {
-			if(userInfo.getRol() == rol) return jwt.isLogged(token, userInfo);
-		}
-		return false;
+ 		return !jwt.isTokenExpired(token.getToken()) ? token.es(roles) : null;
 	}
 	
 	public Rol getRol() {
-		if(token == null || userInfo == null) return null;
-		if(!jwt.isLogged(token, userInfo)) return null;
-		return userInfo.getRol();
+ 		return !jwt.isTokenExpired(token.getToken()) ? token.getRol() : null;
 	}
 	
 	public Long getIdUsuario() {
-		if(token == null || userInfo == null) return null;
-		if(!jwt.isLogged(token, userInfo)) return null;
-		return userInfo.getIdUsuario();
+ 		return !jwt.isTokenExpired(token.getToken()) ? token.getIdUsuario() : null;
 	}
 	
 	public Long getIdRol() {
-		if(token == null || userInfo == null) return null;
-		if(!jwt.isLogged(token, userInfo)) return null;
-		return userInfo.getIdRol();
+ 		return !jwt.isTokenExpired(token.getToken()) ? token.getIdRol() : null;
 	}
 	
 	public String getNombreUsuario() {
-		if(token == null || userInfo == null) return null;
-		if(!jwt.isLogged(token, userInfo)) return null;
-		return userInfo.getNombreUsuario();
+ 		return !jwt.isTokenExpired(token.getToken()) ? token.getNombreUsuario() : null;
 	}
 
 	public Usuario getUser() {
 		return user;
 	}
-
 }

@@ -6,9 +6,6 @@ import javax.ejb.Singleton;
 
 import com.entities.enums.Rol;
 
-/**
- * Session Bean implementation class TokenManagmentBean
- */
 @Singleton
 @LocalBean
 public class TokenManagmentBean {
@@ -27,16 +24,18 @@ public class TokenManagmentBean {
 		return jwt.generateToken(userInfo);
 	}
 	
-	public boolean isLogged(String token, UserDetails details) {
-		return jwt.validateToken(token, details);
+	public boolean isTokenExpired(String token) {
+		if(token == null || token.isBlank()) return false;
+		return jwt.isTokenExpired(token);
 	}
 	
-	public boolean isLogged(String token, Long idUsuario, Long idRol, String nombreUsuario, Rol rol) {
-		UserDetails userInfo = new UserDetails();
-		userInfo.setIdUsuario(idUsuario);
-		userInfo.setIdRol(idRol);
-		userInfo.setNombreUsuario(nombreUsuario);
-		userInfo.setRol(rol);
-		return isLogged(token, userInfo);
+	public UserDetails getTokenInfo(String token) {
+		if(token == null || token.isBlank()) return null;
+		
+		try {
+			return jwt.getUserDetails(token);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }

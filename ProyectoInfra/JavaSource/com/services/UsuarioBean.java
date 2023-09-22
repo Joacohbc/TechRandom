@@ -383,7 +383,7 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			mail.enviarConGMail(usuario.getEmailUtec(), "Contraseña Temporal - CETU" , password.trim());
 			mail.enviarConGMail(usuario.getEmailPersonal(), "Contraseña Temporal - CETU", password.trim());
 			
-		}catch (DAOException e) {
+		} catch (DAOException e) {
 			throw new ServiceException(e);
 		} catch (MessagingException e) {
 			throw new ServiceException("No se pudo enviar el correo con al nueva contraseña, intentelo mas tarde");
